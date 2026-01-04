@@ -1,0 +1,280 @@
+"""
+Epsilon AI Inference Service
+FastAPI service for model inference (NO TRAINING)
+"""
+import os
+import sys
+from pathlib import Path
+from typing import Optional, List
+import torch
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from tokenizers import Tokenizer
+import json
+
+# Import from shared transformer core (no dependency on ml_local/)
+from epsilon_transformer_core import EpsilonTransformerLM, TransformerConfig
+
+app = FastAPI(title="Epsilon AI Inference Service")
+
+# CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Global model and tokenizer
+model = None
+tokenizer = None
+model_config = None
+model_metadata = None
+
+
+def load_model(model_dir: str):
+    """Load model from exported artifact directory"""
+    global model, tokenizer, model_config, model_metadata
+    
+    model_dir = Path(model_dir)
+    
+    if not model_dir.exists():
+        raise FileNotFoundError(f"Model directory not found: {model_dir}")
+    
+    # Load config
+    config_path = model_dir / 'config.json'
+    if not config_path.exists():
+        raise FileNotFoundError(f"Config not found: {config_path}")
+    
+    with open(config_path, 'r') as f:
+        config_dict = json.load(f)
+    model_config = TransformerConfig.from_dict(config_dict)
+    
+    # Load tokenizer
+    tokenizer_path = model_dir / 'tokenizer.json'
+    if not tokenizer_path.exists():
+        raise FileNotFoundError(f"Tokenizer not found: {tokenizer_path}")
+    
+    tokenizer = Tokenizer.from_file(str(tokenizer_path))
+    
+    # Create and load model
+    model = EpsilonTransformerLM(model_config)
+    
+    model_path = model_dir / 'model.pt'
+    if not model_path.exists():
+        raise FileNotFoundError(f"Model weights not found: {model_path}")
+    
+    model.load_state_dict(torch.load(model_path, map_location='cpu'))
+    model.eval()
+    
+    # Load metadata if available
+    metadata_path = model_dir / 'run_meta.json'
+    if metadata_path.exists():
+        with open(metadata_path, 'r') as f:
+            model_metadata = json.load(f)
+    else:
+        model_metadata = None
+    
+    print(f"[INFERENCE SERVICE] Model loaded from {model_dir}")
+    print(f"[INFERENCE SERVICE] Model parameters: {sum(p.numel() for p in model.parameters()):,}")
+    
+    return True
+
+
+async def bootstrap_model_from_supabase():
+    """On startup, download approved production model from Supabase if available"""
+    try:
+        from supabase import create_client, Client
+        
+        supabase_url = os.getenv('SUPABASE_URL')
+        supabase_key = os.getenv('SUPABASE_SERVICE_KEY')
+        
+        if not supabase_url or not supabase_key:
+            print("[INFERENCE SERVICE] Supabase credentials not set - skipping model bootstrap", flush=True)
+            return False
+        
+        supabase: Client = create_client(supabase_url, supabase_key)
+        
+        # Get approved production model
+        response = supabase.from('epsilon_model_deployments').select(
+            'id, model_id, storage_path, version'
+        ).eq('model_id', 'production').eq('status', 'approved').order(
+            'approved_at', desc=True
+        ).limit(1).execute()
+        
+        if not response.data or len(response.data) == 0:
+            print("[INFERENCE SERVICE] No approved production model found in Supabase", flush=True)
+            return False
+        
+        deployment = response.data[0]
+        storage_path = deployment.get('storage_path')
+        
+        if not storage_path:
+            print("[INFERENCE SERVICE] Approved deployment has no storage_path", flush=True)
+            return False
+        
+        # Download zip from storage
+        print(f"[INFERENCE SERVICE] Downloading model artifact from Supabase: {storage_path}", flush=True)
+        zip_data = supabase.storage.from('epsilon-models').download(storage_path)
+        
+        if not zip_data:
+            print("[INFERENCE SERVICE] Failed to download model artifact", flush=True)
+            return False
+        
+        # Extract to models/latest/
+        models_dir = Path(__file__).parent / 'models' / 'latest'
+        models_dir.mkdir(parents=True, exist_ok=True)
+        
+        from zipfile import ZipFile
+        import io
+        
+        zip_buffer = io.BytesIO(zip_data)
+        with ZipFile(zip_buffer, 'r') as zip_ref:
+            zip_ref.extractall(models_dir)
+        
+        print(f"[INFERENCE SERVICE] Model artifact extracted to {models_dir}", flush=True)
+        return True
+        
+    except Exception as e:
+        print(f"[INFERENCE SERVICE] Model bootstrap from Supabase failed: {e}", flush=True)
+        return False
+
+
+# Load model on startup
+MODEL_DIR = os.getenv('EPSILON_MODEL_DIR', str(Path(__file__).parent / 'models' / 'latest'))
+
+# Try to bootstrap from Supabase on startup (production)
+import asyncio
+bootstrap_success = asyncio.run(bootstrap_model_from_supabase())
+
+if bootstrap_success:
+    MODEL_DIR = str(Path(__file__).parent / 'models' / 'latest')
+
+if os.path.exists(MODEL_DIR):
+    try:
+        load_model(MODEL_DIR)
+        print(f"[INFERENCE SERVICE] Model loaded successfully")
+    except Exception as e:
+        print(f"[INFERENCE SERVICE] ERROR: Failed to load model: {e}")
+        print(f"[INFERENCE SERVICE] Service will start but /generate will fail until model is loaded")
+else:
+    print(f"[INFERENCE SERVICE] WARNING: Model directory not found: {MODEL_DIR}")
+    print(f"[INFERENCE SERVICE] Set EPSILON_MODEL_DIR environment variable or place model in models/latest")
+
+
+class GenerateRequest(BaseModel):
+    prompt: str
+    max_new_tokens: int = 256
+    temperature: float = 0.7
+    top_p: float = 0.9
+    stop: Optional[List[str]] = None  # Changed from stop_sequences to stop
+
+
+class GenerateResponse(BaseModel):
+    text: str
+    model_id: Optional[str] = None
+    tokens: dict  # {"prompt": int, "completion": int}
+
+
+@app.get("/health")
+async def health():
+    """Health check endpoint"""
+    return {
+        "status": "ok",
+        "model_loaded": model is not None,
+        "model_dir": MODEL_DIR
+    }
+
+
+@app.get("/model-info")
+async def model_info():
+    """Get model information"""
+    if model is None:
+        raise HTTPException(status_code=503, detail="Model not loaded")
+    
+    info = {
+        "config": model_config.to_dict() if model_config else None,
+        "metadata": model_metadata,
+        "parameters": sum(p.numel() for p in model.parameters()) if model else None
+    }
+    
+    return info
+
+
+@app.post("/generate", response_model=GenerateResponse)
+async def generate(request: GenerateRequest):
+    """Generate text from prompt"""
+    if model is None or tokenizer is None:
+        raise HTTPException(status_code=503, detail="Model not loaded. Check /health endpoint.")
+    
+    try:
+        # Encode prompt
+        encoded = tokenizer.encode(request.prompt)
+        prompt_token_count = len(encoded.ids)
+        input_ids = torch.tensor([encoded.ids], dtype=torch.long)
+        
+        # Generate
+        with torch.no_grad():
+            generated = model.generate(
+                input_ids,
+                max_new_tokens=request.max_new_tokens,
+                temperature=request.temperature,
+                top_p=request.top_p,
+                top_k=50  # Default top_k
+            )
+        
+        # Decode generated tokens (only new tokens)
+        generated_ids = generated[0][prompt_token_count:].cpu().tolist()
+        generated_text = tokenizer.decode(generated_ids)
+        
+        # Apply stop sequences if provided
+        if request.stop:
+            for stop_seq in request.stop:
+                if stop_seq in generated_text:
+                    generated_text = generated_text.split(stop_seq)[0]
+                    break
+        
+        # Extract model_id from metadata
+        model_id = None
+        if model_metadata:
+            model_id = model_metadata.get('model_id') or model_metadata.get('git_commit', 'unknown')
+        
+        return GenerateResponse(
+            text=generated_text,
+            model_id=model_id,
+            tokens={
+                "prompt": prompt_token_count,
+                "completion": len(generated_ids)
+            }
+        )
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Generation failed: {str(e)}")
+
+
+class ReloadModelRequest(BaseModel):
+    model_dir: Optional[str] = None
+
+
+@app.post("/reload-model")
+async def reload_model(request: ReloadModelRequest):
+    """Reload model from directory (admin endpoint) - accepts JSON body"""
+    global MODEL_DIR
+    
+    if request.model_dir:
+        MODEL_DIR = request.model_dir
+    
+    try:
+        load_model(MODEL_DIR)
+        return {"status": "ok", "message": f"Model reloaded from {MODEL_DIR}"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to reload model: {str(e)}")
+
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.getenv('PORT', 8005))
+    uvicorn.run(app, host="0.0.0.0", port=port)
+

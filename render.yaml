@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: neuralops-dashboard
+    env: node
+    buildCommand: npm install && npm run render-postbuild
+    startCommand: npm run render-start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        fromService:
+          type: web
+          name: neuralops-dashboard
+          property: port
+    healthCheckPath: /
+    autoDeploy: true
+

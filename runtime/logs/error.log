@@ -1,0 +1,12 @@
+[2025-12-06T02:32:24.974Z] ERROR: Test error
+
+[2025-12-06T02:51:13.705Z] ERROR: test error
+Error: test
+    at [eval]:1:155
+    at runScriptInThisContext (node:internal/vm:219:10)
+    at node:internal/process/execution:451:12
+    at [eval]-wrapper:6:24
+    at runScriptInContext (node:internal/process/execution:449:60)
+    at evalFunction (node:internal/process/execution:283:30)
+    at evalTypeScript (node:internal/process/execution:295:3)
+    at node:internal/main/eval_string:71:3

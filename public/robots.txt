@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+Allow: /epsilon
+Allow: /about
+Allow: /contact
+Allow: /privacy
+Allow: /copyright
+Allow: /terms
+
+# Block private/admin areas
+Disallow: /api/
+Disallow: /obfuscated/
+Disallow: /core/
+Disallow: /.netlify/
+Disallow: /owner
+Disallow: /edit_profile
+Disallow: /login
+Disallow: /register
+
+# Sitemap location
+Sitemap: https://neuralops.biz/sitemap.xml
+
