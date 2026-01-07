@@ -402,72 +402,85 @@
         padding: 1rem;
         align-items: flex-start;
         padding-top: 2rem;
+        min-height: 100vh;
       }
 
       .register-container {
-        padding: 2rem 1.5rem;
+        padding: clamp(1.5rem, 4vw, 2rem) clamp(1.25rem, 3vw, 1.5rem);
         margin: 0;
         max-width: 100%;
+        width: 100%;
         border-radius: 15px;
       }
 
       .register-header h1 {
-        font-size: 2rem;
+        font-size: clamp(1.75rem, 6vw, 2rem);
+        line-height: 1.2;
       }
 
       .register-header p {
-        font-size: 1rem;
+        font-size: clamp(0.9rem, 3vw, 1rem);
+        line-height: 1.5;
       }
 
       .form-row {
         flex-direction: column;
         gap: 1rem;
+        width: 100%;
       }
 
       .form-group {
         margin-bottom: 1.5rem;
+        width: 100%;
       }
 
       .form-group label {
-        font-size: 0.9rem;
+        font-size: clamp(0.85rem, 2.5vw, 0.9rem);
       }
 
       .form-input {
-        padding: 1rem;
-        font-size: 1rem;
+        padding: clamp(0.875rem, 3vw, 1rem);
+        font-size: clamp(0.95rem, 3.5vw, 1rem);
+        width: 100%;
       }
 
       .register-btn {
-        padding: 1rem;
-        font-size: 1rem;
+        padding: clamp(0.875rem, 3vw, 1rem);
+        font-size: clamp(0.95rem, 3.5vw, 1rem);
+        width: 100%;
       }
 
       .divider {
         margin: 2rem 0;
+        width: 100%;
       }
 
       .divider span {
         padding: 0 0.5rem;
-        font-size: 0.8rem;
+        font-size: clamp(0.75rem, 2.5vw, 0.8rem);
       }
 
       .oauth-buttons {
         gap: 0.75rem;
+        width: 100%;
+        flex-direction: column;
       }
 
       .oauth-btn {
-        padding: 0.75rem 1rem;
-        font-size: 0.9rem;
+        padding: clamp(0.7rem, 2.5vw, 0.75rem) clamp(0.9rem, 3vw, 1rem);
+        font-size: clamp(0.85rem, 3vw, 0.9rem);
+        width: 100%;
       }
 
       .oauth-btn .oauth-icon {
-        width: 20px;
-        height: 20px;
-        font-size: 1rem;
+        width: clamp(18px, 4vw, 20px);
+        height: clamp(18px, 4vw, 20px);
+        font-size: clamp(0.9rem, 3vw, 1rem);
       }
 
       .login-link {
-        font-size: 0.9rem;
+        font-size: clamp(0.85rem, 2.5vw, 0.9rem);
+        text-align: center;
       }
     }
 
@@ -482,15 +495,17 @@
       }
 
       .register-header h1 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
       }
 
       .form-input {
         padding: 0.875rem;
+        font-size: 0.95rem;
       }
 
       .register-btn {
         padding: 0.875rem;
+        font-size: 0.95rem;
       }
 
       .oauth-btn {

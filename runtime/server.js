@@ -5075,17 +5075,17 @@ app.get('/services/ai-core/epsilon-tokenizer.js', (req, res) => {
   
   // Training endpoints removed - training is local-only in ml_local/
   app.post('/api/epsilon-llm/automatic-training/trigger', verifyAuth('owner'), async (req, res) => {
-    return res.status(403).json({ 
-      success: false, 
+        return res.status(403).json({ 
+          success: false, 
       error: 'Training is local-only. Use ml_local/ for training.',
-      blocked: true
-    });
+          blocked: true
+        });
   });
 
   // Training endpoint - returns error message for frontend
   app.post('/api/epsilon-llm/train', verifyAuth('owner'), async (req, res) => {
     return res.status(403).json({
-      success: false,
+          success: false, 
       error: 'Training is local-only. Use ml_local/train/pretrain.py for training.',
       message: 'Training must be done locally using the ml_local/ training scripts. See ml_local/README.md for instructions.',
       blocked: true
@@ -5164,11 +5164,7 @@ app.get('/services/ai-core/epsilon-tokenizer.js', (req, res) => {
     try {
       const { deployId } = req.params;
       
-      if (!epsilonLanguageEngine.isPythonReady()) {
-        return res.status(503).json({ success: false, error: 'Python language model service is not ready' });
-      }
-
-      // Get pending deployment
+      // Get pending deployment first to check if it's a pre-trained model
       const { data: pendingDeploy, error: fetchError } = await supabase
         .from('epsilon_model_deployments')
         .select('id, model_id, version, stats, quality_score, improvement, training_samples, learning_description, status, created_at, created_by, storage_path, model_data')
@@ -5180,23 +5176,36 @@ app.get('/services/ai-core/epsilon-tokenizer.js', (req, res) => {
         return res.status(404).json({ success: false, error: 'Pending deployment not found' });
       }
 
-      // SAFETY CHECK: Verify this is a good model before allowing approval
-      const minQualityScore = 0.4;
-      const hasPositiveImprovement = pendingDeploy.improvement > 0;
-      const hasAcceptableQuality = pendingDeploy.quality_score >= minQualityScore;
+      // Check if this is a pre-trained model (has storage_path and stats.model_type === 'pretrained')
+      const isPretrained = pendingDeploy.storage_path && 
+                          pendingDeploy.stats && 
+                          pendingDeploy.stats.model_type === 'pretrained';
       
-      if (!hasPositiveImprovement) {
-        return res.status(400).json({ 
-          success: false, 
-          error: `Cannot approve deployment: Negative improvement detected (${(pendingDeploy.improvement * 100).toFixed(2)}%). This model would make Epsilon AI worse.` 
-        });
+      // Only require Python service for trained models, not pre-trained uploads
+      if (!isPretrained && !epsilonLanguageEngine.isPythonReady()) {
+        return res.status(503).json({ success: false, error: 'Python language model service is not ready' });
       }
-      
-      if (!hasAcceptableQuality) {
-        return res.status(400).json({ 
-          success: false, 
-          error: `Cannot approve deployment: Quality score too low (${(pendingDeploy.quality_score * 100).toFixed(2)}% < ${(minQualityScore * 100).toFixed(2)}%). This model is not good enough.` 
-        });
+
+      // SAFETY CHECK: Verify this is a good model before allowing approval
+      // Skip quality checks for pre-trained models (they don't have training metrics)
+      if (!isPretrained) {
+        const minQualityScore = 0.4;
+        const hasPositiveImprovement = pendingDeploy.improvement > 0;
+        const hasAcceptableQuality = pendingDeploy.quality_score >= minQualityScore;
+        
+        if (!hasPositiveImprovement) {
+          return res.status(400).json({ 
+            success: false, 
+            error: `Cannot approve deployment: Negative improvement detected (${(pendingDeploy.improvement * 100).toFixed(2)}%). This model would make Epsilon AI worse.` 
+          });
+        }
+        
+        if (!hasAcceptableQuality) {
+          return res.status(400).json({ 
+            success: false, 
+            error: `Cannot approve deployment: Quality score too low (${(pendingDeploy.quality_score * 100).toFixed(2)}% < ${(minQualityScore * 100).toFixed(2)}%). This model is not good enough.` 
+          });
+        }
       }
 
       // Export current model (or use model_data from pending deployment if available)
@@ -5215,13 +5224,61 @@ app.get('/services/ai-core/epsilon-tokenizer.js', (req, res) => {
         };
       } else if (pendingDeploy.storage_path) {
         // Download zip artifact from Supabase Storage and extract to models/latest/
-        const { data: storageData, error: storageError } = await supabase.storage
-          .from('epsilon-models')
-          .download(pendingDeploy.storage_path);
+        // Handle both regular zips and chunked uploads (metadata.json files)
+        let storageData = null;
+        let isChunked = false;
+        let chunkMetadata = null;
         
-        if (storageError || !storageData) {
-          console.error(' [DEPLOY] Failed to load model artifact from storage:', storageError?.message || 'No data returned');
-          throw new Error(`Cannot approve deployment: Model artifact in storage (${pendingDeploy.storage_path}) cannot be loaded. ${storageError?.message || 'Storage file not found'}`);
+        if (pendingDeploy.storage_path.endsWith('.metadata.json')) {
+          // Chunked file - download metadata first, then reassemble chunks
+          console.log('[DEPLOY] Detected chunked model file, downloading chunks...');
+          isChunked = true;
+          
+          const { data: metadataData, error: metadataError } = await supabase.storage
+            .from('epsilon-models')
+            .download(pendingDeploy.storage_path);
+          
+          if (metadataError || !metadataData) {
+            throw new Error(`Cannot load chunk metadata: ${metadataError?.message || 'Metadata file not found'}`);
+          }
+          
+          const arrayBuffer = await metadataData.arrayBuffer();
+          const metadataBuffer = Buffer.from(arrayBuffer);
+          chunkMetadata = JSON.parse(metadataBuffer.toString('utf-8'));
+          
+          // Reassemble chunks into a single buffer
+          const chunks = [];
+          for (const chunkInfo of chunkMetadata.chunks.sort((a, b) => a.index - b.index)) {
+            console.log(`[DEPLOY] Downloading chunk ${chunkInfo.index + 1}/${chunkMetadata.chunks.length}...`);
+            const { data: chunkData, error: chunkError } = await supabase.storage
+              .from('epsilon-models')
+              .download(chunkInfo.path);
+            
+            if (chunkError || !chunkData) {
+              throw new Error(`Cannot load chunk ${chunkInfo.index}: ${chunkError?.message || 'Chunk not found'}`);
+            }
+            
+            const chunkArrayBuffer = await chunkData.arrayBuffer();
+            chunks.push(Buffer.from(chunkArrayBuffer));
+          }
+          
+          // Combine all chunks
+          storageData = Buffer.concat(chunks);
+          console.log(`[DEPLOY] Reassembled ${chunkMetadata.chunks.length} chunks (${storageData.length / 1024 / 1024:.2f} MB)`);
+          
+        } else {
+          // Regular single file
+          const { data: downloadedData, error: storageError } = await supabase.storage
+            .from('epsilon-models')
+            .download(pendingDeploy.storage_path);
+          
+          if (storageError || !downloadedData) {
+            console.error(' [DEPLOY] Failed to load model artifact from storage:', storageError?.message || 'No data returned');
+            throw new Error(`Cannot approve deployment: Model artifact in storage (${pendingDeploy.storage_path}) cannot be loaded. ${storageError?.message || 'Storage file not found'}`);
+          }
+          
+          const arrayBuffer = await downloadedData.arrayBuffer();
+          storageData = Buffer.from(arrayBuffer);
         }
         
         // Extract zip to models/latest/
@@ -5235,18 +5292,17 @@ app.get('/services/ai-core/epsilon-tokenizer.js', (req, res) => {
         }
         
         try {
-          // Convert Blob to Buffer
-          const arrayBuffer = await storageData.arrayBuffer();
-          const buffer = Buffer.from(arrayBuffer);
-          
           // Extract zip
-          const zip = new AdmZip(buffer);
+          const zip = new AdmZip(storageData);
           zip.extractAllTo(modelsDir, true); // Overwrite existing files
           
           console.log(`[DEPLOY] Model artifact extracted to ${modelsDir}`);
           
-          // Verify required files exist
-          const requiredFiles = ['model.pt', 'config.json', 'tokenizer.json'];
+          // Verify required files exist (check for .pt or model.pt)
+          const requiredFiles = ['config.json', 'tokenizer.json'];
+          const modelFiles = ['model.pt', 'pretrained_gpt2_converted.pt']; // Support both naming conventions
+          
+          let modelFileFound = false;
           for (const file of requiredFiles) {
             const filePath = path.join(modelsDir, file);
             if (!fs.existsSync(filePath)) {
@@ -5254,14 +5310,44 @@ app.get('/services/ai-core/epsilon-tokenizer.js', (req, res) => {
             }
           }
           
+          // Check for model file (can have different names)
+          for (const modelFile of modelFiles) {
+            const filePath = path.join(modelsDir, modelFile);
+            if (fs.existsSync(filePath)) {
+              modelFileFound = true;
+              // Rename to model.pt if needed
+              if (modelFile !== 'model.pt') {
+                const targetPath = path.join(modelsDir, 'model.pt');
+                fs.renameSync(filePath, targetPath);
+                console.log(`[DEPLOY] Renamed ${modelFile} to model.pt`);
+              }
+              break;
+            }
+          }
+          
+          if (!modelFileFound) {
+            // Look for any .pt file
+            const files = fs.readdirSync(modelsDir);
+            const ptFile = files.find(f => f.endsWith('.pt'));
+            if (ptFile) {
+              const sourcePath = path.join(modelsDir, ptFile);
+              const targetPath = path.join(modelsDir, 'model.pt');
+              fs.renameSync(sourcePath, targetPath);
+              console.log(`[DEPLOY] Renamed ${ptFile} to model.pt`);
+            } else {
+              throw new Error('No model file (.pt) found after extraction');
+            }
+          }
+          
           // Reload inference service model (if service supports hot reload)
           try {
             const inferenceUrl = process.env.INFERENCE_URL || 'http://localhost:8005';
             const axios = require('axios');
-            await axios.post(`${inferenceUrl}/reload-model`, { model_dir: modelsDir }, { timeout: 5000 });
+            await axios.post(`${inferenceUrl}/reload-model`, { model_dir: modelsDir }, { timeout: 10000 });
             console.log('[DEPLOY] Inference service model reloaded');
           } catch (reloadError) {
             console.warn('[DEPLOY] Could not reload inference service (may need restart):', reloadError.message);
+            // Don't fail approval if reload fails - service will pick it up on next restart
           }
           
           modelData = {
@@ -5355,25 +5441,25 @@ app.get('/services/ai-core/epsilon-tokenizer.js', (req, res) => {
         console.log(`[DEPLOY] Using extracted zip artifact from storage: ${storagePath}`);
       } else if (modelData && modelData.model_data) {
         // Legacy JSON model_data path (for backward compatibility)
-        const modelDataJson = JSON.stringify(modelData.model_data);
-        const modelDataSize = modelDataJson.length;
+      const modelDataJson = JSON.stringify(modelData.model_data);
+      const modelDataSize = modelDataJson.length;
         useStorage = modelDataSize > 10 * 1024 * 1024;
 
-        if (useStorage) {
-          const fileName = `epsilon-model-${Date.now()}.json`;
-          const { data: uploadData, error: uploadError } = await supabase.storage
-            .from('epsilon-models')
-            .upload(fileName, modelDataJson, {
-              contentType: 'application/json',
-              upsert: false
-            });
+      if (useStorage) {
+        const fileName = `epsilon-model-${Date.now()}.json`;
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('epsilon-models')
+          .upload(fileName, modelDataJson, {
+            contentType: 'application/json',
+            upsert: false
+          });
 
-          if (!uploadError) {
-            storagePath = uploadData.path;
-          } else {
-            console.warn(' [DEPLOY] Storage upload failed, using model_data instead:', uploadError.message);
-            useStorage = false;
-          }
+        if (!uploadError) {
+          storagePath = uploadData.path;
+        } else {
+          console.warn(' [DEPLOY] Storage upload failed, using model_data instead:', uploadError.message);
+          useStorage = false;
+        }
         }
       } else {
         throw new Error('Model data is missing - cannot approve deployment');
@@ -5878,7 +5964,7 @@ app.post('/api/epsilon-llm/generate', verifyAuth('owner'), async (req, res) => {
       top_p: 0.9
     });
 
-    if (!result || !result.text) {
+      if (!result || !result.text) {
       return res.status(503).json({ 
         success: false, 
         error: 'Inference service not ready or model not loaded' 

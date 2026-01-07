@@ -86,7 +86,7 @@ class EpsilonLanguageEngine {
     // Use inference client for all generation
     const { getInferenceClient } = require('../runtime/inference_client');
     const inferenceClient = getInferenceClient();
-    
+
     const prompt = (options.userMessage || '').trim();
     if (!prompt) {
       return null;
@@ -106,41 +106,41 @@ class EpsilonLanguageEngine {
 
       if (result && result.text) {
         let responseText = result.text;
-        
-        // Clean up malformed text patterns (common generation errors)
-        responseText = responseText
-          .replace(/\bwould love to I\b/gi, 'can I')
-          .replace(/\bwould love to\s+([a-z]+)\s+I\b/gi, 'can I $1')
-          .replace(/\bHow would love to\b/gi, 'How can')
-          .replace(/\bWhat would love to\b/gi, 'What can')
-          .trim();
-        
+          
+          // Clean up malformed text patterns (common generation errors)
+          responseText = responseText
+            .replace(/\bwould love to I\b/gi, 'can I')
+            .replace(/\bwould love to\s+([a-z]+)\s+I\b/gi, 'can I $1')
+            .replace(/\bHow would love to\b/gi, 'How can')
+            .replace(/\bWhat would love to\b/gi, 'What can')
+            .trim();
+          
         // Validate response quality
-        const genericPatterns = [
-          /^(what|how|why|when|where|who)\s+(is|are|do|does|can|will)/i,
-          /^(i|i'm|i am)\s+(not sure|unsure|not certain)/i,
-          /^(that|this)\s+(is|are)\s+(a|an)\s+(good|great|interesting)\s+(question|point)/i
-        ];
-        
-        const isGeneric = genericPatterns.some(pattern => pattern.test(responseText.trim()));
-        const isTooShort = responseText.length < 50;
-        const hasNoSubstance = !responseText.match(/[.!?]/) || responseText.split(/[.!?]/).length < 2;
-        
-        if ((isGeneric || (isTooShort && hasNoSubstance)) && responseText.length < 100) {
+          const genericPatterns = [
+            /^(what|how|why|when|where|who)\s+(is|are|do|does|can|will)/i,
+            /^(i|i'm|i am)\s+(not sure|unsure|not certain)/i,
+            /^(that|this)\s+(is|are)\s+(a|an)\s+(good|great|interesting)\s+(question|point)/i
+          ];
+          
+          const isGeneric = genericPatterns.some(pattern => pattern.test(responseText.trim()));
+          const isTooShort = responseText.length < 50;
+          const hasNoSubstance = !responseText.match(/[.!?]/) || responseText.split(/[.!?]/).length < 2;
+          
+          if ((isGeneric || (isTooShort && hasNoSubstance)) && responseText.length < 100) {
           console.warn('[EPSILON AI LANGUAGE ENGINE] Generated response is too generic or lacks substance');
           return null;
-        }
-        
-        return {
-          text: responseText,
+          }
+          
+          return {
+            text: responseText,
           meta: {
             model_id: result.model_id,
             tokens: result.tokens
           }
-        };
+          };
       }
     } catch (error) {
-      console.warn(`[EPSILON AI LANGUAGE ENGINE] Generation failed: ${error.message}`);
+        console.warn(`[EPSILON AI LANGUAGE ENGINE] Generation failed: ${error.message}`);
     }
 
     return null;
