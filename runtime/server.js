@@ -5783,6 +5783,7 @@ else:
       res.status(500).json({ success: false, error: error.message || 'Failed to approve deployment' });
     }
   });
+  */
 
   // Reject deployment
   app.post('/api/epsilon-llm/deploys/:deployId/reject', verifyAuth('owner'), async (req, res) => {
