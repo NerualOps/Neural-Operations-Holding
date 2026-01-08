@@ -4106,18 +4106,24 @@ app.post('/api/epsilon-chat', async (req, res) => {
           
           // Owner accounts always bypass guest limits
           if (userRole && userRole.toLowerCase() === 'owner') {
-            isAuthenticated = true;
             userRole = 'owner';
           }
+          
+          console.log(`[EPSILON CHAT] JWT authenticated: userId=${userId}, role=${userRole}`);
         }
       } catch (jwtError) {
         // JWT invalid or expired, continue to check other methods
+        console.log(`[EPSILON CHAT] JWT verification failed: ${jwtError.message}`);
       }
+    } else {
+      console.log(`[EPSILON CHAT] No JWT token found - token exists: ${!!token}, JWT_SECRET exists: ${!!process.env.JWT_SECRET}`);
     }
     
     // Fallback: check headers/cookies if JWT not available
     if (!isAuthenticated) {
-      const userStr = req.headers['x-user-data'] || (req.cookies && req.cookies.epsilon_user);
+      // Parse cookies manually since we don't use cookie-parser
+      const parsedCookies = req.headers.cookie ? parseCookies(req.headers.cookie) : {};
+      const userStr = req.headers['x-user-data'] || parsedCookies.epsilon_user;
       if (userStr) {
         try {
           const user = typeof userStr === 'string' ? JSON.parse(userStr) : userStr;
@@ -4130,9 +4136,12 @@ app.post('/api/epsilon-chat', async (req, res) => {
             if (userRole && userRole.toLowerCase() === 'owner') {
               userRole = 'owner';
             }
+            
+            console.log(`[EPSILON CHAT] Header/cookie authenticated: userId=${userId}, role=${userRole}`);
           }
         } catch (e) {
           // Invalid user data, continue as guest
+          console.log(`[EPSILON CHAT] Failed to parse user data: ${e.message}`);
         }
       }
     }
@@ -4140,6 +4149,7 @@ app.post('/api/epsilon-chat', async (req, res) => {
     // Check guest usage limits ONLY for non-authenticated users
     // All authenticated users (including owners) bypass guest limits
     if (!isAuthenticated) {
+      console.log(`[EPSILON CHAT] User not authenticated, checking guest limits`);
       const clientIP = req.clientIP || getClientIP(req);
       const usageCheck = await checkGuestUsage(clientIP);
       
@@ -4168,9 +4178,11 @@ app.post('/api/epsilon-chat', async (req, res) => {
     
     // Log authentication status for debugging
     if (isAuthenticated) {
-      _silent(`[EPSILON CHAT] Authenticated user: ${userId}, role: ${userRole || 'unknown'}`);
+      console.log(`[EPSILON CHAT] ✓ Authenticated user: userId=${userId}, role=${userRole || 'unknown'} - BYPASSING guest limits`);
     } else {
-      _silent(`[EPSILON CHAT] Guest user from IP: ${req.clientIP || getClientIP(req)}`);
+      const clientIP = req.clientIP || getClientIP(req);
+      console.log(`[EPSILON CHAT] ✗ Guest user from IP: ${clientIP} - checking guest limits`);
+      console.log(`[EPSILON CHAT] Debug - Cookies available: ${!!req.headers.cookie}, x-user-data: ${!!req.headers['x-user-data']}`);
     }
     
     // Use the UNIFIED AI SYSTEM - directly call the handler function
