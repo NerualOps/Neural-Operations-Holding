@@ -41,8 +41,25 @@ class RoPE(nn.Module):
         if seq_len is None:
             seq_len = x.shape[-2]
         
-        cos = self.cos_cached[:, :, :seq_len, :]
-        sin = self.sin_cached[:, :, :seq_len, :]
+        head_dim = x.shape[-1]
+        cos = self.cos_cached[:, :, :seq_len, :head_dim]
+        sin = self.sin_cached[:, :, :seq_len, :head_dim]
+        
+        # Handle case where head_dim doesn't match cached dimensions
+        if head_dim != self.dim:
+            # Recompute RoPE for this dimension if needed
+            if head_dim % 2 != 0:
+                # If odd dimension, pad to even
+                x = F.pad(x, (0, 1), mode='constant', value=0)
+                head_dim = head_dim + 1
+            
+            # Recompute frequencies for this dimension
+            inv_freq = 1.0 / (10000 ** (torch.arange(0, head_dim, 2, device=x.device, dtype=x.dtype).float() / head_dim))
+            t = torch.arange(seq_len, device=x.device, dtype=x.dtype).float()
+            freqs = torch.outer(t, inv_freq)
+            emb = torch.cat([freqs, freqs], dim=-1)
+            cos = emb.cos()[None, None, :, :]
+            sin = emb.sin()[None, None, :, :]
         
         x1, x2 = x.chunk(2, dim=-1)
         return torch.cat([x1 * cos - x2 * sin, x1 * sin + x2 * cos], dim=-1)

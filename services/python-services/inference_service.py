@@ -63,14 +63,49 @@ def load_model(model_dir: str):
     
     tokenizer = Tokenizer.from_file(str(tokenizer_path))
     
-    # Create and load model
-    model = EpsilonTransformerLM(model_config)
-    
+    # Load model weights first to check actual dimensions
     model_path = model_dir / 'model.pt'
     if not model_path.exists():
         raise FileNotFoundError(f"Model weights not found: {model_path}")
     
-        model.load_state_dict(torch.load(model_path, map_location='cpu', weights_only=False))
+    checkpoint = torch.load(model_path, map_location='cpu', weights_only=False)
+    
+    # If checkpoint is a dict with 'model' or 'state_dict', extract it
+    if isinstance(checkpoint, dict):
+        if 'model' in checkpoint:
+            state_dict = checkpoint['model']
+        elif 'state_dict' in checkpoint:
+            state_dict = checkpoint['state_dict']
+        else:
+            state_dict = checkpoint
+    else:
+        state_dict = checkpoint
+    
+    # Infer actual model dimensions from weights if config doesn't match
+    if 'token_embedding.weight' in state_dict:
+        actual_vocab_size = state_dict['token_embedding.weight'].shape[0]
+        actual_d_model = state_dict['token_embedding.weight'].shape[1]
+        
+        # Check if config matches actual weights
+        if model_config.vocab_size != actual_vocab_size:
+            print(f"[INFERENCE SERVICE] WARNING: Config vocab_size ({model_config.vocab_size}) doesn't match model ({actual_vocab_size}). Updating config.")
+            model_config.vocab_size = actual_vocab_size
+        
+        if model_config.d_model != actual_d_model:
+            print(f"[INFERENCE SERVICE] WARNING: Config d_model ({model_config.d_model}) doesn't match model ({actual_d_model}). Updating config.")
+            model_config.d_model = actual_d_model
+    
+    # Create model with potentially updated config
+    model = EpsilonTransformerLM(model_config)
+    
+    # Load weights with strict=False to handle minor mismatches
+    try:
+        model.load_state_dict(state_dict, strict=True)
+    except RuntimeError as e:
+        print(f"[INFERENCE SERVICE] WARNING: Strict loading failed: {e}")
+        print(f"[INFERENCE SERVICE] Attempting non-strict loading...")
+        model.load_state_dict(state_dict, strict=False)
+    
     model.eval()
     
     # Load metadata if available
