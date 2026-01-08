@@ -332,7 +332,8 @@ class GenerateRequest(BaseModel):
     max_new_tokens: int = 256
     temperature: float = 0.7
     top_p: float = 0.9
-    stop: Optional[List[str]] = None  # Changed from stop_sequences to stop
+    stop: Optional[List[str]] = None
+    repetition_penalty: float = 1.3  # Default repetition penalty
 
 
 class GenerateResponse(BaseModel):
@@ -380,6 +381,30 @@ async def model_info():
 @app.post("/generate", response_model=GenerateResponse)
 async def generate(request: GenerateRequest):
     """Generate text from prompt"""
+    # #region agent log
+    import json
+    try:
+        with open('.cursor/debug.log', 'a') as f:
+            f.write(json.dumps({
+                "id": f"log_{int(__import__('time').time() * 1000)}_gen_entry",
+                "timestamp": int(__import__('time').time() * 1000),
+                "location": "inference_service.py:380",
+                "message": "Generate endpoint called",
+                "data": {
+                    "has_prompt": bool(request.prompt),
+                    "max_new_tokens": request.max_new_tokens,
+                    "temperature": request.temperature,
+                    "top_p": request.top_p,
+                    "has_repetition_penalty": hasattr(request, 'repetition_penalty'),
+                    "repetition_penalty_value": getattr(request, 'repetition_penalty', 'MISSING')
+                },
+                "sessionId": "debug-session",
+                "runId": "run1",
+                "hypothesisId": "A"
+            }) + "\n")
+    except: pass
+    # #endregion
+    
     if model is None or tokenizer is None:
         raise HTTPException(status_code=503, detail="Model not loaded. Check /health endpoint.")
     
@@ -388,6 +413,26 @@ async def generate(request: GenerateRequest):
         encoded = tokenizer.encode(request.prompt)
         prompt_token_count = len(encoded.ids)
         input_ids = torch.tensor([encoded.ids], dtype=torch.long)
+        
+        # #region agent log
+        try:
+            with open('.cursor/debug.log', 'a') as f:
+                f.write(json.dumps({
+                    "id": f"log_{int(__import__('time').time() * 1000)}_before_gen",
+                    "timestamp": int(__import__('time').time() * 1000),
+                    "location": "inference_service.py:395",
+                    "message": "Before model.generate call",
+                    "data": {
+                        "prompt_tokens": prompt_token_count,
+                        "repetition_penalty": getattr(request, 'repetition_penalty', 'MISSING'),
+                        "max_new_tokens": min(request.max_new_tokens, 100)
+                    },
+                    "sessionId": "debug-session",
+                    "runId": "run1",
+                    "hypothesisId": "A"
+                }) + "\n")
+        except: pass
+        # #endregion
         
         # Generate with repetition penalty from request - optimized for speed
         with torch.no_grad():
@@ -400,6 +445,25 @@ async def generate(request: GenerateRequest):
                 top_k=50,
                 repetition_penalty=request.repetition_penalty
             )
+        
+        # #region agent log
+        try:
+            with open('.cursor/debug.log', 'a') as f:
+                f.write(json.dumps({
+                    "id": f"log_{int(__import__('time').time() * 1000)}_after_gen",
+                    "timestamp": int(__import__('time').time() * 1000),
+                    "location": "inference_service.py:403",
+                    "message": "After model.generate call",
+                    "data": {
+                        "generated_shape": list(generated.shape) if generated is not None else None,
+                        "generated_length": generated.shape[1] if generated is not None else 0
+                    },
+                    "sessionId": "debug-session",
+                    "runId": "run1",
+                    "hypothesisId": "A"
+                }) + "\n")
+        except: pass
+        # #endregion
         
         # Decode generated tokens (only new tokens)
         generated_ids = generated[0][prompt_token_count:].cpu().tolist()
@@ -487,6 +551,27 @@ async def generate(request: GenerateRequest):
         if model_metadata:
             model_id = model_metadata.get('model_id') or model_metadata.get('git_commit', 'unknown')
         
+        # #region agent log
+        try:
+            with open('.cursor/debug.log', 'a') as f:
+                f.write(json.dumps({
+                    "id": f"log_{int(__import__('time').time() * 1000)}_success",
+                    "timestamp": int(__import__('time').time() * 1000),
+                    "location": "inference_service.py:554",
+                    "message": "Generation successful - returning response",
+                    "data": {
+                        "text_length": len(generated_text),
+                        "text_preview": generated_text[:50] if generated_text else None,
+                        "prompt_tokens": prompt_token_count,
+                        "completion_tokens": len(generated_ids)
+                    },
+                    "sessionId": "debug-session",
+                    "runId": "run1",
+                    "hypothesisId": "A"
+                }) + "\n")
+        except: pass
+        # #endregion
+        
         return GenerateResponse(
             text=generated_text,
             model_id=model_id,
@@ -497,6 +582,25 @@ async def generate(request: GenerateRequest):
         )
     
     except Exception as e:
+        # #region agent log
+        try:
+            with open('.cursor/debug.log', 'a') as f:
+                f.write(json.dumps({
+                    "id": f"log_{int(__import__('time').time() * 1000)}_error",
+                    "timestamp": int(__import__('time').time() * 1000),
+                    "location": "inference_service.py:550",
+                    "message": "Generation error",
+                    "data": {
+                        "error_type": type(e).__name__,
+                        "error_message": str(e),
+                        "has_repetition_penalty_attr": hasattr(request, 'repetition_penalty') if 'request' in locals() else False
+                    },
+                    "sessionId": "debug-session",
+                    "runId": "run1",
+                    "hypothesisId": "A"
+                }) + "\n")
+        except: pass
+        # #endregion
         raise HTTPException(status_code=500, detail=f"Generation failed: {str(e)}")
 
 
