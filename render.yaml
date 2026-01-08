@@ -2,7 +2,7 @@ services:
   - type: web
     name: neuralops-dashboard
     env: node
-    buildCommand: npm install && npm run render-postbuild
+    buildCommand: npm install && npm run render-postbuild && cd services/python-services && pip3 install -r requirements.txt
     startCommand: npm run render-start
     envVars:
       - key: NODE_ENV

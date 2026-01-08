@@ -38,6 +38,10 @@ def load_model(model_dir: str):
     """Load model from exported artifact directory"""
     global model, tokenizer, model_config, model_metadata
     
+    # Initialize tokenizer to None if not set
+    if 'tokenizer' not in globals():
+        tokenizer = None
+    
     model_dir = Path(model_dir)
     
     if not model_dir.exists():
@@ -97,10 +101,10 @@ async def bootstrap_model_from_supabase():
         
         supabase: Client = create_client(supabase_url, supabase_key)
         
-        # Get approved production model
+        # Get latest approved model (auto-uploaded models are auto-approved)
         response = supabase.table('epsilon_model_deployments').select(
             'id, model_id, storage_path, version'
-        ).eq('model_id', 'production').eq('status', 'approved').order(
+        ).eq('status', 'approved').order(
             'approved_at', desc=True
         ).limit(1).execute()
         
@@ -174,10 +178,24 @@ async def bootstrap_model_from_supabase():
             print(f"[INFERENCE SERVICE] Renamed {model_files[0].name} to model.pt", flush=True)
         
         print(f"[INFERENCE SERVICE] Model artifact extracted to {models_dir}", flush=True)
+        
+        # Verify required files exist
+        required_files = ['model.pt', 'config.json', 'tokenizer.json']
+        missing_files = [f for f in required_files if not (models_dir / f).exists()]
+        if missing_files:
+            print(f"[INFERENCE SERVICE] WARNING: Missing required files after extraction: {missing_files}", flush=True)
+            # List what we actually have
+            existing_files = list(models_dir.glob('*'))
+            print(f"[INFERENCE SERVICE] Files found: {[f.name for f in existing_files]}", flush=True)
+            return False
+        
+        print(f"[INFERENCE SERVICE] All required files verified", flush=True)
         return True
         
     except Exception as e:
+        import traceback
         print(f"[INFERENCE SERVICE] Model bootstrap from Supabase failed: {e}", flush=True)
+        print(f"[INFERENCE SERVICE] Traceback: {traceback.format_exc()}", flush=True)
         return False
 
 
@@ -194,13 +212,19 @@ if bootstrap_success:
 if os.path.exists(MODEL_DIR):
     try:
         load_model(MODEL_DIR)
-        print(f"[INFERENCE SERVICE] Model loaded successfully")
+        if model is not None and tokenizer is not None:
+            print(f"[INFERENCE SERVICE] Model loaded successfully")
+        else:
+            print(f"[INFERENCE SERVICE] ERROR: Model or tokenizer is None after load_model()")
     except Exception as e:
+        import traceback
         print(f"[INFERENCE SERVICE] ERROR: Failed to load model: {e}")
+        print(f"[INFERENCE SERVICE] Traceback: {traceback.format_exc()}")
         print(f"[INFERENCE SERVICE] Service will start but /generate will fail until model is loaded")
 else:
     print(f"[INFERENCE SERVICE] WARNING: Model directory not found: {MODEL_DIR}")
     print(f"[INFERENCE SERVICE] Set EPSILON_MODEL_DIR environment variable or place model in models/latest")
+    print(f"[INFERENCE SERVICE] Bootstrap success was: {bootstrap_success}")
 
 
 class GenerateRequest(BaseModel):
@@ -299,16 +323,36 @@ class ReloadModelRequest(BaseModel):
 
 @app.post("/reload-model")
 async def reload_model(request: ReloadModelRequest):
-    """Reload model from directory (admin endpoint) - accepts JSON body"""
-    global MODEL_DIR
+    """Reload model from directory or bootstrap from Supabase (admin endpoint)"""
+    global MODEL_DIR, model, tokenizer
+    
+    # If no model_dir provided and model not loaded, try to bootstrap from Supabase
+    if not request.model_dir and (model is None or tokenizer is None):
+        print("[INFERENCE SERVICE] Model not loaded, attempting to bootstrap from Supabase...", flush=True)
+        bootstrap_success = await bootstrap_model_from_supabase()
+        if bootstrap_success:
+            MODEL_DIR = str(Path(__file__).parent / 'models' / 'latest')
+            print(f"[INFERENCE SERVICE] Bootstrap successful, model directory: {MODEL_DIR}", flush=True)
+        else:
+            raise HTTPException(status_code=503, detail="Failed to bootstrap model from Supabase. No model available.")
     
     if request.model_dir:
         MODEL_DIR = request.model_dir
     
     try:
         load_model(MODEL_DIR)
-        return {"status": "ok", "message": f"Model reloaded from {MODEL_DIR}"}
+        if model is not None and tokenizer is not None:
+            return {
+                "status": "ok", 
+                "message": f"Model reloaded from {MODEL_DIR}",
+                "model_loaded": True
+            }
+        else:
+            raise HTTPException(status_code=500, detail="Model or tokenizer is None after reload")
     except Exception as e:
+        import traceback
+        error_detail = f"Failed to reload model: {str(e)}\n{traceback.format_exc()}"
+        print(f"[INFERENCE SERVICE] Reload error: {error_detail}", flush=True)
         raise HTTPException(status_code=500, detail=f"Failed to reload model: {str(e)}")
 
 

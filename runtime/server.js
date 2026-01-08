@@ -5159,7 +5159,17 @@ app.get('/services/ai-core/epsilon-tokenizer.js', (req, res) => {
     }
   });
 
-  // Approve deployment
+  // DEPRECATED: Approval system removed - models are auto-approved via auto_upload_model.py
+  // This endpoint is kept for backward compatibility but returns an error
+  app.post('/api/epsilon-llm/deploys/:deployId/approve', verifyAuth('owner'), async (req, res) => {
+    return res.status(410).json({ 
+      success: false, 
+      error: 'Approval system has been removed. Models are now auto-approved when uploaded via auto_upload_model.py with safety checks.' 
+    });
+  });
+
+  // OLD APPROVAL ENDPOINT (REMOVED - KEPT FOR REFERENCE)
+  /*
   app.post('/api/epsilon-llm/deploys/:deployId/approve', verifyAuth('owner'), async (req, res) => {
     try {
       const { deployId } = req.params;
@@ -5298,45 +5308,70 @@ app.get('/services/ai-core/epsilon-tokenizer.js', (req, res) => {
           
           console.log(`[DEPLOY] Model artifact extracted to ${modelsDir}`);
           
-          // Verify required files exist (check for .pt or model.pt)
-          const requiredFiles = ['config.json', 'tokenizer.json'];
-          const modelFiles = ['model.pt', 'pretrained_*.pt']; // Support various naming conventions
+          // Find model file (can have different names)
+          const modelFiles = ['model.pt'];
+          const allFiles = fs.readdirSync(modelsDir);
+          const ptFiles = allFiles.filter(f => f.endsWith('.pt') && f !== 'model.pt');
           
           let modelFileFound = false;
-          for (const file of requiredFiles) {
-            const filePath = path.join(modelsDir, file);
-            if (!fs.existsSync(filePath)) {
-              throw new Error(`Required file missing after extraction: ${file}`);
-            }
-          }
+          let modelFilePath = path.join(modelsDir, 'model.pt');
           
-          // Check for model file (can have different names)
-          for (const modelFile of modelFiles) {
-            const filePath = path.join(modelsDir, modelFile);
-            if (fs.existsSync(filePath)) {
-              modelFileFound = true;
-              // Rename to model.pt if needed
-              if (modelFile !== 'model.pt') {
-                const targetPath = path.join(modelsDir, 'model.pt');
-                fs.renameSync(filePath, targetPath);
-                console.log(`[DEPLOY] Renamed ${modelFile} to model.pt`);
-              }
-              break;
-            }
+          if (fs.existsSync(modelFilePath)) {
+            modelFileFound = true;
+          } else if (ptFiles.length > 0) {
+            // Rename first .pt file to model.pt
+            const sourcePath = path.join(modelsDir, ptFiles[0]);
+            fs.renameSync(sourcePath, modelFilePath);
+            console.log(`[DEPLOY] Renamed ${ptFiles[0]} to model.pt`);
+            modelFileFound = true;
           }
           
           if (!modelFileFound) {
-            // Look for any .pt file
-            const files = fs.readdirSync(modelsDir);
-            const ptFile = files.find(f => f.endsWith('.pt'));
-            if (ptFile) {
-              const sourcePath = path.join(modelsDir, ptFile);
-              const targetPath = path.join(modelsDir, 'model.pt');
-              fs.renameSync(sourcePath, targetPath);
-              console.log(`[DEPLOY] Renamed ${ptFile} to model.pt`);
-            } else {
-              throw new Error('No model file (.pt) found after extraction');
+            throw new Error('No model file (.pt) found after extraction');
+          }
+          
+          // Verify required files exist
+          const configPath = path.join(modelsDir, 'config.json');
+          const tokenizerPath = path.join(modelsDir, 'tokenizer.json');
+          
+          if (!fs.existsSync(configPath)) {
+            // Try to extract config from checkpoint using Python
+            console.log(`[DEPLOY] config.json missing, attempting to extract from checkpoint...`);
+            try {
+              const pythonScript = `import torch, json, sys
+ckpt = torch.load(sys.argv[1], map_location='cpu', weights_only=False)
+if 'config' in ckpt:
+    with open(sys.argv[2], 'w') as f:
+        json.dump(ckpt['config'], f, indent=2)
+    print('SUCCESS')
+else:
+    print('ERROR: No config in checkpoint')
+    sys.exit(1)`;
+              
+              const scriptPath = path.join(modelsDir, '_extract_config.py');
+              fs.writeFileSync(scriptPath, pythonScript);
+              
+              const { spawnSync } = require('child_process');
+              const result = spawnSync('python3', [scriptPath, modelFilePath, configPath], {
+                cwd: modelsDir,
+                encoding: 'utf-8',
+                timeout: 30000
+              });
+              
+              if (fs.existsSync(scriptPath)) fs.unlinkSync(scriptPath);
+              
+              if (result.status !== 0 || !fs.existsSync(configPath)) {
+                throw new Error(`Failed to extract: ${result.stderr || result.stdout || 'Unknown error'}`);
+              }
+              console.log(`[DEPLOY] Extracted config.json from checkpoint`);
+            } catch (extractError) {
+              console.error(`[DEPLOY] Config extraction failed: ${extractError.message}`);
+              throw new Error(`config.json is required but missing. Please re-upload model with config.json included.`);
             }
+          }
+          
+          if (!fs.existsSync(tokenizerPath)) {
+            throw new Error(`tokenizer.json is required but missing. Please re-upload model with tokenizer.json included.`);
           }
           
           // Reload inference service model (if service supports hot reload)
