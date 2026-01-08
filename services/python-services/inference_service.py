@@ -70,7 +70,7 @@ def load_model(model_dir: str):
     if not model_path.exists():
         raise FileNotFoundError(f"Model weights not found: {model_path}")
     
-    model.load_state_dict(torch.load(model_path, map_location='cpu'))
+        model.load_state_dict(torch.load(model_path, map_location='cpu', weights_only=False))
     model.eval()
     
     # Load metadata if available
