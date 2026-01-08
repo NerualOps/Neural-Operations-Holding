@@ -202,29 +202,39 @@ async def bootstrap_model_from_supabase():
 # Load model on startup
 MODEL_DIR = os.getenv('EPSILON_MODEL_DIR', str(Path(__file__).parent / 'models' / 'latest'))
 
-# Try to bootstrap from Supabase on startup (production)
-import asyncio
-bootstrap_success = asyncio.run(bootstrap_model_from_supabase())
-
-if bootstrap_success:
-    MODEL_DIR = str(Path(__file__).parent / 'models' / 'latest')
-
-if os.path.exists(MODEL_DIR):
-    try:
-        load_model(MODEL_DIR)
-        if model is not None and tokenizer is not None:
-            print(f"[INFERENCE SERVICE] Model loaded successfully")
-        else:
-            print(f"[INFERENCE SERVICE] ERROR: Model or tokenizer is None after load_model()")
-    except Exception as e:
-        import traceback
-        print(f"[INFERENCE SERVICE] ERROR: Failed to load model: {e}")
-        print(f"[INFERENCE SERVICE] Traceback: {traceback.format_exc()}")
-        print(f"[INFERENCE SERVICE] Service will start but /generate will fail until model is loaded")
-else:
-    print(f"[INFERENCE SERVICE] WARNING: Model directory not found: {MODEL_DIR}")
-    print(f"[INFERENCE SERVICE] Set EPSILON_MODEL_DIR environment variable or place model in models/latest")
-    print(f"[INFERENCE SERVICE] Bootstrap success was: {bootstrap_success}")
+# Bootstrap and load model on FastAPI startup (not at module level to avoid event loop issues)
+@app.on_event("startup")
+async def startup_event():
+    """Bootstrap model from Supabase and load it on startup"""
+    global MODEL_DIR, model, tokenizer
+    
+    print(f"[INFERENCE SERVICE] Starting up...", flush=True)
+    
+    # Try to bootstrap from Supabase
+    bootstrap_success = await bootstrap_model_from_supabase()
+    
+    if bootstrap_success:
+        MODEL_DIR = str(Path(__file__).parent / 'models' / 'latest')
+        print(f"[INFERENCE SERVICE] Bootstrap successful, model directory: {MODEL_DIR}", flush=True)
+    
+    # Load model if directory exists
+    if os.path.exists(MODEL_DIR):
+        try:
+            load_model(MODEL_DIR)
+            if model is not None and tokenizer is not None:
+                print(f"[INFERENCE SERVICE] Model loaded successfully", flush=True)
+            else:
+                print(f"[INFERENCE SERVICE] ERROR: Model or tokenizer is None after load_model()", flush=True)
+        except Exception as e:
+            import traceback
+            print(f"[INFERENCE SERVICE] ERROR: Failed to load model: {e}", flush=True)
+            print(f"[INFERENCE SERVICE] Traceback: {traceback.format_exc()}", flush=True)
+            print(f"[INFERENCE SERVICE] Service will start but /generate will fail until model is loaded", flush=True)
+    else:
+        print(f"[INFERENCE SERVICE] WARNING: Model directory not found: {MODEL_DIR}", flush=True)
+        print(f"[INFERENCE SERVICE] Bootstrap success was: {bootstrap_success}", flush=True)
+        print(f"[INFERENCE SERVICE] Set EPSILON_MODEL_DIR environment variable or place model in models/latest", flush=True)
+        print(f"[INFERENCE SERVICE] You can trigger a reload via POST /reload-model to bootstrap from Supabase", flush=True)
 
 
 class GenerateRequest(BaseModel):
