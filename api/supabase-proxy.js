@@ -564,18 +564,30 @@ async function handleGetEpsilonResponse(body) {
   
   _silent('[PROXY EPSILON] Generating response for:', user_message.substring(0, 50) + '...');
   
-  // Check if inference service is ready
-  let isReady = await inferenceClient.checkHealth();
+  // Check if inference service is ready (with retries)
+  let isReady = false;
+  let retries = 3;
   
-  // If not ready, try to trigger a reload (which will bootstrap from Supabase)
+  while (!isReady && retries > 0) {
+    isReady = await inferenceClient.checkHealth();
+    if (!isReady) {
+      retries--;
+      if (retries > 0) {
+        _silent(`[PROXY EPSILON] Model not ready, retrying health check... (${retries} attempts left)`);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
+    }
+  }
+  
+  // If still not ready, try to trigger a reload (which will bootstrap from Supabase)
   if (!isReady) {
-    _silent('[PROXY EPSILON] Model not ready, attempting to trigger reload...');
+    _silent('[PROXY EPSILON] Model not ready after retries, attempting to trigger reload...');
     try {
       const axios = require('axios');
       const inferenceUrl = process.env.INFERENCE_URL || 'http://127.0.0.1:8005';
       await axios.post(`${inferenceUrl}/reload-model`, {}, { timeout: 30000 });
       // Wait a moment for model to load
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 3000));
       // Check health again
       isReady = await inferenceClient.checkHealth();
     } catch (reloadError) {

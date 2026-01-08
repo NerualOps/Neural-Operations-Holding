@@ -251,6 +251,17 @@ class GenerateResponse(BaseModel):
     tokens: dict  # {"prompt": int, "completion": int}
 
 
+@app.get("/")
+@app.head("/")
+async def root():
+    """Root endpoint for health checks"""
+    return {
+        "status": "ok",
+        "service": "Epsilon AI Inference Service",
+        "model_loaded": model is not None,
+        "model_dir": MODEL_DIR
+    }
+
 @app.get("/health")
 async def health():
     """Health check endpoint"""
