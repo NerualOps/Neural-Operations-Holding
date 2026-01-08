@@ -377,7 +377,7 @@ class PythonServiceManager {
                 if (fs.existsSync(requirementsPath)) {
                     try {
                         console.log('[PYTHON MANAGER] Installing Python dependencies from requirements.txt...');
-                        execSync(`${pythonPath} -m pip install --user --no-cache-dir -r requirements.txt`, { 
+                        execSync(`${pythonPath} -m pip install --break-system-packages --no-cache-dir -r requirements.txt`, { 
                             cwd: __dirname,
                             stdio: 'inherit',
                             timeout: 180000,
@@ -389,7 +389,7 @@ class PythonServiceManager {
                         // Try just uvicorn and fastapi as minimal fallback
                         try {
                             console.log('[PYTHON MANAGER] Attempting minimal install (uvicorn, fastapi)...');
-                            execSync(`${pythonPath} -m pip install --user --no-cache-dir uvicorn fastapi`, {
+                            execSync(`${pythonPath} -m pip install --break-system-packages --no-cache-dir uvicorn fastapi`, {
                                 cwd: __dirname,
                                 stdio: 'inherit',
                                 timeout: 60000,
@@ -404,7 +404,7 @@ class PythonServiceManager {
                 } else {
                     console.warn('[PYTHON MANAGER] requirements.txt not found, attempting minimal install...');
                     try {
-                        execSync(`${pythonPath} -m pip install --user --no-cache-dir uvicorn fastapi torch tokenizers supabase`, {
+                        execSync(`${pythonPath} -m pip install --break-system-packages --no-cache-dir uvicorn fastapi torch tokenizers supabase`, {
                             cwd: __dirname,
                             stdio: 'inherit',
                             timeout: 180000,
