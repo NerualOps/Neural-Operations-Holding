@@ -70,14 +70,22 @@ def load_model(model_dir: str):
     
     checkpoint = torch.load(model_path, map_location='cpu', weights_only=False)
     
-    # If checkpoint is a dict with 'model' or 'state_dict', extract it
+    # If checkpoint is a dict with 'model', 'state_dict', or 'model_state_dict', extract it
     if isinstance(checkpoint, dict):
         if 'model' in checkpoint:
             state_dict = checkpoint['model']
         elif 'state_dict' in checkpoint:
             state_dict = checkpoint['state_dict']
+        elif 'model_state_dict' in checkpoint:
+            state_dict = checkpoint['model_state_dict']
         else:
-            state_dict = checkpoint
+            # If no standard key, assume the dict itself is the state_dict
+            # (but exclude non-weight keys)
+            state_dict = {k: v for k, v in checkpoint.items() 
+                         if isinstance(v, torch.Tensor) or (isinstance(v, dict) and any(isinstance(vv, torch.Tensor) for vv in v.values()))}
+            if not state_dict:
+                # Last resort: use entire checkpoint
+                state_dict = checkpoint
     else:
         state_dict = checkpoint
     
@@ -99,17 +107,17 @@ def load_model(model_dir: str):
                     actual_n_heads = inferred_n_heads
                     print(f"[INFERENCE SERVICE] Inferred n_heads={actual_n_heads} from RoPE dimension")
         
-        # Update config if needed
+        # Update config if needed (CRITICAL for GPT-2 compatibility)
         if model_config.vocab_size != actual_vocab_size:
-            print(f"[INFERENCE SERVICE] WARNING: Config vocab_size ({model_config.vocab_size}) doesn't match model ({actual_vocab_size}). Updating config.")
+            print(f"[INFERENCE SERVICE] Updating vocab_size: {model_config.vocab_size} -> {actual_vocab_size} (from model weights)", flush=True)
             model_config.vocab_size = actual_vocab_size
         
         if model_config.d_model != actual_d_model:
-            print(f"[INFERENCE SERVICE] WARNING: Config d_model ({model_config.d_model}) doesn't match model ({actual_d_model}). Updating config.")
+            print(f"[INFERENCE SERVICE] Updating d_model: {model_config.d_model} -> {actual_d_model} (from model weights)", flush=True)
             model_config.d_model = actual_d_model
         
         if model_config.n_heads != actual_n_heads:
-            print(f"[INFERENCE SERVICE] WARNING: Config n_heads ({model_config.n_heads}) doesn't match model ({actual_n_heads}). Updating config.")
+            print(f"[INFERENCE SERVICE] Updating n_heads: {model_config.n_heads} -> {actual_n_heads} (from model weights)", flush=True)
             model_config.n_heads = actual_n_heads
     
     # Create model with potentially updated config
@@ -372,7 +380,17 @@ async def generate(request: GenerateRequest):
         
         # Filter out padding/special tokens before decoding
         # Remove any tokens that are out of vocabulary range
-        vocab_size = len(tokenizer.get_vocab()) if hasattr(tokenizer, 'get_vocab') else model_config.vocab_size
+        # Get actual vocab size from tokenizer or model config
+        try:
+            if hasattr(tokenizer, 'get_vocab'):
+                vocab_size = len(tokenizer.get_vocab())
+            elif hasattr(tokenizer, 'get_vocab_size'):
+                vocab_size = tokenizer.get_vocab_size()
+            else:
+                vocab_size = model_config.vocab_size if model_config else 50257
+        except:
+            vocab_size = model_config.vocab_size if model_config else 50257
+        
         generated_ids = [tid for tid in generated_ids if 0 <= tid < vocab_size]
         
         # Remove consecutive duplicate tokens (repetition filter)
