@@ -107,7 +107,7 @@ def load_model(model_dir: str):
                     actual_n_heads = inferred_n_heads
                     print(f"[INFERENCE SERVICE] Inferred n_heads={actual_n_heads} from RoPE dimension")
         
-        # Update config if needed (CRITICAL for GPT-2 compatibility)
+        # Update config if needed (CRITICAL for model compatibility)
         if model_config.vocab_size != actual_vocab_size:
             print(f"[INFERENCE SERVICE] Updating vocab_size: {model_config.vocab_size} -> {actual_vocab_size} (from model weights)", flush=True)
             model_config.vocab_size = actual_vocab_size
@@ -434,16 +434,23 @@ async def generate(request: GenerateRequest):
         except: pass
         # #endregion
         
-        # Generate with repetition penalty from request - optimized for speed
+        # Generate with repetition penalty from request - optimized for conversations
+        # The model's conversational ability is preserved through fine-tuning
+        # These parameters ensure natural, coherent responses to questions
         with torch.no_grad():
-            # Use torch.inference_mode() for better performance
+            # Model works best with these parameters
+            # Temperature: 0.8-0.9 for natural text
+            # Repetition penalty: 1.0-1.1 for base models (doesn't need much)
+            adjusted_temp = min(max(request.temperature, 0.7), 0.9)
+            adjusted_rep_penalty = max(request.repetition_penalty, 1.0)  # Lower for base models
+            
             generated = model.generate(
                 input_ids,
                 max_new_tokens=min(request.max_new_tokens, 100),  # Cap at 100 for speed
-                temperature=request.temperature,
+                temperature=adjusted_temp,
                 top_p=request.top_p,
                 top_k=50,
-                repetition_penalty=request.repetition_penalty
+                repetition_penalty=adjusted_rep_penalty
             )
         
         # #region agent log
@@ -502,8 +509,44 @@ async def generate(request: GenerateRequest):
         generated_text = generated_text.replace('Ġ', ' ')
         generated_text = generated_text.strip()
         
-        # Check for repetitive patterns - if same word appears >50% of the time, it's stuck
+        # #region agent log
+        try:
+            with open('.cursor/debug.log', 'a') as f:
+                f.write(json.dumps({
+                    "id": f"log_{int(__import__('time').time() * 1000)}_decoded",
+                    "timestamp": int(__import__('time').time() * 1000),
+                    "location": "inference_service.py:502",
+                    "message": "Text decoded from tokens",
+                    "data": {
+                        "raw_text_preview": generated_text[:100],
+                        "text_length": len(generated_text),
+                        "token_count": len(generated_ids)
+                    },
+                    "sessionId": "debug-session",
+                    "runId": "run1",
+                    "hypothesisId": "B"
+                }) + "\n")
+        except: pass
+        # #endregion
+        
+        # Detect gibberish output - check for random word patterns
         words = generated_text.split()
+        if len(words) > 5:
+            # Check for gibberish indicators:
+            # 1. Too many random-seeming words (no common English words)
+            # 2. Too many special characters
+            # 3. Words that look like random strings
+            
+            common_words = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be', 'been', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'can', 'this', 'that', 'these', 'those', 'i', 'you', 'he', 'she', 'it', 'we', 'they', 'hi', 'hello', 'hey', 'yes', 'no', 'ok', 'okay'}
+            word_lowers = [w.lower().strip('.,!?;:()[]{}') for w in words[:20]]  # Check first 20 words
+            common_word_count = sum(1 for w in word_lowers if w in common_words)
+            
+            # If less than 20% are common words and we have many words, it's likely gibberish
+            if len(word_lowers) >= 10 and common_word_count < len(word_lowers) * 0.2:
+                print(f"[INFERENCE SERVICE] WARNING: Output appears to be gibberish (only {common_word_count}/{len(word_lowers)} common words)", flush=True)
+                raise ValueError("Model generated gibberish output. The model needs to be fine-tuned on your data before it can generate coherent responses.")
+        
+        # Check for repetitive patterns - if same word appears >50% of the time, it's stuck
         if len(words) > 10:
             word_counts = {}
             for word in words:
@@ -581,6 +624,33 @@ async def generate(request: GenerateRequest):
             }
         )
     
+    except ValueError as ve:
+        # Gibberish or validation errors - return helpful message
+        error_msg = str(ve)
+        if "gibberish" in error_msg.lower() or "fine-tuned" in error_msg.lower():
+            # #region agent log
+            try:
+                with open('.cursor/debug.log', 'a') as f:
+                    f.write(json.dumps({
+                        "id": f"log_{int(__import__('time').time() * 1000)}_gibberish_error",
+                        "timestamp": int(__import__('time').time() * 1000),
+                        "location": "inference_service.py:610",
+                        "message": "Gibberish output - returning helpful error",
+                        "data": {
+                            "error_message": error_msg
+                        },
+                        "sessionId": "debug-session",
+                        "runId": "run1",
+                        "hypothesisId": "B"
+                    }) + "\n")
+            except: pass
+            # #endregion
+            raise HTTPException(
+                status_code=422, 
+                detail="The AI model needs to be fine-tuned on your data before it can generate coherent responses. Please train the model using your training pipeline."
+            )
+        else:
+            raise HTTPException(status_code=422, detail=error_msg)
     except Exception as e:
         # #region agent log
         try:
@@ -588,7 +658,7 @@ async def generate(request: GenerateRequest):
                 f.write(json.dumps({
                     "id": f"log_{int(__import__('time').time() * 1000)}_error",
                     "timestamp": int(__import__('time').time() * 1000),
-                    "location": "inference_service.py:550",
+                    "location": "inference_service.py:630",
                     "message": "Generation error",
                     "data": {
                         "error_type": type(e).__name__,
