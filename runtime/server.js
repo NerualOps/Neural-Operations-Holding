@@ -5264,7 +5264,7 @@ app.get('/services/ai-core/epsilon-tokenizer.js', (req, res) => {
           
           // Combine all chunks
           storageData = Buffer.concat(chunks);
-          console.log(`[DEPLOY] Reassembled ${chunkMetadata.chunks.length} chunks (${storageData.length / 1024 / 1024:.2f} MB)`);
+          console.log(`[DEPLOY] Reassembled ${chunkMetadata.chunks.length} chunks (${(storageData.length / 1024 / 1024).toFixed(2)} MB)`);
           
         } else {
           // Regular single file
@@ -5300,7 +5300,7 @@ app.get('/services/ai-core/epsilon-tokenizer.js', (req, res) => {
           
           // Verify required files exist (check for .pt or model.pt)
           const requiredFiles = ['config.json', 'tokenizer.json'];
-          const modelFiles = ['model.pt', 'pretrained_gpt2_converted.pt']; // Support both naming conventions
+          const modelFiles = ['model.pt', 'pretrained_*.pt']; // Support various naming conventions
           
           let modelFileFound = false;
           for (const file of requiredFiles) {

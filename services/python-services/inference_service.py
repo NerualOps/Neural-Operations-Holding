@@ -98,7 +98,7 @@ async def bootstrap_model_from_supabase():
         supabase: Client = create_client(supabase_url, supabase_key)
         
         # Get approved production model
-        response = supabase.from('epsilon_model_deployments').select(
+        response = supabase.table('epsilon_model_deployments').select(
             'id, model_id, storage_path, version'
         ).eq('model_id', 'production').eq('status', 'approved').order(
             'approved_at', desc=True
@@ -115,9 +115,38 @@ async def bootstrap_model_from_supabase():
             print("[INFERENCE SERVICE] Approved deployment has no storage_path", flush=True)
             return False
         
-        # Download zip from storage
-        print(f"[INFERENCE SERVICE] Downloading model artifact from Supabase: {storage_path}", flush=True)
-        zip_data = supabase.storage.from('epsilon-models').download(storage_path)
+        # Handle chunked files (metadata.json) or regular zip files
+        zip_data = None
+        
+        if storage_path.endswith('.metadata.json'):
+            # Chunked file - download metadata first, then reassemble chunks
+            print(f"[INFERENCE SERVICE] Detected chunked model file, downloading chunks...", flush=True)
+            
+            metadata_response = supabase.storage.from_('epsilon-models').download(storage_path)
+            if not metadata_response:
+                print("[INFERENCE SERVICE] Failed to download chunk metadata", flush=True)
+                return False
+            
+            import json
+            chunk_metadata = json.loads(metadata_response.decode('utf-8'))
+            
+            # Download and reassemble chunks
+            chunks = []
+            for chunk_info in sorted(chunk_metadata['chunks'], key=lambda x: x['index']):
+                print(f"[INFERENCE SERVICE] Downloading chunk {chunk_info['index'] + 1}/{len(chunk_metadata['chunks'])}...", flush=True)
+                chunk_response = supabase.storage.from_('epsilon-models').download(chunk_info['path'])
+                if not chunk_response:
+                    print(f"[INFERENCE SERVICE] Failed to download chunk {chunk_info['index']}", flush=True)
+                    return False
+                chunks.append(chunk_response)
+            
+            # Combine chunks
+            zip_data = b''.join(chunks)
+            print(f"[INFERENCE SERVICE] Reassembled {len(chunk_metadata['chunks'])} chunks ({len(zip_data) / 1024 / 1024:.2f} MB)", flush=True)
+        else:
+            # Regular single file
+            print(f"[INFERENCE SERVICE] Downloading model artifact from Supabase: {storage_path}", flush=True)
+            zip_data = supabase.storage.from_('epsilon-models').download(storage_path)
         
         if not zip_data:
             print("[INFERENCE SERVICE] Failed to download model artifact", flush=True)
@@ -130,9 +159,19 @@ async def bootstrap_model_from_supabase():
         from zipfile import ZipFile
         import io
         
-        zip_buffer = io.BytesIO(zip_data)
+        if isinstance(zip_data, bytes):
+            zip_buffer = io.BytesIO(zip_data)
+        else:
+            zip_buffer = io.BytesIO(zip_data)
+        
         with ZipFile(zip_buffer, 'r') as zip_ref:
             zip_ref.extractall(models_dir)
+        
+        # Rename model file if needed (handle different naming conventions)
+        model_files = list(models_dir.glob('*.pt'))
+        if model_files and not (models_dir / 'model.pt').exists():
+            model_files[0].rename(models_dir / 'model.pt')
+            print(f"[INFERENCE SERVICE] Renamed {model_files[0].name} to model.pt", flush=True)
         
         print(f"[INFERENCE SERVICE] Model artifact extracted to {models_dir}", flush=True)
         return True
