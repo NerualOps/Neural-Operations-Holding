@@ -606,11 +606,12 @@ async function handleGetEpsilonResponse(body) {
   
   // Generate response using inference client
   try {
+    // Use more conservative generation parameters for better quality
     const result = await inferenceClient.generate({
       prompt: user_message,
-      max_new_tokens: 256,
-      temperature: 0.7,
-      top_p: 0.9
+      max_new_tokens: 128,  // Reduced for faster, more focused responses
+      temperature: 0.5,     // Lower temperature for more deterministic output
+      top_p: 0.85           // Slightly lower top_p for better quality
     });
     
     if (!result || !result.text) {

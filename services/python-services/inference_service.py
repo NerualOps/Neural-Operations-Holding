@@ -368,7 +368,23 @@ async def generate(request: GenerateRequest):
         
         # Decode generated tokens (only new tokens)
         generated_ids = generated[0][prompt_token_count:].cpu().tolist()
-        generated_text = tokenizer.decode(generated_ids)
+        
+        # Filter out padding/special tokens before decoding
+        # Remove any tokens that are out of vocabulary range
+        vocab_size = len(tokenizer.get_vocab()) if hasattr(tokenizer, 'get_vocab') else model_config.vocab_size
+        generated_ids = [tid for tid in generated_ids if 0 <= tid < vocab_size]
+        
+        if not generated_ids:
+            generated_text = ""
+        else:
+            generated_text = tokenizer.decode(generated_ids)
+            
+            # Clean up BPE artifacts (Ġ is a space marker in BPE tokenizers)
+            # Replace with actual spaces
+            generated_text = generated_text.replace('Ġ', ' ')
+            
+            # Remove any remaining special tokens or artifacts
+            generated_text = generated_text.strip()
         
         # Apply stop sequences if provided
         if request.stop:
