@@ -113,8 +113,8 @@ class EpsilonTransformerLM(nn.Module):
         self.eval()
         generated = input_ids.clone()
         
-        # Track recent tokens for repetition penalty
-        recent_tokens = generated[0].tolist()[-10:] if generated.shape[0] > 0 else []
+        # Track recent tokens for repetition penalty (last 20 for speed)
+        recent_tokens = generated[0].tolist()[-20:] if generated.shape[0] > 0 else []
         
         for _ in range(max_new_tokens):
             # Forward pass
@@ -123,13 +123,16 @@ class EpsilonTransformerLM(nn.Module):
             # Get logits for last token
             next_token_logits = logits[:, -1, :] / temperature
             
-            # Apply repetition penalty
+            # Apply repetition penalty to recent tokens (faster than all tokens)
             if repetition_penalty != 1.0 and len(recent_tokens) > 0:
-                for token_id in set(recent_tokens[-5:]):  # Penalize last 5 unique tokens
-                    if next_token_logits[0, token_id] > 0:
-                        next_token_logits[0, token_id] /= repetition_penalty
-                    else:
-                        next_token_logits[0, token_id] *= repetition_penalty
+                # Only penalize last 10 unique tokens for speed
+                unique_recent = set(recent_tokens[-10:])
+                for token_id in unique_recent:
+                    if 0 <= token_id < next_token_logits.size(-1):
+                        if next_token_logits[0, token_id] > 0:
+                            next_token_logits[0, token_id] /= repetition_penalty
+                        else:
+                            next_token_logits[0, token_id] *= repetition_penalty
             
             # Apply top-k filtering
             if top_k > 0:
@@ -165,9 +168,9 @@ class EpsilonTransformerLM(nn.Module):
             # Append to generated sequence
             generated = torch.cat([generated, next_token], dim=1)
             
-            # Update recent tokens (keep last 10)
+            # Update recent tokens (keep last 20)
             recent_tokens.append(next_token[0, 0].item())
-            if len(recent_tokens) > 10:
+            if len(recent_tokens) > 20:
                 recent_tokens.pop(0)
         
         return generated

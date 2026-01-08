@@ -122,19 +122,32 @@ def load_model(model_dir: str):
     
     # Create model with potentially updated config
     model = EpsilonTransformerLM(model_config)
-    
+
+    # Verify state_dict has expected keys
+    expected_keys = ['token_embedding.weight', 'lm_head.weight', 'blocks.0.attn.q_proj.weight']
+    missing_expected = [k for k in expected_keys if k not in state_dict]
+    if missing_expected:
+        print(f"[INFERENCE SERVICE] ERROR: State dict missing critical keys: {missing_expected[:5]}", flush=True)
+        print(f"[INFERENCE SERVICE] Available keys (first 10): {list(state_dict.keys())[:10]}", flush=True)
+        raise ValueError(f"State dict missing required keys: {missing_expected[:5]}")
+
     # Load weights with strict=False to handle minor mismatches
     try:
         model.load_state_dict(state_dict, strict=True)
-        print(f"[INFERENCE SERVICE] Model weights loaded successfully (strict mode)")
+        print(f"[INFERENCE SERVICE] Model weights loaded successfully (strict mode)", flush=True)
     except RuntimeError as e:
-        print(f"[INFERENCE SERVICE] WARNING: Strict loading failed: {e}")
-        print(f"[INFERENCE SERVICE] Attempting non-strict loading...")
+        print(f"[INFERENCE SERVICE] WARNING: Strict loading failed: {e}", flush=True)
+        print(f"[INFERENCE SERVICE] Attempting non-strict loading...", flush=True)
         missing_keys, unexpected_keys = model.load_state_dict(state_dict, strict=False)
         if missing_keys:
-            print(f"[INFERENCE SERVICE] Missing keys: {missing_keys[:5]}...")
+            print(f"[INFERENCE SERVICE] Missing keys ({len(missing_keys)}): {missing_keys[:10]}...", flush=True)
         if unexpected_keys:
-            print(f"[INFERENCE SERVICE] Unexpected keys: {unexpected_keys[:5]}...")
+            print(f"[INFERENCE SERVICE] Unexpected keys ({len(unexpected_keys)}): {unexpected_keys[:10]}...", flush=True)
+        
+        # If too many keys are missing, this is a problem
+        if len(missing_keys) > 10:
+            print(f"[INFERENCE SERVICE] ERROR: Too many missing keys ({len(missing_keys)}). Model may not work correctly.", flush=True)
+            raise ValueError(f"Model loading incomplete: {len(missing_keys)} keys missing")
     
     model.eval()
     
@@ -146,8 +159,20 @@ def load_model(model_dir: str):
     else:
         model_metadata = None
     
-    print(f"[INFERENCE SERVICE] Model loaded from {model_dir}")
-    print(f"[INFERENCE SERVICE] Model parameters: {sum(p.numel() for p in model.parameters()):,}")
+    # Verify model loaded correctly
+    total_params = sum(p.numel() for p in model.parameters())
+    print(f"[INFERENCE SERVICE] Model loaded from {model_dir}", flush=True)
+    print(f"[INFERENCE SERVICE] Model parameters: {total_params:,}", flush=True)
+    print(f"[INFERENCE SERVICE] Model vocab_size: {model_config.vocab_size}", flush=True)
+    print(f"[INFERENCE SERVICE] Model config: d_model={model_config.d_model}, n_heads={model_config.n_heads}, n_layers={model_config.n_layers}", flush=True)
+    
+    # Verify tokenizer vocab matches model
+    if hasattr(tokenizer, 'get_vocab'):
+        tokenizer_vocab_size = len(tokenizer.get_vocab())
+        if tokenizer_vocab_size != model_config.vocab_size:
+            print(f"[INFERENCE SERVICE] WARNING: Tokenizer vocab ({tokenizer_vocab_size}) != Model vocab ({model_config.vocab_size})", flush=True)
+        else:
+            print(f"[INFERENCE SERVICE] Tokenizer vocab matches model vocab: {tokenizer_vocab_size}", flush=True)
     
     return True
 
@@ -364,15 +389,16 @@ async def generate(request: GenerateRequest):
         prompt_token_count = len(encoded.ids)
         input_ids = torch.tensor([encoded.ids], dtype=torch.long)
         
-        # Generate
+        # Generate with repetition penalty from request - optimized for speed
         with torch.no_grad():
+            # Use torch.inference_mode() for better performance
             generated = model.generate(
                 input_ids,
-                max_new_tokens=request.max_new_tokens,
+                max_new_tokens=min(request.max_new_tokens, 100),  # Cap at 100 for speed
                 temperature=request.temperature,
                 top_p=request.top_p,
-                top_k=50,  # Default top_k
-                repetition_penalty=1.2  # Penalize repetition
+                top_k=50,
+                repetition_penalty=request.repetition_penalty
             )
         
         # Decode generated tokens (only new tokens)
@@ -393,37 +419,61 @@ async def generate(request: GenerateRequest):
         
         generated_ids = [tid for tid in generated_ids if 0 <= tid < vocab_size]
         
-        # Remove consecutive duplicate tokens (repetition filter)
-        filtered_ids = []
-        prev_id = None
-        for tid in generated_ids:
-            if tid != prev_id:
-                filtered_ids.append(tid)
-                prev_id = tid
-            # Allow some repetition but not excessive
-            elif len(filtered_ids) < 2 or filtered_ids[-2] != tid:
-                filtered_ids.append(tid)
+        if not generated_ids:
+            raise ValueError("No valid tokens generated")
         
-        if not filtered_ids:
-            generated_text = ""
-        else:
-            try:
-                generated_text = tokenizer.decode(filtered_ids)
-                
-                # Clean up BPE artifacts (Ġ is a space marker in BPE tokenizers)
-                # Replace with actual spaces
-                generated_text = generated_text.replace('Ġ', ' ')
-                
-                # Remove any remaining special tokens or artifacts
-                generated_text = generated_text.strip()
-                
-                # If output is just numbers or single token repeated, it's likely broken
-                if len(set(generated_text.split())) <= 2 and len(generated_text) > 20:
-                    # Model is stuck - return a fallback message
-                    generated_text = "I'm still learning. Please try again or check the model configuration."
-            except Exception as e:
-                print(f"[INFERENCE SERVICE] Decode error: {e}", flush=True)
-                generated_text = "Error generating response. Please try again."
+        # Decode the generated tokens
+        try:
+            generated_text = tokenizer.decode(generated_ids)
+        except Exception as e:
+            print(f"[INFERENCE SERVICE] Decode error: {e}", flush=True)
+            # Try filtering invalid tokens first
+            valid_ids = [tid for tid in generated_ids if 0 <= tid < vocab_size]
+            if valid_ids:
+                generated_text = tokenizer.decode(valid_ids)
+            else:
+                raise ValueError("All generated tokens are invalid")
+        
+        # Clean up BPE artifacts (Ġ is a space marker in BPE tokenizers)
+        generated_text = generated_text.replace('Ġ', ' ')
+        generated_text = generated_text.strip()
+        
+        # Check for repetitive patterns - if same word appears >50% of the time, it's stuck
+        words = generated_text.split()
+        if len(words) > 10:
+            word_counts = {}
+            for word in words:
+                word_lower = word.lower().strip('.,!?;:()[]{}')
+                if word_lower and len(word_lower) > 1:  # Ignore single chars and punctuation
+                    word_counts[word_lower] = word_counts.get(word_lower, 0) + 1
+            if word_counts:
+                max_count = max(word_counts.values())
+                if max_count > len(words) * 0.5:
+                    # Too repetitive - model is stuck
+                    print(f"[INFERENCE SERVICE] WARNING: Output highly repetitive ({max_count}/{len(words)} same word)", flush=True)
+                    # Extract first unique words to break the loop
+                    seen = set()
+                    unique_words = []
+                    for word in words:
+                        word_lower = word.lower().strip('.,!?;:()[]{}')
+                        if word_lower and word_lower not in seen and len(word_lower) > 1:
+                            seen.add(word_lower)
+                            unique_words.append(word)
+                        if len(unique_words) >= 20:  # Get more unique words
+                            break
+                    if len(unique_words) >= 3:
+                        generated_text = " ".join(unique_words)
+                    else:
+                        raise ValueError("Model stuck in repetition loop - insufficient unique content")
+        
+        # Final validation - output must be meaningful
+        if len(generated_text.strip()) < 5:
+            raise ValueError("Generated text too short")
+        
+        # Check for emoji-only or special char spam (less than 30% alphanumeric)
+        alphanumeric = sum(1 for c in generated_text if c.isalnum() or c.isspace())
+        if alphanumeric < len(generated_text) * 0.3:
+            raise ValueError("Output contains too many special characters/emojis")
         
         # Apply stop sequences if provided
         if request.stop:

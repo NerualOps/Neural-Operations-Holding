@@ -10,7 +10,7 @@ class InferenceClient {
   constructor() {
     // Get inference URL from environment or default to local
     this.inferenceUrl = process.env.INFERENCE_URL || 'http://127.0.0.1:8005';
-    this.timeout = parseInt(process.env.INFERENCE_TIMEOUT || '60000', 10); // 60s default
+    this.timeout = parseInt(process.env.INFERENCE_TIMEOUT || '30000', 10); // 30s default - faster timeout
     this.ready = false;
     this.modelInfo = null;
   }
@@ -21,7 +21,7 @@ class InferenceClient {
   async checkHealth() {
     try {
       const response = await axios.get(`${this.inferenceUrl}/health`, {
-        timeout: 5000
+        timeout: 2000  // Faster health check - 2 seconds max
       });
       
       if (response.data && response.data.model_loaded === true) {
@@ -33,7 +33,10 @@ class InferenceClient {
       return false;
     } catch (error) {
       this.ready = false;
-      console.warn('[INFERENCE CLIENT] Health check failed:', error.message);
+      // Only log if it's not a connection error (to reduce noise)
+      if (!error.code || (error.code !== 'ECONNREFUSED' && error.code !== 'ETIMEDOUT')) {
+        console.warn('[INFERENCE CLIENT] Health check failed:', error.message);
+      }
       return false;
     }
   }
@@ -78,10 +81,11 @@ class InferenceClient {
 
     const {
       prompt,
-      max_new_tokens = 256,
+      max_new_tokens = 75,  // Default to faster responses
       temperature = 0.7,
       top_p = 0.9,
-      stop = null
+      stop = null,
+      repetition_penalty = 1.3
     } = options;
 
     if (!prompt || typeof prompt !== 'string' || prompt.trim().length === 0) {
@@ -94,7 +98,8 @@ class InferenceClient {
         prompt: prompt.trim(),
         max_new_tokens,
         temperature,
-        top_p
+        top_p,
+        repetition_penalty
       };
 
       if (stop && Array.isArray(stop) && stop.length > 0) {

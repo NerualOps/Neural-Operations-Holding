@@ -564,35 +564,14 @@ async function handleGetEpsilonResponse(body) {
   
   _silent('[PROXY EPSILON] Generating response for:', user_message.substring(0, 50) + '...');
   
-  // Check if inference service is ready (with retries)
-  let isReady = false;
-  let retries = 3;
+  // Quick health check - single attempt, no delays
+  let isReady = await inferenceClient.checkHealth();
   
-  while (!isReady && retries > 0) {
-    isReady = await inferenceClient.checkHealth();
-    if (!isReady) {
-      retries--;
-      if (retries > 0) {
-        _silent(`[PROXY EPSILON] Model not ready, retrying health check... (${retries} attempts left)`);
-        await new Promise(resolve => setTimeout(resolve, 2000));
-      }
-    }
-  }
-  
-  // If still not ready, try to trigger a reload (which will bootstrap from Supabase)
+  // Only retry once if not ready (for startup scenarios)
   if (!isReady) {
-    _silent('[PROXY EPSILON] Model not ready after retries, attempting to trigger reload...');
-    try {
-      const axios = require('axios');
-      const inferenceUrl = process.env.INFERENCE_URL || 'http://127.0.0.1:8005';
-      await axios.post(`${inferenceUrl}/reload-model`, {}, { timeout: 30000 });
-      // Wait a moment for model to load
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      // Check health again
-      isReady = await inferenceClient.checkHealth();
-    } catch (reloadError) {
-      _silent('[PROXY EPSILON] Reload attempt failed:', reloadError.message);
-    }
+    _silent('[PROXY EPSILON] Model not ready, checking once more...');
+    await new Promise(resolve => setTimeout(resolve, 500)); // Minimal delay
+    isReady = await inferenceClient.checkHealth();
   }
   
   if (!isReady) {
@@ -606,12 +585,13 @@ async function handleGetEpsilonResponse(body) {
   
   // Generate response using inference client
   try {
-    // Use more conservative generation parameters for better quality
+    // Optimized generation parameters for fast, quality responses
     const result = await inferenceClient.generate({
       prompt: user_message,
-      max_new_tokens: 150,  // Reasonable length for responses
-      temperature: 0.8,     // Balanced temperature for creativity vs coherence
-      top_p: 0.9           // Nucleus sampling for quality
+      max_new_tokens: 75,   // Faster responses - GPT-2 style
+      temperature: 0.7,     // Slightly lower for more coherent output
+      top_p: 0.9,          // Nucleus sampling
+      repetition_penalty: 1.3  // Prevent repetition loops
     });
     
     if (!result || !result.text) {
