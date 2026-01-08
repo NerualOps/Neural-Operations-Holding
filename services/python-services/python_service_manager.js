@@ -404,10 +404,17 @@ class PythonServiceManager {
                 } else {
                     console.warn('[PYTHON MANAGER] requirements.txt not found, attempting minimal install...');
                     try {
-                        execSync(`${pythonPath} -m pip install --break-system-packages --no-cache-dir uvicorn fastapi torch tokenizers supabase`, {
+                        // Install CPU-only PyTorch first, then other deps
+                        execSync(`${pythonPath} -m pip install --break-system-packages --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu`, {
                             cwd: __dirname,
                             stdio: 'inherit',
-                            timeout: 180000,
+                            timeout: 300000,
+                            env: { ...process.env, PYTHONUNBUFFERED: '1' }
+                        });
+                        execSync(`${pythonPath} -m pip install --break-system-packages --no-cache-dir uvicorn fastapi tokenizers supabase numpy`, {
+                            cwd: __dirname,
+                            stdio: 'inherit',
+                            timeout: 120000,
                             env: { ...process.env, PYTHONUNBUFFERED: '1' }
                         });
                         console.log('[PYTHON MANAGER] Minimal dependencies installed');

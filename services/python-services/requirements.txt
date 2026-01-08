@@ -23,7 +23,8 @@ pytesseract>=0.3.10
 Pillow>=10.0.0
 
 # Machine learning / Transformer model (for inference service)
-torch>=2.0.0
-numpy>=1.24.0
+# NOTE: torch is installed separately in build command (CPU-only for production)
+# torch>=2.0.0  # Installed separately as CPU-only version
+numpy>=1.24.0,<2.0.0
 tokenizers>=0.13.0
 supabase>=2.0.0  # For model bootstrap from Supabase Storage
