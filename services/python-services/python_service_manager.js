@@ -368,16 +368,53 @@ class PythonServiceManager {
             const modelDir = path.join(__dirname, 'models', 'latest');
             
             // Ensure uvicorn is available (install if missing in production)
+            // This is a fallback in case build command didn't install dependencies
             if (process.env.NODE_ENV === 'production') {
-                try {
-                    const { execSync } = require('child_process');
-                    execSync(`${pythonPath} -m pip install --user uvicorn fastapi`, { 
-                        cwd: __dirname,
-                        stdio: 'ignore',
-                        timeout: 30000 
-                    });
-                } catch (e) {
-                    // Ignore install errors, try to start anyway
+                const { execSync } = require('child_process');
+                const requirementsPath = path.join(__dirname, 'requirements.txt');
+                
+                // Check if requirements.txt exists
+                if (fs.existsSync(requirementsPath)) {
+                    try {
+                        console.log('[PYTHON MANAGER] Installing Python dependencies from requirements.txt...');
+                        execSync(`${pythonPath} -m pip install --user --no-cache-dir -r requirements.txt`, { 
+                            cwd: __dirname,
+                            stdio: 'inherit',
+                            timeout: 180000,
+                            env: { ...process.env, PYTHONUNBUFFERED: '1' }
+                        });
+                        console.log('[PYTHON MANAGER] Python dependencies installed successfully');
+                    } catch (e) {
+                        console.error('[PYTHON MANAGER] Failed to install requirements:', e.message);
+                        // Try just uvicorn and fastapi as minimal fallback
+                        try {
+                            console.log('[PYTHON MANAGER] Attempting minimal install (uvicorn, fastapi)...');
+                            execSync(`${pythonPath} -m pip install --user --no-cache-dir uvicorn fastapi`, {
+                                cwd: __dirname,
+                                stdio: 'inherit',
+                                timeout: 60000,
+                                env: { ...process.env, PYTHONUNBUFFERED: '1' }
+                            });
+                            console.log('[PYTHON MANAGER] Minimal dependencies installed');
+                        } catch (e2) {
+                            console.error('[PYTHON MANAGER] Failed to install minimal dependencies:', e2.message);
+                            throw new Error('Cannot start inference service: Python dependencies not available');
+                        }
+                    }
+                } else {
+                    console.warn('[PYTHON MANAGER] requirements.txt not found, attempting minimal install...');
+                    try {
+                        execSync(`${pythonPath} -m pip install --user --no-cache-dir uvicorn fastapi torch tokenizers supabase`, {
+                            cwd: __dirname,
+                            stdio: 'inherit',
+                            timeout: 180000,
+                            env: { ...process.env, PYTHONUNBUFFERED: '1' }
+                        });
+                        console.log('[PYTHON MANAGER] Minimal dependencies installed');
+                    } catch (e) {
+                        console.error('[PYTHON MANAGER] Failed to install minimal dependencies:', e.message);
+                        throw new Error('Cannot start inference service: Python dependencies not available');
+                    }
                 }
             }
             
