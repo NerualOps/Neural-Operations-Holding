@@ -366,6 +366,21 @@ class PythonServiceManager {
 
             const pythonPath = this.resolvePythonPath();
             const modelDir = path.join(__dirname, 'models', 'latest');
+            
+            // Ensure uvicorn is available (install if missing in production)
+            if (process.env.NODE_ENV === 'production') {
+                try {
+                    const { execSync } = require('child_process');
+                    execSync(`${pythonPath} -m pip install --user uvicorn fastapi`, { 
+                        cwd: __dirname,
+                        stdio: 'ignore',
+                        timeout: 30000 
+                    });
+                } catch (e) {
+                    // Ignore install errors, try to start anyway
+                }
+            }
+            
             const pythonProcess = spawn(pythonPath, ['-m', 'uvicorn', 'inference_service:app', '--host', '0.0.0.0', '--port', '8005'], {
                 cwd: __dirname,
                 stdio: ['pipe', 'pipe', 'pipe'],
