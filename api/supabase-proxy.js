@@ -575,11 +575,25 @@ async function handleGetEpsilonResponse(body) {
   }
   
   if (!isReady) {
-    const isProduction = process.env.NODE_ENV === 'production';
-    if (isProduction) {
-      throw new Error('No trained AI model is available yet. A model must be trained in development, approved, and deployed to production before it can generate responses. Please contact the system administrator or wait for a model to be deployed.');
-    } else {
-      throw new Error('AI model is not trained yet. Training is required before the model can generate responses. Please wait for training to complete or start a training cycle.');
+    // Try to trigger a reload once if not ready
+    try {
+      const axios = require('axios');
+      const inferenceUrl = process.env.INFERENCE_URL || 'http://127.0.0.1:8005';
+      _silent('[PROXY EPSILON] Model not ready, attempting reload...');
+      await axios.post(`${inferenceUrl}/reload-model`, {}, { timeout: 10000 });
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      isReady = await inferenceClient.checkHealth();
+    } catch (reloadError) {
+      _silent('[PROXY EPSILON] Reload attempt failed:', reloadError.message);
+    }
+    
+    if (!isReady) {
+      const isProduction = process.env.NODE_ENV === 'production';
+      if (isProduction) {
+        throw new Error('AI model is currently loading. Please try again in a few seconds.');
+      } else {
+        throw new Error('AI model is not ready. Please wait a moment and try again.');
+      }
     }
   }
   
@@ -613,7 +627,17 @@ async function handleGetEpsilonResponse(body) {
     };
   } catch (error) {
     console.error('[ERROR] [PROXY EPSILON] Inference generation failed:', error.message);
-    throw new Error(`Failed to generate response: ${error.message}`);
+    
+    // Provide more helpful error messages
+    if (error.message && error.message.includes('timeout')) {
+      throw new Error('Request timed out. The AI service may be busy. Please try again.');
+    } else if (error.message && error.message.includes('ECONNREFUSED')) {
+      throw new Error('AI service is not available. Please try again in a few moments.');
+    } else if (error.message && error.message.includes('503')) {
+      throw new Error('AI model is still loading. Please try again in a few seconds.');
+    } else {
+      throw new Error(`Failed to generate response: ${error.message}`);
+    }
   }
 }
 

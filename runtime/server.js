@@ -4086,23 +4086,59 @@ app.post('/api/epsilon-chat', async (req, res) => {
       return res.status(400).json({ error: 'Message is required' });
     }
     
-    // Check if user is authenticated
-    const userStr = req.headers['x-user-data'] || (req.cookies && req.cookies.epsilon_user);
+    // Check if user is authenticated - check JWT token first, then fallback to headers/cookies
     let isAuthenticated = false;
     let userId = null;
+    let userRole = null;
     
-    if (userStr) {
+    // First, try to verify JWT token (most reliable)
+    const cookies = req.headers.cookie ? parseCookies(req.headers.cookie) : {};
+    const token = cookies.authToken;
+    
+    if (token && process.env.JWT_SECRET) {
       try {
-        const user = typeof userStr === 'string' ? JSON.parse(userStr) : userStr;
-        if (user && user.email) {
+        const jwt = require('jsonwebtoken');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        if (decoded && decoded.userId && decoded.email) {
           isAuthenticated = true;
-          userId = user.id;
+          userId = decoded.userId;
+          userRole = decoded.role || 'client';
+          
+          // Owner accounts always bypass guest limits
+          if (userRole && userRole.toLowerCase() === 'owner') {
+            isAuthenticated = true;
+            userRole = 'owner';
+          }
         }
-      } catch (e) {
+      } catch (jwtError) {
+        // JWT invalid or expired, continue to check other methods
       }
     }
     
-    // Check guest usage limits for non-authenticated users
+    // Fallback: check headers/cookies if JWT not available
+    if (!isAuthenticated) {
+      const userStr = req.headers['x-user-data'] || (req.cookies && req.cookies.epsilon_user);
+      if (userStr) {
+        try {
+          const user = typeof userStr === 'string' ? JSON.parse(userStr) : userStr;
+          if (user && user.email) {
+            isAuthenticated = true;
+            userId = user.id;
+            userRole = user.role || 'client';
+            
+            // Owner accounts always bypass guest limits
+            if (userRole && userRole.toLowerCase() === 'owner') {
+              userRole = 'owner';
+            }
+          }
+        } catch (e) {
+          // Invalid user data, continue as guest
+        }
+      }
+    }
+    
+    // Check guest usage limits ONLY for non-authenticated users
+    // All authenticated users (including owners) bypass guest limits
     if (!isAuthenticated) {
       const clientIP = req.clientIP || getClientIP(req);
       const usageCheck = await checkGuestUsage(clientIP);
@@ -4128,6 +4164,13 @@ app.post('/api/epsilon-chat', async (req, res) => {
       } else {
         await incrementGuestUsage(clientIP);
       }
+    }
+    
+    // Log authentication status for debugging
+    if (isAuthenticated) {
+      _silent(`[EPSILON CHAT] Authenticated user: ${userId}, role: ${userRole || 'unknown'}`);
+    } else {
+      _silent(`[EPSILON CHAT] Guest user from IP: ${req.clientIP || getClientIP(req)}`);
     }
     
     // Use the UNIFIED AI SYSTEM - directly call the handler function
@@ -4175,9 +4218,25 @@ app.post('/api/epsilon-chat', async (req, res) => {
         stack: handlerError.stack
       });
       
-      return res.status(500).json({ 
+      // Provide user-friendly error messages
+      let statusCode = 500;
+      let errorMessage = handlerError.message || 'Failed to generate response';
+      
+      if (handlerError.message && handlerError.message.includes('not ready') || 
+          handlerError.message && handlerError.message.includes('loading')) {
+        statusCode = 503; // Service Unavailable
+        errorMessage = 'AI model is loading. Please try again in a few seconds.';
+      } else if (handlerError.message && handlerError.message.includes('timeout')) {
+        statusCode = 504; // Gateway Timeout
+        errorMessage = 'Request timed out. Please try again.';
+      } else if (handlerError.message && handlerError.message.includes('not available')) {
+        statusCode = 503;
+        errorMessage = 'AI service is temporarily unavailable. Please try again in a moment.';
+      }
+      
+      return res.status(statusCode).json({ 
         error: 'Epsilon AI service error',
-        message: handlerError.message || 'Failed to generate response'
+        message: errorMessage
       });
     }
     
