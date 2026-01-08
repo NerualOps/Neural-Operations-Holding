@@ -375,66 +375,68 @@ class PythonServiceManager {
                 
                 // Check if requirements.txt exists
                 if (fs.existsSync(requirementsPath)) {
-                    try {
-                        console.log('[PYTHON MANAGER] Installing Python dependencies from requirements.txt...');
-                        execSync(`${pythonPath} -m pip install --break-system-packages --no-cache-dir -r requirements.txt`, { 
-                            cwd: __dirname,
-                            stdio: 'inherit',
-                            timeout: 180000,
-                            env: { ...process.env, PYTHONUNBUFFERED: '1' }
-                        });
-                        console.log('[PYTHON MANAGER] Python dependencies installed successfully');
-                    } catch (e) {
-                        console.error('[PYTHON MANAGER] Failed to install requirements:', e.message);
-                        // Try just uvicorn and fastapi as minimal fallback
+                    // Try production requirements first (minimal)
+                    const prodRequirements = path.join(__dirname, 'requirements-production.txt');
+                    if (fs.existsSync(prodRequirements)) {
                         try {
-                            console.log('[PYTHON MANAGER] Attempting minimal install (uvicorn, fastapi)...');
-                            execSync(`${pythonPath} -m pip install --break-system-packages --no-cache-dir uvicorn fastapi`, {
+                            console.log('[PYTHON MANAGER] Installing minimal production dependencies...');
+                            // Install CPU-only PyTorch first
+                            execSync(`${pythonPath} -m pip install --break-system-packages --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu`, {
                                 cwd: __dirname,
                                 stdio: 'inherit',
-                                timeout: 60000,
-                                env: { ...process.env, PYTHONUNBUFFERED: '1' }
+                                timeout: 300000,
+                                env: { ...process.env, PYTHONUNBUFFERED: '1', PATH: process.env.PATH + ':/opt/render/.local/bin' }
+                            });
+                            // Then install minimal requirements
+                            execSync(`${pythonPath} -m pip install --break-system-packages --no-cache-dir -r requirements-production.txt`, { 
+                                cwd: __dirname,
+                                stdio: 'inherit',
+                                timeout: 120000,
+                                env: { ...process.env, PYTHONUNBUFFERED: '1', PATH: process.env.PATH + ':/opt/render/.local/bin' }
+                            });
+                            console.log('[PYTHON MANAGER] Production dependencies installed successfully');
+                        } catch (e) {
+                            console.error('[PYTHON MANAGER] Failed to install production requirements:', e.message);
+                            throw new Error('Cannot start inference service: Python dependencies not available');
+                        }
+                    } else {
+                        // Fallback: install minimal deps directly
+                        console.log('[PYTHON MANAGER] Installing minimal dependencies directly...');
+                        try {
+                            execSync(`${pythonPath} -m pip install --break-system-packages --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu`, {
+                                cwd: __dirname,
+                                stdio: 'inherit',
+                                timeout: 300000,
+                                env: { ...process.env, PYTHONUNBUFFERED: '1', PATH: process.env.PATH + ':/opt/render/.local/bin' }
+                            });
+                            execSync(`${pythonPath} -m pip install --break-system-packages --no-cache-dir uvicorn fastapi tokenizers supabase numpy python-dotenv`, {
+                                cwd: __dirname,
+                                stdio: 'inherit',
+                                timeout: 120000,
+                                env: { ...process.env, PYTHONUNBUFFERED: '1', PATH: process.env.PATH + ':/opt/render/.local/bin' }
                             });
                             console.log('[PYTHON MANAGER] Minimal dependencies installed');
-                        } catch (e2) {
-                            console.error('[PYTHON MANAGER] Failed to install minimal dependencies:', e2.message);
+                        } catch (e) {
+                            console.error('[PYTHON MANAGER] Failed to install minimal dependencies:', e.message);
                             throw new Error('Cannot start inference service: Python dependencies not available');
                         }
                     }
-                } else {
-                    console.warn('[PYTHON MANAGER] requirements.txt not found, attempting minimal install...');
-                    try {
-                        // Install CPU-only PyTorch first, then other deps
-                        execSync(`${pythonPath} -m pip install --break-system-packages --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu`, {
-                            cwd: __dirname,
-                            stdio: 'inherit',
-                            timeout: 300000,
-                            env: { ...process.env, PYTHONUNBUFFERED: '1' }
-                        });
-                        execSync(`${pythonPath} -m pip install --break-system-packages --no-cache-dir uvicorn fastapi tokenizers supabase numpy`, {
-                            cwd: __dirname,
-                            stdio: 'inherit',
-                            timeout: 120000,
-                            env: { ...process.env, PYTHONUNBUFFERED: '1' }
-                        });
-                        console.log('[PYTHON MANAGER] Minimal dependencies installed');
-                    } catch (e) {
-                        console.error('[PYTHON MANAGER] Failed to install minimal dependencies:', e.message);
-                        throw new Error('Cannot start inference service: Python dependencies not available');
-                    }
-                }
             }
+            
+            // Add local bin to PATH so uvicorn can be found
+            const envWithPath = {
+                ...process.env,
+                PORT: '8005',
+                PYTHONPATH: __dirname,
+                PYTHONUNBUFFERED: '1',
+                EPSILON_MODEL_DIR: modelDir,
+                PATH: (process.env.PATH || '') + ':/opt/render/.local/bin'
+            };
             
             const pythonProcess = spawn(pythonPath, ['-m', 'uvicorn', 'inference_service:app', '--host', '0.0.0.0', '--port', '8005'], {
                 cwd: __dirname,
                 stdio: ['pipe', 'pipe', 'pipe'],
-                env: {
-                    ...process.env,
-                    PORT: '8005',
-                    PYTHONPATH: __dirname,
-                    PYTHONUNBUFFERED: '1',
-                    EPSILON_MODEL_DIR: modelDir
-                }
+                env: envWithPath
             });
 
             this.services.language_model.process = pythonProcess;
