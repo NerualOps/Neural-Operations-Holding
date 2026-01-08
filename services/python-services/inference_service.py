@@ -363,7 +363,8 @@ async def generate(request: GenerateRequest):
                 max_new_tokens=request.max_new_tokens,
                 temperature=request.temperature,
                 top_p=request.top_p,
-                top_k=50  # Default top_k
+                top_k=50,  # Default top_k
+                repetition_penalty=1.2  # Penalize repetition
             )
         
         # Decode generated tokens (only new tokens)
@@ -374,17 +375,37 @@ async def generate(request: GenerateRequest):
         vocab_size = len(tokenizer.get_vocab()) if hasattr(tokenizer, 'get_vocab') else model_config.vocab_size
         generated_ids = [tid for tid in generated_ids if 0 <= tid < vocab_size]
         
-        if not generated_ids:
+        # Remove consecutive duplicate tokens (repetition filter)
+        filtered_ids = []
+        prev_id = None
+        for tid in generated_ids:
+            if tid != prev_id:
+                filtered_ids.append(tid)
+                prev_id = tid
+            # Allow some repetition but not excessive
+            elif len(filtered_ids) < 2 or filtered_ids[-2] != tid:
+                filtered_ids.append(tid)
+        
+        if not filtered_ids:
             generated_text = ""
         else:
-            generated_text = tokenizer.decode(generated_ids)
-            
-            # Clean up BPE artifacts (Ġ is a space marker in BPE tokenizers)
-            # Replace with actual spaces
-            generated_text = generated_text.replace('Ġ', ' ')
-            
-            # Remove any remaining special tokens or artifacts
-            generated_text = generated_text.strip()
+            try:
+                generated_text = tokenizer.decode(filtered_ids)
+                
+                # Clean up BPE artifacts (Ġ is a space marker in BPE tokenizers)
+                # Replace with actual spaces
+                generated_text = generated_text.replace('Ġ', ' ')
+                
+                # Remove any remaining special tokens or artifacts
+                generated_text = generated_text.strip()
+                
+                # If output is just numbers or single token repeated, it's likely broken
+                if len(set(generated_text.split())) <= 2 and len(generated_text) > 20:
+                    # Model is stuck - return a fallback message
+                    generated_text = "I'm still learning. Please try again or check the model configuration."
+            except Exception as e:
+                print(f"[INFERENCE SERVICE] Decode error: {e}", flush=True)
+                generated_text = "Error generating response. Please try again."
         
         # Apply stop sequences if provided
         if request.stop:

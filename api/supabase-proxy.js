@@ -609,9 +609,9 @@ async function handleGetEpsilonResponse(body) {
     // Use more conservative generation parameters for better quality
     const result = await inferenceClient.generate({
       prompt: user_message,
-      max_new_tokens: 128,  // Reduced for faster, more focused responses
-      temperature: 0.5,     // Lower temperature for more deterministic output
-      top_p: 0.85           // Slightly lower top_p for better quality
+      max_new_tokens: 150,  // Reasonable length for responses
+      temperature: 0.8,     // Balanced temperature for creativity vs coherence
+      top_p: 0.9           // Nucleus sampling for quality
     });
     
     if (!result || !result.text) {

@@ -93,7 +93,8 @@ class EpsilonTransformerLM(nn.Module):
         max_new_tokens: int = 100,
         temperature: float = 0.9,
         top_p: float = 0.9,
-        top_k: int = 50
+        top_k: int = 50,
+        repetition_penalty: float = 1.1
     ) -> torch.Tensor:
         """
         Generate text using the model
@@ -104,12 +105,16 @@ class EpsilonTransformerLM(nn.Module):
             temperature: sampling temperature
             top_p: nucleus sampling threshold
             top_k: top-k sampling
+            repetition_penalty: penalty for repeating tokens (1.0 = no penalty, >1.0 = penalty)
         
         Returns:
             generated_ids: (batch, seq_len + max_new_tokens) generated token IDs
         """
         self.eval()
         generated = input_ids.clone()
+        
+        # Track recent tokens for repetition penalty
+        recent_tokens = generated[0].tolist()[-10:] if generated.shape[0] > 0 else []
         
         for _ in range(max_new_tokens):
             # Forward pass
@@ -118,9 +123,18 @@ class EpsilonTransformerLM(nn.Module):
             # Get logits for last token
             next_token_logits = logits[:, -1, :] / temperature
             
+            # Apply repetition penalty
+            if repetition_penalty != 1.0 and len(recent_tokens) > 0:
+                for token_id in set(recent_tokens[-5:]):  # Penalize last 5 unique tokens
+                    if next_token_logits[0, token_id] > 0:
+                        next_token_logits[0, token_id] /= repetition_penalty
+                    else:
+                        next_token_logits[0, token_id] *= repetition_penalty
+            
             # Apply top-k filtering
             if top_k > 0:
-                indices_to_remove = next_token_logits < torch.topk(next_token_logits, top_k)[0][..., -1, None]
+                top_k_val = min(top_k, next_token_logits.size(-1))
+                indices_to_remove = next_token_logits < torch.topk(next_token_logits, top_k_val)[0][..., -1, None]
                 next_token_logits[indices_to_remove] = float('-inf')
             
             # Apply top-p (nucleus) filtering
@@ -135,10 +149,26 @@ class EpsilonTransformerLM(nn.Module):
             
             # Sample next token
             probs = torch.softmax(next_token_logits, dim=-1)
-            next_token = torch.multinomial(probs, num_samples=1)
+            
+            # Avoid sampling padding/invalid tokens
+            if probs.numel() > 0 and not torch.isnan(probs).any():
+                # Ensure we have valid probabilities
+                if probs.sum() > 0:
+                    next_token = torch.multinomial(probs, num_samples=1)
+                else:
+                    # All probabilities are zero/inf - use argmax as fallback
+                    next_token = torch.argmax(next_token_logits, dim=-1, keepdim=True)
+            else:
+                # Fallback if all tokens filtered out or NaN
+                next_token = torch.argmax(next_token_logits, dim=-1, keepdim=True)
             
             # Append to generated sequence
             generated = torch.cat([generated, next_token], dim=1)
+            
+            # Update recent tokens (keep last 10)
+            recent_tokens.append(next_token[0, 0].item())
+            if len(recent_tokens) > 10:
+                recent_tokens.pop(0)
         
         return generated
 
