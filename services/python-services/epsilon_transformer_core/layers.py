@@ -42,14 +42,13 @@ class RoPE(nn.Module):
             seq_len = x.shape[-2]
         
         head_dim = x.shape[-1]
-        cos = self.cos_cached[:, :, :seq_len, :head_dim]
-        sin = self.sin_cached[:, :, :seq_len, :head_dim]
+        cached_dim = self.cos_cached.shape[-1]
         
-        # Handle case where head_dim doesn't match cached dimensions
-        if head_dim != self.dim:
-            # Recompute RoPE for this dimension if needed
+        # Check if dimensions match
+        if head_dim != cached_dim:
+            # Recompute RoPE for the actual head_dim
             if head_dim % 2 != 0:
-                # If odd dimension, pad to even
+                # If odd dimension, pad to even (RoPE requires even dimensions)
                 x = F.pad(x, (0, 1), mode='constant', value=0)
                 head_dim = head_dim + 1
             
@@ -60,8 +59,21 @@ class RoPE(nn.Module):
             emb = torch.cat([freqs, freqs], dim=-1)
             cos = emb.cos()[None, None, :, :]
             sin = emb.sin()[None, None, :, :]
+        else:
+            # Use cached values
+            cos = self.cos_cached[:, :, :seq_len, :head_dim]
+            sin = self.sin_cached[:, :, :seq_len, :head_dim]
         
+        # Split x into two halves for RoPE
         x1, x2 = x.chunk(2, dim=-1)
+        half_dim = x1.shape[-1]
+        
+        # Ensure cos/sin match the split dimension
+        if cos.shape[-1] != half_dim:
+            cos = cos[:, :, :, :half_dim]
+        if sin.shape[-1] != half_dim:
+            sin = sin[:, :, :, :half_dim]
+        
         return torch.cat([x1 * cos - x2 * sin, x1 * sin + x2 * cos], dim=-1)
 
 

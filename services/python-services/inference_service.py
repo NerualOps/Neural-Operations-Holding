@@ -81,12 +81,25 @@ def load_model(model_dir: str):
     else:
         state_dict = checkpoint
     
-    # Infer actual model dimensions from weights if config doesn't match
+    # Infer actual model dimensions from weights
     if 'token_embedding.weight' in state_dict:
         actual_vocab_size = state_dict['token_embedding.weight'].shape[0]
         actual_d_model = state_dict['token_embedding.weight'].shape[1]
         
-        # Check if config matches actual weights
+        # Infer n_heads from attention weights
+        actual_n_heads = model_config.n_heads
+        if 'blocks.0.attn.q_proj.weight' in state_dict:
+            q_weight = state_dict['blocks.0.attn.q_proj.weight']
+            # q_proj should be (d_model, d_model), and we can infer head_dim from RoPE if present
+            if 'blocks.0.attn.rope.cos_cached' in state_dict:
+                rope_dim = state_dict['blocks.0.attn.rope.cos_cached'].shape[-1]
+                # rope_dim should equal head_dim, and head_dim = d_model / n_heads
+                inferred_n_heads = actual_d_model // rope_dim
+                if inferred_n_heads > 0 and inferred_n_heads <= 32:
+                    actual_n_heads = inferred_n_heads
+                    print(f"[INFERENCE SERVICE] Inferred n_heads={actual_n_heads} from RoPE dimension")
+        
+        # Update config if needed
         if model_config.vocab_size != actual_vocab_size:
             print(f"[INFERENCE SERVICE] WARNING: Config vocab_size ({model_config.vocab_size}) doesn't match model ({actual_vocab_size}). Updating config.")
             model_config.vocab_size = actual_vocab_size
@@ -94,6 +107,10 @@ def load_model(model_dir: str):
         if model_config.d_model != actual_d_model:
             print(f"[INFERENCE SERVICE] WARNING: Config d_model ({model_config.d_model}) doesn't match model ({actual_d_model}). Updating config.")
             model_config.d_model = actual_d_model
+        
+        if model_config.n_heads != actual_n_heads:
+            print(f"[INFERENCE SERVICE] WARNING: Config n_heads ({model_config.n_heads}) doesn't match model ({actual_n_heads}). Updating config.")
+            model_config.n_heads = actual_n_heads
     
     # Create model with potentially updated config
     model = EpsilonTransformerLM(model_config)
@@ -101,10 +118,15 @@ def load_model(model_dir: str):
     # Load weights with strict=False to handle minor mismatches
     try:
         model.load_state_dict(state_dict, strict=True)
+        print(f"[INFERENCE SERVICE] Model weights loaded successfully (strict mode)")
     except RuntimeError as e:
         print(f"[INFERENCE SERVICE] WARNING: Strict loading failed: {e}")
         print(f"[INFERENCE SERVICE] Attempting non-strict loading...")
-        model.load_state_dict(state_dict, strict=False)
+        missing_keys, unexpected_keys = model.load_state_dict(state_dict, strict=False)
+        if missing_keys:
+            print(f"[INFERENCE SERVICE] Missing keys: {missing_keys[:5]}...")
+        if unexpected_keys:
+            print(f"[INFERENCE SERVICE] Unexpected keys: {unexpected_keys[:5]}...")
     
     model.eval()
     
