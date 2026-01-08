@@ -421,6 +421,10 @@ class PythonServiceManager {
                             throw new Error('Cannot start inference service: Python dependencies not available');
                         }
                     }
+                } else {
+                    // No requirements.txt found - skip install, dependencies should be in build
+                    console.log('[PYTHON MANAGER] No requirements.txt found, assuming dependencies installed during build');
+                }
             }
             
             // Add local bin to PATH so uvicorn can be found
