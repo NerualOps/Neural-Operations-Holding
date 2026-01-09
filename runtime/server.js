@@ -4375,11 +4375,12 @@ app.get('/owner.html', verifyAuth('owner'), (req, res) => {
   }
 });
 
-app.get('/client', verifyAuth('client'), (req, res) => {
+// CRM homepage - Public access (no authentication required)
+app.get('/client', (req, res) => {
   serveSecureHTML(req, res, path.join(__dirname, '../ui/client.html'));
 });
 
-app.get('/client.html', verifyAuth('client'), (req, res) => {
+app.get('/client.html', (req, res) => {
   serveSecureHTML(req, res, path.join(__dirname, '../ui/client.html'));
 });
 
@@ -4723,9 +4724,10 @@ app.get('/api/test', (req, res) => {
 });
 
 // Get Supabase public credentials for frontend
+// SECURITY: Only expose ANON_KEY, NEVER service key
 app.get('/api/supabase-config', (req, res) => {
   const url = process.env.SUPABASE_URL;
-  const anonKey = process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_KEY;
+  const anonKey = process.env.SUPABASE_ANON_KEY; // NEVER use SERVICE_KEY here
   
   if (!url || !anonKey) {
     console.error(' [SUPABASE CONFIG] Missing Supabase credentials', {

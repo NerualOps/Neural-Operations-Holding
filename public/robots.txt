@@ -17,7 +17,7 @@ Disallow: /owner
 Disallow: /edit_profile
 Disallow: /login
 Disallow: /register
-Disallow: /client
+Allow: /client
 
 # Allow Googlebot specifically for better indexing
 User-agent: Googlebot
@@ -35,7 +35,7 @@ Disallow: /owner
 Disallow: /edit_profile
 Disallow: /login
 Disallow: /register
-Disallow: /client
+Allow: /client
 
 # Sitemap location
 Sitemap: https://neuralops.biz/sitemap.xml
