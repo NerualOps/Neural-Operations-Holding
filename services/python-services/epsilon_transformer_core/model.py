@@ -4,6 +4,7 @@ Epsilon Transformer Language Model - PyTorch Implementation
 import torch
 import torch.nn as nn
 from typing import Optional, Tuple
+from torch.utils.checkpoint import checkpoint
 from .config import TransformerConfig
 from .layers import TransformerBlock, RMSNorm
 
@@ -48,7 +49,8 @@ class EpsilonTransformerLM(nn.Module):
         self, 
         input_ids: torch.Tensor, 
         targets: Optional[torch.Tensor] = None,
-        mask: Optional[torch.Tensor] = None
+        mask: Optional[torch.Tensor] = None,
+        use_gradient_checkpointing: bool = False
     ) -> Tuple[torch.Tensor, Optional[torch.Tensor]]:
         """
         Forward pass
@@ -57,6 +59,7 @@ class EpsilonTransformerLM(nn.Module):
             input_ids: (batch, seq_len) token IDs
             targets: (batch, seq_len) target token IDs for loss computation
             mask: (batch, seq_len) attention mask
+            use_gradient_checkpointing: If True, use gradient checkpointing to save memory
         
         Returns:
             logits: (batch, seq_len, vocab_size)
@@ -65,9 +68,22 @@ class EpsilonTransformerLM(nn.Module):
         # Embeddings
         x = self.token_embedding(input_ids)  # (batch, seq_len, d_model)
         
-        # Apply transformer blocks
-        for block in self.blocks:
-            x = block(x, mask)
+        # Apply transformer blocks with optional gradient checkpointing
+        if use_gradient_checkpointing:
+            # Use gradient checkpointing to trade compute for memory
+            # Checkpoint every 2 blocks to balance memory savings vs recompute cost
+            for i, block in enumerate(self.blocks):
+                if i % 2 == 0 and i < len(self.blocks) - 1:
+                    # Checkpoint this block and the next one together
+                    def checkpoint_block(x_in):
+                        return block(x_in, mask)
+                    x = checkpoint(checkpoint_block, x, use_reentrant=False)
+                else:
+                    x = block(x, mask)
+        else:
+            # Normal forward pass
+            for block in self.blocks:
+                x = block(x, mask)
         
         # Final norm
         x = self.norm(x)

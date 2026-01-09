@@ -1776,16 +1776,11 @@
 
 
         <div class="dashboard-section">
-            <h2 class="section-title">Pending Deployments</h2>
+            <h2 class="section-title">Model Deployments</h2>
             <p class="section-description" style="color: rgba(255, 255, 255, 0.7); margin-bottom: 1.5rem; font-size: 0.9rem;">
-                Epsilon AI automatically creates deployment proposals when it improves. Review and approve them here.
-                <br><strong style="color: rgba(0, 210, 140, 0.9);">Click "Approve" to deploy Epsilon AI's improvements to production.</strong>
+                Models are automatically approved and deployed after passing 6 quality validation checks.
+                <br><strong style="color: rgba(0, 210, 140, 0.9);">No manual approval needed - the system ensures quality automatically.</strong>
             </p>
-            <div id="pending-deployments-container">
-                <div class="loading">Loading pending deployments...</div>
-            </div>
-
-            <h2 class="section-title" style="margin-top: 3rem;">Deployment History</h2>
             <div id="deployment-history-container">
                 <div class="loading">Loading deployment history...</div>
             </div>
@@ -4327,7 +4322,7 @@
             // Load additional insights
             loadEpsilonLearningInsights();
             loadAdvancedLearningInsights();
-            loadPendingDeployments();
+            // Models auto-approve - no pending list needed
         }
 
         async function loadEpsilonLearningInsights() {
@@ -4489,161 +4484,9 @@
         }
 
         // Load and display pending deployments
-        async function loadPendingDeployments() {
-            try {
-                const container = document.getElementById('pending-deployments-container');
-                if (!container) {
-                    console.warn('[DEPLOY] pending-deployments-container not found');
-                    return;
-                }
+        // Removed loadPendingDeployments - models auto-approve after validation
 
-                console.log('📡 [DEPLOY] Fetching pending deployments...');
-                const response = await fetch('/api/epsilon-llm/deploys/pending', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-Token': getCsrfTokenForRequest()
-                    },
-                    credentials: 'include'
-                });
-
-                console.log('📡 [DEPLOY] Response status:', response.status);
-
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error('[DEPLOY] HTTP error:', response.status, errorText);
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const result = await response.json();
-                console.log('📡 [DEPLOY] Response data:', result);
-                const deploys = result.deploys || [];
-                console.log(`📡 [DEPLOY] Found ${deploys.length} pending deployments`);
-
-                if (deploys.length === 0) {
-                    container.innerHTML = '<div class="no-data">No pending deployments. Epsilon AI will create one when it improves!</div>';
-                    return;
-                }
-
-                container.innerHTML = deploys.map(deploy => `
-                    <div class="deployment-card" style="margin-bottom: 1.5rem; padding: 1.5rem; border: 1px solid var(--neural-border); border-radius: 8px; background: var(--neural-bg-secondary);">
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
-                            <div>
-                                <h3 style="margin: 0 0 0.5rem 0; color: var(--neural-text);">Version ${deploy.version}</h3>
-                                <div style="display: flex; gap: 1rem; font-size: 0.9rem; color: var(--neural-text-secondary);">
-                                    <span>Quality: ${((deploy.quality_score || 0) * 100).toFixed(1)}%</span>
-                                    <span>Improvement: +${((deploy.improvement || 0) * 100).toFixed(1)}%</span>
-                                    <span>Samples: ${deploy.training_samples || 0}</span>
-                                </div>
-                            </div>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <button class="action-btn" onclick="approveDeployment('${deploy.id || deploy.deploy_id || deploy.deployment_id || ''}')" style="background: var(--neural-primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">Approve</button>
-                                <button class="action-btn" onclick="rejectDeployment('${deploy.id || deploy.deploy_id || deploy.deployment_id || ''}')" style="background: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">Reject</button>
-                            </div>
-                        </div>
-                        <div style="background: var(--neural-bg); padding: 1rem; border-radius: 4px; margin-top: 1rem;">
-                            <h4 style="margin: 0 0 0.5rem 0; color: var(--neural-text);">What Was Learned:</h4>
-                            <div style="color: var(--neural-text-secondary); white-space: pre-wrap; line-height: 1.6;">${deploy.learning_description || 'No description available'}</div>
-                        </div>
-                        <div style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--neural-text-secondary);">
-                            Created: ${new Date(deploy.created_at).toLocaleString()}
-                        </div>
-                    </div>
-                `).join('');
-
-            } catch (error) {
-                console.error('[OWNER] Error loading pending deployments:', error);
-                console.error('   Response status:', error.status || 'unknown');
-                console.error('   Error details:', error);
-                const container = document.getElementById('pending-deployments-container');
-                if (container) {
-                    container.innerHTML = `<div class="error" style="color: #dc3545; padding: 1rem; background: rgba(220, 53, 69, 0.1); border-radius: 4px;">
-                        <strong>Failed to load pending deployments:</strong><br>
-                        ${error.message || 'Unknown error'}<br>
-                        <small style="opacity: 0.7;">Check browser console and server logs for details</small>
-                    </div>`;
-                }
-            }
-        }
-
-        // Approve deployment
-        async function approveDeployment(deployId) {
-            // Safety check: validate deployId
-            if (!deployId || typeof deployId !== 'string' || deployId.length > 100) {
-                alert('Invalid deployment reference. Refresh the list and try again.');
-                return;
-            }
-            try {
-                // XSS protection: encode deployId in URL
-                const encodedDeployId = encodeURIComponent(deployId);
-                const response = await fetch(`/api/epsilon-llm/deploys/${encodedDeployId}/approve`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-Token': getCsrfTokenForRequest()
-                    },
-                    credentials: 'include'
-                });
-
-                if (!response.ok) {
-                    const error = await response.json();
-                    throw new Error(error.error || 'Failed to approve deployment');
-                }
-
-                const result = await response.json();
-                alert(`Deployment approved! ${result.message}`);
-                loadPendingDeployments(); // Refresh list
-                loadDeploymentHistory(); // Refresh history
-                updateTrainingStatus(); // Update status
-            } catch (error) {
-                console.error('[OWNER] Error approving deployment:', error);
-                alert(`Failed to approve deployment: ${error.message}`);
-            }
-        }
-        
-        // Attach to window for global access
-        window.approveDeployment = approveDeployment;
-
-        // Reject deployment
-        async function rejectDeployment(deployId) {
-            // Safety check: validate deployId
-            if (!deployId || typeof deployId !== 'string' || deployId.length > 100) {
-                alert('Invalid deployment reference. Refresh the list and try again.');
-                return;
-            }
-            if (!confirm('Are you sure you want to reject this deployment?')) {
-                return;
-            }
-
-            try {
-                // XSS protection: encode deployId in URL
-                const encodedDeployId = encodeURIComponent(deployId);
-                const response = await fetch(`/api/epsilon-llm/deploys/${encodedDeployId}/reject`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-Token': getCsrfTokenForRequest()
-                    },
-                    credentials: 'include'
-                });
-
-                if (!response.ok) {
-                    const error = await response.json();
-                    throw new Error(error.error || 'Failed to reject deployment');
-                }
-
-                alert('Deployment rejected');
-                loadPendingDeployments(); // Refresh list
-                loadDeploymentHistory(); // Refresh history
-                updateTrainingStatus(); // Update status
-            } catch (error) {
-                console.error('[OWNER] Error rejecting deployment:', error);
-                alert(`Failed to reject deployment: ${error.message}`);
-            }
-        }
-        
-        // Attach to window for global access
-        window.rejectDeployment = rejectDeployment;
+        // Approval/reject functions removed - models auto-approve after validation
 
         // Load deployment history
         async function loadDeploymentHistory() {
@@ -5037,7 +4880,7 @@
                     loadLearningMetrics(),
                     loadEpsilonLearning(),
                     refreshAdvancedLearning(),
-                    loadPendingDeployments()
+                    loadDeploymentHistory()
                 ]);
 
                 setTimeout(() => {

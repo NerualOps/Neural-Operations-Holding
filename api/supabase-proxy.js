@@ -602,7 +602,7 @@ async function handleGetEpsilonResponse(body) {
     // Optimized generation parameters for fast, quality responses
     const result = await inferenceClient.generate({
       prompt: user_message,
-      max_new_tokens: 75,   // Faster responses - GPT-2 style
+      max_new_tokens: 75,   // Faster responses
       temperature: 0.7,     // Slightly lower for more coherent output
       top_p: 0.9,          // Nucleus sampling
       repetition_penalty: 1.3  // Prevent repetition loops

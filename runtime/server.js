@@ -3539,6 +3539,45 @@ app.use('/.netlify/functions/auth', authLimiter, netlifyToExpress(authHandler));
 app.use('/api/analytics', apiLimiter, netlifyToExpress(analyticsHandler));
 app.use('/.netlify/functions/analytics', apiLimiter, netlifyToExpress(analyticsHandler));
 
+// Public analytics tracking endpoint (no auth required - for cookie consent tracking)
+app.post('/api/analytics/track', apiLimiter, async (req, res) => {
+  try {
+    const { event, data, timestamp, userAgent, language, screen, viewport } = req.body;
+    
+    if (!event) {
+      return res.status(400).json({ error: 'Event name is required' });
+    }
+    
+    // Get client IP
+    const clientIP = getClientIP(req);
+    
+    // Store analytics event in Supabase (non-blocking)
+    if (supabase) {
+      supabase.from('analytics_events').insert({
+        event_type: event,
+        event_data: data || {},
+        user_id: null, // Anonymous tracking
+        session_id: req.headers['x-session-id'] || null,
+        ip_address: clientIP,
+        user_agent: userAgent || req.headers['user-agent'],
+        created_at: timestamp || new Date().toISOString()
+      }).then(() => {
+        // Silent success
+      }).catch((err) => {
+        // Silent failure - don't break the site
+        console.debug('Analytics tracking failed:', err.message);
+      });
+    }
+    
+    // Always return success (analytics should never break the site)
+    res.json({ success: true });
+  } catch (error) {
+    // Silent failure - analytics should never break the site
+    console.debug('Analytics tracking error:', error.message);
+    res.json({ success: false });
+  }
+});
+
 // Analytics fallback endpoint removed - all analytics must go through /api/analytics
 // This ensures proper error handling and service availability checks
 // Debug endpoint removed - use /api/documents instead
@@ -5856,57 +5895,7 @@ else:
   });
   */
 
-  // Reject deployment
-  app.post('/api/epsilon-llm/deploys/:deployId/reject', verifyAuth('owner'), async (req, res) => {
-    try {
-      const { deployId } = req.params;
-      
-      // First, verify the deployment exists and is pending
-      const { data: existingDeploy, error: fetchError } = await supabase
-        .from('epsilon_model_deployments')
-        .select('id, model_id, version, stats, quality_score, improvement, training_samples, learning_description, status, created_at, created_by, storage_path, model_data')
-        .eq('id', deployId)
-        .eq('status', 'pending')
-        .limit(1).maybeSingle();
-
-      if (fetchError || !existingDeploy) {
-        console.error(' [DEPLOY] Reject failed - deployment not found:', fetchError?.message || 'Deployment not found');
-        return res.status(404).json({ success: false, error: 'Pending deployment not found' });
-      }
-
-      // Get user identifier for audit trail
-      const userIdentifier = req.user?.email || req.user?.id || 'owner';
-      
-      // Update to rejected status
-      // Note: The constraint allows 'rejected' status without model_data/storage_path
-      // (only 'approved' status requires model data)
-      const { data: updatedDeploy, error: updateError } = await supabase
-        .from('epsilon_model_deployments')
-        .update({
-          status: 'rejected',
-          approved_by: userIdentifier,
-          approved_at: new Date().toISOString()
-        })
-        .eq('id', deployId)
-        .select()
-        .limit(1).maybeSingle();
-
-      if (updateError) {
-        console.error(' [DEPLOY] Reject update failed:', updateError);
-        return res.status(500).json({ success: false, error: 'Failed to update deployment status' });
-      }
-
-      console.log(` [DEPLOY] Deployment ${existingDeploy.version} rejected by ${userIdentifier}`);
-
-      res.json({
-        success: true,
-        message: `Deployment ${existingDeploy.version} rejected`
-      });
-    } catch (error) {
-      console.error(' [DEPLOY] Rejection failed:', error);
-      res.status(500).json({ success: false, error: error.message || 'Failed to reject deployment' });
-    }
-  });
+  // Reject endpoint removed - models auto-approve if they pass validation
 
   // Get deploy history
   app.get('/api/epsilon-llm/deploys/history', verifyAuth('owner'), async (req, res) => {
