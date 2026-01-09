@@ -650,6 +650,35 @@ app.get('/rag-document-processor.js', (req, res) => {
   serveObfuscatedFile(req, res, 'services/rag-document-processor.js', 'obfuscated/rag-document-processor.js');
 });
 
+// Public JavaScript files - cookie consent and analytics (no obfuscation needed)
+app.get('/cookie-consent.js', (req, res) => {
+  const filePath = path.join(__dirname, '../public/cookie-consent.js');
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).send('// Cookie consent script not found');
+  }
+  const content = fs.readFileSync(filePath, 'utf8');
+  res.set({
+    'Content-Type': 'application/javascript',
+    'X-Content-Type-Options': 'nosniff',
+    'Cache-Control': 'public, max-age=31536000' // Cache for 1 year
+  });
+  res.send(content);
+});
+
+app.get('/analytics.js', (req, res) => {
+  const filePath = path.join(__dirname, '../public/analytics.js');
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).send('// Analytics script not found');
+  }
+  const content = fs.readFileSync(filePath, 'utf8');
+  res.set({
+    'Content-Type': 'application/javascript',
+    'X-Content-Type-Options': 'nosniff',
+    'Cache-Control': 'public, max-age=31536000' // Cache for 1 year
+  });
+  res.send(content);
+});
+
 // Training files route
 // Apply the protected files middleware AFTER file routes
 app.use(protectSourceFiles);
