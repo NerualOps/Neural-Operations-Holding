@@ -385,6 +385,12 @@ async def generate(request: GenerateRequest):
     if model is None or tokenizer is None:
         raise HTTPException(status_code=503, detail="Model not loaded. Check /health endpoint.")
     
+    # Initialize variables for exception handling
+    generated_text = None
+    generated_ids = []
+    prompt_token_count = 0
+    model_id = None
+    
     try:
         # Encode prompt
         encoded = tokenizer.encode(request.prompt)
@@ -496,12 +502,16 @@ async def generate(request: GenerateRequest):
                         raise ValueError("Model stuck in repetition loop - insufficient unique content")
         
         # Final validation - output must be meaningful
-        if len(generated_text.strip()) < 5:
+        # Be lenient for base model - it can generate short or imperfect text before fine-tuning
+        if len(generated_text.strip()) < 3:
+            # Only block if completely empty or just 1-2 chars
             raise ValueError("Generated text too short")
         
-        # Check for emoji-only or special char spam (less than 30% alphanumeric)
+        # Check for emoji-only or special char spam (less than 20% alphanumeric - more lenient)
+        # Base model may generate imperfect output before fine-tuning
         alphanumeric = sum(1 for c in generated_text if c.isalnum() or c.isspace())
-        if alphanumeric < len(generated_text) * 0.3:
+        if len(generated_text) > 10 and alphanumeric < len(generated_text) * 0.2:
+            # Only block if it's clearly spam (very short text with lots of special chars is OK)
             raise ValueError("Output contains too many special characters/emojis")
         
         # Apply stop sequences if provided
@@ -527,14 +537,23 @@ async def generate(request: GenerateRequest):
         )
     
     except ValueError as ve:
-        # Gibberish or validation errors - don't block, just log warning
+        # All validation errors - be lenient for base model before fine-tuning
         error_msg = str(ve)
-        if "gibberish" in error_msg.lower() or "fine-tuned" in error_msg.lower():
-            # Don't block on gibberish - base model can be random before fine-tuning
-            print(f"[INFERENCE SERVICE] NOTE: Model output may be random before fine-tuning. Consider fine-tuning for better results.", flush=True)
-            # Continue and return the generated text anyway
-        else:
-            raise HTTPException(status_code=422, detail=error_msg)
+        print(f"[INFERENCE SERVICE] NOTE: Validation warning - {error_msg}. Model may need fine-tuning for better output.", flush=True)
+        # Don't block - return whatever we generated, even if imperfect
+        # Base model can be random/imperfect before fine-tuning
+        # Return a fallback message if we have nothing, otherwise return what we have
+        if not generated_text or len(generated_text.strip()) < 3:
+            generated_text = "I'm still learning. Please fine-tune the model for better responses."
+        
+        return GenerateResponse(
+            text=generated_text,
+            model_id=model_id,
+            tokens={
+                "prompt": prompt_token_count,
+                "completion": len(generated_ids)
+            }
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Generation failed: {str(e)}")
 
