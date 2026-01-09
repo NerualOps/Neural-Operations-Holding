@@ -4424,21 +4424,9 @@ app.get('/epsilon-ai', (req, res) => {
   res.send(content);
 });
 
+// Redirect .html versions to clean URLs (SEO: prevents duplicate content)
 app.get('/epsilon-ai.html', (req, res) => {
-  const filePath = path.join(__dirname, '../ui/epsilon.html');
-  if (!fs.existsSync(filePath)) {
-    return res.status(404).send('File not found');
-  }
-  
-  let content = fs.readFileSync(filePath, 'utf8');
-  
-  res.set({
-    'Content-Type': 'text/html',
-    'X-Content-Type-Options': 'nosniff',
-    'X-Frame-Options': 'DENY'
-  });
-  
-  res.send(content);
+  res.redirect(301, '/epsilon');
 });
 
 // /epsilon route - serves epsilon.html
@@ -4464,16 +4452,18 @@ app.get('/contact', (req, res) => {
   serveSecureHTML(req, res, path.join(__dirname, '../ui/contact.html'));
 });
 
+// Redirect .html versions to clean URLs (SEO: prevents duplicate content)
 app.get('/contact.html', (req, res) => {
-  serveSecureHTML(req, res, path.join(__dirname, '../ui/contact.html'));
+  res.redirect(301, '/contact');
 });
 
 app.get('/copyright', (req, res) => {
   serveSecureHTML(req, res, path.join(__dirname, '../ui/copyright.html'));
 });
 
+// Redirect .html versions to clean URLs (SEO: prevents duplicate content)
 app.get('/copyright.html', (req, res) => {
-  serveSecureHTML(req, res, path.join(__dirname, '../ui/copyright.html'));
+  res.redirect(301, '/copyright');
 });
 
 // Removed /how_ai_works and /intelligence routes - pages deleted
@@ -4490,6 +4480,11 @@ app.get('/privacy', (req, res) => {
   serveSecureHTML(req, res, path.join(__dirname, '../ui/privacy.html'));
 });
 
+// Redirect .html versions to clean URLs (SEO: prevents duplicate content)
+app.get('/privacy.html', (req, res) => {
+  res.redirect(301, '/privacy');
+});
+
 app.get('/privacy.html', (req, res) => {
   serveSecureHTML(req, res, path.join(__dirname, '../ui/privacy.html'));
 });
@@ -4498,8 +4493,9 @@ app.get('/terms', (req, res) => {
   serveSecureHTML(req, res, path.join(__dirname, '../ui/terms.html'));
 });
 
+// Redirect .html versions to clean URLs (SEO: prevents duplicate content)
 app.get('/terms.html', (req, res) => {
-  serveSecureHTML(req, res, path.join(__dirname, '../ui/terms.html'));
+  res.redirect(301, '/terms');
 });
 
 // Security.txt route (RFC 9116)
@@ -4520,8 +4516,9 @@ app.get('/process', (req, res) => {
   serveSecureHTML(req, res, path.join(__dirname, '../ui/process.html'));
 });
 
+// Redirect .html versions to clean URLs (SEO: prevents duplicate content)
 app.get('/process.html', (req, res) => {
-  serveSecureHTML(req, res, path.join(__dirname, '../ui/process.html'));
+  res.redirect(301, '/process');
 });
 
 app.get('/register', (req, res) => {

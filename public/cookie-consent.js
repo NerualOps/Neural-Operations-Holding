@@ -25,7 +25,14 @@
         setCookie('cookie_analytics', 'true', 365);
         setCookie('cookie_marketing', 'true', 365);
         const banner = document.getElementById('cookie-consent-banner');
-        if (banner) banner.style.display = 'none';
+        if (banner) {
+            // Smooth fade out animation
+            banner.style.opacity = '0';
+            banner.style.transform = 'translateY(100%)';
+            setTimeout(function() {
+                banner.style.display = 'none';
+            }, 300);
+        }
         
         // Initialize analytics if enabled
         if (typeof gtag !== 'undefined') {
@@ -60,8 +67,19 @@
         
         const modal = document.getElementById('cookie-preferences-modal');
         const banner = document.getElementById('cookie-consent-banner');
-        if (modal) modal.style.display = 'none';
-        if (banner) banner.style.display = 'none';
+        if (modal) {
+            modal.style.opacity = '0';
+            setTimeout(function() {
+                modal.style.display = 'none';
+            }, 200);
+        }
+        if (banner) {
+            banner.style.opacity = '0';
+            banner.style.transform = 'translateY(100%)';
+            setTimeout(function() {
+                banner.style.display = 'none';
+            }, 300);
+        }
         
         // Update Google Analytics consent
         if (typeof gtag !== 'undefined') {
@@ -92,10 +110,21 @@
         const banner = document.getElementById('cookie-consent-banner');
         
         if (!consent && banner) {
-            // Show banner after page load
-            setTimeout(function() {
+            // Show banner immediately with smooth animation
+            // Use requestAnimationFrame for smooth rendering
+            requestAnimationFrame(function() {
                 banner.style.display = 'block';
-            }, 1000);
+                // Trigger CSS transition
+                requestAnimationFrame(function() {
+                    banner.style.opacity = '0';
+                    banner.style.transform = 'translateY(100%)';
+                    banner.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    requestAnimationFrame(function() {
+                        banner.style.opacity = '1';
+                        banner.style.transform = 'translateY(0)';
+                    });
+                });
+            });
         } else if (consent) {
             // Load saved preferences
             const analytics = getCookie('cookie_analytics') === 'true';
@@ -120,14 +149,28 @@
         if (preferencesBtn) {
             preferencesBtn.addEventListener('click', function() {
                 const modal = document.getElementById('cookie-preferences-modal');
-                if (modal) modal.style.display = 'block';
+                if (modal) {
+                    modal.style.display = 'block';
+                    requestAnimationFrame(function() {
+                        modal.style.opacity = '0';
+                        modal.style.transition = 'opacity 0.2s ease';
+                        requestAnimationFrame(function() {
+                            modal.style.opacity = '1';
+                        });
+                    });
+                }
             });
         }
         
         if (closeBtn) {
             closeBtn.addEventListener('click', function() {
                 const modal = document.getElementById('cookie-preferences-modal');
-                if (modal) modal.style.display = 'none';
+                if (modal) {
+                    modal.style.opacity = '0';
+                    setTimeout(function() {
+                        modal.style.display = 'none';
+                    }, 200);
+                }
             });
         }
         
@@ -140,7 +183,10 @@
         if (modal) {
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
-                    modal.style.display = 'none';
+                    modal.style.opacity = '0';
+                    setTimeout(function() {
+                        modal.style.display = 'none';
+                    }, 200);
                 }
             });
         }
