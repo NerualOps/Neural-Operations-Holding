@@ -4881,20 +4881,20 @@ Answer:`;
                     this.ragEmbeddingService = null;
                 }
             } else {
-                console.warn('[WARN] [RAG SYSTEM] RAGEmbeddingService not available');
+                // RAG services are optional - only log in debug mode
+                EpsilonLog.debug('RAG_EMBEDDING_UNAVAILABLE', 'RAGEmbeddingService not available (optional)');
             }
             
             // Initialize LLM service
             if (typeof window.RAGLLMService === 'function') {
                 this.ragLLMService = new window.RAGLLMService();
                 const llmInitialized = await this.ragLLMService.initialize();
-                if (llmInitialized) {
-                } else {
-                    console.warn('[WARN] [RAG SYSTEM] LLM service failed to initialize, using fallback');
+                if (!llmInitialized) {
+                    EpsilonLog.debug('RAG_LLM_INIT_FAILED', 'LLM service failed to initialize (using fallback)');
                     this.ragLLMService = null;
                 }
             } else {
-                console.warn('[WARN] [RAG SYSTEM] RAGLLMService not available');
+                EpsilonLog.debug('RAG_LLM_UNAVAILABLE', 'RAGLLMService not available (optional)');
             }
             
             // Initialize document processor
@@ -4904,7 +4904,7 @@ Answer:`;
                     this.ragEmbeddingService
                 );
             } else {
-                console.warn('[WARN] [RAG SYSTEM] RAGDocumentProcessor not available');
+                EpsilonLog.debug('RAG_PROCESSOR_UNAVAILABLE', 'RAGDocumentProcessor not available (optional)');
             }
             
             this.ragInitialized = true;

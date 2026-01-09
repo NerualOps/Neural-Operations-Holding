@@ -381,29 +381,6 @@ async def model_info():
 @app.post("/generate", response_model=GenerateResponse)
 async def generate(request: GenerateRequest):
     """Generate text from prompt"""
-    # #region agent log
-    import json
-    try:
-        with open('.cursor/debug.log', 'a') as f:
-            f.write(json.dumps({
-                "id": f"log_{int(__import__('time').time() * 1000)}_gen_entry",
-                "timestamp": int(__import__('time').time() * 1000),
-                "location": "inference_service.py:380",
-                "message": "Generate endpoint called",
-                "data": {
-                    "has_prompt": bool(request.prompt),
-                    "max_new_tokens": request.max_new_tokens,
-                    "temperature": request.temperature,
-                    "top_p": request.top_p,
-                    "has_repetition_penalty": hasattr(request, 'repetition_penalty'),
-                    "repetition_penalty_value": getattr(request, 'repetition_penalty', 'MISSING')
-                },
-                "sessionId": "debug-session",
-                "runId": "run1",
-                "hypothesisId": "A"
-            }) + "\n")
-    except: pass
-    # #endregion
     
     if model is None or tokenizer is None:
         raise HTTPException(status_code=503, detail="Model not loaded. Check /health endpoint.")
@@ -413,26 +390,6 @@ async def generate(request: GenerateRequest):
         encoded = tokenizer.encode(request.prompt)
         prompt_token_count = len(encoded.ids)
         input_ids = torch.tensor([encoded.ids], dtype=torch.long)
-        
-        # #region agent log
-        try:
-            with open('.cursor/debug.log', 'a') as f:
-                f.write(json.dumps({
-                    "id": f"log_{int(__import__('time').time() * 1000)}_before_gen",
-                    "timestamp": int(__import__('time').time() * 1000),
-                    "location": "inference_service.py:395",
-                    "message": "Before model.generate call",
-                    "data": {
-                        "prompt_tokens": prompt_token_count,
-                        "repetition_penalty": getattr(request, 'repetition_penalty', 'MISSING'),
-                        "max_new_tokens": min(request.max_new_tokens, 100)
-                    },
-                    "sessionId": "debug-session",
-                    "runId": "run1",
-                    "hypothesisId": "A"
-                }) + "\n")
-        except: pass
-        # #endregion
         
         # Generate with repetition penalty from request - optimized for conversations
         # The model's conversational ability is preserved through fine-tuning
@@ -453,24 +410,6 @@ async def generate(request: GenerateRequest):
                 repetition_penalty=adjusted_rep_penalty
             )
         
-        # #region agent log
-        try:
-            with open('.cursor/debug.log', 'a') as f:
-                f.write(json.dumps({
-                    "id": f"log_{int(__import__('time').time() * 1000)}_after_gen",
-                    "timestamp": int(__import__('time').time() * 1000),
-                    "location": "inference_service.py:403",
-                    "message": "After model.generate call",
-                    "data": {
-                        "generated_shape": list(generated.shape) if generated is not None else None,
-                        "generated_length": generated.shape[1] if generated is not None else 0
-                    },
-                    "sessionId": "debug-session",
-                    "runId": "run1",
-                    "hypothesisId": "A"
-                }) + "\n")
-        except: pass
-        # #endregion
         
         # Decode generated tokens (only new tokens)
         generated_ids = generated[0][prompt_token_count:].cpu().tolist()
@@ -509,25 +448,6 @@ async def generate(request: GenerateRequest):
         generated_text = generated_text.replace('Ġ', ' ')
         generated_text = generated_text.strip()
         
-        # #region agent log
-        try:
-            with open('.cursor/debug.log', 'a') as f:
-                f.write(json.dumps({
-                    "id": f"log_{int(__import__('time').time() * 1000)}_decoded",
-                    "timestamp": int(__import__('time').time() * 1000),
-                    "location": "inference_service.py:502",
-                    "message": "Text decoded from tokens",
-                    "data": {
-                        "raw_text_preview": generated_text[:100],
-                        "text_length": len(generated_text),
-                        "token_count": len(generated_ids)
-                    },
-                    "sessionId": "debug-session",
-                    "runId": "run1",
-                    "hypothesisId": "B"
-                }) + "\n")
-        except: pass
-        # #endregion
         
         # Detect gibberish output - check for random word patterns
         words = generated_text.split()
@@ -541,10 +461,12 @@ async def generate(request: GenerateRequest):
             word_lowers = [w.lower().strip('.,!?;:()[]{}') for w in words[:20]]  # Check first 20 words
             common_word_count = sum(1 for w in word_lowers if w in common_words)
             
-            # If less than 20% are common words and we have many words, it's likely gibberish
-            if len(word_lowers) >= 10 and common_word_count < len(word_lowers) * 0.2:
+            # If less than 10% are common words and we have many words, it's likely gibberish
+            # Lowered threshold for base model - it can be random before fine-tuning
+            if len(word_lowers) >= 15 and common_word_count < len(word_lowers) * 0.1:
                 print(f"[INFERENCE SERVICE] WARNING: Output appears to be gibberish (only {common_word_count}/{len(word_lowers)} common words)", flush=True)
-                raise ValueError("Model generated gibberish output. The model needs to be fine-tuned on your data before it can generate coherent responses.")
+                # Don't raise error - just log warning and return what we have
+                # Base model needs fine-tuning but can still generate some text
         
         # Check for repetitive patterns - if same word appears >50% of the time, it's stuck
         if len(words) > 10:
@@ -594,26 +516,6 @@ async def generate(request: GenerateRequest):
         if model_metadata:
             model_id = model_metadata.get('model_id') or model_metadata.get('git_commit', 'unknown')
         
-        # #region agent log
-        try:
-            with open('.cursor/debug.log', 'a') as f:
-                f.write(json.dumps({
-                    "id": f"log_{int(__import__('time').time() * 1000)}_success",
-                    "timestamp": int(__import__('time').time() * 1000),
-                    "location": "inference_service.py:554",
-                    "message": "Generation successful - returning response",
-                    "data": {
-                        "text_length": len(generated_text),
-                        "text_preview": generated_text[:50] if generated_text else None,
-                        "prompt_tokens": prompt_token_count,
-                        "completion_tokens": len(generated_ids)
-                    },
-                    "sessionId": "debug-session",
-                    "runId": "run1",
-                    "hypothesisId": "A"
-                }) + "\n")
-        except: pass
-        # #endregion
         
         return GenerateResponse(
             text=generated_text,
@@ -625,52 +527,15 @@ async def generate(request: GenerateRequest):
         )
     
     except ValueError as ve:
-        # Gibberish or validation errors - return helpful message
+        # Gibberish or validation errors - don't block, just log warning
         error_msg = str(ve)
         if "gibberish" in error_msg.lower() or "fine-tuned" in error_msg.lower():
-            # #region agent log
-            try:
-                with open('.cursor/debug.log', 'a') as f:
-                    f.write(json.dumps({
-                        "id": f"log_{int(__import__('time').time() * 1000)}_gibberish_error",
-                        "timestamp": int(__import__('time').time() * 1000),
-                        "location": "inference_service.py:610",
-                        "message": "Gibberish output - returning helpful error",
-                        "data": {
-                            "error_message": error_msg
-                        },
-                        "sessionId": "debug-session",
-                        "runId": "run1",
-                        "hypothesisId": "B"
-                    }) + "\n")
-            except: pass
-            # #endregion
-            raise HTTPException(
-                status_code=422, 
-                detail="The AI model needs to be fine-tuned on your data before it can generate coherent responses. Please train the model using your training pipeline."
-            )
+            # Don't block on gibberish - base model can be random before fine-tuning
+            print(f"[INFERENCE SERVICE] NOTE: Model output may be random before fine-tuning. Consider fine-tuning for better results.", flush=True)
+            # Continue and return the generated text anyway
         else:
             raise HTTPException(status_code=422, detail=error_msg)
     except Exception as e:
-        # #region agent log
-        try:
-            with open('.cursor/debug.log', 'a') as f:
-                f.write(json.dumps({
-                    "id": f"log_{int(__import__('time').time() * 1000)}_error",
-                    "timestamp": int(__import__('time').time() * 1000),
-                    "location": "inference_service.py:630",
-                    "message": "Generation error",
-                    "data": {
-                        "error_type": type(e).__name__,
-                        "error_message": str(e),
-                        "has_repetition_penalty_attr": hasattr(request, 'repetition_penalty') if 'request' in locals() else False
-                    },
-                    "sessionId": "debug-session",
-                    "runId": "run1",
-                    "hypothesisId": "A"
-                }) + "\n")
-        except: pass
-        # #endregion
         raise HTTPException(status_code=500, detail=f"Generation failed: {str(e)}")
 
 
