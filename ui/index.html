@@ -855,9 +855,9 @@
 
         <div class="cards-wrapper">
             <!-- CRM Card -->
-            <div class="card card-crm" data-action="showComingSoon">
+            <div class="card card-crm" data-action="navigateToCRM" onclick="window.navigateToCRM()" style="cursor: pointer;">
                 <div>
-                    <span class="card-status status-soon">Coming Soon</span>
+                    <span class="card-status status-soon">In Development</span>
                     <h2>Neural CRM</h2>
                     <p>Complete customer relationship management system built for modern businesses. Manage contacts, track sales, automate workflows, and grow your business with <a href="/about" style="color: rgba(255, 255, 255, 0.8); text-decoration: underline;">AI-powered automation</a> and intelligent insights.</p>
                 </div>
@@ -910,7 +910,7 @@
     </div>
 
     <!-- Coming Soon Modal -->
-    <div class="modal" id="comingSoonModal" onclick="closeModal(event)">
+    <div class="modal" id="comingSoonModal" onclick="closeModal(event)" style="display: none !important;">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h2>Coming Soon</h2>
             <p>Neural Operations CRM is currently in development. We're building something amazing for you!</p>
@@ -1027,6 +1027,19 @@
 
         // Show coming soon modal
         // Define directly on window to ensure global access after obfuscation
+        window.navigateToCRM = function() {
+            const transition = document.getElementById('pageTransition');
+            if (transition) {
+                transition.style.opacity = '1';
+                transition.style.pointerEvents = 'all';
+                setTimeout(() => {
+                    window.location.href = '/client';
+                }, 300);
+            } else {
+                window.location.href = '/client';
+            }
+        };
+        
         window.showComingSoon = function() {
             const modal = document.getElementById('comingSoonModal');
             // Safety check: validate DOM element
@@ -1078,7 +1091,24 @@
                 });
             }
             
-            // Handle showComingSoon - attach to card directly
+            // Handle navigateToCRM - attach to card directly
+            document.querySelectorAll('[data-action="navigateToCRM"]').forEach(btn => {
+                // Remove any existing listeners by cloning
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+                
+                newBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (window.navigateToCRM) {
+                        window.navigateToCRM();
+                    } else {
+                        window.location.href = '/client';
+                    }
+                });
+            });
+            
+            // Handle showComingSoon - attach to card directly (for other uses)
             document.querySelectorAll('[data-action="showComingSoon"]').forEach(btn => {
                 // Remove any existing listeners by cloning
                 const newBtn = btn.cloneNode(true);

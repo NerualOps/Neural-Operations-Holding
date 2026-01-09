@@ -52,6 +52,7 @@
             --primary-orange: #ff6b35;
             --primary-orange-light: #ff9066;
             --primary-orange-dark: #f7931e;
+            --accent-orange: rgba(255, 107, 53, 0.1);
             --gradient-start: #ff6b35;
             --gradient-end: #000000;
             --text-primary: #ffffff;
@@ -61,7 +62,7 @@
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(180deg, var(--gradient-start) 0%, #cc5529 15%, #993d1f 30%, #4d1e0f 50%, #1a0a05 75%, var(--gradient-end) 100%);
+            background: linear-gradient(180deg, #1a0a05 0%, #0d0503 20%, #050201 40%, #020101 60%, #010000 80%, var(--gradient-end) 100%);
             color: var(--text-primary);
             min-height: 100vh;
             line-height: 1.6;
@@ -80,16 +81,15 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 107, 53, 0.15);
-            border: 1px solid var(--primary-orange);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50px;
             padding: 8px 20px;
             font-size: 14px;
             font-weight: 600;
-            color: var(--primary-orange);
+            color: rgba(255, 255, 255, 0.9);
             margin-bottom: 30px;
             backdrop-filter: blur(10px);
-            animation: pulse 2s ease-in-out infinite;
         }
         
         @keyframes pulse {
@@ -97,10 +97,6 @@
             50% { opacity: 0.7; }
         }
         
-        .coming-soon-badge::before {
-            content: '🚀';
-            font-size: 16px;
-        }
         
         /* Hero Section */
         .hero-section {
@@ -111,7 +107,7 @@
         .hero-title {
             font-size: clamp(48px, 8vw, 96px);
             font-weight: 800;
-            background: linear-gradient(135deg, #ffffff 0%, var(--primary-orange) 100%);
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.7) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -150,6 +146,10 @@
             font-weight: 600;
         }
         
+        .development-notice {
+            border-left: 3px solid var(--primary-orange);
+        }
+        
         /* Content Sections */
         .content-section {
             margin-bottom: 80px;
@@ -171,7 +171,7 @@
             left: 0;
             width: 60px;
             height: 4px;
-            background: linear-gradient(90deg, var(--primary-orange), var(--primary-orange-light));
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
             border-radius: 2px;
         }
         
@@ -187,7 +187,7 @@
         }
         
         .section-content strong {
-            color: var(--primary-orange);
+            color: rgba(255, 255, 255, 0.95);
             font-weight: 600;
         }
         
@@ -210,8 +210,8 @@
         
         .feature-card:hover {
             transform: translateY(-5px);
-            border-color: var(--primary-orange);
-            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.1);
         }
         
         .feature-icon {
@@ -234,8 +234,9 @@
         
         /* AI Section */
         .ai-section {
-            background: rgba(255, 107, 53, 0.1);
-            border: 1px solid rgba(255, 107, 53, 0.3);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--primary-orange);
             border-radius: 20px;
             padding: 50px;
             margin: 60px 0;
@@ -263,7 +264,7 @@
         
         .future-feature {
             background: rgba(0, 0, 0, 0.3);
-            border-left: 3px solid var(--primary-orange);
+            border-left: 3px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
             padding: 25px;
             transition: all 0.3s ease;
@@ -271,14 +272,15 @@
         
         .future-feature:hover {
             background: rgba(0, 0, 0, 0.5);
-            border-left-width: 5px;
+            border-left-color: var(--primary-orange);
+            border-left-width: 4px;
         }
         
         .future-feature-title {
             font-size: 20px;
             font-weight: 600;
             margin-bottom: 10px;
-            color: var(--primary-orange);
+            color: rgba(255, 255, 255, 0.95);
         }
         
         .future-feature-description {
@@ -324,7 +326,7 @@
         }
         
         .nav-link:hover {
-            color: var(--primary-orange);
+            color: rgba(255, 255, 255, 0.9);
         }
         
         /* Responsive */
@@ -384,13 +386,13 @@
     <div class="container">
         <!-- Hero Section -->
         <div class="hero-section">
-            <div class="coming-soon-badge">Coming Soon - Still in Development</div>
+            <div class="coming-soon-badge">In Development</div>
             <h1 class="hero-title">Neural CRM</h1>
             <p class="hero-subtitle">The future of customer relationship management, powered by Epsilon AI</p>
             
             <div class="development-notice">
-                <p><strong>🚧 Under Active Development</strong><br>
-                Neural CRM is currently being built with cutting-edge AI technology. We're working hard to bring you the most intelligent CRM system ever created. Stay tuned for updates!</p>
+                <p><strong>Under Active Development</strong><br>
+                Neural CRM is currently in development. We are building a comprehensive CRM solution powered by Epsilon AI, designed to become the industry's most capable sales agent AI system. Development updates will be shared as milestones are reached.</p>
             </div>
         </div>
         
@@ -399,46 +401,40 @@
             <h2 class="section-title">What Neural CRM Will Do</h2>
             <div class="section-content">
                 <p>
-                    <strong>Neural CRM</strong> is a next-generation customer relationship management system designed to revolutionize how businesses interact with their customers. Built from the ground up with artificial intelligence at its core, Neural CRM will transform every aspect of customer relationship management.
+                    <strong>Neural CRM</strong> is a next-generation customer relationship management system designed to enhance how businesses interact with their customers. Built with artificial intelligence at its core, Neural CRM will provide comprehensive solutions for managing customer relationships throughout the entire business lifecycle.
                 </p>
                 <p>
-                    Our CRM will provide comprehensive solutions for <strong>sales automation</strong>, <strong>marketing intelligence</strong>, <strong>customer support automation</strong>, and <strong>predictive analytics</strong>. It will seamlessly integrate all customer touchpoints into a unified, intelligent platform that learns and adapts to your business needs.
+                    Our CRM will deliver integrated solutions for <strong>sales automation</strong>, <strong>marketing intelligence</strong>, <strong>customer support automation</strong>, and <strong>predictive analytics</strong>. It will seamlessly integrate all customer touchpoints into a unified platform that learns and adapts to your business requirements.
                 </p>
             </div>
             
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">📊</div>
                     <h3 class="feature-title">Sales Automation</h3>
                     <p class="feature-description">Automate your entire sales pipeline from lead generation to closing deals. Track every interaction, predict conversion probabilities, and optimize your sales process with AI-driven insights.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
                     <h3 class="feature-title">Marketing Intelligence</h3>
                     <p class="feature-description">Create targeted marketing campaigns with AI-powered segmentation. Analyze customer behavior, predict preferences, and deliver personalized experiences at scale.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <div class="feature-icon">💬</div>
                     <h3 class="feature-title">Customer Support</h3>
                     <p class="feature-description">Provide exceptional customer service with AI-assisted support automation. Intelligent ticket routing, automated responses, and predictive issue resolution.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <div class="feature-icon">📈</div>
                     <h3 class="feature-title">Predictive Analytics</h3>
                     <p class="feature-description">Forecast sales trends, identify opportunities, and make data-driven decisions with advanced AI analytics that learn from your business patterns.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <div class="feature-icon">🔄</div>
                     <h3 class="feature-title">Workflow Automation</h3>
                     <p class="feature-description">Streamline your business processes with intelligent workflow automation. Reduce manual tasks, eliminate errors, and increase productivity across your organization.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <div class="feature-icon">🔗</div>
                     <h3 class="feature-title">Seamless Integration</h3>
                     <p class="feature-description">Connect with all your business tools and platforms. Neural CRM will integrate with email, calendars, communication tools, and more for a unified experience.</p>
                 </div>
@@ -452,13 +448,13 @@
                 <h2 class="section-title" style="margin-top: 0;">The AI Behind Neural CRM</h2>
                 <div class="section-content">
                     <p>
-                        Neural CRM is powered by <strong>Epsilon AI</strong>, our proprietary self-learning artificial intelligence system. Epsilon AI represents the cutting edge of AI technology, combining transformer-based language models with advanced machine learning algorithms to create an intelligent system that truly understands your business.
+                        Neural CRM is powered by <strong>Epsilon AI</strong>, our proprietary self-learning artificial intelligence system. Epsilon AI combines transformer-based language models with advanced machine learning algorithms to create an intelligent system designed to understand and support your business operations.
                     </p>
                     <p>
-                        <strong>Epsilon AI</strong> uses state-of-the-art neural network architectures, including custom transformer models trained specifically for business intelligence and customer relationship management. The AI continuously learns from your data, interactions, and business patterns to provide increasingly accurate predictions and recommendations.
+                        <strong>Epsilon AI</strong> utilizes neural network architectures, including custom transformer models trained specifically for business intelligence and customer relationship management. The AI continuously learns from your data, interactions, and business patterns to provide accurate predictions and recommendations.
                     </p>
                     <p>
-                        Unlike traditional CRM systems that rely on static rules and manual configuration, Neural CRM leverages Epsilon AI's <strong>self-learning capabilities</strong> to automatically adapt to your business needs, identify patterns, and optimize processes without constant manual intervention.
+                        As development progresses, Neural CRM will leverage Epsilon AI's <strong>self-learning capabilities</strong> to become the industry's most advanced sales agent AI system, capable of autonomously managing customer relationships, optimizing sales processes, and delivering intelligent insights that drive business growth.
                     </p>
                 </div>
             </div>
@@ -469,7 +465,7 @@
             <h2 class="section-title">What Epsilon AI Can Do Now</h2>
             <div class="section-content">
                 <p>
-                    Epsilon AI is already demonstrating remarkable capabilities that will power Neural CRM:
+                    Epsilon AI currently provides capabilities that will power Neural CRM:
                 </p>
             </div>
             
@@ -511,7 +507,7 @@
             <h2 class="section-title">What Epsilon AI Will Be Able To Do</h2>
             <div class="section-content">
                 <p>
-                    We're constantly pushing the boundaries of what's possible with AI. Here's what we're building for the future of Neural CRM:
+                    We are expanding Epsilon AI's capabilities to support Neural CRM's evolution into the industry's most advanced sales agent AI system. Here's what we're building for the future:
                 </p>
             </div>
             
@@ -572,18 +568,18 @@
     </div>
     
     <!-- Cookie Consent & Analytics -->
-    <div id="cookie-consent-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #ffffff; padding: 20px; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5); z-index: 10000; border-top: 2px solid #ff6b35; will-change: transform, opacity; backface-visibility: hidden;">
+    <div id="cookie-consent-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #ffffff; padding: 20px; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5); z-index: 10000; border-top: 2px solid rgba(255, 255, 255, 0.2); will-change: transform, opacity; backface-visibility: hidden;">
         <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
             <div style="flex: 1; min-width: 300px;">
-                <h3 style="margin: 0 0 10px 0; font-size: 18px; color: #ff6b35;">🍪 Cookie & Privacy Notice</h3>
+                <h3 style="margin: 0 0 10px 0; font-size: 18px; color: rgba(255, 255, 255, 0.95);">Cookie & Privacy Notice</h3>
                 <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #e0e0e0;">
                     We use cookies and similar technologies to enhance your experience, analyze site traffic, and personalize content. 
                     By clicking "Accept All", you consent to our use of cookies. You can manage preferences or learn more in our 
-                    <a href="/privacy" style="color: #ff6b35; text-decoration: underline;">Privacy Policy</a>.
+                    <a href="/privacy" style="color: rgba(255, 255, 255, 0.8); text-decoration: underline;">Privacy Policy</a>.
                 </p>
             </div>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <button id="cookie-consent-preferences" style="padding: 10px 20px; background: transparent; border: 2px solid #ff6b35; color: #ff6b35; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;">Preferences</button>
+                <button id="cookie-consent-preferences" style="padding: 10px 20px; background: transparent; border: 2px solid rgba(255, 255, 255, 0.3); color: rgba(255, 255, 255, 0.9); border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;">Preferences</button>
                 <button id="cookie-consent-accept-all" style="padding: 10px 30px; background: linear-gradient(135deg, #ff6b35 0%, #ff9066 100%); border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;">Accept All</button>
             </div>
         </div>
@@ -592,15 +588,15 @@
     <div id="cookie-preferences-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); z-index: 10001; overflow-y: auto;">
         <div style="max-width: 800px; margin: 50px auto; background: #1a1a2e; border-radius: 12px; padding: 30px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                <h2 style="margin: 0; color: #ff6b35; font-size: 24px;">Cookie Preferences</h2>
+                <h2 style="margin: 0; color: rgba(255, 255, 255, 0.95); font-size: 24px;">Cookie Preferences</h2>
                 <button id="cookie-preferences-close" style="background: transparent; border: none; color: #ffffff; font-size: 28px; cursor: pointer; padding: 0; width: 30px; height: 30px;">&times;</button>
             </div>
             <div style="margin-bottom: 30px;">
                 <p style="color: #e0e0e0; line-height: 1.6; margin-bottom: 20px;">Manage your cookie preferences. You can enable or disable different types of cookies below.</p>
-                <div style="background: #0f1520; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #ff6b35;">
+                <div style="background: #0f1520; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid rgba(255, 255, 255, 0.3);">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                         <div><h3 style="margin: 0; color: #ffffff; font-size: 18px;">Essential Cookies</h3><p style="margin: 5px 0 0 0; color: #a0a0a0; font-size: 14px;">Required for website functionality</p></div>
-                        <span style="color: #ff6b35; font-weight: 600;">Always Active</span>
+                        <span style="color: rgba(255, 255, 255, 0.7); font-weight: 600;">Always Active</span>
                     </div>
                 </div>
                 <div style="background: #0f1520; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
