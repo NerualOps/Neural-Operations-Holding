@@ -699,11 +699,11 @@
             border-radius: 6px;
             padding: 2rem;
             transition: all 0.12s ease-out;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 20px rgba(249, 115, 22, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         
         .plan-card:nth-child(1) {
-            border-left: 2px solid var(--flame-core);
             background: rgba(15, 15, 15, 0.6);
         }
         
@@ -714,10 +714,10 @@
         .plan-card:nth-child(3) {
             background: rgba(15, 15, 15, 0.4);
         }
-
+        
         .plan-card:hover {
             background: rgba(249, 115, 22, 0.1);
-            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 30px rgba(249, 115, 22, 0.15);
             transform: translateY(-2px);
         }
 
@@ -745,9 +745,9 @@
             padding: 2rem;
             background: rgba(15, 15, 15, 0.5);
             border: none;
-            border-left: 2px solid var(--flame-core);
+            border-left: 2px solid var(--ash-neutral);
             border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 20px rgba(249, 115, 22, 0.08);
         }
         
         .timeline-item:nth-child(even) {
@@ -755,9 +755,8 @@
         }
         
         .timeline-item:hover {
-            border-left-color: var(--flame-highlight);
             background: rgba(249, 115, 22, 0.1);
-            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 30px rgba(249, 115, 22, 0.15);
             transform: translateY(-2px);
         }
 
@@ -1684,17 +1683,6 @@
     }
     </script>
     <script src="/services/libs/supabase.js" defer></script>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="footer-content">
-            <div class="footer-left">
-                <p>&copy; 2025 Neural Op's is a division of Neural Operations & Holdings LLC. All rights reserved.</p>
-            </div>
-            <div class="footer-right">
-            </div>
-        </div>
-    </footer>
     
     <!-- Structured Data (JSON-LD) - Loaded at end for performance -->
     <script type="application/ld+json">

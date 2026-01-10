@@ -76,7 +76,7 @@
             color: var(--soft-white);
             overflow-x: hidden;
             padding-top: 100px;
-            padding-bottom: 100px;
+            padding-bottom: 2rem;
             min-height: 100vh;
         }
 
@@ -176,37 +176,29 @@
         }
 
         .profile-card {
-            background: rgba(15, 21, 32, 0.95);
-            backdrop-filter: blur(20px);
+            background: rgba(15, 15, 15, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
-            padding: 3rem;
-            box-shadow: 
-                0 20px 60px -15px rgba(0, 0, 0, 0.7),
-                0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-            transition: all 0.3s ease;
+            border-radius: 6px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 20px rgba(249, 115, 22, 0.08);
+            transition: all 0.12s ease-out;
         }
 
         .profile-card:hover {
             border-color: rgba(255, 255, 255, 0.12);
-            box-shadow: 
-                0 25px 70px -15px rgba(0, 0, 0, 0.8),
-                0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 30px rgba(249, 115, 22, 0.15);
         }
 
         .profile-card h1 {
             font-size: 2.25rem;
             font-weight: 700;
             margin-bottom: 0.75rem;
-            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--soft-white);
             letter-spacing: -0.02em;
         }
 
         .profile-card p {
-            color: var(--neural-muted);
+            color: var(--ash-neutral);
             margin-bottom: 2.5rem;
             font-size: 1.05rem;
             line-height: 1.6;
@@ -218,20 +210,21 @@
             gap: 2rem;
             margin-bottom: 3rem;
             padding: 2rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 20px;
+            background: rgba(15, 15, 15, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
             flex-wrap: wrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 20px rgba(249, 115, 22, 0.08);
         }
 
         .avatar-preview {
             width: 120px;
             height: 120px;
-            border-radius: 28px;
+            border-radius: 6px;
             overflow: hidden;
             position: relative;
-            border: 3px solid rgba(45, 138, 107, 0.4);
-            background: linear-gradient(135deg, rgba(45, 138, 107, 0.2), rgba(61, 107, 176, 0.2));
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 15, 15, 0.6);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -239,9 +232,7 @@
             font-weight: 700;
             color: var(--flame-core);
             text-transform: uppercase;
-            box-shadow: 
-                0 8px 24px rgba(45, 138, 107, 0.2),
-                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 20px rgba(249, 115, 22, 0.08);
         }
 
         .avatar-preview img {
@@ -264,23 +255,23 @@
             align-items: center;
             justify-content: center;
             gap: 0.6rem;
-            background: linear-gradient(135deg, rgba(45, 138, 107, 0.2), rgba(45, 138, 107, 0.15));
-            color: var(--neural-success);
-            border: 1px solid rgba(45, 138, 107, 0.35);
-            border-radius: 12px;
+            background: rgba(15, 15, 15, 0.5);
+            color: var(--soft-white);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
             padding: 0.7rem 1.4rem;
             font-weight: 600;
             font-size: 0.95rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(45, 138, 107, 0.15);
+            transition: all 0.12s ease-out;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(249, 115, 22, 0.08);
         }
 
         .upload-btn:hover {
-            background: linear-gradient(135deg, rgba(45, 138, 107, 0.3), rgba(45, 138, 107, 0.2));
-            border-color: rgba(45, 138, 107, 0.5);
+            background: rgba(249, 115, 22, 0.1);
+            border-color: var(--flame-core);
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(45, 138, 107, 0.25);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 30px rgba(249, 115, 22, 0.15);
         }
 
         .upload-btn input {
@@ -291,23 +282,23 @@
         }
 
         .remove-btn {
-            background: linear-gradient(135deg, rgba(196, 77, 77, 0.2), rgba(196, 77, 77, 0.15));
-            color: var(--neural-error);
-            border: 1px solid rgba(196, 77, 77, 0.35);
-            border-radius: 12px;
+            background: rgba(15, 15, 15, 0.5);
+            color: var(--soft-white);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
             padding: 0.7rem 1.4rem;
             font-weight: 600;
             font-size: 0.95rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(196, 77, 77, 0.15);
+            transition: all 0.12s ease-out;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(249, 115, 22, 0.08);
         }
 
         .remove-btn:hover {
-            background: linear-gradient(135deg, rgba(196, 77, 77, 0.3), rgba(196, 77, 77, 0.2));
-            border-color: rgba(196, 77, 77, 0.5);
+            background: rgba(249, 115, 22, 0.1);
+            border-color: var(--flame-core);
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(196, 77, 77, 0.25);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 30px rgba(249, 115, 22, 0.15);
         }
 
         .form-grid {
@@ -330,15 +321,15 @@
 
         .form-group input {
             width: 100%;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1.5px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
+            background: rgba(15, 15, 15, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
             padding: 1rem 1.25rem;
             color: var(--soft-white);
             font-size: 1rem;
             font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) inset;
+            transition: all 0.12s ease-out;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(249, 115, 22, 0.08);
         }
 
         .form-group input::placeholder {
@@ -347,15 +338,13 @@
 
         .form-group input:focus {
             outline: none;
-            border-color: rgba(45, 138, 107, 0.5);
-            background: rgba(255, 255, 255, 0.06);
-            box-shadow: 
-                0 2px 8px rgba(0, 0, 0, 0.1) inset,
-                0 0 0 3px rgba(45, 138, 107, 0.1);
+            border-color: var(--flame-core);
+            background: rgba(15, 15, 15, 0.6);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 30px rgba(249, 115, 22, 0.15);
         }
 
         .form-group input[readonly] {
-            color: var(--neural-muted);
+            color: var(--ash-neutral);
             cursor: not-allowed;
             opacity: 0.7;
         }
@@ -365,32 +354,28 @@
             align-items: center;
             gap: 1.25rem;
             flex-wrap: wrap;
-            margin-top: 2.5rem;
-            padding-top: 2rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .primary-btn {
             background: var(--flame-core);
-            color: #fff;
+            color: var(--near-black);
             border: none;
-            border-radius: 14px;
+            border-radius: 6px;
             padding: 1rem 2.25rem;
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 
-                0 0 16px rgba(249, 115, 22, 0.15),
-                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            transition: all 0.12s ease-out;
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3), 0 2px 6px rgba(0, 0, 0, 0.3);
             letter-spacing: 0.01em;
         }
 
         .primary-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 
-                0 0 24px rgba(249, 115, 22, 0.2),
-                0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4), 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 30px rgba(249, 115, 22, 0.25);
         }
 
         .primary-btn:active {
@@ -399,18 +384,18 @@
 
         .status-message {
             font-size: 0.95rem;
-            color: var(--neural-muted);
+            color: var(--ash-neutral);
             padding: 0.5rem 0;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: all 0.12s ease-out;
         }
 
         .status-message.success {
-            color: var(--neural-success);
+            color: var(--flame-core);
         }
 
         .status-message.error {
-            color: var(--neural-error);
+            color: #ff3b30;
         }
 
         .profile-meta {
@@ -420,22 +405,17 @@
         }
 
         .meta-card {
-            background: rgba(15, 21, 32, 0.95);
-            backdrop-filter: blur(20px);
+            background: rgba(15, 15, 15, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
-            padding: 2.5rem;
-            box-shadow: 
-                0 20px 60px -15px rgba(0, 0, 0, 0.7),
-                0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-            transition: all 0.3s ease;
+            border-radius: 6px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 20px rgba(249, 115, 22, 0.08);
+            transition: all 0.12s ease-out;
         }
 
         .meta-card:hover {
             border-color: rgba(255, 255, 255, 0.12);
-            box-shadow: 
-                0 25px 70px -15px rgba(0, 0, 0, 0.8),
-                0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 30px rgba(249, 115, 22, 0.15);
         }
 
         .meta-card h2 {
@@ -447,7 +427,7 @@
         }
 
         .meta-card p {
-            color: var(--neural-muted);
+            color: var(--ash-neutral);
             font-size: 0.95rem;
             line-height: 1.7;
             margin-bottom: 1.25rem;
@@ -457,15 +437,15 @@
             display: inline-flex;
             align-items: center;
             gap: 0.6rem;
-            background: linear-gradient(135deg, rgba(61, 107, 176, 0.2), rgba(61, 107, 176, 0.15));
-            border: 1px solid rgba(61, 107, 176, 0.35);
+            background: rgba(15, 15, 15, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: var(--flame-core);
             padding: 0.6rem 1.1rem;
-            border-radius: 12px;
+            border-radius: 6px;
             font-weight: 600;
             font-size: 0.9rem;
             margin-top: 0.5rem;
-            box-shadow: 0 2px 8px rgba(61, 107, 176, 0.15);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(249, 115, 22, 0.08);
         }
 
         @media (max-width: 1024px) {
@@ -540,17 +520,15 @@
             padding: 0;
         }
 
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.5);
+        .footer-link {
+            color: rgba(255, 255, 255, 0.6);
             text-decoration: none;
-            font-size: 0.8rem;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
+            font-size: 0.9rem;
+            transition: all 0.12s ease-out;
         }
 
-        .footer-links a:hover {
-            color: rgba(255, 255, 255, 0.8);
+        .footer-link:hover {
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .footer-divider {
