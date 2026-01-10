@@ -82,7 +82,7 @@
             text-decoration: none; 
             font-size: 0.85rem; 
             font-weight: 500; 
-            transition: all 0.15s ease-out; 
+            transition: all 0.12s ease-out; 
         }
         .top-nav-button:hover { 
             border-color: var(--flame-core); 
@@ -105,7 +105,7 @@
             text-transform: uppercase;
             box-shadow: 0 0 16px rgba(249, 115, 22, 0.2);
             cursor: pointer;
-            transition: all 0.15s ease-out;
+            transition: all 0.12s ease-out;
             background: var(--flame-core);
         }
 
@@ -225,7 +225,7 @@
             display: flex;
             align-items: center;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s ease;
+            transition: all 0.12s ease-out;
         }
 
         .logo:hover {
@@ -428,7 +428,7 @@
             text-decoration: none;
             padding: 0.15rem 0.45rem;
             border-radius: 14px;
-            transition: all 0.3s ease;
+            transition: all 0.12s ease-out;
         }
 
         .status-logout:hover {
@@ -491,7 +491,7 @@
             cursor: pointer;
             padding: 0.5rem;
             border-radius: 10px;
-            transition: all 0.3s ease;
+            transition: all 0.12s ease-out;
         }
 
         .mobile-menu-btn:hover {
@@ -689,15 +689,14 @@
         .plan-card {
             background: rgba(15, 15, 15, 0.5);
             backdrop-filter: blur(10px);
-            border: 1px solid var(--ash-neutral);
             border-radius: 6px;
             padding: 2rem;
-            transition: all 0.15s ease-out;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+            transition: all 0.12s ease-out;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
         
-        /* Varied card positions */
         .plan-card:nth-child(1) {
+            border: 1px solid var(--flame-core);
             transform: translateY(0);
         }
         .plan-card:nth-child(2) {
@@ -708,10 +707,13 @@
         }
 
         .plan-card:hover {
-            background: rgba(249, 115, 22, 0.1);
-            border-color: var(--flame-core);
+            background: rgba(249, 115, 22, 0.08);
             transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(249, 115, 22, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 24px rgba(249, 115, 22, 0.25);
+        }
+        
+        .plan-card:nth-child(1):hover {
+            border-color: var(--flame-highlight);
         }
 
         .plan-card h3 {
@@ -741,7 +743,7 @@
             border: 1px solid var(--ash-neutral);
             border-left: 2px solid var(--flame-core);
             border-radius: 6px;
-            transition: all 0.15s ease-out;
+            transition: all 0.12s ease-out;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03);
         }
         
@@ -794,7 +796,7 @@
         .footer a {
             color: var(--flame-core);
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.12s ease-out;
         }
 
         .footer a:hover {

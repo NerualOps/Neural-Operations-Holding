@@ -70,21 +70,30 @@ const csrfProtection = (req, res, next) => {
     return;
   }
   
-  // Production: Require cookie token AND provided token to match
+  const isAnalyticsEndpoint = req.path === '/api/analytics/track' || req.path === '/track';
+  const userAgent = req.headers['user-agent'] || '';
+  const isBot = /bot|crawler|spider|scraper|curl|wget|python|java|googlebot|bingbot/i.test(userAgent);
+  
+  if (isAnalyticsEndpoint && isBot) {
+    req.csrfValid = false;
+    next();
+    return;
+  }
+  
   if (!cookieToken || !providedToken || cookieToken !== providedToken) {
-    // Log the CSRF validation failure
-    logSecurityEvent('CSRF_VALIDATION_FAILED', {
-      path: req.path,
-      ip: req.ip,
-      method: req.method,
-      hasCookieToken: !!cookieToken,
-      hasHeaderToken: !!headerToken,
-      hasFormToken: !!formToken,
-      isDevelopment: false
-    }, 'warn');
+    if (!isAnalyticsEndpoint || !isBot) {
+      logSecurityEvent('CSRF_VALIDATION_FAILED', {
+        path: req.path,
+        ip: req.ip,
+        method: req.method,
+        hasCookieToken: !!cookieToken,
+        hasHeaderToken: !!headerToken,
+        hasFormToken: !!formToken,
+        isDevelopment: false
+      }, 'warn');
+    }
     
     req.csrfValid = false;
-    // In production, still allow the request but set flag (routes can decide)
     next();
     return;
   }

@@ -527,14 +527,20 @@ app.use((req, res, next) => {
     });
     
     if (res.statusCode === 403 || res.statusCode === 401) {
-      logSecurityEvent('AUTH_FAILURE', {
-        requestId,
-        method: req.method,
-        path: req.path,
-        statusCode: res.statusCode,
-        ip: req.clientIP,
-        userId: req.user?.id || 'anonymous'
-      }, 'warn');
+      const isAnalyticsEndpoint = req.path === '/api/analytics/track' || req.path === '/track' || req.path.startsWith('/api/analytics');
+      const userAgent = req.headers['user-agent'] || '';
+      const isBot = /bot|crawler|spider|scraper|curl|wget|python|java|googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|sogou|exabot|facebot|ia_archiver|archive\.org_bot/i.test(userAgent);
+      
+      if (!isAnalyticsEndpoint || !isBot) {
+        logSecurityEvent('AUTH_FAILURE', {
+          requestId,
+          method: req.method,
+          path: req.path,
+          statusCode: res.statusCode,
+          ip: req.clientIP,
+          userId: req.user?.id || 'anonymous'
+        }, 'warn');
+      }
     }
   });
   
@@ -3577,31 +3583,27 @@ app.post('/api/analytics/track', apiLimiter, async (req, res) => {
       return res.status(400).json({ error: 'Event name is required' });
     }
     
-    // Get client IP
     const clientIP = getClientIP(req);
+    const requestUserAgent = req.headers['user-agent'] || userAgent || '';
+    const isBot = /bot|crawler|spider|scraper|curl|wget|python|java|googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|sogou|exabot|facebot|ia_archiver|archive\.org_bot/i.test(requestUserAgent);
     
-    // Store analytics event in Supabase (non-blocking)
-    if (supabase) {
+    if (supabase && !isBot) {
       supabase.from('analytics_events').insert({
         event_type: event,
         event_data: data || {},
-        user_id: null, // Anonymous tracking
+        user_id: null,
         session_id: req.headers['x-session-id'] || null,
         ip_address: clientIP,
-        user_agent: userAgent || req.headers['user-agent'],
+        user_agent: requestUserAgent,
         created_at: timestamp || new Date().toISOString()
       }).then(() => {
-        // Silent success
       }).catch((err) => {
-        // Silent failure - don't break the site
         console.debug('Analytics tracking failed:', err.message);
       });
     }
     
-    // Always return success (analytics should never break the site)
     res.json({ success: true });
   } catch (error) {
-    // Silent failure - analytics should never break the site
     console.debug('Analytics tracking error:', error.message);
     res.json({ success: false });
   }

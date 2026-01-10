@@ -45,20 +45,32 @@ exports.handler = async (event, context) => {
     // Silent - no console.log
 
   try {
-    // CSRF protection
-    if (event.httpMethod !== 'GET' && !event.headers['x-csrf-token']) {
+    const userAgent = event.headers['user-agent'] || '';
+    const isBot = /bot|crawler|spider|scraper|curl|wget|python|java|googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|sogou|exabot|facebot|ia_archiver|archive\.org_bot/i.test(userAgent);
+    const path = event.path || '';
+    const isTrackEndpoint = path.includes('/track') || event.httpMethod === 'POST';
+    
+    if (isTrackEndpoint && isBot) {
       return {
-        statusCode: 403,
+        statusCode: 200,
         headers,
-        body: JSON.stringify({ error: 'CSRF token missing' })
+        body: JSON.stringify({ success: true })
       };
     }
     
-    // Verify authentication
+    if (event.httpMethod !== 'GET' && !isTrackEndpoint) {
+      if (!event.headers['x-csrf-token']) {
+        return {
+          statusCode: 403,
+          headers,
+          body: JSON.stringify({ error: 'CSRF token missing' })
+        };
+      }
+    }
+    
     const token = extractToken(event);
     
-    if (!token) {
-      // Silent - no console.log
+    if (!token && !isTrackEndpoint) {
       return {
         statusCode: 401,
         headers,

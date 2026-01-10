@@ -111,7 +111,7 @@
             align-items: center; 
             justify-content: center; 
             gap: 5px; 
-            transition: all 0.15s ease-out; 
+            transition: all 0.12s ease-out; 
         }
         .sidebar-toggle.visible { display: flex; }
         .sidebar-toggle:hover {
@@ -125,7 +125,7 @@
             height: 2px; 
             background: var(--soft-white); 
             border-radius: 2px; 
-            transition: all 0.15s ease-out;
+            transition: all 0.12s ease-out;
         }
         .sidebar-toggle:hover span {
             background: var(--flame-core);
@@ -141,7 +141,7 @@
             text-decoration: none; 
             font-size: 0.85rem; 
             font-weight: 500; 
-            transition: all 0.15s ease-out;
+            transition: all 0.12s ease-out;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
         .top-nav-button:hover { 
@@ -168,7 +168,7 @@
             cursor: pointer; 
             box-shadow: 0 0 16px rgba(249, 115, 22, 0.2); 
             background: var(--flame-core); 
-            transition: all 0.15s ease-out;
+            transition: all 0.12s ease-out;
         }
         .profile-bubble:hover {
             background: var(--flame-highlight);
@@ -195,7 +195,7 @@
             text-decoration: none; 
             border-radius: 6px; 
             font-size: 0.9rem; 
-            transition: all 0.15s ease-out; 
+            transition: all 0.12s ease-out; 
         }
         .profile-dropdown-item:hover { 
             background: rgba(249, 115, 22, 0.1); 
@@ -251,7 +251,7 @@
             color: var(--ash-neutral);
             text-decoration: none;
             font-size: 0.8rem;
-            transition: all 0.15s ease-out;
+            transition: all 0.12s ease-out;
             display: flex;
             align-items: center;
         }
@@ -321,7 +321,7 @@
             font-size: 0.95rem; 
             font-weight: 600;
             cursor: pointer; 
-            transition: all 0.15s ease-out; 
+            transition: all 0.12s ease-out; 
         }
         .new-chat-btn:hover { 
             background: var(--flame-highlight); 
@@ -331,7 +331,7 @@
         .new-chat-btn:active {
             transform: translateY(0);
         }
-        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); opacity: 0; visibility: hidden; z-index: 1998; transition: all 0.3s ease; }
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); opacity: 0; visibility: hidden; z-index: 1998; transition: all 0.2s ease-out; }
         .sidebar-overlay.active { opacity: 1; visibility: visible; }
         
         .chat-interface { width: 100%; height: 100vh; display: flex; flex-direction: column; transition: margin-left 0.35s ease; }
@@ -340,9 +340,9 @@
         .welcome-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 60vh; }
         .welcome-screen.hidden { display: none; }
         .welcome-title { 
-            font-size: 3.5rem; 
+            font-size: clamp(2.5rem, 6vw, 3.5rem); 
             font-weight: 700; 
-            margin-bottom: 1rem; 
+            margin-bottom: 1.25rem; 
             color: var(--soft-white);
             letter-spacing: -0.02em;
             line-height: 0.95;
@@ -366,7 +366,7 @@
             font-size: 1.1rem; 
             resize: none; 
             outline: none; 
-            transition: all 0.15s ease-out;
+            transition: all 0.12s ease-out;
         }
         .welcome-input:focus {
             border-color: var(--flame-core);
@@ -388,7 +388,7 @@
             border: 1px solid var(--ash-neutral); 
             border-radius: 6px; 
             cursor: pointer; 
-            transition: all 0.15s ease-out; 
+            transition: all 0.12s ease-out; 
             position: relative; 
             overflow: hidden;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03);
@@ -484,7 +484,7 @@
             font-size: 1rem; 
             resize: none; 
             outline: none; 
-            transition: all 0.15s ease-out;
+            transition: all 0.12s ease-out;
         }
         .chat-input:focus {
             border-color: var(--flame-core);
@@ -504,7 +504,7 @@
             align-items: center; 
             justify-content: center; 
             flex-shrink: 0; 
-            transition: all 0.15s ease-out; 
+            transition: all 0.12s ease-out; 
         }
         .send-btn:hover { 
             background: var(--flame-highlight); 

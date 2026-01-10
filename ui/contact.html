@@ -448,7 +448,7 @@
         text-decoration: none;
     padding: 0.15rem 0.45rem;
     border-radius: 14px;
-        transition: all 0.3s ease;
+        transition: all 0.12s ease-out;
     }
 
   .status-logout:hover {
@@ -491,7 +491,7 @@
         cursor: pointer;
         padding: 0.5rem;
     border-radius: 10px;
-        transition: all 0.3s ease;
+        transition: all 0.12s ease-out;
     }
 
     .mobile-menu-btn:hover {
@@ -683,7 +683,7 @@
       border-radius: 12px;
       padding: 1.5rem;
       text-align: center;
-      transition: all 0.3s ease;
+      transition: all 0.12s ease-out;
     }
 
     .contact-method:hover {
@@ -713,11 +713,12 @@
 
     /* Contact Form - Simplified */
     .contact-form-container {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
+      background: rgba(15, 15, 15, 0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 6px;
       padding: 2.5rem;
       margin-top: 3rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
     }
 
     .form-header {
@@ -740,7 +741,16 @@
     .neural-form {
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 1.75rem;
+    }
+    
+    .form-group:nth-child(1),
+    .form-group:nth-child(2) {
+      margin-bottom: 0.5rem;
+    }
+    
+    .form-group:nth-child(4) {
+      margin-top: 0.5rem;
     }
 
     .form-group {
@@ -756,7 +766,7 @@
       color: #ffffff;
       font-size: 1rem;
       font-family: 'Inter', sans-serif;
-      transition: all 0.3s ease;
+      transition: all 0.12s ease-out;
     }
 
     .form-select {
@@ -795,7 +805,7 @@
       left: 1.5rem;
       color: #a0a0a0;
       font-size: 1rem;
-      transition: all 0.3s ease;
+      transition: all 0.12s ease-out;
       pointer-events: none;
       background: transparent;
       padding: 0;
@@ -848,7 +858,7 @@
       border-radius: 8px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.12s ease-out;
       font-size: 0.85rem;
       color: rgba(255, 255, 255, 0.7);
     }
@@ -881,7 +891,7 @@
       font-weight: 600;
       font-size: 1rem;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.12s ease-out;
       margin-top: 1rem;
       width: 100%;
     }
@@ -924,7 +934,7 @@
       padding: 0.75rem;
       margin-bottom: 0.5rem;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.12s ease-out;
       font-size: 0.85rem;
       color: rgba(255, 255, 255, 0.7);
     }
@@ -962,7 +972,7 @@
       border-radius: 8px;
       font-weight: 600;
       text-decoration: none;
-      transition: all 0.3s ease;
+      transition: all 0.12s ease-out;
       backdrop-filter: blur(10px);
       margin-top: 3rem;
     }
@@ -1021,7 +1031,7 @@
         color: rgba(255, 255, 255, 0.6);
         text-decoration: none;
         font-size: 0.9rem;
-        transition: all 0.3s ease;
+        transition: all 0.12s ease-out;
     }
 
     .footer-links a:hover {
@@ -1036,7 +1046,7 @@
         padding: 0.5rem 1rem;
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 20px;
-        transition: all 0.3s ease;
+        transition: all 0.12s ease-out;
     }
 
     .login-text:hover {

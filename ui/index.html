@@ -104,7 +104,7 @@
             background: 
                 radial-gradient(120% 120% at 20% 20%, rgba(255, 138, 61, 0.08) 0%, rgba(249, 115, 22, 0.05) 35%, transparent 70%),
                 radial-gradient(120% 120% at 80% 80%, rgba(255, 138, 61, 0.06) 0%, transparent 50%);
-            animation: gradientShift 20s ease-in-out infinite;
+            animation: gradientShift 25s ease-in-out infinite;
         }
 
         @keyframes gradientShift {
@@ -172,7 +172,7 @@
         .hero-header {
             text-align: center;
             max-width: 800px;
-            animation: fadeInUp 0.8s ease-out;
+            animation: fadeInUp 0.6s ease-out;
         }
 
         @keyframes fadeInUp {
@@ -223,7 +223,7 @@
             gap: 1.5rem;
             justify-content: center;
             flex-wrap: wrap;
-            animation: fadeInUp 0.8s ease-out 0.3s both;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
         }
 
         .feature-item {
@@ -235,7 +235,7 @@
             border-radius: 6px;
             color: var(--soft-white);
             font-size: 0.85rem;
-            transition: all 0.15s ease-out;
+            transition: all 0.12s ease-out;
         }
 
         .feature-item:hover {
@@ -249,7 +249,7 @@
             display: flex;
             gap: 2rem;
             align-items: center;
-            animation: fadeInUp 0.8s ease-out 0.5s both;
+            animation: fadeInUp 0.6s ease-out 0.3s both;
             margin-top: auto;
         }
 
@@ -257,7 +257,7 @@
             color: var(--ash-neutral);
             text-decoration: none;
             font-size: 0.8rem;
-            transition: all 0.15s ease-out;
+            transition: all 0.12s ease-out;
             display: flex;
             align-items: center;
         }
@@ -279,93 +279,93 @@
             gap: 2.5rem;
             max-width: 1400px;
             width: 100%;
-            align-items: stretch;
+            align-items: flex-start;
         }
 
-        /* Card Styles - Varied Layouts */
         .card {
             flex: 1;
             backdrop-filter: blur(15px) saturate(120%);
             border-radius: 6px;
             padding: 2.5rem;
-            border: 1px solid var(--ash-neutral);
             cursor: pointer;
-            transition: all 0.15s ease-out;
+            transition: all 0.12s ease-out;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 420px;
             background: rgba(15, 15, 15, 0.5);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            min-height: 480px;
         }
         
-        /* Varied card treatments - different depths and styles */
         .card-epsilon {
-            background: rgba(15, 15, 15, 0.6);
-            border-left: 2px solid var(--ash-neutral);
-            padding: 2.75rem;
-            min-height: 440px;
+            border: 1px solid var(--flame-core);
         }
         
         .card-crm {
-            background: rgba(15, 15, 15, 0.5);
-            border-left: 2px solid var(--flame-core);
-            padding: 2.25rem;
-            min-height: 400px;
-        }
-        
-        /* Add subtle variety to card positioning */
-        .card-epsilon {
-            transform: translateY(0);
-        }
-        
-        .card-crm {
-            transform: translateY(8px);
-        }
-        
-        .card-epsilon:hover,
-        .card-crm:hover {
-            transform: translateY(-4px);
-        }
-
-        /* Plasma Line Effect */
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                var(--ash-neutral) 20%, 
-                var(--flame-core) 50%, 
-                var(--ash-neutral) 80%, 
-                transparent 100%
-            );
-            opacity: 0;
-            transition: opacity 0.15s ease-out;
-        }
-
-        .card:hover::before {
-            opacity: 1;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: var(--flame-core);
-            background: rgba(249, 115, 22, 0.1);
-            box-shadow: 0 8px 32px rgba(249, 115, 22, 0.3), 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            border: none;
         }
         
         .card-epsilon:hover {
-            border-left-color: var(--flame-core);
+            border-color: var(--flame-core);
+            box-shadow: 0 8px 32px rgba(249, 115, 22, 0.3);
+            transform: translateY(-2px);
         }
         
         .card-crm:hover {
-            border-left-color: var(--flame-highlight);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .statement-moment {
+            text-align: left;
+            padding: 120px 2rem;
+            margin: 80px 0;
+            position: relative;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            transform: translateX(-40px);
+        }
+        
+        .statement-moment h2 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--soft-white);
+            margin: 0;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--soft-white) 0%, var(--ash-neutral) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .statement-moment::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.08) 0%, transparent 70%);
+            filter: blur(80px);
+            animation: drift 25s ease-in-out infinite;
+            z-index: -1;
+        }
+        
+        @keyframes drift {
+            0%, 100% { transform: translate(-50%, -50%) translate(0, 0); }
+            50% { transform: translate(-50%, -50%) translate(30px, -20px); }
+        }
+        
+        @media (max-width: 768px) {
+            .statement-moment {
+                transform: translateX(0);
+                text-align: center;
+            }
         }
 
 
@@ -377,7 +377,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            transition: all 0.4s ease;
+            transition: all 0.12s ease-out;
         }
 
         .card:hover h2 {
@@ -391,6 +391,10 @@
             margin-bottom: 1.75rem;
             font-weight: 300;
         }
+        
+        .card-crm p {
+            margin-bottom: 2rem;
+        }
 
         .card-status {
             display: inline-block;
@@ -399,7 +403,7 @@
             font-size: 0.8rem;
             font-weight: 500;
             margin-bottom: 1.25rem;
-            transition: all 0.3s ease;
+            transition: all 0.12s ease-out;
             letter-spacing: 0.5px;
         }
 
@@ -422,7 +426,7 @@
             font-size: 0.95rem;
             font-weight: 500;
             color: var(--ash-neutral);
-            transition: all 0.15s ease-out;
+            transition: all 0.12s ease-out;
         }
 
         .card:hover .card-footer {
@@ -430,7 +434,7 @@
         }
 
         .arrow {
-            transition: transform 0.3s ease;
+            transition: transform 0.12s ease-out;
             opacity: 0.6;
         }
 
@@ -453,7 +457,7 @@
             justify-content: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.3s ease-out;
         }
 
         .page-transition.active {
@@ -538,7 +542,7 @@
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.15s ease-out;
+            transition: all 0.12s ease-out;
         }
 
         .modal-btn:hover {
@@ -840,11 +844,7 @@
     </style>
 </head>
 <body>
-    <!-- No navigation on index page -->
-    <!-- Starfield -->
     <div class="starfield" id="starfield"></div>
-
-    <!-- Page Transition -->
     <div class="page-transition" id="pageTransition">
         <div class="transition-content">
             <h2 id="transitionTitle">Loading...</h2>
@@ -887,6 +887,10 @@
                     <span class="arrow">→</span>
                 </div>
             </div>
+        </div>
+
+        <div class="statement-moment">
+            <h2>We build systems that think faster than humans can.</h2>
         </div>
 
         <!-- Features Section -->
