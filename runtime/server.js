@@ -267,6 +267,7 @@ app.use((req, res, next) => {
   res.setHeader('Content-Security-Policy', 
     "default-src 'self'; " +
     "script-src 'self' 'unsafe-inline' 'unsafe-eval' 'unsafe-hashes' blob: https://www.googletagmanager.com https://www.google-analytics.com; " +
+    "script-src-elem 'self' 'unsafe-inline' 'unsafe-hashes' blob: https://www.googletagmanager.com https://www.google-analytics.com; " +
     "script-src-attr 'unsafe-inline' 'unsafe-hashes'; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
     "font-src 'self' https://fonts.gstatic.com; " +
@@ -3577,9 +3578,10 @@ app.use('/.netlify/functions/analytics', apiLimiter, netlifyToExpress(analyticsH
 // Public analytics tracking endpoint (no auth required - for cookie consent tracking)
 app.post('/api/analytics/track', apiLimiter, async (req, res) => {
   try {
-    const { event, data, timestamp, userAgent, language, screen, viewport } = req.body;
+    const body = req.body || {};
+    const { event, data, timestamp, userAgent, language, screen, viewport } = body;
     
-    if (!event) {
+    if (!event || typeof event !== 'string' || event.trim() === '') {
       return res.status(400).json({ success: false, error: 'Event name is required' });
     }
     
@@ -4684,7 +4686,7 @@ app.get('/pricing', (req, res) => {
 
 // Favicon route - serve favicon from Imagies folder
 app.get('/favicon.ico', (req, res) => {
-  const faviconPath = path.join(__dirname, '..', 'Imagies', 'favicon_created_by_zenbusiness.ico');
+  const faviconPath = path.join(__dirname, '..', 'Imagies', 'favicon.ico');
   
   // Check if file exists
   if (fs.existsSync(faviconPath)) {
@@ -4697,6 +4699,24 @@ app.get('/favicon.ico', (req, res) => {
     }
   } else {
     res.status(204).end();
+  }
+});
+
+// Logo route - serve logo from Imagies folder
+app.get('/logo.png', (req, res) => {
+  const logoPath = path.join(__dirname, '..', 'Imagies', 'logo.png');
+  
+  // Check if file exists
+  if (fs.existsSync(logoPath)) {
+    if (isProduction) {
+      return secureStaticFile(req, res, logoPath);
+    } else {
+      res.setHeader('Content-Type', 'image/png');
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      res.sendFile(path.resolve(logoPath));
+    }
+  } else {
+    res.status(404).end();
   }
 });
 
