@@ -200,7 +200,7 @@
         }
 
         .hero-title {
-            font-size: clamp(2.25rem, 5.5vw, 4rem);
+            font-size: clamp(2.8rem, 6.5vw, 5rem);
             font-weight: 700;
             color: var(--soft-white);
             margin-bottom: 0.75rem;
@@ -230,8 +230,7 @@
             display: flex;
             align-items: center;
             padding: 0.6rem 1.1rem;
-            background: transparent;
-            border: 1px solid var(--ash-neutral);
+            background: rgba(15, 15, 15, 0.3);
             border-radius: 6px;
             color: var(--soft-white);
             font-size: 0.85rem;
@@ -239,9 +238,8 @@
         }
 
         .feature-item:hover {
-            border-color: var(--flame-core);
             color: var(--flame-core);
-            background: rgba(249, 115, 22, 0.05);
+            background: rgba(249, 115, 22, 0.08);
         }
 
         /* Footer Links */
@@ -284,87 +282,64 @@
 
         .card {
             flex: 1;
-            backdrop-filter: blur(15px) saturate(120%);
             border-radius: 6px;
             padding: 2.5rem;
             cursor: pointer;
             transition: all 0.12s ease-out;
-            position: relative;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            background: rgba(15, 15, 15, 0.5);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            background: rgba(15, 15, 15, 0.4);
             min-height: 480px;
         }
         
         .card-epsilon {
-            border: 1px solid var(--flame-core);
+            flex: 1.15;
+            background: rgba(15, 15, 15, 0.5);
         }
         
         .card-crm {
-            border: none;
+            background: rgba(15, 15, 15, 0.3);
         }
         
         .card-epsilon:hover {
-            border-color: var(--flame-core);
-            box-shadow: 0 8px 32px rgba(249, 115, 22, 0.3);
             transform: translateY(-2px);
         }
         
         .card-crm:hover {
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
             transform: translateY(-2px);
         }
         
-        .statement-moment {
-            text-align: left;
+        .statement-section {
+            text-align: center;
             padding: 120px 2rem;
-            margin: 80px 0;
+            margin: 100px 0;
+            background: var(--near-black);
             position: relative;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            transform: translateX(-40px);
         }
         
-        .statement-moment h2 {
-            font-size: clamp(3rem, 8vw, 6rem);
+        .statement-section h2 {
+            font-size: clamp(3rem, 8vw, 5.5rem);
             font-weight: 800;
-            line-height: 1.1;
+            line-height: 0.95;
             color: var(--soft-white);
-            margin: 0;
+            margin: 0 auto 1.5rem;
             letter-spacing: -0.03em;
-            background: linear-gradient(135deg, var(--soft-white) 0%, var(--ash-neutral) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            max-width: 900px;
         }
         
-        .statement-moment::before {
+        .statement-section::after {
             content: '';
-            position: absolute;
-            top: 50%;
-            left: -10%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(249, 115, 22, 0.08) 0%, transparent 70%);
-            filter: blur(80px);
-            animation: drift 25s ease-in-out infinite;
-            z-index: -1;
-        }
-        
-        @keyframes drift {
-            0%, 100% { transform: translate(-50%, -50%) translate(0, 0); }
-            50% { transform: translate(-50%, -50%) translate(30px, -20px); }
+            display: block;
+            width: 60px;
+            height: 2px;
+            background: var(--flame-core);
+            margin: 2rem auto 0;
         }
         
         @media (max-width: 768px) {
-            .statement-moment {
-                transform: translateX(0);
-                text-align: center;
+            .statement-section {
+                padding: 80px 1.5rem;
             }
         }
 
@@ -373,15 +348,12 @@
             font-size: 2.25rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #ffffff 0%, currentColor 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--soft-white);
             transition: all 0.12s ease-out;
         }
-
-        .card:hover h2 {
-            filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.2));
+        
+        .card-epsilon h2 {
+            color: var(--soft-white);
         }
 
         .card p {
@@ -399,7 +371,7 @@
         .card-status {
             display: inline-block;
             padding: 0.5rem 1rem;
-            border-radius: 20px;
+            border-radius: 6px;
             font-size: 0.8rem;
             font-weight: 500;
             margin-bottom: 1.25rem;
@@ -408,15 +380,13 @@
         }
 
         .status-active {
-            background: rgba(45, 200, 100, 0.15);
-            color: #5dd68f;
-            border: 1px solid rgba(45, 200, 100, 0.3);
+            background: rgba(249, 115, 22, 0.15);
+            color: var(--flame-highlight);
         }
 
         .status-soon {
-            background: transparent;
+            background: rgba(255, 255, 255, 0.03);
             color: var(--ash-neutral);
-            border: 1px solid var(--ash-neutral);
         }
 
         .card-footer {
@@ -889,10 +859,6 @@
             </div>
         </div>
 
-        <div class="statement-moment">
-            <h2>We build systems that think faster than humans can.</h2>
-        </div>
-
         <!-- Features Section -->
         <div class="features-row">
             <div class="feature-item">
@@ -907,6 +873,11 @@
             <div class="feature-item">
                 <span>Always Improving</span>
             </div>
+        </div>
+
+        <!-- Statement Section -->
+        <div class="statement-section">
+            <h2>We build systems that think faster than humans can.</h2>
         </div>
 
         <!-- Footer Links -->
