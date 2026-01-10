@@ -1360,17 +1360,7 @@
                         sidebarChats.innerHTML = '';
                         data.conversations.forEach(function(conv) {
                             var div = document.createElement('div');
-                            // Get session name - use first word of first message if no session_id
-                            var sessionName = conv.session_id;
-                            if (!sessionName && conv.last_message) {
-                                var firstWord = conv.last_message.trim().split(/\s+/)[0];
-                                if (firstWord && firstWord.length > 0) {
-                                    sessionName = firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
-                                }
-                            }
-                            if (!sessionName) {
-                                sessionName = 'Chat ' + conv.id.substring(0, 8);
-                            }
+                            var sessionName = getChatName(conv);
                             
                             div.style.cssText = 'padding: 0.75rem; margin: 0.4rem 0; background: rgba(15, 15, 15, 0.4); backdrop-filter: blur(8px); border: 1px solid var(--ash-neutral); border-radius: 6px; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03); transition: all 0.15s ease-out;';
                             div.textContent = sessionName;
@@ -1409,17 +1399,7 @@
                             var chatItem = document.createElement('div');
                             chatItem.className = 'recent-chat-item';
                             
-                            // Get session name - use first word of first message if no session_id
-                            var sessionName = conv.session_id;
-                            if (!sessionName && conv.last_message) {
-                                var firstWord = conv.last_message.trim().split(/\s+/)[0];
-                                if (firstWord && firstWord.length > 0) {
-                                    sessionName = firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
-                                }
-                            }
-                            if (!sessionName) {
-                                sessionName = 'Chat ' + conv.id.substring(0, 8);
-                            }
+                            var sessionName = getChatName(conv);
                             
                             var headerDiv = document.createElement('div');
                             headerDiv.className = 'recent-chat-item-header';
@@ -1503,8 +1483,12 @@
                             viewAllBtn.className = 'view-all-chats-btn';
                             viewAllBtn.textContent = 'View All Chats (' + allConvs.length + ')';
                             viewAllBtn.onclick = function() {
-                                if (window.loadChatHistory) {
-                                    window.loadChatHistory(true);
+                                var chatSidebar = document.getElementById('chatSidebar');
+                                var sidebarOverlay = document.getElementById('sidebarOverlay');
+                                if (chatSidebar) {
+                                    chatSidebar.classList.add('open');
+                                    if (sidebarOverlay) sidebarOverlay.classList.add('active');
+                                    document.body.classList.add('sidebar-open');
                                 }
                             };
                             recentChatsContainer.appendChild(viewAllBtn);

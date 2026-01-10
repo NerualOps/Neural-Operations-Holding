@@ -684,14 +684,20 @@
     }
 
     .contact-method {
-      background: linear-gradient(135deg, rgba(15, 15, 15, 0.6) 0%, rgba(15, 15, 15, 0.4) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(15, 15, 15, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 6px;
       padding: 1.5rem;
       text-align: center;
       transition: all 0.12s ease-out;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .contact-method:nth-child(1) {
+      border-left: 2px solid var(--flame-core);
+      background: rgba(15, 15, 15, 0.6);
     }
     
     .contact-method::before {
@@ -712,9 +718,10 @@
     }
 
     .contact-method:hover {
-      background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(249, 115, 22, 0.05) 100%);
+      background: rgba(249, 115, 22, 0.1);
       border-color: var(--flame-core);
-      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4);
+      transform: translateY(-2px);
     }
 
     .method-title {
@@ -739,12 +746,12 @@
 
     /* Contact Form - Simplified */
     .contact-form-container {
-      background: rgba(15, 15, 15, 0.5);
-      backdrop-filter: blur(12px);
+      background: rgba(15, 15, 15, 0.6);
       border-radius: 6px;
       padding: 2.5rem;
       margin-top: 3rem;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .form-header {
