@@ -86,15 +86,15 @@
         .sidebar-toggle span { width: 20px; height: 2px; background: rgba(255, 255, 255, 0.9); border-radius: 2px; }
         
         .top-nav-button { padding: 0.6rem 1.2rem; background: rgba(20, 30, 50, 0.85); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; color: rgba(255, 255, 255, 0.9); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: all 0.3s ease; }
-        .top-nav-button:hover { background: rgba(45, 90, 160, 0.4); transform: translateY(-1px); }
+        .top-nav-button:hover { background: rgba(255, 107, 53, 0.3); transform: translateY(-1px); }
         
         .top-right-auth { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 1999; display: none; gap: 0.75rem; transition: right 0.35s ease; }
         .top-right-profile { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 2001; display: none; align-items: center; gap: 0.5rem; transition: right 0.35s ease; }
-        .profile-bubble { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; color: #ffffff; text-transform: uppercase; cursor: pointer; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); background: linear-gradient(135deg, #2d8a6b, #4a7bc8); }
+        .profile-bubble { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; color: #ffffff; text-transform: uppercase; cursor: pointer; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); background: linear-gradient(135deg, #ff6b35, #ff9066); }
         .profile-dropdown { position: absolute; top: 55px; right: 0; background: rgba(0, 0, 0, 0.95); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; padding: 0.5rem; min-width: 200px; display: none; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6); z-index: 2002; }
         .profile-dropdown.active { display: block; }
         .profile-dropdown-item { display: block; padding: 0.75rem 1rem; color: rgba(255, 255, 255, 0.9); text-decoration: none; border-radius: 8px; font-size: 0.9rem; transition: all 0.2s ease; }
-        .profile-dropdown-item:hover { background: rgba(45, 90, 160, 0.2); }
+        .profile-dropdown-item:hover { background: rgba(255, 107, 53, 0.2); }
         .profile-dropdown-item.logout { color: #ff3b30; border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: 0.5rem; }
         
         /* Site Footer */
@@ -181,7 +181,8 @@
         .chat-sidebar { position: fixed; top: 0; left: 0; width: 280px; height: 100vh; background: rgba(10, 12, 18, 0.98); border-right: 1px solid rgba(255, 255, 255, 0.08); transform: translateX(-100%); transition: transform 0.35s ease; z-index: 1999; display: flex; flex-direction: column; }
         .chat-sidebar.open { transform: translateX(0); }
         .sidebar-header { padding: 2rem 1.5rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-        .new-chat-btn { width: 100%; padding: 0.875rem; margin: 1rem 0; background: linear-gradient(135deg, rgba(45, 138, 107, 0.2), rgba(74, 123, 200, 0.2)); border: 1px solid rgba(45, 138, 107, 0.3); border-radius: 12px; color: #ffffff; font-size: 0.95rem; cursor: pointer; }
+        .new-chat-btn { width: 100%; padding: 0.875rem; margin: 1rem 0; background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(255, 144, 102, 0.2)); border: 1px solid rgba(255, 107, 53, 0.3); border-radius: 12px; color: #ffffff; font-size: 0.95rem; cursor: pointer; transition: all 0.3s ease; }
+        .new-chat-btn:hover { background: linear-gradient(135deg, rgba(255, 107, 53, 0.3), rgba(255, 144, 102, 0.3)); border-color: rgba(255, 107, 53, 0.5); transform: translateY(-2px); }
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); opacity: 0; visibility: hidden; z-index: 1998; transition: all 0.3s ease; }
         .sidebar-overlay.active { opacity: 1; visibility: visible; }
         
@@ -190,16 +191,33 @@
         .chat-container { flex: 1; max-width: 900px; width: 100%; margin: 0 auto; padding: 100px 2rem 2rem; overflow-y: auto; }
         .welcome-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 60vh; }
         .welcome-screen.hidden { display: none; }
-        .welcome-title { font-size: 3.5rem; font-weight: 700; margin-bottom: 1rem; background: linear-gradient(135deg, #5a8bd8, #2d8a6b); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .welcome-title { font-size: 3.5rem; font-weight: 700; margin-bottom: 1rem; background: linear-gradient(135deg, #ffffff, #ff9066, #ff6b35); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .welcome-subtitle { font-size: 1.3rem; color: rgba(255, 255, 255, 0.6); margin-bottom: 2.5rem; }
-        .welcome-chat-input { display: flex; gap: 1rem; width: 100%; max-width: 650px; }
+        .welcome-chat-input { display: flex; gap: 1rem; width: 100%; max-width: 650px; margin-bottom: 3rem; }
         .welcome-input { flex: 1; min-height: 60px; padding: 1.2rem 1.8rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 25px; color: #ffffff; font-family: inherit; font-size: 1.1rem; resize: none; outline: none; }
+        
+        /* Recent Chats Section */
+        .recent-chats-section { width: 100%; max-width: 900px; margin-top: 2rem; text-align: left; }
+        .recent-chats-title { font-size: 1.1rem; font-weight: 600; color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem; text-align: center; }
+        .recent-chats-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; max-height: 400px; overflow-y: auto; padding: 0.5rem; }
+        .recent-chats-container::-webkit-scrollbar { width: 6px; }
+        .recent-chats-container::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 3px; }
+        .recent-chats-container::-webkit-scrollbar-thumb { background: rgba(255, 107, 53, 0.3); border-radius: 3px; }
+        .recent-chats-container::-webkit-scrollbar-thumb:hover { background: rgba(255, 107, 53, 0.5); }
+        .recent-chat-item { padding: 1rem 1.25rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .recent-chat-item::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: linear-gradient(180deg, #ff6b35, #ff9066); opacity: 0; transition: opacity 0.3s ease; }
+        .recent-chat-item:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 107, 53, 0.3); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2); }
+        .recent-chat-item:hover::before { opacity: 1; }
+        .recent-chat-name { font-size: 0.95rem; font-weight: 500; color: rgba(255, 255, 255, 0.9); margin-bottom: 0.25rem; }
+        .recent-chat-preview { font-size: 0.85rem; color: rgba(255, 255, 255, 0.6); line-height: 1.4; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .recent-chat-time { font-size: 0.75rem; color: rgba(255, 255, 255, 0.4); margin-top: 0.5rem; }
+        .no-recent-chats { text-align: center; color: rgba(255, 255, 255, 0.5); font-size: 0.9rem; padding: 2rem; }
         
         .chat-messages { display: none; flex-direction: column; gap: 1.5rem; padding-bottom: 1rem; }
         .chat-messages.visible { display: flex; }
         .message { padding: 1.25rem 1.5rem; border-radius: 12px; background: rgba(255, 255, 255, 0.03); margin-bottom: 0.5rem; position: relative; }
-        .message.user { background: rgba(45, 138, 107, 0.1); border-left: 3px solid #2d8a6b; }
-        .message.assistant { background: rgba(90, 139, 216, 0.1); border-left: 3px solid #2d5aa0; }
+        .message.user { background: rgba(255, 107, 53, 0.1); border-left: 3px solid #ff6b35; }
+        .message.assistant { background: rgba(255, 255, 255, 0.08); border-left: 3px solid rgba(255, 255, 255, 0.3); }
         .message-role { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; opacity: 0.7; margin-bottom: 0.75rem; }
         .message-text { line-height: 1.7; word-wrap: break-word; }
         .message-feedback { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
@@ -207,11 +225,11 @@
         .feedback-buttons { display: flex; gap: 0.5rem; align-items: center; }
         .feedback-btn { padding: 0.4rem 0.8rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 6px; color: rgba(255, 255, 255, 0.8); font-size: 0.8rem; cursor: pointer; transition: all 0.2s ease; }
         .feedback-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.25); }
-        .feedback-btn.active { background: rgba(45, 138, 107, 0.3); border-color: #2d8a6b; color: #ffffff; }
+        .feedback-btn.active { background: rgba(255, 107, 53, 0.3); border-color: #ff6b35; color: #ffffff; }
         .feedback-btn.negative { background: rgba(255, 59, 48, 0.2); border-color: rgba(255, 59, 48, 0.4); }
         .feedback-btn.negative:hover { background: rgba(255, 59, 48, 0.3); }
         .feedback-btn.negative.active { background: rgba(255, 59, 48, 0.4); border-color: #ff3b30; }
-        .feedback-thanks { font-size: 0.8rem; color: rgba(45, 138, 107, 0.9); display: none; }
+        .feedback-thanks { font-size: 0.8rem; color: rgba(255, 107, 53, 0.9); display: none; }
         .feedback-thanks.show { display: block; }
         
         body.sidebar-open .bottom-chat-input { left: 280px; }
@@ -219,8 +237,8 @@
         .bottom-chat-input.visible { display: block; }
         .chat-input-form { max-width: 900px; margin: 0 auto; display: flex; gap: 1rem; }
         .chat-input { flex: 1; min-height: 54px; padding: 0.875rem 1.25rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 25px; color: #ffffff; font-family: inherit; font-size: 1rem; resize: none; outline: none; }
-        .send-btn { width: 54px; height: 54px; background: linear-gradient(135deg, #2d8a6b, #4a7bc8); border: none; border-radius: 50%; color: white; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .send-btn:hover { transform: translateY(-2px); }
+        .send-btn { width: 54px; height: 54px; background: linear-gradient(135deg, #ff6b35, #ff9066); border: none; border-radius: 50%; color: white; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s ease; }
+        .send-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4); }
         
         @media (max-width: 768px) {
             .chat-container { 
@@ -418,7 +436,13 @@
                 <div class="welcome-chat-input">
                     <textarea id="welcomeInput" class="welcome-input" placeholder="Ask anything..." rows="1"></textarea>
                     <button type="button" class="send-btn" id="welcomeSendBtn">→</button>
+                </div>
+                <div class="recent-chats-section" id="recentChatsSection" style="display: none;">
+                    <div class="recent-chats-title">Recent Conversations</div>
+                    <div class="recent-chats-container" id="recentChatsContainer">
+                        <div class="no-recent-chats">No recent conversations</div>
                     </div>
+                </div>
                         </div>
             <div class="chat-messages" id="chatMessages"></div>
                             </div>
@@ -556,7 +580,7 @@
         // Use name if available, otherwise use email
         var displayName = (user.name || user.full_name || user.email.split('@')[0]);
         var initial = displayName.charAt(0).toUpperCase();
-        var colors = ['#2d5aa0', '#3d6bb0', '#5a8bd8', '#8b5cf6', '#ec4899', '#10b981', '#06b6d4'];
+        var colors = ['#ff6b35', '#ff9066', '#ff7a4a', '#ff9f7a', '#ffb380', '#ffc9a3', '#ffe0cc'];
         var randomColor = colors[Math.floor(Math.random() * colors.length)];
         
         // Get avatar from profile if available
@@ -907,6 +931,10 @@
         var bottomInput = document.getElementById('bottomChatInput');
         if (bottomInput) bottomInput.classList.remove('visible');
         window.currentSessionId = `session_${Date.now()}`;
+        // Reload chat history to show recent chats on welcome screen
+        setTimeout(function() {
+            window.loadChatHistory();
+        }, 100);
     };
     
     window.loadChatHistory = async function() {
@@ -934,6 +962,7 @@
             if (response.ok) {
                 var data = await response.json();
                 if (data.success && data.conversations) {
+                    // Populate sidebar chats
                     var sidebarChats = document.getElementById('sidebarChats');
                     if (sidebarChats) {
                         sidebarChats.innerHTML = '';
@@ -948,7 +977,6 @@
                                 window.loadChat(conv.id, conv.session_id);
                                 }
                             };
-                            // Also add cursor pointer style
                             div.style.cursor = 'pointer';
                             div.addEventListener('mouseenter', function() {
                                 this.style.background = 'rgba(255,255,255,0.1)';
@@ -958,6 +986,62 @@
                             });
                             sidebarChats.appendChild(div);
                         });
+                    }
+                    
+                    // Populate welcome screen recent chats (show first 6)
+                    var recentChatsSection = document.getElementById('recentChatsSection');
+                    var recentChatsContainer = document.getElementById('recentChatsContainer');
+                    if (recentChatsSection && recentChatsContainer && data.conversations.length > 0) {
+                        recentChatsContainer.innerHTML = '';
+                        var recentConvs = data.conversations.slice(0, 6);
+                        recentConvs.forEach(function(conv) {
+                            var chatItem = document.createElement('div');
+                            chatItem.className = 'recent-chat-item';
+                            
+                            var chatName = document.createElement('div');
+                            chatName.className = 'recent-chat-name';
+                            chatName.textContent = conv.session_id || 'Chat ' + conv.id.substring(0, 8);
+                            
+                            var chatPreview = document.createElement('div');
+                            chatPreview.className = 'recent-chat-preview';
+                            chatPreview.textContent = conv.last_message || 'No messages yet';
+                            
+                            var chatTime = document.createElement('div');
+                            chatTime.className = 'recent-chat-time';
+                            if (conv.updated_at) {
+                                var date = new Date(conv.updated_at);
+                                var now = new Date();
+                                var diffMs = now - date;
+                                var diffMins = Math.floor(diffMs / 60000);
+                                var diffHours = Math.floor(diffMs / 3600000);
+                                var diffDays = Math.floor(diffMs / 86400000);
+                                
+                                if (diffMins < 1) chatTime.textContent = 'Just now';
+                                else if (diffMins < 60) chatTime.textContent = diffMins + ' min ago';
+                                else if (diffHours < 24) chatTime.textContent = diffHours + ' hour' + (diffHours > 1 ? 's' : '') + ' ago';
+                                else if (diffDays < 7) chatTime.textContent = diffDays + ' day' + (diffDays > 1 ? 's' : '') + ' ago';
+                                else chatTime.textContent = date.toLocaleDateString();
+                            } else {
+                                chatTime.textContent = 'Recently';
+                            }
+                            
+                            chatItem.appendChild(chatName);
+                            chatItem.appendChild(chatPreview);
+                            chatItem.appendChild(chatTime);
+                            
+                            chatItem.onclick = function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                if (window.loadChat) {
+                                    window.loadChat(conv.id, conv.session_id);
+                                }
+                            };
+                            
+                            recentChatsContainer.appendChild(chatItem);
+                        });
+                        recentChatsSection.style.display = 'block';
+                    } else if (recentChatsContainer) {
+                        recentChatsContainer.innerHTML = '<div class="no-recent-chats">No recent conversations</div>';
                     }
                 }
             }
@@ -1013,9 +1097,10 @@
         }
     };
     
+    // Load chat history on page load (faster for better UX)
     setTimeout(function() {
         window.loadChatHistory();
-    }, 2000);
+    }, 500);
     
     window.deleteConversation = async function(conversationId) {
         try {

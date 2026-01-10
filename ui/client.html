@@ -9,7 +9,7 @@
     <meta name="title" content="Neural CRM - AI-Powered Customer Relationship Management | Neural Operations">
     <meta name="description" content="Neural CRM: The future of customer relationship management powered by Epsilon AI. Intelligent automation, predictive analytics, and seamless workflow optimization for modern businesses.">
     <meta name="keywords" content="Neural CRM, AI CRM, customer relationship management, Epsilon AI, intelligent CRM, AI-powered CRM, business automation, sales automation, CRM software">
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="author" content="Neural Operations & Holdings LLC">
     <link rel="canonical" href="https://neuralops.biz/client">
     
@@ -42,319 +42,325 @@
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --primary-orange: #ff6b35;
-            --primary-orange-light: #ff9066;
-            --primary-orange-dark: #f7931e;
-            --accent-orange: rgba(255, 107, 53, 0.1);
-            --gradient-start: #ff6b35;
-            --gradient-end: #000000;
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.8);
-            --text-muted: rgba(255, 255, 255, 0.6);
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(180deg, #1a0a05 0%, #0d0503 20%, #050201 40%, #020101 60%, #010000 80%, var(--gradient-end) 100%);
-            color: var(--text-primary);
-            min-height: 100vh;
-            line-height: 1.6;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
+            background: #0f1520; 
+            color: #ffffff; 
             overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.7;
         }
         
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 80px 40px;
-            position: relative;
+        @media (max-width: 768px) {
+            body { overflow: auto; }
+            
+            .top-left-nav { 
+                opacity: 0.3;
+                pointer-events: auto;
+            }
+            .sidebar-toggle { 
+                opacity: 0.3;
+                pointer-events: auto;
+            }
+            
+            body:not(.input-focused) .top-left-nav,
+            body:not(.input-focused) .sidebar-toggle {
+                opacity: 1;
+            }
+            
+            .top-left-nav {
+                top: 0.75rem;
+                left: 0.75rem;
+            }
+            .sidebar-toggle {
+                top: 3.5rem;
+                left: 0.75rem;
+            }
+            
+            body.sidebar-open .sidebar-toggle {
+                opacity: 0;
+                pointer-events: none;
+            }
         }
         
-        /* Coming Soon Badge */
-        .coming-soon-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
-            padding: 8px 20px;
-            font-size: 14px;
+        body.sidebar-open .top-left-nav { left: calc(1.5rem + 280px); }
+        .top-left-nav { 
+            position: fixed; 
+            top: 1.5rem; 
+            left: 1.5rem; 
+            z-index: 2000; 
+            transition: left 0.35s ease; 
+        }
+        body.sidebar-open .sidebar-toggle { left: calc(1.5rem + 280px); }
+        .sidebar-toggle { 
+            position: fixed; 
+            top: 5rem; 
+            left: 1.5rem; 
+            width: 40px; 
+            height: 40px; 
+            background: rgba(20, 30, 50, 0.85); 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border-radius: 8px; 
+            cursor: pointer; 
+            z-index: 2000; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 5px; 
+            transition: left 0.35s ease; 
+        }
+        .sidebar-toggle span { 
+            width: 20px; 
+            height: 2px; 
+            background: rgba(255, 255, 255, 0.9); 
+            border-radius: 2px; 
+        }
+        
+        .top-nav-button { 
+            padding: 0.6rem 1.2rem; 
+            background: rgba(20, 30, 50, 0.85); 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border-radius: 20px; 
+            color: rgba(255, 255, 255, 0.9); 
+            text-decoration: none; 
+            font-size: 0.85rem; 
+            font-weight: 500; 
+            transition: all 0.3s ease; 
+        }
+        .top-nav-button:hover { 
+            background: rgba(255, 107, 53, 0.3); 
+            transform: translateY(-1px); 
+        }
+        
+        /* Auth Sidebar */
+        .auth-sidebar { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 280px; 
+            height: 100vh; 
+            background: rgba(10, 12, 18, 0.98); 
+            border-right: 1px solid rgba(255, 255, 255, 0.08); 
+            transform: translateX(-100%); 
+            transition: transform 0.35s ease; 
+            z-index: 1999; 
+            display: flex; 
+            flex-direction: column; 
+            backdrop-filter: blur(20px);
+        }
+        .auth-sidebar.open { transform: translateX(0); }
+        .sidebar-header { 
+            padding: 2rem 1.5rem 1rem; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
+        }
+        .sidebar-header h3 {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.25rem;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
+            margin-bottom: 1rem;
+        }
+        .sidebar-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh; 
+            background: rgba(0, 0, 0, 0.5); 
+            opacity: 0; 
+            visibility: hidden; 
+            z-index: 1998; 
+            transition: all 0.3s ease; 
+        }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+        
+        .auth-content {
+            padding: 2rem 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
         
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        .auth-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
         
-        
-        /* Hero Section */
-        .hero-section {
-            text-align: center;
-            margin-bottom: 100px;
+        .auth-section-title {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
-        .hero-title {
-            font-size: clamp(48px, 8vw, 96px);
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.7) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 24px;
-            letter-spacing: -2px;
-            line-height: 1.1;
-        }
-        
-        .hero-subtitle {
-            font-size: clamp(20px, 3vw, 32px);
-            font-weight: 300;
-            color: var(--text-secondary);
-            max-width: 800px;
-            margin: 0 auto 40px;
-            line-height: 1.4;
-        }
-        
-        .development-notice {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .auth-button {
+            width: 100%;
+            padding: 0.875rem 1.25rem;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(255, 144, 102, 0.2));
+            border: 1px solid rgba(255, 107, 53, 0.3);
             border-radius: 12px;
-            padding: 20px 30px;
-            margin: 40px auto;
-            max-width: 600px;
-            backdrop-filter: blur(10px);
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .development-notice p {
-            color: var(--text-secondary);
-            font-size: 16px;
-            margin: 0;
+        .auth-button:hover {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.3), rgba(255, 144, 102, 0.3));
+            border-color: rgba(255, 107, 53, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
         }
         
-        .development-notice strong {
-            color: var(--primary-orange);
-            font-weight: 600;
+        .auth-button.primary {
+            background: linear-gradient(135deg, #ff6b35, #ff9066);
+            border-color: #ff6b35;
         }
         
-        .development-notice {
-            border-left: 3px solid var(--primary-orange);
+        .auth-button.primary:hover {
+            background: linear-gradient(135deg, #ff7a4a, #ff9f7a);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
         }
         
-        /* Content Sections */
-        .content-section {
-            margin-bottom: 80px;
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.85rem;
         }
         
-        .section-title {
-            font-size: clamp(32px, 5vw, 48px);
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-            position: relative;
-            padding-bottom: 20px;
-        }
-        
-        .section-title::after {
+        .auth-divider::before,
+        .auth-divider::after {
             content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-            border-radius: 2px;
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
         }
         
-        .section-content {
-            font-size: 18px;
-            line-height: 1.8;
-            color: var(--text-secondary);
-            max-width: 900px;
+        .auth-info {
+            margin-top: auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
         
-        .section-content p {
-            margin-bottom: 20px;
-        }
-        
-        .section-content strong {
-            color: rgba(255, 255, 255, 0.95);
-            font-weight: 600;
-        }
-        
-        /* Feature Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .feature-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.1);
-        }
-        
-        .feature-icon {
-            font-size: 40px;
-            margin-bottom: 20px;
-        }
-        
-        .feature-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--text-primary);
-        }
-        
-        .feature-description {
-            font-size: 16px;
-            color: var(--text-secondary);
+        .auth-info p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
             line-height: 1.6;
+            margin-bottom: 0.5rem;
         }
         
-        /* AI Section */
-        .ai-section {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-left: 4px solid var(--primary-orange);
-            border-radius: 20px;
-            padding: 50px;
-            margin: 60px 0;
-            backdrop-filter: blur(10px);
+        .auth-info a {
+            color: rgba(255, 107, 53, 0.8);
+            text-decoration: none;
         }
         
-        .ai-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary-orange), var(--primary-orange-light));
-            color: white;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 20px;
+        .auth-info a:hover {
+            color: rgba(255, 107, 53, 1);
+            text-decoration: underline;
         }
         
-        /* Future Features */
-        .future-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
+        /* Main Content */
+        .main-content { 
+            width: 100%; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            transition: margin-left 0.35s ease; 
+        }
+        .main-content.sidebar-open { margin-left: 280px; }
+        
+        @media (max-width: 768px) {
+            .main-content.sidebar-open { margin-left: 0; }
+            .auth-sidebar {
+                width: 100%;
+                max-width: 320px;
+            }
         }
         
-        .future-feature {
-            background: rgba(0, 0, 0, 0.3);
-            border-left: 3px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            padding: 25px;
-            transition: all 0.3s ease;
-        }
-        
-        .future-feature:hover {
-            background: rgba(0, 0, 0, 0.5);
-            border-left-color: var(--primary-orange);
-            border-left-width: 4px;
-        }
-        
-        .future-feature-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: rgba(255, 255, 255, 0.95);
-        }
-        
-        .future-feature-description {
-            font-size: 15px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-        
-        /* Navigation */
-        .nav-bar {
+        /* Starfield Background */
+        .starfield {
             position: fixed;
             top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(135deg, #0a0e1a 0%, #000000 50%, #0a0e1a 100%);
+            perspective: 1000px;
+            overflow: hidden;
+        }
+
+        .starfield::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 20px 40px;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 15% 50%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 50%, rgba(255, 107, 53, 0.08) 0%, transparent 50%);
+            animation: gradientShift 20s ease-in-out infinite;
         }
-        
-        .nav-logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--text-primary);
-            text-decoration: none;
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.7; }
         }
-        
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            align-items: center;
+
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            animation: twinkle linear infinite, float3d linear infinite;
+            filter: blur(0.3px);
         }
-        
-        .nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        
-        .nav-link:hover {
-            color: rgba(255, 255, 255, 0.9);
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 100px 20px 60px;
+
+        @keyframes twinkle {
+            0%, 100% { 
+                opacity: 0.2; 
+                box-shadow: 0 0 2px currentColor;
             }
-            
-            .nav-bar {
-                padding: 15px 20px;
-            }
-            
-            .nav-links {
-                gap: 15px;
-                font-size: 14px;
-            }
-            
-            .features-grid,
-            .future-features {
-                grid-template-columns: 1fr;
-            }
-            
-            .ai-section {
-                padding: 30px 20px;
+            50% { 
+                opacity: 0.6; 
+                box-shadow: 0 0 4px currentColor;
             }
         }
-        
-        /* Scroll Animation */
+
+        @keyframes float3d {
+            0% { transform: translateZ(0px); }
+            50% { transform: translateZ(150px); }
+            100% { transform: translateZ(0px); }
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 40px 80px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 120px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -365,206 +371,666 @@
                 transform: translateY(0);
             }
         }
-        
+
+        .coming-soon-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(255, 180, 50, 0.2), rgba(255, 107, 53, 0.2));
+            border: 1px solid rgba(255, 180, 50, 0.3);
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            letter-spacing: 0.5px;
+        }
+
+        .hero-title {
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #ff9066 50%, #ff6b35 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(20px, 3vw, 32px);
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            margin: 0 auto 50px;
+            line-height: 1.5;
+        }
+
+        .development-notice {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-left: 4px solid #ff6b35;
+            border-radius: 16px;
+            padding: 32px 40px;
+            margin: 50px auto;
+            max-width: 700px;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .development-notice p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 17px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .development-notice strong {
+            color: #ff9066;
+            font-weight: 600;
+        }
+
+        /* Content Sections */
         .content-section {
-            animation: fadeInUp 0.6s ease-out;
+            margin-bottom: 100px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .content-section:nth-child(2) { animation-delay: 0.1s; }
+        .content-section:nth-child(3) { animation-delay: 0.2s; }
+        .content-section:nth-child(4) { animation-delay: 0.3s; }
+        .content-section:nth-child(5) { animation-delay: 0.4s; }
+
+        .section-title {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #ffffff;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b35, rgba(255, 107, 53, 0.3));
+            border-radius: 2px;
+        }
+
+        .section-content {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
+            max-width: 900px;
+            margin-bottom: 40px;
+        }
+
+        .section-content p {
+            margin-bottom: 24px;
+        }
+
+        .section-content strong {
+            color: #ff9066;
+            font-weight: 600;
+        }
+
+        /* Feature Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.06) 0%, 
+                rgba(255, 255, 255, 0.03) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(15px) saturate(120%);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff6b35, transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(255, 107, 53, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover::after {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 255, 255, 0.06) 100%);
+            border-color: rgba(255, 107, 53, 0.4);
+            box-shadow: 
+                0 12px 40px rgba(255, 107, 53, 0.3),
+                0 4px 20px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        .feature-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #ffffff;
+            background: linear-gradient(135deg, #ffffff 0%, #ff9066 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-description {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.7;
+        }
+
+        /* AI Section */
+        .ai-section {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.08) 0%, 
+                rgba(255, 255, 255, 0.04) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-left: 4px solid #ff6b35;
+            border-radius: 24px;
+            padding: 60px;
+            margin: 60px 0;
+            backdrop-filter: blur(15px) saturate(120%);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.1), transparent);
+            filter: blur(60px);
+        }
+
+        .ai-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b35, #ff9066);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Future Features */
+        .future-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .future-feature {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.05) 0%, 
+                rgba(255, 255, 255, 0.02) 100%);
+            border-left: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 32px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .future-feature:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.08) 0%, 
+                rgba(255, 255, 255, 0.04) 100%);
+            border-left-color: #ff6b35;
+            border-left-width: 4px;
+            box-shadow: 
+                0 8px 25px rgba(255, 107, 53, 0.2),
+                0 4px 15px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            transform: translateX(5px) translateY(-2px);
+        }
+
+        .future-feature-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 14px;
+            color: #ffffff;
+        }
+
+        .future-feature-description {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.7;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            text-align: center;
+            margin-top: 120px;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.08) 0%, 
+                rgba(255, 255, 255, 0.04) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            backdrop-filter: blur(15px);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .final-cta p {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .final-cta strong {
+            color: #ff9066;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .site-footer {
+            position: relative;
+            background: rgba(10, 15, 25, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem 0;
+            margin-top: 4rem;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-left {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.8rem;
+        }
+
+        .footer-left p {
+            margin: 0;
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .footer-divider {
+            color: rgba(255, 255, 255, 0.3);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            line-height: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 100px 20px 60px;
+            }
+            
+            .features-grid,
+            .future-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .ai-section {
+                padding: 40px 24px;
+            }
+
+            .feature-card {
+                padding: 30px;
+            }
+            
+            .site-footer {
+                padding: 1.5rem 0;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+
+            .footer-links {
+                gap: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="nav-bar">
-        <a href="/" class="nav-logo">Neural Operations</a>
-        <div class="nav-links">
-            <a href="/" class="nav-link">Home</a>
-            <a href="/epsilon" class="nav-link">Epsilon AI</a>
-            <a href="/about" class="nav-link">About</a>
-            <a href="/contact" class="nav-link">Contact</a>
-        </div>
-    </nav>
+    <!-- Starfield Background -->
+    <div class="starfield" id="starfield"></div>
     
-    <div class="container">
-        <!-- Hero Section -->
-        <div class="hero-section">
-            <div class="coming-soon-badge">In Development</div>
-            <h1 class="hero-title">Neural CRM</h1>
-            <p class="hero-subtitle">The future of customer relationship management, powered by Epsilon AI</p>
-            
-            <div class="development-notice">
-                <p><strong>Under Active Development</strong><br>
-                Neural CRM is currently in development. We are building a comprehensive CRM solution powered by Epsilon AI, designed to become the industry's most capable sales agent AI system. Development updates will be shared as milestones are reached.</p>
-            </div>
+    <!-- Navigation -->
+    <div class="top-left-nav">
+        <a href="/" class="top-nav-button">← Home</a>
+    </div>
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    
+    <!-- Auth Sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="auth-sidebar" id="authSidebar">
+        <div class="sidebar-header">
+            <h3>Account</h3>
         </div>
-        
-        <!-- What Neural CRM Will Do -->
-        <div class="content-section">
-            <h2 class="section-title">What Neural CRM Will Do</h2>
-            <div class="section-content">
-                <p>
-                    <strong>Neural CRM</strong> is a next-generation customer relationship management system designed to enhance how businesses interact with their customers. Built with artificial intelligence at its core, Neural CRM will provide comprehensive solutions for managing customer relationships throughout the entire business lifecycle.
-                </p>
-                <p>
-                    Our CRM will deliver integrated solutions for <strong>sales automation</strong>, <strong>marketing intelligence</strong>, <strong>customer support automation</strong>, and <strong>predictive analytics</strong>. It will seamlessly integrate all customer touchpoints into a unified platform that learns and adapts to your business requirements.
-                </p>
+        <div class="auth-content">
+            <div class="auth-section">
+                <div class="auth-section-title">Get Started</div>
+                <button class="auth-button primary" id="signInBtn">Sign In</button>
+                <button class="auth-button" id="registerBtn">Register</button>
             </div>
             
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3 class="feature-title">Sales Automation</h3>
-                    <p class="feature-description">Automate your entire sales pipeline from lead generation to closing deals. Track every interaction, predict conversion probabilities, and optimize your sales process with AI-driven insights.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <h3 class="feature-title">Marketing Intelligence</h3>
-                    <p class="feature-description">Create targeted marketing campaigns with AI-powered segmentation. Analyze customer behavior, predict preferences, and deliver personalized experiences at scale.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <h3 class="feature-title">Customer Support</h3>
-                    <p class="feature-description">Provide exceptional customer service with AI-assisted support automation. Intelligent ticket routing, automated responses, and predictive issue resolution.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <h3 class="feature-title">Predictive Analytics</h3>
-                    <p class="feature-description">Forecast sales trends, identify opportunities, and make data-driven decisions with advanced AI analytics that learn from your business patterns.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <h3 class="feature-title">Workflow Automation</h3>
-                    <p class="feature-description">Streamline your business processes with intelligent workflow automation. Reduce manual tasks, eliminate errors, and increase productivity across your organization.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <h3 class="feature-title">Seamless Integration</h3>
-                    <p class="feature-description">Connect with all your business tools and platforms. Neural CRM will integrate with email, calendars, communication tools, and more for a unified experience.</p>
-                </div>
+            <div class="auth-divider">or</div>
+            
+            <div class="auth-section">
+                <div class="auth-section-title">Navigation</div>
+                <a href="/" class="auth-button">Home</a>
+                <a href="/epsilon" class="auth-button">Epsilon AI</a>
+                <a href="/about" class="auth-button">About</a>
+                <a href="/contact" class="auth-button">Contact</a>
+            </div>
+            
+            <div class="auth-info">
+                <p>Neural CRM is currently in development. Account features will be available soon.</p>
+                <p><a href="/privacy">Privacy Policy</a> • <a href="/terms">Terms of Service</a></p>
             </div>
         </div>
-        
-        <!-- AI Technology Section -->
-        <div class="content-section">
-            <div class="ai-section">
-                <span class="ai-badge">Powered by Epsilon AI</span>
-                <h2 class="section-title" style="margin-top: 0;">The AI Behind Neural CRM</h2>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="coming-soon-badge">In Development</div>
+                <h1 class="hero-title">Neural CRM</h1>
+                <p class="hero-subtitle">The future of customer relationship management, powered by Epsilon AI</p>
+                
+                <div class="development-notice">
+                    <p><strong>Under Active Development</strong><br>
+                    Neural CRM is currently in development. We are building a comprehensive CRM solution powered by Epsilon AI, designed to become the industry's most capable sales agent AI system. Development updates will be shared as milestones are reached.</p>
+                </div>
+            </div>
+            
+            <!-- What Neural CRM Will Do -->
+            <div class="content-section">
+                <h2 class="section-title">What Neural CRM Will Do</h2>
                 <div class="section-content">
                     <p>
-                        Neural CRM is powered by <strong>Epsilon AI</strong>, our proprietary self-learning artificial intelligence system. Epsilon AI combines transformer-based language models with advanced machine learning algorithms to create an intelligent system designed to understand and support your business operations.
+                        <strong>Neural CRM</strong> is a next-generation customer relationship management system designed to enhance how businesses interact with their customers. Built with artificial intelligence at its core, Neural CRM will provide comprehensive solutions for managing customer relationships throughout the entire business lifecycle.
                     </p>
                     <p>
-                        <strong>Epsilon AI</strong> utilizes neural network architectures, including custom transformer models trained specifically for business intelligence and customer relationship management. The AI continuously learns from your data, interactions, and business patterns to provide accurate predictions and recommendations.
+                        Our CRM will deliver integrated solutions for <strong>sales automation</strong>, <strong>marketing intelligence</strong>, <strong>customer support automation</strong>, and <strong>predictive analytics</strong>. It will seamlessly integrate all customer touchpoints into a unified platform that learns and adapts to your business requirements.
                     </p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3 class="feature-title">Sales Automation</h3>
+                        <p class="feature-description">Automate your entire sales pipeline from lead generation to closing deals. Track every interaction, predict conversion probabilities, and optimize your sales process with AI-driven insights.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3 class="feature-title">Marketing Intelligence</h3>
+                        <p class="feature-description">Create targeted marketing campaigns with AI-powered segmentation. Analyze customer behavior, predict preferences, and deliver personalized experiences at scale.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3 class="feature-title">Customer Support</h3>
+                        <p class="feature-description">Provide exceptional customer service with AI-assisted support automation. Intelligent ticket routing, automated responses, and predictive issue resolution.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3 class="feature-title">Predictive Analytics</h3>
+                        <p class="feature-description">Forecast sales trends, identify opportunities, and make data-driven decisions with advanced AI analytics that learn from your business patterns.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3 class="feature-title">Workflow Automation</h3>
+                        <p class="feature-description">Streamline your business processes with intelligent workflow automation. Reduce manual tasks, eliminate errors, and increase productivity across your organization.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3 class="feature-title">Seamless Integration</h3>
+                        <p class="feature-description">Connect with all your business tools and platforms. Neural CRM will integrate with email, calendars, communication tools, and more for a unified experience.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- AI Technology Section -->
+            <div class="content-section">
+                <div class="ai-section">
+                    <span class="ai-badge">Powered by Epsilon AI</span>
+                    <h2 class="section-title" style="margin-top: 0;">The AI Behind Neural CRM</h2>
+                    <div class="section-content">
+                        <p>
+                            Neural CRM is powered by <strong>Epsilon AI</strong>, our proprietary self-learning artificial intelligence system. Epsilon AI combines transformer-based language models with advanced machine learning algorithms to create an intelligent system designed to understand and support your business operations.
+                        </p>
+                        <p>
+                            <strong>Epsilon AI</strong> utilizes neural network architectures, including custom transformer models trained specifically for business intelligence and customer relationship management. The AI continuously learns from your data, interactions, and business patterns to provide accurate predictions and recommendations.
+                        </p>
+                        <p>
+                            As development progresses, Neural CRM will leverage Epsilon AI's <strong>self-learning capabilities</strong> to become the industry's most advanced sales agent AI system, capable of autonomously managing customer relationships, optimizing sales processes, and delivering intelligent insights that drive business growth.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Current Capabilities -->
+            <div class="content-section">
+                <h2 class="section-title">What Epsilon AI Can Do Now</h2>
+                <div class="section-content">
                     <p>
-                        As development progresses, Neural CRM will leverage Epsilon AI's <strong>self-learning capabilities</strong> to become the industry's most advanced sales agent AI system, capable of autonomously managing customer relationships, optimizing sales processes, and delivering intelligent insights that drive business growth.
+                        Epsilon AI currently provides capabilities that will power Neural CRM:
                     </p>
                 </div>
-            </div>
-        </div>
-        
-        <!-- Current Capabilities -->
-        <div class="content-section">
-            <h2 class="section-title">What Epsilon AI Can Do Now</h2>
-            <div class="section-content">
-                <p>
-                    Epsilon AI currently provides capabilities that will power Neural CRM:
-                </p>
-            </div>
-            
-            <div class="future-features">
-                <div class="future-feature">
-                    <h3 class="future-feature-title">Natural Language Understanding</h3>
-                    <p class="future-feature-description">Epsilon AI can understand and process natural language queries, making it easy to interact with your CRM using conversational commands.</p>
-                </div>
                 
-                <div class="future-feature">
-                    <h3 class="future-feature-title">Document Intelligence</h3>
-                    <p class="future-feature-description">Automatically extract and understand information from documents, emails, and other unstructured data sources.</p>
+                <div class="future-features">
+                    <div class="future-feature">
+                        <h3 class="future-feature-title">Natural Language Understanding</h3>
+                        <p class="future-feature-description">Epsilon AI can understand and process natural language queries, making it easy to interact with your CRM using conversational commands.</p>
+                    </div>
+                    
+                    <div class="future-feature">
+                        <h3 class="future-feature-title">Document Intelligence</h3>
+                        <p class="future-feature-description">Automatically extract and understand information from documents, emails, and other unstructured data sources.</p>
+                    </div>
+                    
+                    <div class="future-feature">
+                        <h3 class="future-feature-title">Predictive Modeling</h3>
+                        <p class="future-feature-description">Analyze historical data to predict customer behavior, sales trends, and business outcomes with high accuracy.</p>
+                    </div>
+                    
+                    <div class="future-feature">
+                        <h3 class="future-feature-title">Automated Insights</h3>
+                        <p class="future-feature-description">Generate actionable insights from your data automatically, identifying opportunities and risks before they become problems.</p>
+                    </div>
+                    
+                    <div class="future-feature">
+                        <h3 class="future-feature-title">Contextual Recommendations</h3>
+                        <p class="future-feature-description">Provide intelligent recommendations based on context, learning from your decisions to improve suggestions over time.</p>
+                    </div>
+                    
+                    <div class="future-feature">
+                        <h3 class="future-feature-title">Continuous Learning</h3>
+                        <p class="future-feature-description">Epsilon AI continuously learns from new data and interactions, becoming more accurate and useful over time.</p>
+                    </div>
                 </div>
-                
-                <div class="future-feature">
-                    <h3 class="future-feature-title">Predictive Modeling</h3>
-                    <p class="future-feature-description">Analyze historical data to predict customer behavior, sales trends, and business outcomes with high accuracy.</p>
-                </div>
-                
-                <div class="future-feature">
-                    <h3 class="future-feature-title">Automated Insights</h3>
-                    <p class="future-feature-description">Generate actionable insights from your data automatically, identifying opportunities and risks before they become problems.</p>
-                </div>
-                
-                <div class="future-feature">
-                    <h3 class="future-feature-title">Contextual Recommendations</h3>
-                    <p class="future-feature-description">Provide intelligent recommendations based on context, learning from your decisions to improve suggestions over time.</p>
-                </div>
-                
-                <div class="future-feature">
-                    <h3 class="future-feature-title">Continuous Learning</h3>
-                    <p class="future-feature-description">Epsilon AI continuously learns from new data and interactions, becoming more accurate and useful over time.</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Future Capabilities -->
-        <div class="content-section">
-            <h2 class="section-title">What Epsilon AI Will Be Able To Do</h2>
-            <div class="section-content">
-                <p>
-                    We are expanding Epsilon AI's capabilities to support Neural CRM's evolution into the industry's most advanced sales agent AI system. Here's what we're building for the future:
-                </p>
             </div>
             
-            <div class="future-features">
-                <div class="future-feature">
-                    <h3 class="future-feature-title">Autonomous Decision Making</h3>
-                    <p class="future-feature-description">Epsilon AI will be able to make routine business decisions autonomously, handling tasks like lead qualification, follow-up scheduling, and basic customer inquiries.</p>
+            <!-- Future Capabilities -->
+            <div class="content-section">
+                <h2 class="section-title">What Epsilon AI Will Be Able To Do</h2>
+                <div class="section-content">
+                    <p>
+                        We are expanding Epsilon AI's capabilities to support Neural CRM's evolution into the industry's most advanced sales agent AI system. Here's what we're building for the future:
+                    </p>
                 </div>
                 
-                <div class="future-feature">
-                    <h3 class="future-feature-title">Multi-Modal Understanding</h3>
-                    <p class="future-feature-description">Process and understand not just text, but also images, voice, and video to provide comprehensive customer insights across all communication channels.</p>
-                </div>
-                
-                <div class="future-feature">
-                    <h3 class="future-feature-title">Real-Time Strategy Optimization</h3>
-                    <p class="future-feature-description">Continuously optimize your sales and marketing strategies in real-time, adjusting campaigns and approaches based on live performance data.</p>
-                </div>
-                
-                <div class="future-feature">
-                    <h3 class="future-feature-title">Predictive Customer Lifecycle Management</h3>
-                    <p class="future-feature-description">Predict and manage the entire customer lifecycle, from acquisition to retention, identifying churn risks and opportunities for upselling before they happen.</p>
-                </div>
-                
-                <div class="future-feature">
-                    <h3 class="future-feature-title">Cross-Platform Intelligence</h3>
-                    <p class="future-feature-description">Integrate intelligence across all your business platforms, providing unified insights that span your entire technology stack.</p>
-                </div>
-                
-                <div class="future-feature">
-                    <h3 class="future-feature-title">Advanced Personalization</h3>
-                    <p class="future-feature-description">Create hyper-personalized experiences for each customer, with AI that understands individual preferences, communication styles, and business needs at a deep level.</p>
-                </div>
-                
-                <div class="future-feature">
-                    <h3 class="future-feature-title">Proactive Problem Solving</h3>
-                    <p class="future-feature-description">Identify and resolve customer issues before they're reported, using predictive analytics to anticipate needs and prevent problems.</p>
-                </div>
-                
-                <div class="future-feature">
-                    <h3 class="future-feature-title">Autonomous Business Intelligence</h3>
-                    <p class="future-feature-description">Epsilon AI will generate comprehensive business reports, strategic recommendations, and actionable insights automatically, keeping you informed without manual analysis.</p>
+                <div class="future-features">
+                    <div class="future-feature">
+                        <h3 class="future-feature-title">Autonomous Decision Making</h3>
+                        <p class="future-feature-description">Epsilon AI will be able to make routine business decisions autonomously, handling tasks like lead qualification, follow-up scheduling, and basic customer inquiries.</p>
+                    </div>
+                    
+                    <div class="future-feature">
+                        <h3 class="future-feature-title">Multi-Modal Understanding</h3>
+                        <p class="future-feature-description">Process and understand not just text, but also images, voice, and video to provide comprehensive customer insights across all communication channels.</p>
+                    </div>
+                    
+                    <div class="future-feature">
+                        <h3 class="future-feature-title">Real-Time Strategy Optimization</h3>
+                        <p class="future-feature-description">Continuously optimize your sales and marketing strategies in real-time, adjusting campaigns and approaches based on live performance data.</p>
+                    </div>
+                    
+                    <div class="future-feature">
+                        <h3 class="future-feature-title">Predictive Customer Lifecycle Management</h3>
+                        <p class="future-feature-description">Predict and manage the entire customer lifecycle, from acquisition to retention, identifying churn risks and opportunities for upselling before they happen.</p>
+                    </div>
+                    
+                    <div class="future-feature">
+                        <h3 class="future-feature-title">Cross-Platform Intelligence</h3>
+                        <p class="future-feature-description">Integrate intelligence across all your business platforms, providing unified insights that span your entire technology stack.</p>
+                    </div>
+                    
+                    <div class="future-feature">
+                        <h3 class="future-feature-title">Advanced Personalization</h3>
+                        <p class="future-feature-description">Create hyper-personalized experiences for each customer, with AI that understands individual preferences, communication styles, and business needs at a deep level.</p>
+                    </div>
+                    
+                    <div class="future-feature">
+                        <h3 class="future-feature-title">Proactive Problem Solving</h3>
+                        <p class="future-feature-description">Identify and resolve customer issues before they're reported, using predictive analytics to anticipate needs and prevent problems.</p>
+                    </div>
+                    
+                    <div class="future-feature">
+                        <h3 class="future-feature-title">Autonomous Business Intelligence</h3>
+                        <p class="future-feature-description">Epsilon AI will generate comprehensive business reports, strategic recommendations, and actionable insights automatically, keeping you informed without manual analysis.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Final CTA -->
-        <div class="content-section" style="text-align: center; margin-top: 100px;">
-            <div class="development-notice" style="max-width: 800px;">
-                <p style="font-size: 18px; margin-bottom: 15px;">
+            
+            <!-- Final CTA -->
+            <div class="final-cta">
+                <p style="font-size: 20px; margin-bottom: 15px;">
                     <strong>Neural CRM is coming soon</strong>
                 </p>
-                <p style="font-size: 16px; color: var(--text-secondary);">
+                <p style="font-size: 16px; color: rgba(255, 255, 255, 0.75);">
                     We're building something extraordinary. Neural CRM will revolutionize how businesses manage customer relationships, powered by the most advanced AI technology available. Stay tuned for updates as we continue development.
                 </p>
             </div>
         </div>
+        
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p>&copy; 2025 Neural Op's is a division of Neural Operations & Holdings LLC. All rights reserved.</p>
+                </div>
+                <div class="footer-right">
+                    <div class="footer-links">
+                        <a href="/about" class="footer-link">About Us</a>
+                        <span class="footer-divider">•</span>
+                        <a href="/contact" class="footer-link">Contact</a>
+                        <span class="footer-divider">•</span>
+                        <a href="/privacy" class="footer-link">Privacy</a>
+                        <span class="footer-divider">•</span>
+                        <a href="/terms" class="footer-link">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
     
     <!-- Cookie Consent & Analytics -->
@@ -620,6 +1086,70 @@
     
     <script src="/analytics.js" defer></script>
     <script src="/cookie-consent.js" defer></script>
+    
+    <script>
+        // Create starfield effect
+        (function() {
+            const starfield = document.getElementById('starfield');
+            const numStars = 150;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 2 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.color = i % 3 === 0 ? '#ff9066' : '#ffffff';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                starfield.appendChild(star);
+            }
+        })();
+        
+        // Sidebar toggle functionality
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const authSidebar = document.getElementById('authSidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const mainContent = document.getElementById('mainContent');
+        
+        if (sidebarToggle && authSidebar) {
+            sidebarToggle.onclick = function() {
+                authSidebar.classList.toggle('open');
+                if (sidebarOverlay) sidebarOverlay.classList.toggle('active');
+                document.body.classList.toggle('sidebar-open');
+                if (mainContent) mainContent.classList.toggle('sidebar-open');
+            };
+        }
+        
+        if (sidebarOverlay) {
+            sidebarOverlay.onclick = function() {
+                if (authSidebar) authSidebar.classList.remove('open');
+                sidebarOverlay.classList.remove('active');
+                document.body.classList.remove('sidebar-open');
+                if (mainContent) mainContent.classList.remove('sidebar-open');
+            };
+        }
+        
+        // Sign in/Register buttons (non-functional for now)
+        const signInBtn = document.getElementById('signInBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        
+        if (signInBtn) {
+            signInBtn.onclick = function(e) {
+                e.preventDefault();
+                // Placeholder - will be implemented later
+                console.log('Sign In clicked (coming soon)');
+            };
+        }
+        
+        if (registerBtn) {
+            registerBtn.onclick = function(e) {
+                e.preventDefault();
+                // Placeholder - will be implemented later
+                console.log('Register clicked (coming soon)');
+            };
+        }
+    </script>
 </body>
 </html>
-
