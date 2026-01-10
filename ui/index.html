@@ -303,8 +303,9 @@
         }
         
         .card-epsilon {
-            flex: 1.15;
-            background: rgba(15, 15, 15, 0.6);
+            flex: 1;
+            background: rgba(15, 15, 15, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 15px rgba(249, 115, 22, 0.12);
         }
         
@@ -312,18 +313,6 @@
             background: rgba(15, 15, 15, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 15px rgba(249, 115, 22, 0.12);
-        }
-        
-        .card-epsilon:hover {
-            background: rgba(249, 115, 22, 0.1);
-            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 20px rgba(249, 115, 22, 0.12);
-            transform: translateY(-2px);
-        }
-        
-        .card-crm:hover {
-            background: rgba(15, 15, 15, 0.6);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 20px rgba(249, 115, 22, 0.12);
-            transform: translateY(-2px);
         }
         
         .card h2 {
@@ -381,18 +370,8 @@
             transition: all 0.12s ease-out;
         }
 
-        .card:hover .card-footer {
-            color: var(--flame-core);
-        }
-
         .arrow {
-            transition: transform 0.12s ease-out;
             opacity: 0.6;
-        }
-
-        .card:hover .arrow {
-            transform: translateX(5px);
-            opacity: 1;
         }
 
         /* Page Transition */
@@ -683,9 +662,6 @@
                 font-size: clamp(0.85rem, 3vw, 0.95rem);
             }
 
-            .card:hover {
-                transform: translateY(-2px);
-            }
 
             .card::after {
                 display: none;
@@ -788,9 +764,6 @@
         }
 
         @media (hover: none) {
-            .card:hover {
-                transform: scale(1);
-            }
         }
         /* No navigation styles on index page */
     </style>
@@ -828,7 +801,7 @@
             </div>
             
             <!-- Epsilon AI Card -->
-            <div class="card card-epsilon" data-action="navigateToEpsilon">
+            <div class="card card-epsilon" data-action="navigateToEpsilon" onclick="window.navigateToEpsilon()" style="cursor: pointer;">
                 <div>
                     <span class="card-status status-active">Active</span>
                     <h2>Epsilon AI</h2>
