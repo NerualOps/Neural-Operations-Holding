@@ -687,18 +687,31 @@
         }
 
         .plan-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 2.5rem;
-            transition: all 0.3s ease;
+            background: rgba(15, 15, 15, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--ash-neutral);
+            border-radius: 6px;
+            padding: 2rem;
+            transition: all 0.15s ease-out;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+        }
+        
+        /* Varied card positions */
+        .plan-card:nth-child(1) {
+            transform: translateY(0);
+        }
+        .plan-card:nth-child(2) {
+            transform: translateY(12px);
+        }
+        .plan-card:nth-child(3) {
+            transform: translateY(6px);
         }
 
         .plan-card:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(249, 115, 22, 0.1);
             border-color: var(--flame-core);
-            transform: translateY(-5px);
-            box-shadow: 0 0 24px rgba(249, 115, 22, 0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(249, 115, 22, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .plan-card h3 {
@@ -723,15 +736,27 @@
             gap: 2rem;
             margin-bottom: 3rem;
             padding: 2rem;
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(15, 15, 15, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--ash-neutral);
             border-left: 2px solid var(--flame-core);
-            border-radius: 10px;
-            transition: all 0.3s ease;
+            border-radius: 6px;
+            transition: all 0.15s ease-out;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+        }
+        
+        /* Varied timeline positions */
+        .timeline-item:nth-child(odd) {
+            transform: translateX(0);
+        }
+        .timeline-item:nth-child(even) {
+            transform: translateX(8px);
         }
 
         .timeline-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateX(10px);
+            background: rgba(249, 115, 22, 0.1);
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .timeline-date {

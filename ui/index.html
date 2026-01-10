@@ -282,11 +282,11 @@
             align-items: stretch;
         }
 
-        /* Card Styles */
+        /* Card Styles - Varied Layouts */
         .card {
             flex: 1;
             backdrop-filter: blur(15px) saturate(120%);
-            border-radius: 8px;
+            border-radius: 6px;
             padding: 2.5rem;
             border: 1px solid var(--ash-neutral);
             cursor: pointer;
@@ -297,7 +297,37 @@
             flex-direction: column;
             justify-content: space-between;
             min-height: 420px;
-            background: transparent;
+            background: rgba(15, 15, 15, 0.5);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Varied card treatments - different depths and styles */
+        .card-epsilon {
+            background: rgba(15, 15, 15, 0.6);
+            border-left: 2px solid var(--ash-neutral);
+            padding: 2.75rem;
+            min-height: 440px;
+        }
+        
+        .card-crm {
+            background: rgba(15, 15, 15, 0.5);
+            border-left: 2px solid var(--flame-core);
+            padding: 2.25rem;
+            min-height: 400px;
+        }
+        
+        /* Add subtle variety to card positioning */
+        .card-epsilon {
+            transform: translateY(0);
+        }
+        
+        .card-crm {
+            transform: translateY(8px);
+        }
+        
+        .card-epsilon:hover,
+        .card-crm:hover {
+            transform: translateY(-4px);
         }
 
         /* Plasma Line Effect */
@@ -326,16 +356,16 @@
         .card:hover {
             transform: translateY(-4px);
             border-color: var(--flame-core);
-            background: rgba(249, 115, 22, 0.03);
-            box-shadow: 0 0 24px rgba(249, 115, 22, 0.15);
+            background: rgba(249, 115, 22, 0.1);
+            box-shadow: 0 8px 32px rgba(249, 115, 22, 0.3), 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
-
-        .card-epsilon {
-            color: var(--soft-white);
+        
+        .card-epsilon:hover {
+            border-left-color: var(--flame-core);
         }
-
-        .card-crm {
-            color: var(--soft-white);
+        
+        .card-crm:hover {
+            border-left-color: var(--flame-highlight);
         }
 
 

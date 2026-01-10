@@ -104,11 +104,12 @@
         body.sidebar-open .sidebar-toggle { left: calc(1.5rem + 280px); }
         .sidebar-toggle { 
             position: fixed; 
-            top: 5rem; 
-            left: 1.5rem; 
+            top: 1.5rem; 
+            left: calc(1.5rem + 120px); 
             width: 40px; 
             height: 40px; 
-            background: transparent; 
+            background: rgba(15, 15, 15, 0.6);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--ash-neutral); 
             border-radius: 6px; 
             cursor: pointer; 
@@ -118,10 +119,14 @@
             align-items: center; 
             justify-content: center; 
             gap: 5px; 
-            transition: all 0.15s ease-out; 
+            transition: all 0.15s ease-out;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
         .sidebar-toggle:hover {
             border-color: var(--flame-core);
+            background: rgba(249, 115, 22, 0.08);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px);
         }
         .sidebar-toggle span { 
             width: 20px; 
@@ -136,19 +141,23 @@
         
         .top-nav-button { 
             padding: 0.6rem 1.2rem; 
-            background: transparent; 
+            background: rgba(15, 15, 15, 0.6);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--ash-neutral); 
             border-radius: 6px; 
             color: var(--soft-white); 
             text-decoration: none; 
             font-size: 0.85rem; 
             font-weight: 500; 
-            transition: all 0.15s ease-out; 
+            transition: all 0.15s ease-out;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
         .top-nav-button:hover { 
             border-color: var(--flame-core); 
             color: var(--flame-core); 
-            background: rgba(249, 115, 22, 0.05);
+            background: rgba(249, 115, 22, 0.08);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px);
         }
         
         /* Auth Sidebar */
@@ -429,15 +438,16 @@
         }
 
         .development-notice {
-            background: transparent;
+            background: rgba(15, 15, 15, 0.5);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--ash-neutral);
             border-left: 2px solid var(--flame-core);
-            border-radius: 8px;
+            border-radius: 6px;
             padding: 32px 40px;
             margin: 50px auto;
             max-width: 700px;
-            backdrop-filter: blur(10px);
             animation: fadeInUp 0.8s ease-out 0.2s both;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .development-notice p {
@@ -515,13 +525,15 @@
         }
 
         .feature-card {
-            background: transparent;
+            background: rgba(15, 15, 15, 0.4);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--ash-neutral);
-            border-radius: 8px;
-            padding: 40px;
+            border-radius: 6px;
+            padding: 28px;
             transition: all 0.15s ease-out;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03);
         }
 
         /* Plasma Line Effect */
@@ -548,10 +560,10 @@
         }
 
         .feature-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-2px);
             border-color: var(--flame-core);
-            background: rgba(249, 115, 22, 0.03);
-            box-shadow: 0 0 24px rgba(249, 115, 22, 0.15);
+            background: rgba(249, 115, 22, 0.08);
+            box-shadow: 0 8px 24px rgba(249, 115, 22, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .feature-title {
@@ -570,14 +582,16 @@
 
         /* AI Section */
         .ai-section {
-            background: transparent;
+            background: rgba(15, 15, 15, 0.5);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--ash-neutral);
             border-left: 2px solid var(--flame-core);
-            border-radius: 8px;
-            padding: 60px;
+            border-radius: 6px;
+            padding: 48px;
             margin: 60px 0;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .ai-section::before {
@@ -612,20 +626,21 @@
         }
 
         .future-feature {
-            background: transparent;
+            background: rgba(15, 15, 15, 0.4);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--ash-neutral);
             border-left: 2px solid var(--ash-neutral);
-            border-radius: 8px;
-            padding: 32px;
+            border-radius: 6px;
+            padding: 24px;
             transition: all 0.15s ease-out;
-            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03);
         }
 
         .future-feature:hover {
             border-left-color: var(--flame-core);
-            background: rgba(249, 115, 22, 0.03);
-            transform: translateX(4px);
-            box-shadow: 0 0 16px rgba(249, 115, 22, 0.1);
+            background: rgba(249, 115, 22, 0.08);
+            transform: translateX(2px);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .future-feature-title {
@@ -647,10 +662,11 @@
             text-align: center;
             margin-top: 120px;
             padding: 60px 40px;
-            background: transparent;
+            background: rgba(15, 15, 15, 0.5);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--ash-neutral);
-            border-radius: 8px;
-            backdrop-filter: blur(15px);
+            border-radius: 6px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .final-cta p {

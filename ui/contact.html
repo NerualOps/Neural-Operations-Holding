@@ -800,18 +800,33 @@
       background: transparent;
       padding: 0;
     }
+    
+    /* Special handling for select labels - position above by default */
+    .form-group:has(.form-select) .form-label {
+      position: static;
+      display: block;
+      margin-bottom: 0.5rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0;
+      background: transparent;
+    }
 
     .form-input:focus + .form-label,
     .form-input:not(:placeholder-shown) + .form-label,
     .form-textarea:focus + .form-label,
-    .form-textarea:not(:placeholder-shown) + .form-label,
-    .form-select:focus + .form-label,
-    .form-select:not([value=""]) + .form-label {
+    .form-textarea:not(:placeholder-shown) + .form-label {
       top: -0.5rem;
       left: 1rem;
       font-size: 0.8rem;
       color: var(--flame-highlight);
       font-weight: 600;
+    }
+    
+    .form-select:focus ~ .form-label,
+    .form-group:has(.form-select:focus) .form-label {
+      color: var(--flame-highlight);
     }
 
     .form-textarea {
@@ -1266,6 +1281,7 @@
           </div>
 
           <div class="form-group">
+            <label for="inquiry" class="form-label" style="position: static; display: block; margin-bottom: 0.5rem; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem; font-weight: 500;">Inquiry Type</label>
             <select class="form-select" id="inquiry" name="inquiry" required>
               <option value="">Select Inquiry Type</option>
               <option value="assessment">Assessment Request</option>
@@ -1275,7 +1291,6 @@
               <option value="partnership">Partnership</option>
               <option value="other">Other</option>
             </select>
-            <label for="inquiry" class="form-label">Inquiry Type</label>
           </div>
 
           <div class="form-group">

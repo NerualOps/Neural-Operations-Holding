@@ -116,6 +116,9 @@
         .sidebar-toggle.visible { display: flex; }
         .sidebar-toggle:hover {
             border-color: var(--flame-core);
+            background: rgba(249, 115, 22, 0.08);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px);
         }
         .sidebar-toggle span { 
             width: 20px; 
@@ -130,19 +133,23 @@
         
         .top-nav-button { 
             padding: 0.6rem 1.2rem; 
-            background: transparent; 
+            background: rgba(15, 15, 15, 0.6);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--ash-neutral); 
             border-radius: 6px; 
             color: var(--soft-white); 
             text-decoration: none; 
             font-size: 0.85rem; 
             font-weight: 500; 
-            transition: all 0.15s ease-out; 
+            transition: all 0.15s ease-out;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
         .top-nav-button:hover { 
             border-color: var(--flame-core); 
             color: var(--flame-core); 
-            background: rgba(249, 115, 22, 0.05);
+            background: rgba(249, 115, 22, 0.08);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px);
         }
         
         .top-right-auth { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 1999; display: none; gap: 0.75rem; transition: right 0.35s ease; }
@@ -283,13 +290,15 @@
             left: 0; 
             width: 280px; 
             height: 100vh; 
-            background: var(--near-black); 
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(20px);
             border-right: 1px solid var(--ash-neutral); 
             transform: translateX(-100%); 
             transition: transform 0.35s ease; 
             z-index: 1999; 
             display: flex; 
-            flex-direction: column; 
+            flex-direction: column;
+            box-shadow: 2px 0 16px rgba(0, 0, 0, 0.5);
         }
         .chat-sidebar.open { transform: translateX(0); }
         .sidebar-header { 
@@ -373,14 +382,16 @@
         .recent-chats-container::-webkit-scrollbar-thumb { background: var(--flame-core); border-radius: 3px; }
         .recent-chats-container::-webkit-scrollbar-thumb:hover { background: var(--flame-highlight); }
         .recent-chat-item { 
-            padding: 1rem 1.25rem; 
-            background: transparent; 
+            padding: 0.875rem 1rem; 
+            background: rgba(15, 15, 15, 0.4);
+            backdrop-filter: blur(8px);
             border: 1px solid var(--ash-neutral); 
-            border-radius: 8px; 
+            border-radius: 6px; 
             cursor: pointer; 
             transition: all 0.15s ease-out; 
             position: relative; 
-            overflow: hidden; 
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03);
         }
         /* Plasma Line Effect */
         .recent-chat-item::before { 
@@ -402,9 +413,9 @@
         }
         .recent-chat-item:hover { 
             border-color: var(--flame-core); 
-            background: rgba(249, 115, 22, 0.05);
+            background: rgba(249, 115, 22, 0.1);
             transform: translateY(-1px); 
-            box-shadow: 0 0 16px rgba(249, 115, 22, 0.15); 
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25), 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
         .recent-chat-item:hover::before { 
             opacity: 1; 
@@ -1232,8 +1243,20 @@
                         sidebarChats.innerHTML = '';
                         data.conversations.forEach(function(conv) {
                             var div = document.createElement('div');
-                            div.style.cssText = 'padding: 0.75rem; margin: 0.5rem 0; background: rgba(255,255,255,0.05); border-radius: 8px; cursor: pointer;';
-                            div.textContent = conv.session_id || 'Chat ' + conv.id.substring(0, 8);
+                            // Get session name - use first word of first message if no session_id
+                            var sessionName = conv.session_id;
+                            if (!sessionName && conv.last_message) {
+                                var firstWord = conv.last_message.trim().split(/\s+/)[0];
+                                if (firstWord && firstWord.length > 0) {
+                                    sessionName = firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
+                                }
+                            }
+                            if (!sessionName) {
+                                sessionName = 'Chat ' + conv.id.substring(0, 8);
+                            }
+                            
+                            div.style.cssText = 'padding: 0.75rem; margin: 0.4rem 0; background: rgba(15, 15, 15, 0.4); backdrop-filter: blur(8px); border: 1px solid var(--ash-neutral); border-radius: 6px; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03); transition: all 0.15s ease-out;';
+                            div.textContent = sessionName;
                             div.onclick = function(e) {
                                 e.preventDefault();
                                 e.stopPropagation();
@@ -1243,10 +1266,16 @@
                             };
                             div.style.cursor = 'pointer';
                             div.addEventListener('mouseenter', function() {
-                                this.style.background = 'rgba(255,255,255,0.1)';
+                                this.style.background = 'rgba(249, 115, 22, 0.1)';
+                                this.style.borderColor = 'var(--flame-core)';
+                                this.style.transform = 'translateY(-1px)';
+                                this.style.boxShadow = '0 4px 12px rgba(249, 115, 22, 0.25), 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05)';
                             });
                             div.addEventListener('mouseleave', function() {
-                                this.style.background = 'rgba(255,255,255,0.05)';
+                                this.style.background = 'rgba(15, 15, 15, 0.4)';
+                                this.style.borderColor = 'var(--ash-neutral)';
+                                this.style.transform = 'translateY(0)';
+                                this.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03)';
                             });
                             sidebarChats.appendChild(div);
                         });
@@ -1262,9 +1291,21 @@
                             var chatItem = document.createElement('div');
                             chatItem.className = 'recent-chat-item';
                             
+                            // Get session name - use first word of first message if no session_id
+                            var sessionName = conv.session_id;
+                            if (!sessionName && conv.last_message) {
+                                var firstWord = conv.last_message.trim().split(/\s+/)[0];
+                                if (firstWord && firstWord.length > 0) {
+                                    sessionName = firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
+                                }
+                            }
+                            if (!sessionName) {
+                                sessionName = 'Chat ' + conv.id.substring(0, 8);
+                            }
+                            
                             var chatName = document.createElement('div');
                             chatName.className = 'recent-chat-name';
-                            chatName.textContent = conv.session_id || 'Chat ' + conv.id.substring(0, 8);
+                            chatName.textContent = sessionName;
                             
                             var chatPreview = document.createElement('div');
                             chatPreview.className = 'recent-chat-preview';
