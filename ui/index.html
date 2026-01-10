@@ -574,29 +574,25 @@
         /* Site Footer */
         .site-footer {
             position: relative;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
             background: var(--near-black);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--ash-neutral);
-            padding: 0.5rem 2rem;
-            z-index: 100;
-            flex-shrink: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 0;
+            margin-top: 4rem;
+            z-index: 1;
         }
 
         .footer-content {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .footer-left {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
         }
 
         .footer-left p {
@@ -606,15 +602,31 @@
         .footer-right {
             display: flex;
             align-items: center;
+            gap: 2rem;
         }
 
-        .footer-right .footer-links {
+        .footer-links {
             display: flex;
             gap: 2rem;
-            align-items: center;
             list-style: none;
             margin: 0;
             padding: 0;
+        }
+        
+        .footer-link {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.12s ease-out;
+        }
+        
+        .footer-link:hover {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .footer-divider {
+            color: rgba(255, 255, 255, 0.3);
+            margin: 0;
         }
 
         .footer-right .footer-links a {
@@ -880,17 +892,27 @@
             <h2>We build systems that think faster than humans can.</h2>
         </div>
 
-        <!-- Footer Links -->
-        <div class="footer-links">
-            <a href="/about" class="footer-link">About Us</a>
-            <span class="footer-divider">•</span>
-            <a href="/contact" class="footer-link">Contact</a>
-            <span class="footer-divider">•</span>
-            <a href="/privacy" class="footer-link">Privacy</a>
-            <span class="footer-divider">•</span>
-            <a href="/terms" class="footer-link">Terms of Service</a>
-        </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p>&copy; 2025 Neural Op's is a division of Neural Operations & Holdings LLC. All rights reserved.</p>
+            </div>
+            <div class="footer-right">
+                <div class="footer-links">
+                    <a href="/about" class="footer-link">About Us</a>
+                    <span class="footer-divider">•</span>
+                    <a href="/contact" class="footer-link">Contact</a>
+                    <span class="footer-divider">•</span>
+                    <a href="/privacy" class="footer-link">Privacy</a>
+                    <span class="footer-divider">•</span>
+                    <a href="/terms" class="footer-link">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Coming Soon Modal -->
     <div class="modal" id="comingSoonModal" onclick="closeModal(event)" style="display: none !important;">

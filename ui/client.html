@@ -228,12 +228,12 @@
         
         .auth-button {
             width: 100%;
-            padding: 0.875rem 1.25rem;
-            background: rgba(15, 15, 15, 0.4);
+            padding: 0.7rem 1rem;
+            background: rgba(15, 15, 15, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 6px;
             color: var(--soft-white);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.12s ease-out;
@@ -242,10 +242,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
         
         .auth-button:hover {
-            background: rgba(15, 15, 15, 0.6);
+            background: rgba(15, 15, 15, 0.7);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            transform: translateY(-1px);
         }
         
         .auth-button.primary {
@@ -253,10 +256,13 @@
             border: none;
             color: var(--near-black);
             font-weight: 600;
+            box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
         }
         
         .auth-button.primary:hover {
             background: var(--flame-highlight);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+            transform: translateY(-1px);
         }
         
         .auth-divider {
@@ -549,18 +555,30 @@
         }
 
         .feature-card {
-            background: rgba(15, 15, 15, 0.3);
+            background: rgba(15, 15, 15, 0.5);
             border-radius: 6px;
             padding: 28px;
             transition: all 0.12s ease-out;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         .feature-card:nth-child(1) {
             border-left: 2px solid var(--flame-core);
+            background: rgba(15, 15, 15, 0.6);
+        }
+        
+        .feature-card:nth-child(2) {
+            background: rgba(15, 15, 15, 0.45);
+        }
+        
+        .feature-card:nth-child(3) {
+            background: rgba(15, 15, 15, 0.4);
         }
 
         .feature-card:hover {
-            background: rgba(15, 15, 15, 0.4);
+            background: rgba(249, 115, 22, 0.1);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
         }
 
         .feature-title {
@@ -579,26 +597,12 @@
 
         /* AI Section */
         .ai-section {
-            background: rgba(15, 15, 15, 0.5);
-            backdrop-filter: blur(12px);
+            background: rgba(15, 15, 15, 0.6);
             border-left: 2px solid var(--flame-core);
             border-radius: 6px;
             padding: 48px;
             margin: 60px 0;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-        }
-
-        .ai-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(120% 120% at 50% 50%, rgba(255, 138, 61, 0.05) 0%, transparent 70%);
-            filter: blur(60px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .ai-badge {
@@ -622,34 +626,30 @@
         }
 
         .future-feature {
-            background: rgba(15, 15, 15, 0.4);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 15, 15, 0.5);
             border-radius: 6px;
             padding: 24px;
             transition: all 0.12s ease-out;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         .future-feature:nth-child(1) {
             border-left: 2px solid var(--flame-core);
+            background: rgba(15, 15, 15, 0.6);
         }
         
         .future-feature:nth-child(2) {
-            transform: translateY(8px);
+            background: rgba(15, 15, 15, 0.45);
         }
         
         .future-feature:nth-child(3) {
-            transform: translateY(4px);
+            background: rgba(15, 15, 15, 0.4);
         }
 
         .future-feature:hover {
-            background: rgba(249, 115, 22, 0.05);
-            transform: translateX(2px);
-            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.15);
-        }
-        
-        .future-feature:nth-child(1):hover {
-            border-left-color: var(--flame-highlight);
+            background: rgba(249, 115, 22, 0.1);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
         }
 
         .future-feature-title {
@@ -1157,5 +1157,25 @@
             };
         }
     </script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p>&copy; 2025 Neural Op's is a division of Neural Operations & Holdings LLC. All rights reserved.</p>
+            </div>
+            <div class="footer-right">
+                <div class="footer-links">
+                    <a href="/about" class="footer-link">About Us</a>
+                    <span class="footer-divider">•</span>
+                    <a href="/contact" class="footer-link">Contact</a>
+                    <span class="footer-divider">•</span>
+                    <a href="/privacy" class="footer-link">Privacy</a>
+                    <span class="footer-divider">•</span>
+                    <a href="/terms" class="footer-link">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

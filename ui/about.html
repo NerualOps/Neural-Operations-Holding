@@ -696,43 +696,36 @@
 
         .plan-card {
             background: rgba(15, 15, 15, 0.5);
-            backdrop-filter: blur(10px);
             border-radius: 6px;
             padding: 2rem;
             transition: all 0.12s ease-out;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         .plan-card:nth-child(1) {
-            border: 1px solid var(--flame-core);
-            transform: translateY(0);
+            border-left: 2px solid var(--flame-core);
+            background: rgba(15, 15, 15, 0.6);
         }
+        
         .plan-card:nth-child(2) {
-            transform: translateY(12px);
+            background: rgba(15, 15, 15, 0.45);
         }
+        
         .plan-card:nth-child(3) {
-            transform: translateY(6px);
+            background: rgba(15, 15, 15, 0.4);
         }
 
         .plan-card:hover {
-            background: rgba(249, 115, 22, 0.08);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(249, 115, 22, 0.25);
-        }
-        
-        .plan-card:nth-child(1):hover {
-            border-color: var(--flame-highlight);
+            background: rgba(249, 115, 22, 0.1);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
         }
 
         .plan-card h3 {
-            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.7) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            color: var(--flame-core);
+            color: var(--soft-white);
         }
 
         .plan-card p {
@@ -749,15 +742,23 @@
             display: flex;
             gap: 2rem;
             margin-bottom: 3rem;
-            padding: 0;
-            background: transparent;
+            padding: 2rem;
+            background: rgba(15, 15, 15, 0.5);
             border: none;
             border-left: 2px solid var(--flame-core);
-            padding-left: 2rem;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .timeline-item:nth-child(even) {
+            background: rgba(15, 15, 15, 0.45);
         }
         
         .timeline-item:hover {
             border-left-color: var(--flame-highlight);
+            background: rgba(249, 115, 22, 0.1);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
         }
 
         .timeline-date {
@@ -780,27 +781,61 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
-        .footer {
-            text-align: center;
-            padding: 3rem 0;
+        .site-footer {
+            position: relative;
+            background: var(--near-black);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 5rem;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            z-index: 1;
         }
 
-        .footer p {
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-left {
             color: rgba(255, 255, 255, 0.6);
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
-        .footer a {
-            color: var(--flame-core);
+        .footer-left p {
+            margin: 0;
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .footer-link {
+            color: rgba(255, 255, 255, 0.6);
             text-decoration: none;
+            font-size: 0.9rem;
             transition: all 0.12s ease-out;
         }
-
-        .footer a:hover {
-            color: var(--flame-highlight);
-            text-decoration: underline;
+        
+        .footer-link:hover {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .footer-divider {
+            color: rgba(255, 255, 255, 0.3);
+            margin: 0;
         }
 
         /* Mobile Responsive */
