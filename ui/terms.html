@@ -73,6 +73,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
   <style>
+    /* Professional Design System - Ignition Precision */
+    :root {
+        --flame-core: #F97316;
+        --flame-highlight: #FF8A3D;
+        --flame-deep: #C2410C;
+        --near-black: #0F0F0F;
+        --soft-white: #FAFAFA;
+        --ash-neutral: #A1A1AA;
+    }
     
     * {
         margin: 0;
@@ -82,8 +91,8 @@
 
     body {
         font-family: 'Inter', sans-serif;
-        background: #0f1520;
-        color: #ffffff;
+        background: var(--near-black);
+        color: var(--soft-white);
         overflow-x: hidden;
         padding-top: 80px;
         will-change: scroll-position;
@@ -93,12 +102,45 @@
     }
 
     .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; }
-    .top-nav-button { padding: 0.6rem 1.2rem; background: rgba(20, 30, 50, 0.85); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; color: rgba(255, 255, 255, 0.9); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: all 0.3s ease; }
-    .top-nav-button:hover { background: rgba(45, 90, 160, 0.4); transform: translateY(-1px); }
+    .top-nav-button { 
+        padding: 0.6rem 1.2rem; 
+        background: transparent; 
+        border: 1px solid var(--ash-neutral); 
+        border-radius: 6px; 
+        color: var(--soft-white); 
+        text-decoration: none; 
+        font-size: 0.85rem; 
+        font-weight: 500; 
+        transition: all 0.15s ease-out; 
+    }
+    .top-nav-button:hover { 
+        border-color: var(--flame-core); 
+        color: var(--flame-core); 
+        background: rgba(249, 115, 22, 0.05);
+    }
     
     .top-right-auth { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 1999; display: none; gap: 0.75rem; }
     .top-right-profile { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 2001; display: none; align-items: center; gap: 0.5rem; }
-    .profile-bubble { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; color: #ffffff; text-transform: uppercase; cursor: pointer; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); background: linear-gradient(135deg, #2d8a6b, #4a7bc8); }
+    .profile-bubble { 
+        width: 42px; 
+        height: 42px; 
+        border-radius: 50%; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        font-weight: 700; 
+        font-size: 1rem; 
+        color: var(--near-black); 
+        text-transform: uppercase; 
+        cursor: pointer; 
+        box-shadow: 0 0 16px rgba(249, 115, 22, 0.2); 
+        background: var(--flame-core); 
+        transition: all 0.15s ease-out;
+    }
+    .profile-bubble:hover {
+        background: var(--flame-highlight);
+        box-shadow: 0 0 24px rgba(249, 115, 22, 0.35);
+    }
     .profile-dropdown { position: absolute; top: 55px; right: 0; background: rgba(0, 0, 0, 0.95); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; padding: 0.5rem; min-width: 200px; display: none; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6); z-index: 2002; }
     .profile-dropdown.active { display: block; }
     .profile-dropdown-item { display: block; padding: 0.75rem 1rem; color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 0.9rem; transition: all 0.2s ease; border-radius: 6px; }
@@ -115,7 +157,7 @@
         font-size: 2.5rem;
         font-weight: 700;
         margin-bottom: 1rem;
-        background: linear-gradient(135deg, #2d8a6b, #4a7bc8);
+        background: var(--flame-core);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -167,8 +209,8 @@
     }
 
     .policy-highlight {
-        background: rgba(45, 90, 160, 0.2);
-        border-left: 3px solid #4a7bc8;
+        background: rgba(249, 115, 22, 0.1);
+        border-left: 2px solid var(--flame-core);
         padding: 1rem;
         margin: 1.5rem 0;
         border-radius: 4px;
@@ -353,7 +395,7 @@
           <p>However, no method of transmission or storage is 100% secure. You acknowledge that you use the Services at your own risk.</p>
 
           <h3>5.2 Data Processing</h3>
-          <p>By using the Services, you consent to our processing of your data as described in our <a href="/privacy" style="color: #4a7bc8; text-decoration: underline;">Privacy Policy</a>. We process personal data in compliance with applicable data protection laws, including GDPR (General Data Protection Regulation) and CCPA (California Consumer Privacy Act).</p>
+          <p>By using the Services, you consent to our processing of your data as described in our <a href="/privacy" style="color: var(--flame-core); text-decoration: underline;">Privacy Policy</a>. We process personal data in compliance with applicable data protection laws, including GDPR (General Data Protection Regulation) and CCPA (California Consumer Privacy Act).</p>
 
           <h3>5.3 Your Data Rights</h3>
           <p>You have the right to:</p>
@@ -365,7 +407,7 @@
               <li>Object to certain processing activities</li>
               <li>Withdraw consent where processing is based on consent</li>
           </ul>
-          <p>To exercise these rights, contact us at <a href="mailto:neuralops@neuralops.biz" style="color: #4a7bc8; text-decoration: underline;">neuralops@neuralops.biz</a>.</p>
+          <p>To exercise these rights, contact us at <a href="mailto:neuralops@neuralops.biz" style="color: var(--flame-core); text-decoration: underline;">neuralops@neuralops.biz</a>.</p>
 
           <h3>5.4 Data Retention</h3>
           <p>We retain your data only for as long as necessary to provide the Services and comply with legal obligations. When you delete your account, we will delete or anonymize your personal data within 30 days, except where we are required to retain it for legal purposes.</p>
@@ -456,8 +498,8 @@
           <h2>14. Contact Information</h2>
           <p>If you have any questions about these Terms, please contact us:</p>
           <p><strong>Neural Operations & Holdings LLC</strong><br>
-          Email: <a href="mailto:neuralops@neuralops.biz" style="color: #4a7bc8; text-decoration: underline;">neuralops@neuralops.biz</a><br>
-          Website: <a href="https://neuralops.biz" style="color: #4a7bc8; text-decoration: underline;">https://neuralops.biz</a></p>
+          Email: <a href="mailto:neuralops@neuralops.biz" style="color: var(--flame-core); text-decoration: underline;">neuralops@neuralops.biz</a><br>
+          Website: <a href="https://neuralops.biz" style="color: var(--flame-core); text-decoration: underline;">https://neuralops.biz</a></p>
       </div>
 
       <div class="policy-highlight">
@@ -574,7 +616,7 @@
         // Use name if available, otherwise use email
         var displayName = (user.name || user.full_name || user.email.split('@')[0]);
         var initial = displayName.charAt(0).toUpperCase();
-        var colors = ['#2d5aa0', '#3d6bb0', '#5a8bd8', '#8b5cf6', '#ec4899', '#10b981', '#06b6d4'];
+        var colors = ['#F97316', '#FF8A3D', '#EA580C', '#C2410C', '#F97316', '#FF8A3D', '#EA580C'];
         var randomColor = colors[Math.floor(Math.random() * colors.length)];
         
         // Get avatar from profile if available
@@ -691,19 +733,19 @@
   </script>
   
   <!-- Cookie Consent Banner -->
-  <div id="cookie-consent-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #ffffff; padding: 20px; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5); z-index: 10000; border-top: 2px solid #0066ff; will-change: transform, opacity; backface-visibility: hidden;">
+  <div id="cookie-consent-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #ffffff; padding: 20px; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5); z-index: 10000; border-top: 1px solid #F97316; will-change: transform, opacity; backface-visibility: hidden;">
       <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
           <div style="flex: 1; min-width: 300px;">
-              <h3 style="margin: 0 0 10px 0; font-size: 18px; color: #00ccff;">🍪 Cookie & Privacy Notice</h3>
+              <h3 style="margin: 0 0 10px 0; font-size: 18px; color: #F97316;">🍪 Cookie & Privacy Notice</h3>
               <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #e0e0e0;">
                   We use cookies and similar technologies to enhance your experience, analyze site traffic, and personalize content. 
                   By clicking "Accept All", you consent to our use of cookies. You can manage preferences or learn more in our 
-                  <a href="/privacy" style="color: #00ccff; text-decoration: underline;">Privacy Policy</a>.
+                  <a href="/privacy" style="color: #F97316; text-decoration: underline;">Privacy Policy</a>.
               </p>
           </div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <button id="cookie-consent-preferences" style="padding: 10px 20px; background: transparent; border: 2px solid #0066ff; color: #0066ff; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;">Preferences</button>
-              <button id="cookie-consent-accept-all" style="padding: 10px 30px; background: linear-gradient(135deg, #0066ff 0%, #00ccff 100%); border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;">Accept All</button>
+              <button id="cookie-consent-preferences" style="padding: 10px 20px; background: transparent; border: 1px solid #F97316; color: #F97316; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;">Preferences</button>
+              <button id="cookie-consent-accept-all" style="padding: 10px 30px; background: #F97316; border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;">Accept All</button>
           </div>
       </div>
   </div>
@@ -712,24 +754,24 @@
   <div id="cookie-preferences-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); z-index: 10001; overflow-y: auto;">
       <div style="max-width: 800px; margin: 50px auto; background: #1a1a2e; border-radius: 12px; padding: 30px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-              <h2 style="margin: 0; color: #00ccff; font-size: 24px;">Cookie Preferences</h2>
+              <h2 style="margin: 0; color: #F97316; font-size: 24px;">Cookie Preferences</h2>
               <button id="cookie-preferences-close" style="background: transparent; border: none; color: #ffffff; font-size: 28px; cursor: pointer; padding: 0; width: 30px; height: 30px;">&times;</button>
           </div>
           <div style="margin-bottom: 30px;">
               <p style="color: #e0e0e0; line-height: 1.6; margin-bottom: 20px;">Manage your cookie preferences. You can enable or disable different types of cookies below.</p>
-              <div style="background: #0f1520; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #00ccff;">
+              <div style="background: var(--near-black); padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 2px solid #F97316;">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                       <div><h3 style="margin: 0; color: #ffffff; font-size: 18px;">Essential Cookies</h3><p style="margin: 5px 0 0 0; color: #a0a0a0; font-size: 14px;">Required for website functionality</p></div>
-                      <span style="color: #00ccff; font-weight: 600;">Always Active</span>
+                      <span style="color: #F97316; font-weight: 600;">Always Active</span>
                   </div>
               </div>
-              <div style="background: #0f1520; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+              <div style="background: var(--near-black); padding: 20px; border-radius: 8px; margin-bottom: 15px;">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                       <div><h3 style="margin: 0; color: #ffffff; font-size: 18px;">Analytics Cookies</h3><p style="margin: 5px 0 0 0; color: #a0a0a0; font-size: 14px;">Help us improve our website</p></div>
                       <label style="position: relative; display: inline-block; width: 50px; height: 26px;"><input type="checkbox" id="cookie-analytics" style="opacity: 0; width: 0; height: 0;"><span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; border-radius: 26px; transition: 0.3s;"><span style="position: absolute; content: ''; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: 0.3s;"></span></span></label>
                   </div>
               </div>
-              <div style="background: #0f1520; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+              <div style="background: var(--near-black); padding: 20px; border-radius: 8px; margin-bottom: 15px;">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                       <div><h3 style="margin: 0; color: #ffffff; font-size: 18px;">Marketing Cookies</h3><p style="margin: 5px 0 0 0; color: #a0a0a0; font-size: 14px;">Personalize your experience</p></div>
                       <label style="position: relative; display: inline-block; width: 50px; height: 26px;"><input type="checkbox" id="cookie-marketing" style="opacity: 0; width: 0; height: 0;"><span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; border-radius: 26px; transition: 0.3s;"><span style="position: absolute; content: ''; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: 0.3s;"></span></span></label>
@@ -737,7 +779,7 @@
               </div>
           </div>
           <div style="display: flex; gap: 10px; justify-content: flex-end;">
-              <button id="cookie-preferences-save" style="padding: 12px 30px; background: linear-gradient(135deg, #0066ff 0%, #00ccff 100%); border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-weight: 600;">Save Preferences</button>
+              <button id="cookie-preferences-save" style="padding: 12px 30px; background: #F97316; border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-weight: 600;">Save Preferences</button>
           </div>
       </div>
   </div>

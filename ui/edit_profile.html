@@ -54,16 +54,14 @@
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
     
     <style>
+        /* Professional Design System - Ignition Precision */
         :root {
-            --neural-primary: #2d5aa0;
-            --neural-secondary: #3d6bb0;
-            --neural-dark: #0f1520;
-            --neural-darker: #0a0f18;
-            --neural-text: #ffffff;
-            --neural-muted: #a8b5d0;
-            --neural-success: #2d8a6b;
-            --neural-warning: #d6893f;
-            --neural-error: #c44d4d;
+            --flame-core: #F97316;
+            --flame-highlight: #FF8A3D;
+            --flame-deep: #C2410C;
+            --near-black: #0F0F0F;
+            --soft-white: #FAFAFA;
+            --ash-neutral: #A1A1AA;
         }
 
         * {
@@ -74,8 +72,8 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, rgba(10, 15, 24, 1) 0%, rgba(15, 21, 32, 1) 100%);
-            color: var(--neural-text);
+            background: var(--near-black);
+            color: var(--soft-white);
             overflow-x: hidden;
             padding-top: 100px;
             padding-bottom: 100px;
@@ -102,13 +100,13 @@
             justify-content: center;
             font-weight: 700;
             font-size: 1rem;
-            color: #ffffff;
+            color: var(--soft-white);
             text-transform: uppercase;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             cursor: pointer;
             transition: all 0.3s ease;
             border: 1.5px solid rgba(255, 255, 255, 0.2);
-            background: linear-gradient(135deg, #2d8a6b, #4a7bc8);
+            background: var(--flame-core);
         }
 
         .profile-bubble:hover {
@@ -120,9 +118,9 @@
             position: absolute;
             top: calc(100% + 0.5rem);
             right: 0;
-            background: rgba(0, 0, 0, 0.95);
+            background: var(--near-black);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid var(--ash-neutral);
             border-radius: 12px;
             padding: 0.5rem;
             min-width: 200px;
@@ -137,7 +135,7 @@
         .profile-dropdown-item {
             display: block;
             padding: 0.75rem 1rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--soft-white);
             text-decoration: none;
             border-radius: 8px;
             transition: all 0.2s ease;
@@ -145,8 +143,8 @@
         }
 
         .profile-dropdown-item:hover {
-            background: rgba(0, 102, 255, 0.2);
-            color: #ffffff;
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--soft-white);
         }
 
         .profile-dropdown-item.logout {
@@ -160,7 +158,11 @@
         /* Navigation Styles - Matching epsilon.html */
         .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; transition: left 0.35s ease; }
         .top-nav-button { padding: 0.6rem 1.2rem; background: rgba(20, 30, 50, 0.85); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; color: rgba(255, 255, 255, 0.9); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: all 0.3s ease; }
-        .top-nav-button:hover { background: rgba(45, 90, 160, 0.4); transform: translateY(-1px); }
+        .top-nav-button:hover { 
+            border-color: var(--flame-core); 
+            color: var(--flame-core); 
+            background: rgba(249, 115, 22, 0.05);
+        }
         .top-right-auth { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 1999; display: none; gap: 0.75rem; transition: right 0.35s ease; }
 
         /* Profile Container */
@@ -235,7 +237,7 @@
             justify-content: center;
             font-size: 2.75rem;
             font-weight: 700;
-            color: var(--neural-secondary);
+            color: var(--flame-core);
             text-transform: uppercase;
             box-shadow: 
                 0 8px 24px rgba(45, 138, 107, 0.2),
@@ -322,7 +324,7 @@
             font-weight: 600;
             margin-bottom: 0.75rem;
             font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--soft-white);
             letter-spacing: 0.01em;
         }
 
@@ -332,7 +334,7 @@
             border: 1.5px solid rgba(255, 255, 255, 0.1);
             border-radius: 14px;
             padding: 1rem 1.25rem;
-            color: var(--neural-text);
+            color: var(--soft-white);
             font-size: 1rem;
             font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
@@ -369,7 +371,7 @@
         }
 
         .primary-btn {
-            background: linear-gradient(135deg, var(--neural-primary), var(--neural-secondary));
+            background: var(--flame-core);
             color: #fff;
             border: none;
             border-radius: 14px;
@@ -379,7 +381,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 
-                0 4px 16px rgba(45, 90, 160, 0.3),
+                0 0 16px rgba(249, 115, 22, 0.15),
                 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
             letter-spacing: 0.01em;
         }
@@ -387,7 +389,7 @@
         .primary-btn:hover {
             transform: translateY(-2px);
             box-shadow: 
-                0 8px 24px rgba(45, 90, 160, 0.4),
+                0 0 24px rgba(249, 115, 22, 0.2),
                 0 0 0 1px rgba(255, 255, 255, 0.15) inset;
         }
 
@@ -457,7 +459,7 @@
             gap: 0.6rem;
             background: linear-gradient(135deg, rgba(61, 107, 176, 0.2), rgba(61, 107, 176, 0.15));
             border: 1px solid rgba(61, 107, 176, 0.35);
-            color: var(--neural-secondary);
+            color: var(--flame-core);
             padding: 0.6rem 1.1rem;
             border-radius: 12px;
             font-weight: 600;
@@ -814,7 +816,7 @@
             // Use name if available, otherwise use email
             var displayName = (user.name || user.full_name || user.email.split('@')[0]);
             var initial = displayName.charAt(0).toUpperCase();
-            var colors = ['#2d5aa0', '#3d6bb0', '#5a8bd8', '#8b5cf6', '#ec4899', '#10b981', '#06b6d4'];
+            var colors = ['#F97316', '#FF8A3D', '#EA580C', '#C2410C', '#F97316', '#FF8A3D', '#EA580C'];
             var randomColor = colors[Math.floor(Math.random() * colors.length)];
             
             // Get avatar from profile if available

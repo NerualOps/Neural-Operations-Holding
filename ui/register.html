@@ -45,13 +45,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
   <style>
+    /* Professional Design System - Ignition Precision */
     :root {
-      --neural-primary: #0066ff;
-      --neural-secondary: #00ccff;
-      --neural-dark: #0a0a0f;
-      --neural-darker: #050508;
-      --neural-text: #ffffff;
-      --neural-muted: #8892b0;
+      --flame-core: #F97316;
+      --flame-highlight: #FF8A3D;
+      --flame-deep: #C2410C;
+      --near-black: #0F0F0F;
+      --soft-white: #FAFAFA;
+      --ash-neutral: #A1A1AA;
     }
 
     * {
@@ -62,21 +63,21 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--neural-darker);
-      color: var(--neural-text);
+      background: var(--near-black);
+      color: var(--soft-white);
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       background-image:
-        radial-gradient(circle at 25% 25%, rgba(0, 102, 255, 0.1), transparent),
-        radial-gradient(circle at 75% 75%, rgba(0, 204, 255, 0.05), transparent);
+        radial-gradient(120% 120% at 20% 20%, rgba(255, 138, 61, 0.08) 0%, rgba(249, 115, 22, 0.05) 35%, transparent 70%),
+        radial-gradient(120% 120% at 80% 80%, rgba(255, 138, 61, 0.06) 0%, transparent 50%);
     }
 
     .register-container {
-      background: linear-gradient(135deg, rgba(20, 25, 35, 0.8), rgba(25, 30, 40, 0.7));
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
+      background: transparent;
+      border: 1px solid var(--ash-neutral);
+      border-radius: 8px;
       padding: 3rem;
       width: 100%;
       max-width: 500px;
@@ -85,14 +86,21 @@
       overflow: hidden;
     }
 
+    /* Plasma Line Effect */
     .register-container::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--neural-primary), var(--neural-secondary));
+      height: 1px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--ash-neutral) 20%, 
+        var(--flame-core) 50%, 
+        var(--ash-neutral) 80%, 
+        transparent 100%
+      );
     }
 
     .logo {
@@ -104,29 +112,28 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 1.8rem;
       font-weight: 700;
-      color: var(--neural-text);
+      color: var(--soft-white);
       text-decoration: none;
     }
 
     .logo-text::after {
       content: '●';
-      color: var(--neural-primary);
+      color: var(--flame-core);
       margin-left: 4px;
     }
 
     h1 {
       font-size: 2rem;
       margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, var(--neural-text), var(--neural-primary));
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--soft-white);
       text-align: center;
+      letter-spacing: -0.02em;
+      font-weight: 700;
     }
 
     .sub {
       text-align: center;
-      color: var(--neural-muted);
+      color: var(--ash-neutral);
       margin-bottom: 2rem;
     }
 
@@ -138,39 +145,39 @@
       display: block;
       font-weight: 500;
       margin-bottom: 0.5rem;
-      color: var(--neural-text);
+      color: var(--soft-white);
       font-size: 0.9rem;
     }
 
     .form-input {
       width: 100%;
       padding: 0.75rem 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      background: rgba(20, 25, 35, 0.6);
-      color: var(--neural-text);
+      border: 1px solid var(--ash-neutral);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--soft-white);
       font-family: 'Inter', sans-serif;
       font-size: 0.95rem;
-      transition: all 0.3s ease;
+      transition: all 0.15s ease-out;
     }
 
     input.form-input:focus, select.form-input:focus {
       outline: none;
-      border-color: var(--neural-primary);
-      background: rgba(25, 30, 40, 0.8);
-      box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+      border-color: var(--flame-core);
+      background: transparent;
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
     }
 
     input, select {
       width: 100%;
       padding: 0.75rem 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      background: rgba(20, 25, 35, 0.6);
-      color: var(--neural-text);
+      border: 1px solid var(--ash-neutral);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--soft-white);
       font-family: 'Inter', sans-serif;
       font-size: 0.95rem;
-      transition: all 0.3s ease;
+      transition: all 0.15s ease-out;
     }
 
     select {
@@ -185,29 +192,29 @@
 
     input:focus, select:focus {
       outline: none;
-      border-color: var(--neural-primary);
-      background: rgba(25, 30, 40, 0.8);
-      box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+      border-color: var(--flame-core);
+      background: transparent;
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
     }
 
     .register-button {
       width: 100%;
       padding: 0.75rem 1rem;
-      background: linear-gradient(135deg, var(--neural-primary), var(--neural-secondary));
+      background: var(--flame-core);
       border: none;
-      border-radius: 10px;
-      color: white;
+      border-radius: 6px;
+      color: var(--near-black);
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.15s ease-out;
       margin-top: 1rem;
       font-family: 'Inter', sans-serif;
     }
 
     .register-button:hover:not(:disabled) {
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(125, 163, 219, 0.15);
+      box-shadow: 0 0 24px rgba(249, 115, 22, 0.15);
     }
 
     .register-button:disabled {
@@ -217,7 +224,7 @@
     }
 
     button {
-      background: linear-gradient(135deg, var(--neural-primary), var(--neural-secondary));
+      background: var(--flame-core);
       font-weight: bold;
       cursor: pointer;
       transition: 0.3s;
@@ -226,7 +233,7 @@
 
     button:hover:not(:disabled) {
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(125, 163, 219, 0.15);
+      box-shadow: 0 0 24px rgba(249, 115, 22, 0.15);
     }
 
     button:disabled {
@@ -240,7 +247,7 @@
       font-weight: 500;
       margin-bottom: 1rem;
       padding: 0.75rem 1rem;
-      border-radius: 10px;
+      border-radius: 6px;
       font-size: 0.9rem;
       min-height: 20px;
     }
@@ -285,11 +292,11 @@
     .login-link {
       text-align: center;
       margin-top: 1.5rem;
-      color: var(--neural-muted);
+      color: var(--ash-neutral);
     }
 
     .login-link a {
-      color: var(--neural-primary);
+      color: var(--flame-core);
       text-decoration: none;
       font-weight: 500;
     }
@@ -313,13 +320,13 @@
       width: 100%;
       padding: 0.75rem 1rem;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      color: var(--neural-text);
+      border: 1px solid var(--ash-neutral);
+      border-radius: 6px;
+      color: var(--soft-white);
       font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.15s ease-out;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -342,13 +349,13 @@
       width: 100%;
       padding: 0.75rem 1rem;
       background: rgba(0, 0, 0, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      color: var(--neural-text);
+      border: 1px solid var(--ash-neutral);
+      border-radius: 6px;
+      color: var(--soft-white);
       font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.15s ease-out;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -380,7 +387,7 @@
       display: flex;
       align-items: center;
       margin: 1.5rem 0;
-      color: var(--neural-muted);
+      color: var(--ash-neutral);
       font-size: 0.9rem;
     }
 

@@ -57,18 +57,14 @@
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
     
     <style>
+        /* Professional Design System - Ignition Precision */
         :root {
-            --neural-primary: #0066ff;
-            --neural-secondary: #00ccff;
-            --neural-dark: #0a0a0f;
-            --neural-darker: #050508;
-            --neural-text: #ffffff;
-            --neural-muted: #8892b0;
-            --neural-success: #00ff88;
-            --neural-warning: #ffaa00;
-            --neural-error: #ff4444;
-            --neural-border: rgba(255, 255, 255, 0.12);
-            --neural-bg-secondary: rgba(255, 255, 255, 0.03);
+            --flame-core: #F97316;
+            --flame-highlight: #FF8A3D;
+            --flame-deep: #C2410C;
+            --near-black: #0F0F0F;
+            --soft-white: #FAFAFA;
+            --ash-neutral: #A1A1AA;
         }
 
         * {
@@ -79,16 +75,30 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--neural-darker);
-            color: var(--neural-text);
+            background: var(--near-black);
+            color: var(--soft-white);
             line-height: 1.6;
             padding-top: 2rem;
         }
 
         /* Navigation Styles - Matching epsilon.html */
         .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; transition: left 0.35s ease; }
-        .top-nav-button { padding: 0.6rem 1.2rem; background: rgba(20, 30, 50, 0.85); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; color: rgba(255, 255, 255, 0.9); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: all 0.3s ease; }
-        .top-nav-button:hover { background: rgba(45, 90, 160, 0.4); transform: translateY(-1px); }
+        .top-nav-button { 
+            padding: 0.6rem 1.2rem; 
+            background: transparent; 
+            border: 1px solid var(--ash-neutral); 
+            border-radius: 6px; 
+            color: var(--soft-white); 
+            text-decoration: none; 
+            font-size: 0.85rem; 
+            font-weight: 500; 
+            transition: all 0.15s ease-out; 
+        }
+        .top-nav-button:hover { 
+            border-color: var(--flame-core); 
+            color: var(--flame-core); 
+            background: rgba(249, 115, 22, 0.05);
+        }
 
         /* Owner Profile Navigation */
         .owner-profile-nav {
@@ -102,7 +112,7 @@
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #2d8a6b, #4a7bc8);
+            background: var(--flame-core);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -151,7 +161,7 @@
         }
 
         .owner-dropdown-item:hover {
-            background: rgba(45, 90, 160, 0.2);
+            background: rgba(249, 115, 22, 0.1);
         }
 
         .owner-dropdown-item.logout {
@@ -174,7 +184,7 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 10px;
-            color: var(--neural-text);
+            color: var(--soft-white);
             padding: 0.75rem 0.85rem;
             font-size: 0.95rem;
             font-family: inherit;
@@ -185,8 +195,8 @@
         .form-input:focus,
         .form-textarea:focus {
             outline: none;
-            border-color: var(--neural-primary);
-            box-shadow: 0 0 0 2px rgba(125, 163, 219, 0.12);
+            border-color: var(--flame-core);
+            box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.1);
         }
 
         .form-select option {
@@ -246,7 +256,7 @@
             margin-bottom: 0.65rem;
             text-align: left;
             background: rgba(255, 255, 255, 0.03);
-            color: var(--neural-text);
+            color: var(--soft-white);
             cursor: pointer;
             transition: border 0.2s ease, background 0.2s ease, transform 0.15s ease;
         }
@@ -256,9 +266,9 @@
         }
 
         .document-list-item.active {
-            border-color: var(--neural-primary);
-            background: rgba(125, 163, 219, 0.1);
-            box-shadow: 0 8px 20px rgba(125, 163, 219, 0.1);
+            border-color: var(--flame-core);
+            background: rgba(249, 115, 22, 0.05);
+            box-shadow: 0 0 16px rgba(249, 115, 22, 0.15);
         }
 
         .document-list-item .doc-title {
@@ -337,7 +347,7 @@
         .action-btn.outline {
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.4);
-            color: var(--neural-text);
+            color: var(--soft-white);
         }
 
         .document-empty-state {
@@ -405,7 +415,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 1.35rem;
             font-weight: 700;
-            color: var(--neural-text);
+            color: var(--soft-white);
             text-decoration: none;
             letter-spacing: -0.02em;
             margin-right: 1rem;
@@ -487,7 +497,7 @@
         }
 
         .contact-btn {
-            background: linear-gradient(135deg, var(--neural-primary), var(--neural-secondary));
+            background: var(--flame-core);
             color: #fff;
             padding: 0.6rem 1.4rem;
             border-radius: 28px;
@@ -495,7 +505,7 @@
             font-weight: 600;
             font-size: 0.9rem;
             box-shadow:
-                0 6px 18px rgba(125, 163, 219, 0.18),
+                0 0 16px rgba(249, 115, 22, 0.15),
                 inset 0 1px 0 rgba(255, 255, 255, 0.18);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             white-space: nowrap;
@@ -510,7 +520,7 @@
         .contact-btn:hover {
             transform: translateY(-2px);
             box-shadow:
-                0 8px 24px rgba(125, 163, 219, 0.2),
+                0 0 20px rgba(249, 115, 22, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.22);
         }
 
@@ -518,7 +528,7 @@
             display: none;
             background: none;
             border: none;
-            color: var(--neural-text);
+            color: var(--soft-white);
             font-size: 1.4rem;
             cursor: pointer;
             padding: 0.4rem;
@@ -584,7 +594,7 @@
         }
 
         .mobile-menu a:hover {
-            background: rgba(125, 163, 219, 0.12);
+            background: rgba(249, 115, 22, 0.08);
             color: var(--secondary);
         }
 
@@ -749,7 +759,7 @@
             border-radius: 999px;
             border: 1px solid rgba(255, 255, 255, 0.14);
             background: rgba(255, 255, 255, 0.05);
-            color: var(--neural-text);
+            color: var(--soft-white);
             font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
@@ -758,9 +768,9 @@
 
         .profile-btn:hover,
         .profile-btn.active {
-            border-color: rgba(125, 163, 219, 0.22);
-            background: rgba(125, 163, 219, 0.1);
-            box-shadow: 0 12px 24px rgba(125, 163, 219, 0.12);
+            border-color: var(--flame-core);
+            background: rgba(249, 115, 22, 0.05);
+            box-shadow: 0 0 24px rgba(249, 115, 22, 0.15);
         }
 
         .profile-avatar {
@@ -772,7 +782,7 @@
             justify-content: center;
             font-size: 1rem;
             line-height: 1;
-            background: linear-gradient(135deg, var(--neural-primary), var(--neural-secondary));
+            background: var(--flame-core);
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
         }
 
@@ -825,7 +835,7 @@
 
         .profile-menu-item:hover,
         .logout-item:hover {
-            background: rgba(125, 163, 219, 0.12);
+            background: rgba(249, 115, 22, 0.08);
             color: #fff;
         }
 
@@ -867,7 +877,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at top right, rgba(0, 204, 255, 0.32), transparent 55%);
+            background: radial-gradient(120% 120% at 80% 20%, rgba(255, 138, 61, 0.15) 0%, transparent 55%);
             pointer-events: none;
         }
 
@@ -913,7 +923,7 @@
             font-size: 0.85rem;
             font-weight: 600;
             background: rgba(100, 140, 200, 0.08);
-            border: 1px solid rgba(0, 204, 255, 0.35);
+            border: 1px solid var(--flame-core);
         }
 
         .crm-coming {
@@ -932,7 +942,7 @@
         }
 
         .crm-coming:hover {
-            background: rgba(0, 204, 255, 0.15);
+            background: rgba(249, 115, 22, 0.1);
             border-style: solid;
         }
 
@@ -951,9 +961,9 @@
         }
 
         .refresh-btn:hover {
-            background: rgba(125, 163, 219, 0.12);
-            border-color: rgba(125, 163, 219, 0.22);
-            box-shadow: 0 12px 28px rgba(125, 163, 219, 0.12);
+            background: rgba(249, 115, 22, 0.08);
+            border-color: var(--flame-core);
+            box-shadow: 0 0 24px rgba(249, 115, 22, 0.15);
         }
 
         .dashboard-section {
@@ -1014,7 +1024,7 @@
         }
 
         .stat-item {
-            background: rgba(125, 163, 219, 0.05);
+            background: rgba(249, 115, 22, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
             padding: 1.2rem;
@@ -1024,7 +1034,7 @@
         .stat-value {
             font-size: 1.8rem;
             font-weight: 700;
-            color: var(--neural-text);
+            color: var(--soft-white);
             margin-bottom: 0.5rem;
         }
 
@@ -1048,7 +1058,7 @@
             padding: 0.85rem 1.1rem;
             border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.14);
-            background: linear-gradient(135deg, rgba(125, 163, 219, 0.12), rgba(100, 140, 200, 0.08));
+            background: rgba(249, 115, 22, 0.05);
             color: #fff;
             font-weight: 600;
             font-size: 0.95rem;
@@ -1060,7 +1070,7 @@
 
         .action-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 16px 30px rgba(125, 163, 219, 0.15);
+            box-shadow: 0 0 24px rgba(249, 115, 22, 0.15);
         }
 
         .action-btn[data-state="loading"] {
@@ -1118,8 +1128,8 @@
         }
 
         .upload-area:hover {
-            border-color: rgba(0, 204, 255, 0.55);
-            background: rgba(0, 204, 255, 0.08);
+            border-color: var(--flame-core);
+            background: rgba(249, 115, 22, 0.1);
             color: #fff;
         }
 
@@ -1168,8 +1178,8 @@
         .form-input:focus,
         .form-textarea:focus {
             outline: none;
-            border-color: rgba(0, 204, 255, 0.45);
-            box-shadow: 0 0 0 3px rgba(0, 204, 255, 0.25);
+            border-color: var(--flame-core);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
         }
 
         .form-textarea {
@@ -1216,7 +1226,7 @@
         .status-title {
             font-size: 1.1rem;
             font-weight: 600;
-            color: var(--neural-text);
+            color: var(--soft-white);
             flex: 1;
         }
 
@@ -1267,7 +1277,7 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--neural-primary), var(--neural-secondary));
+            background: var(--flame-core);
             border-radius: 4px;
             transition: width 0.3s ease;
         }
@@ -1299,7 +1309,7 @@
             border-radius: 6px;
             font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.7);
-            border-left: 3px solid var(--neural-primary);
+            border-left: 2px solid var(--flame-core);
         }
 
         .log-entry.success {
@@ -1408,7 +1418,7 @@
             right: 1rem;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--neural-text);
+            color: var(--soft-white);
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -1433,15 +1443,15 @@
             }
 
         .analytics-table thead {
-            background: rgba(125, 163, 219, 0.06);
-            border-bottom: 2px solid rgba(0, 102, 255, 0.3);
+            background: rgba(249, 115, 22, 0.05);
+            border-bottom: 1px solid var(--flame-core);
         }
 
         .analytics-table th {
                 padding: 1rem;
             text-align: left;
             font-weight: 600;
-            color: var(--neural-text);
+            color: var(--soft-white);
             font-size: 0.9rem;
             letter-spacing: 0.02em;
             }
@@ -2037,7 +2047,7 @@
                     }
                 } else {
                     profileCircle.style.backgroundImage = 'none';
-                    const colors = ['#2d5aa0', '#3d6bb0', '#5a8bd8', '#8b5cf6', '#ec4899', '#10b981', '#06b6d4'];
+                    const colors = ['#F97316', '#FF8A3D', '#EA580C', '#C2410C', '#F97316', '#FF8A3D', '#EA580C'];
                     const randomColor = colors[Math.floor(Math.random() * colors.length)];
                     profileCircle.style.backgroundColor = randomColor;
                     profileCircle.style.background = randomColor;
@@ -2691,7 +2701,7 @@
                                         <td>${escapeHtml(user.name || 'N/A')}</td>
                                         <td>${escapeHtml(user.email || 'N/A')}</td>
                                         <td>${formatDate(user.lastActive)}</td>
-                                        <td><span style="color: ${user.role === 'owner' ? 'var(--neural-primary)' : 'var(--neural-muted)'}">${escapeHtml(user.role || 'client')}</span></td>
+                                        <td><span style="color: ${user.role === 'owner' ? 'var(--flame-core)' : 'var(--neural-muted)'}">${escapeHtml(user.role || 'client')}</span></td>
                                     </tr>
                                 `).join('')}
                             </tbody>
@@ -4648,7 +4658,7 @@
                             const triggerBtn = document.createElement('button');
                             triggerBtn.id = 'manualTriggerBtn';
                             triggerBtn.textContent = 'Trigger Training Now';
-                            triggerBtn.style.cssText = 'margin-top: 1rem; padding: 0.5rem 1rem; background: rgba(125, 163, 219, 0.12); border: 1px solid rgba(125, 163, 219, 0.2); color: #00ccff; border-radius: 8px; cursor: pointer;';
+                            triggerBtn.style.cssText = 'margin-top: 1rem; padding: 0.5rem 1rem; background: rgba(249, 115, 22, 0.08); border: 1px solid var(--flame-core); color: #F97316; border-radius: 6px; cursor: pointer;';
                             triggerBtn.onclick = async () => {
                                 triggerBtn.disabled = true;
                                 triggerBtn.textContent = 'Triggering...';

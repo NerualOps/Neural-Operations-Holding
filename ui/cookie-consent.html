@@ -1,19 +1,19 @@
 <!-- Cookie Consent Banner -->
-<div id="cookie-consent-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #ffffff; padding: 20px; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5); z-index: 10000; border-top: 2px solid #0066ff;">
+<div id="cookie-consent-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #ffffff; padding: 20px; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5); z-index: 10000; border-top: 1px solid #F97316;">
     <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
         <div style="flex: 1; min-width: 300px;">
-            <h3 style="margin: 0 0 10px 0; font-size: 18px; color: #00ccff;">🍪 Cookie & Privacy Notice</h3>
+            <h3 style="margin: 0 0 10px 0; font-size: 18px; color: #F97316;">🍪 Cookie & Privacy Notice</h3>
             <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #e0e0e0;">
                 We use cookies and similar technologies to enhance your experience, analyze site traffic, and personalize content. 
                 By clicking "Accept All", you consent to our use of cookies. You can manage preferences or learn more in our 
-                <a href="/privacy" style="color: #00ccff; text-decoration: underline;">Privacy Policy</a>.
+                <a href="/privacy" style="color: #F97316; text-decoration: underline;">Privacy Policy</a>.
             </p>
         </div>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <button id="cookie-consent-preferences" style="padding: 10px 20px; background: transparent; border: 2px solid #0066ff; color: #0066ff; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+            <button id="cookie-consent-preferences" style="padding: 10px 20px; background: transparent; border: 1px solid #F97316; color: #F97316; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
                 Preferences
             </button>
-            <button id="cookie-consent-accept-all" style="padding: 10px 30px; background: linear-gradient(135deg, #0066ff 0%, #00ccff 100%); border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+            <button id="cookie-consent-accept-all" style="padding: 10px 30px; background: #F97316; border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
                 Accept All
             </button>
         </div>
@@ -24,7 +24,7 @@
 <div id="cookie-preferences-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); z-index: 10001; overflow-y: auto;">
     <div style="max-width: 800px; margin: 50px auto; background: #1a1a2e; border-radius: 12px; padding: 30px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h2 style="margin: 0; color: #00ccff; font-size: 24px;">Cookie Preferences</h2>
+            <h2 style="margin: 0; color: #F97316; font-size: 24px;">Cookie Preferences</h2>
             <button id="cookie-preferences-close" style="background: transparent; border: none; color: #ffffff; font-size: 28px; cursor: pointer; padding: 0; width: 30px; height: 30px;">&times;</button>
         </div>
         
@@ -35,13 +35,13 @@
             </p>
             
             <!-- Essential Cookies (Always On) -->
-            <div style="background: #0f1520; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #00ccff;">
+            <div style="background: #0f1520; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 2px solid #F97316;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <div>
                         <h3 style="margin: 0; color: #ffffff; font-size: 18px;">Essential Cookies</h3>
                         <p style="margin: 5px 0 0 0; color: #a0a0a0; font-size: 14px;">Required for website functionality</p>
                     </div>
-                    <span style="color: #00ccff; font-weight: 600;">Always Active</span>
+                    <span style="color: #F97316; font-weight: 600;">Always Active</span>
                 </div>
                 <p style="margin: 0; color: #c0c0c0; font-size: 14px; line-height: 1.6;">
                     These cookies are necessary for the website to function and cannot be switched off. They include authentication, security, and session management.
@@ -88,7 +88,7 @@
         </div>
         
         <div style="display: flex; gap: 10px; justify-content: flex-end;">
-            <button id="cookie-preferences-save" style="padding: 12px 30px; background: linear-gradient(135deg, #0066ff 0%, #00ccff 100%); border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-weight: 600;">
+            <button id="cookie-preferences-save" style="padding: 12px 30px; background: #F97316; border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-weight: 600;">
                 Save Preferences
             </button>
         </div>
@@ -217,7 +217,7 @@
             toggle.addEventListener('change', function() {
                 const span = this.nextElementSibling;
                 if (this.checked) {
-                    span.style.backgroundColor = '#0066ff';
+                    span.style.backgroundColor = '#F97316';
                     span.querySelector('span').style.transform = 'translateX(24px)';
                 } else {
                     span.style.backgroundColor = '#333';
@@ -228,7 +228,7 @@
             // Initialize toggle state
             if (toggle.checked) {
                 const span = toggle.nextElementSibling;
-                span.style.backgroundColor = '#0066ff';
+                span.style.backgroundColor = '#F97316';
                 span.querySelector('span').style.transform = 'translateX(24px)';
             }
         });
