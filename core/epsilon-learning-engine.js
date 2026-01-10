@@ -8191,12 +8191,13 @@ if (typeof window !== 'undefined') {
         
         // Verify RAG system initialization
         setTimeout(() => {
-            console.log('[EPSILON AI LEARNING] RAG System Status:', {
+            const ragStatus = {
                 ragInitialized: window.epsilonLearningEngine.ragInitialized,
                 hasEmbeddingService: !!window.epsilonLearningEngine.ragEmbeddingService,
                 hasLLMService: !!window.epsilonLearningEngine.ragLLMService,
                 hasDocumentProcessor: !!window.epsilonLearningEngine.ragDocumentProcessor
-            });
+            };
+            console.log('[EPSILON AI LEARNING] RAG System Status:', JSON.stringify(ragStatus, null, 2));
         }, 2000);
         
         // Dispatch ready event for other components

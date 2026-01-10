@@ -1332,10 +1332,16 @@
     window.loadChatHistory = async function(showAll) {
         try {
             var userStr = localStorage.getItem('epsilon_user');
-            if (!userStr) return;
+            if (!userStr) {
+                console.debug('[CHAT] No user found in localStorage');
+                return;
+            }
             
             var user = JSON.parse(userStr);
-            if (!user || !user.id) return;
+            if (!user || !user.id) {
+                console.debug('[CHAT] Invalid user data');
+                return;
+            }
             
             var csrfToken = await window.getCsrfToken();
             var response = await fetch('/api/supabase-proxy', {
@@ -1353,7 +1359,7 @@
             
             if (response.ok) {
                 var data = await response.json();
-                if (data.success && data.conversations) {
+                if (data && data.success && data.conversations && Array.isArray(data.conversations)) {
                     // Populate sidebar chats
                     var sidebarChats = document.getElementById('sidebarChats');
                     if (sidebarChats) {
@@ -1391,7 +1397,7 @@
                     // Populate welcome screen recent chats (show first 2, then expand button)
                     var recentChatsSection = document.getElementById('recentChatsSection');
                     var recentChatsContainer = document.getElementById('recentChatsContainer');
-                    if (recentChatsSection && recentChatsContainer && data.conversations.length > 0) {
+                    if (recentChatsSection && recentChatsContainer && data.conversations && data.conversations.length > 0) {
                         recentChatsContainer.innerHTML = '';
                         var recentConvs = showAll ? data.conversations : data.conversations.slice(0, 2);
                         var allConvs = data.conversations;
@@ -1498,9 +1504,14 @@
                     } else if (recentChatsContainer) {
                         recentChatsContainer.innerHTML = '<div class="no-recent-chats">No recent conversations</div>';
                     }
+                } else {
+                    console.debug('[CHAT] Invalid response data:', data);
                 }
+            } else {
+                console.debug('[CHAT] Failed to load chat history:', response.status, response.statusText);
             }
         } catch (error) {
+            console.debug('[CHAT] Error loading chat history:', error);
         }
     };
     

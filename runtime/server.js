@@ -266,12 +266,12 @@ app.use((req, res, next) => {
   // FIXED: Added 'unsafe-hashes' to allow event handlers (onclick, etc.)
   res.setHeader('Content-Security-Policy', 
     "default-src 'self'; " +
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' 'unsafe-hashes' blob:; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' 'unsafe-hashes' blob: https://www.googletagmanager.com https://www.google-analytics.com; " +
     "script-src-attr 'unsafe-inline' 'unsafe-hashes'; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
     "font-src 'self' https://fonts.gstatic.com; " +
-    "img-src 'self' data: blob: https://*.supabase.co; " +
-    "connect-src 'self' blob: https://fonts.googleapis.com https://fonts.gstatic.com https://*.supabase.co; " +
+    "img-src 'self' data: blob: https://*.supabase.co https://www.google-analytics.com; " +
+    "connect-src 'self' blob: https://fonts.googleapis.com https://fonts.gstatic.com https://*.supabase.co https://www.google-analytics.com https://www.googletagmanager.com; " +
     "object-src 'none'; " +
     "base-uri 'self'; " +
     "form-action 'self'; " +
@@ -3580,7 +3580,7 @@ app.post('/api/analytics/track', apiLimiter, async (req, res) => {
     const { event, data, timestamp, userAgent, language, screen, viewport } = req.body;
     
     if (!event) {
-      return res.status(400).json({ error: 'Event name is required' });
+      return res.status(400).json({ success: false, error: 'Event name is required' });
     }
     
     const clientIP = getClientIP(req);
