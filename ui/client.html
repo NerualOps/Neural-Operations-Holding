@@ -353,8 +353,8 @@
         }
 
         @keyframes gradientShift {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.7; }
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.9; }
         }
 
         .star {
@@ -366,12 +366,12 @@
 
         @keyframes twinkle {
             0%, 100% { 
-                opacity: 0.2; 
-                box-shadow: 0 0 2px currentColor;
+                opacity: 0.4; 
+                box-shadow: 0 0 4px currentColor;
             }
             50% { 
-                opacity: 0.6; 
-                box-shadow: 0 0 4px currentColor;
+                opacity: 0.9; 
+                box-shadow: 0 0 8px currentColor;
             }
         }
 
@@ -1129,12 +1129,12 @@
         // Create starfield effect
         (function() {
             const starfield = document.getElementById('starfield');
-            const numStars = 150;
+            const numStars = 200;
             
             for (let i = 0; i < numStars; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
-                star.style.width = Math.random() * 2 + 'px';
+                star.style.width = Math.random() * 3 + 1 + 'px';
                 star.style.height = star.style.width;
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';

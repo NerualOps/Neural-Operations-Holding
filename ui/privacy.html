@@ -111,7 +111,7 @@
         text-rendering: optimizeLegibility;
     }
 
-    .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; }
+    .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; display: flex; align-items: center; gap: 0.5rem; }
     .top-nav-button { 
         padding: 0.6rem 1.2rem; 
         background: transparent; 
@@ -849,7 +849,10 @@
 </head>
 <body>
 
-  <div class="top-left-nav"><a href="/" class="top-nav-button">← Home</a></div>
+  <div class="top-left-nav">
+      <a href="/"><img src="/logo.png" alt="NeuralOps Logo" style="height: 2rem; width: auto; margin-right: 0.5rem; vertical-align: middle;"></a>
+      <a href="/" class="top-nav-button">← Home</a>
+  </div>
   
   <div class="top-right-auth" id="topRightAuth">
       <a href="/login" class="top-nav-button">Sign In</a>

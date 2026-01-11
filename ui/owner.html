@@ -82,7 +82,7 @@
         }
 
         /* Navigation Styles - Matching epsilon.html */
-        .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; transition: left 0.35s ease; }
+        .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; transition: left 0.35s ease; display: flex; align-items: center; gap: 0.5rem; }
         .top-nav-button { 
             padding: 0.6rem 1.2rem; 
             background: transparent; 
@@ -1610,7 +1610,10 @@
 <body>
     <div id="connectionStatus" class="connection-status loading">Checking connection...</div>
     
-    <div class="top-left-nav"><a href="/" class="top-nav-button">← Home</a></div>
+    <div class="top-left-nav">
+        <a href="/"><img src="/logo.png" alt="NeuralOps Logo" style="height: 2rem; width: auto; margin-right: 0.5rem; vertical-align: middle;"></a>
+        <a href="/" class="top-nav-button">← Home</a>
+    </div>
     
     <!-- Profile Circle Navigation -->
     <div class="owner-profile-nav">

@@ -109,8 +109,8 @@
         }
 
         @keyframes gradientShift {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.6; }
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.9; }
         }
 
         .star {
@@ -122,12 +122,12 @@
 
         @keyframes twinkle {
             0%, 100% { 
-                opacity: 0.2; 
-                box-shadow: 0 0 2px currentColor;
+                opacity: 0.4; 
+                box-shadow: 0 0 4px currentColor;
             }
             50% { 
-                opacity: 0.6; 
-                box-shadow: 0 0 4px currentColor;
+                opacity: 0.9; 
+                box-shadow: 0 0 8px currentColor;
         }
         }
 
@@ -873,13 +873,13 @@
             // Safety check: validate DOM element
             if (!starfield) return;
             
-            const starCount = 120;
+            const starCount = 180;
             
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 
-                const size = Math.random() * 2.5 + 0.8;
+                const size = Math.random() * 3.5 + 1.2;
                 // Safety check: validate size
                 if (!isFinite(size) || size <= 0 || size > 10) continue;
                 

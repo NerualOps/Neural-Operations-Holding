@@ -156,11 +156,14 @@
         }
 
         /* Navigation Styles - Matching epsilon.html */
-        .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; transition: left 0.35s ease; }
-        .top-nav-button { padding: 0.6rem 1.2rem; background: rgba(20, 30, 50, 0.85); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; color: rgba(255, 255, 255, 0.9); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: all 0.3s ease; }
+        .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; transition: left 0.35s ease; display: flex; align-items: center; gap: 0.5rem; }
+        .top-nav-button { padding: 0.6rem 1.2rem; background: rgba(15, 15, 15, 0.6); backdrop-filter: blur(10px); border: 1px solid var(--ash-neutral); border-radius: 6px; color: var(--soft-white); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: all 0.12s ease-out; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05); display: inline-block; width: auto; }
         .top-nav-button:hover { 
             border-color: var(--flame-core); 
-            color: var(--flame-core); 
+            color: var(--flame-core);
+            background: rgba(249, 115, 22, 0.08);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px); 
             background: rgba(249, 115, 22, 0.05);
         }
         .top-right-auth { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 1999; display: none; gap: 0.75rem; transition: right 0.35s ease; }
@@ -557,7 +560,10 @@
     </style>
 </head>
 <body>
-    <div class="top-left-nav"><a href="/" class="top-nav-button">← Home</a></div>
+    <div class="top-left-nav">
+        <a href="/"><img src="/logo.png" alt="NeuralOps Logo" style="height: 2rem; width: auto; margin-right: 0.5rem; vertical-align: middle;"></a>
+        <a href="/" class="top-nav-button">← Home</a>
+    </div>
     
     <div class="top-right-auth" id="topRightAuth">
         <a href="/login" class="top-nav-button">Sign In</a>
