@@ -9,7 +9,9 @@ const axios = require('axios');
 class InferenceClient {
   constructor() {
     // Get inference URL from environment or default to local
-    this.inferenceUrl = process.env.INFERENCE_URL || 'http://127.0.0.1:8005';
+    // Normalize URL - remove trailing slash to prevent double slashes
+    let baseUrl = process.env.INFERENCE_URL || 'http://127.0.0.1:8005';
+    this.inferenceUrl = baseUrl.replace(/\/+$/, ''); // Remove trailing slashes
     this.timeout = parseInt(process.env.INFERENCE_TIMEOUT || '120000', 10); // 120s default - allow time for longer responses
     this.ready = false;
     this.modelInfo = null;
