@@ -513,50 +513,11 @@ class EpsilonContentGenerator:
             return []
     
     async def _get_model_weights(self) -> Dict[str, float]:
-        """Get current model weights to adjust responses"""
+        """Get current model weights to adjust responses (models now stored on Podrun, not Supabase)"""
         try:
-            import aiohttp
-            import os
-            
-            supabase_url = os.getenv('SUPABASE_URL', 'https://jdruawealecokthrwtjg.supabase.co')
-            supabase_key = os.getenv('SUPABASE_SERVICE_KEY', '')
-            
-            if not supabase_key:
-                return {}
-            
-            async with aiohttp.ClientSession() as session:
-                headers = {
-                    'apikey': supabase_key,
-                    'Authorization': f'Bearer {supabase_key}',
-                    'Content-Type': 'application/json'
-                }
-                
-                url = f"{supabase_url}/rest/v1/epsilon_model_weights"
-                params = {
-                    'select': 'weight_name,weight_value',
-                    'order': 'created_at.desc',
-                    'limit': '20'
-                }
-                
-                async with session.get(url, headers=headers, params=params) as response:
-                    if response.status == 200:
-                        weights = await response.json()
-                        # Average the weights by name
-                        weight_dict = {}
-                        for weight in weights:
-                            name = weight.get('weight_name')
-                            value = weight.get('weight_value', 0.5)
-                            if name:
-                                if name not in weight_dict:
-                                    weight_dict[name] = []
-                                weight_dict[name].append(value)
-                        
-                        # Average the values
-                        for name in weight_dict:
-                            weight_dict[name] = sum(weight_dict[name]) / len(weight_dict[name])
-                        
-                        return weight_dict
-                    
+            # Models are now stored on Podrun, not Supabase
+            # Return empty dict since weights are managed on Podrun
+            logger.debug("[CONTENT] Model weights are managed on Podrun, not retrieved from Supabase")
             return {}
         except Exception as e:
             logger.error(f"[CONTENT] Error getting model weights: {e}")

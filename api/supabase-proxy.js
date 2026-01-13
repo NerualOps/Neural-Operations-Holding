@@ -2723,29 +2723,11 @@ router.post('/', async (req, res) => {
             throw new Error('Weight type, name, and value are required');
           }
           
-          // epsilon_model_weights table is required
-          const modelWeightsTableExists = await checkTableExists('epsilon_model_weights');
-          if (!modelWeightsTableExists) {
-            throw new Error('epsilon_model_weights table is required but not available');
-          }
+          // Models are now stored on Podrun, not Supabase
+          // Return success without storing to maintain backward compatibility
+          _silent(`[MODEL WEIGHTS] Weight ${weight_type}.${weight_name} = ${weight_value} (models managed on Podrun, not stored in Supabase)`);
           
-          _silent(`[MODEL WEIGHTS] Storing ${weight_type}.${weight_name} = ${weight_value}`);
-          
-          const { data: weightData, error } = await supabase
-            .from('epsilon_model_weights')
-            .insert([{
-              weight_type,
-              weight_name,
-              weight_value,
-              learning_session_id: learning_session_id || null,
-              metadata: metadata || {}
-            }])
-            .select('id')
-            .limit(1).maybeSingle();
-          
-          if (error) throw error;
-          
-          result = { success: true, weight_id: weightData.id };
+          result = { success: true, message: 'Models are managed on Podrun, not stored in Supabase' };
         } catch (error) {
           console.error('Store model weights error:', error);
           throw error;

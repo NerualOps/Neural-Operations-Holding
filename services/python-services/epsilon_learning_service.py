@@ -193,7 +193,7 @@ async def analyze_feedback_for_learning(feedback_data: dict) -> Dict[str, Any]:
         return {}
 
 async def update_model_weights(feedback_data: dict, signals: Dict[str, Any]) -> List[str]:
-    """Update model weights based on feedback analysis"""
+    """Update model weights based on feedback analysis (models now stored on Podrun, not Supabase)"""
     if not feedback_data or not isinstance(feedback_data, dict):
         logger.warning("Invalid feedback_data input, returning empty list")
         return []
@@ -202,38 +202,16 @@ async def update_model_weights(feedback_data: dict, signals: Dict[str, Any]) -> 
         return []
     
     try:
-        weight_ids = []
-        
-        # Create weight updates for each signal
+        # Models are now stored on Podrun, not Supabase
+        # Log weight updates but don't store to Supabase
         for weight_name, weight_value in signals.items():
-            weight_data = {
-                'weight_type': 'response_style',
-                'weight_name': weight_name,
-                'weight_value': weight_value,
-                'learning_session_id': feedback_data.get('id', None),
-                'metadata': {
-                    'conversation_id': feedback_data.get('conversation_id'),
-                    'rating': feedback_data.get('rating'),
-                    'was_helpful': feedback_data.get('was_helpful'),
-                    'updated_at': datetime.now().isoformat()
-                }
-            }
-            
-            try:
-                result, status = await make_supabase_request('POST', 'epsilon_model_weights', weight_data)
-                if status in [200, 201]:
-                    weight_id = result[0]['id'] if isinstance(result, list) else result.get('id')
-                    if weight_id:
-                        weight_ids.append(weight_id)
-                        logger.info(f"[LEARNING] Updated model weight: {weight_name} = {weight_value}")
-            except Exception as e:
-                logger.error(f"[LEARNING] Error updating weight {weight_name}: {e}")
-                continue
+            logger.info(f"[LEARNING] Model weight updated: {weight_name} = {weight_value} (models managed on Podrun, not stored in Supabase)")
         
-        return weight_ids
+        # Return empty list since we're not storing in Supabase anymore
+        return []
         
     except Exception as e:
-        logger.error(f"[LEARNING] Error updating model weights: {e}")
+        logger.error(f"[LEARNING] Error processing model weights: {e}")
         return []
 
 async def create_learning_pattern(feedback_data: dict, signals: Dict[str, Any]) -> str:

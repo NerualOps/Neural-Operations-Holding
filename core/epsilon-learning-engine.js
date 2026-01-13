@@ -1498,7 +1498,7 @@ class EpsilonLearningEngine {
         }
     }
 
-    // Store model weights in Supabase
+    // Store model weights (models now stored on Podrun, not Supabase)
     async storeModelWeights(feedbackData = []) {
         try {
             const helpfulCount = feedbackData.filter(f => f.was_helpful === true).length;
@@ -1507,23 +1507,11 @@ class EpsilonLearningEngine {
                 ? feedbackData.reduce((sum, f) => sum + (f.rating || 0), 0) / totalFeedback 
                 : 0;
             
-            // Store each weight type in Supabase
-            for (const [weightType, weights] of Object.entries(this.modelWeights)) {
-                for (const [weightName, weightValue] of Object.entries(weights)) {
-                    await this.callSupabaseProxy('store-model-weights', {
-                        weight_type: weightType,
-                        weight_name: weightName,
-                        weight_value: weightValue,
-                        metadata: {
-                            helpful_responses: helpfulCount,
-                            total_feedback: totalFeedback,
-                            avg_rating: avgRating
-                        }
-                    });
-                }
-            }
+            // Weights are managed locally and models are stored on Podrun
+            // No need to store in Supabase anymore
+            console.log(`[MODEL WEIGHTS] Weights updated locally (${totalFeedback} feedback items, ${helpfulCount} helpful). Models managed on Podrun.`);
         } catch (error) {
-            console.error('[ERROR]  Error storing model weights:', error);
+            console.error('[ERROR]  Error processing model weights:', error);
         }
     }
 
@@ -2144,12 +2132,8 @@ class EpsilonLearningEngine {
                     this.modelWeights.response_style.empathetic + 0.1, 1.0
                 );
                 
-                // Store updated weights in Supabase
-                await this.callSupabaseProxy('store-model-weights', {
-                    weight_type: 'response_style',
-                    weight_name: 'empathetic',
-                    weight_value: this.modelWeights.response_style.empathetic
-                });
+                // Weights updated locally (models stored on Podrun, not Supabase)
+                console.log('[LEARNING] Updated weight: empathetic (+0.1) due to low average rating');
             }
         } catch (error) {
             console.error('[ERROR]  Adjust model weights error:', error);
@@ -4141,42 +4125,14 @@ Answer:`;
                 this.modelWeights.response_style.professional += 0.01;
                 this.modelWeights.response_style.helpful += 0.01;
                 
-                // Store weight updates in database
-                await this.callSupabaseProxy('store-model-weights', {
-                    weight_type: 'response_style',
-                    weight_name: 'professional',
-                    weight_value: this.modelWeights.response_style.professional,
-                    learning_session_id: this.learningSessionId,
-                    metadata: { reason: 'positive_feedback_trend', timestamp: new Date().toISOString() }
-                });
-                
-                await this.callSupabaseProxy('store-model-weights', {
-                    weight_type: 'response_style',
-                    weight_name: 'helpful',
-                    weight_value: this.modelWeights.response_style.helpful,
-                    learning_session_id: this.learningSessionId,
-                    metadata: { reason: 'positive_feedback_trend', timestamp: new Date().toISOString() }
-                });
+                // Weights updated locally (models stored on Podrun, not Supabase)
+                console.log('[LEARNING] Updated weights: professional, helpful (+0.01) due to positive feedback trend');
             } else if (insights.feedbackTrends?.sentimentTrend === 'negative') {
                 this.modelWeights.response_style.professional -= 0.01;
                 this.modelWeights.response_style.helpful -= 0.01;
                 
-                // Store weight updates in database
-                await this.callSupabaseProxy('store-model-weights', {
-                    weight_type: 'response_style',
-                    weight_name: 'professional',
-                    weight_value: this.modelWeights.response_style.professional,
-                    learning_session_id: this.learningSessionId,
-                    metadata: { reason: 'negative_feedback_trend', timestamp: new Date().toISOString() }
-                });
-                
-                await this.callSupabaseProxy('store-model-weights', {
-                    weight_type: 'response_style',
-                    weight_name: 'helpful',
-                    weight_value: this.modelWeights.response_style.helpful,
-                    learning_session_id: this.learningSessionId,
-                    metadata: { reason: 'negative_feedback_trend', timestamp: new Date().toISOString() }
-                });
+                // Weights updated locally (models stored on Podrun, not Supabase)
+                console.log('[LEARNING] Updated weights: professional, helpful (-0.01) due to negative feedback trend');
             }
             
             // Update topic preferences based on trending topics
@@ -4185,14 +4141,8 @@ Answer:`;
                     if (this.modelWeights.topic_preference[topic]) {
                         this.modelWeights.topic_preference[topic] += 0.005;
                         
-                        // Store topic preference updates in database
-                        this.callSupabaseProxy('store-model-weights', {
-                            weight_type: 'topic_preference',
-                            weight_name: topic,
-                            weight_value: this.modelWeights.topic_preference[topic],
-                            learning_session_id: this.learningSessionId,
-                            metadata: { reason: 'trending_topic', timestamp: new Date().toISOString() }
-                        });
+                        // Weights updated locally (models stored on Podrun, not Supabase)
+                        console.log(`[LEARNING] Updated topic preference: ${topic} (+0.005) due to trending topic`);
                     }
                 });
             }
@@ -4763,102 +4713,19 @@ Answer:`;
         }
     }
 
-    // Initialize Epsilon AI's weights in Supabase database
+    // Initialize Epsilon AI's weights (models now stored on Podrun, not Supabase)
     async initializeEpsilonWeights() {
         try {
-            console.log(' [EPSILON AI WEIGHTS] Initializing Epsilon AI weights in Supabase...');
+            console.log('[EPSILON AI WEIGHTS] Initializing Epsilon AI weights locally (models stored on Podrun)...');
             
-            // Store all initial model weights in the database
-            const weightPromises = [];
+            // Count total weights for logging
+            const totalWeights = 
+                Object.keys(this.modelWeights.response_style).length +
+                Object.keys(this.modelWeights.topic_preference).length +
+                Object.keys(this.modelWeights.user_personality).length +
+                Object.keys(this.modelWeights.communication_style).length;
             
-            // Store response style weights
-            Object.keys(this.modelWeights.response_style).forEach(weightName => {
-                weightPromises.push(
-                    this.callSupabaseProxy('store-model-weights', {
-                        weight_type: 'response_style',
-                        weight_name: weightName,
-                        weight_value: this.modelWeights.response_style[weightName],
-                        learning_session_id: this.learningSessionId,
-                        metadata: { 
-                            reason: 'initial_setup', 
-                            timestamp: new Date().toISOString(),
-                            version: '1.0.0'
-                        }
-                    })
-                );
-            });
-            
-            // Store topic preference weights
-            Object.keys(this.modelWeights.topic_preference).forEach(weightName => {
-                weightPromises.push(
-                    this.callSupabaseProxy('store-model-weights', {
-                        weight_type: 'topic_preference',
-                        weight_name: weightName,
-                        weight_value: this.modelWeights.topic_preference[weightName],
-                        learning_session_id: this.learningSessionId,
-                        metadata: { 
-                            reason: 'initial_setup', 
-                            timestamp: new Date().toISOString(),
-                            version: '1.0.0'
-                        }
-                    })
-                );
-            });
-            
-            // Store user personality weights
-            Object.keys(this.modelWeights.user_personality).forEach(weightName => {
-                weightPromises.push(
-                    this.callSupabaseProxy('store-model-weights', {
-                        weight_type: 'user_personality',
-                        weight_name: weightName,
-                        weight_value: this.modelWeights.user_personality[weightName],
-                        learning_session_id: this.learningSessionId,
-                        metadata: { 
-                            reason: 'initial_setup', 
-                            timestamp: new Date().toISOString(),
-                            version: '1.0.0'
-                        }
-                    })
-                );
-            });
-            
-            // Store communication style weights
-            Object.keys(this.modelWeights.communication_style).forEach(weightName => {
-                weightPromises.push(
-                    this.callSupabaseProxy('store-model-weights', {
-                        weight_type: 'communication_style',
-                        weight_name: weightName,
-                        weight_value: this.modelWeights.communication_style[weightName],
-                        learning_session_id: this.learningSessionId,
-                        metadata: { 
-                            reason: 'initial_setup', 
-                            timestamp: new Date().toISOString(),
-                            version: '1.0.0'
-                        }
-                    })
-                );
-            });
-            
-            // Execute all weight storage operations in parallel
-            await Promise.all(weightPromises);
-            
-            console.log('[SUCCESS] [EPSILON AI WEIGHTS] Epsilon AI weights initialized in Supabase successfully');
-            
-            // Store initial learning session
-            await this.callSupabaseProxy('store-learning-session', {
-                session_id: this.learningSessionId,
-                session_type: 'initial_setup',
-                training_data_count: 0,
-                model_version_before: '0.0.0',
-                model_version_after: '1.0.0',
-                performance_improvement: 0.0,
-                status: 'completed',
-                metadata: {
-                    weights_initialized: true,
-                    total_weights: weightPromises.length,
-                    timestamp: new Date().toISOString()
-                }
-            });
+            console.log(`[SUCCESS] [EPSILON AI WEIGHTS] Epsilon AI weights initialized locally (${totalWeights} weights). Models are managed on Podrun.`);
             
         } catch (error) {
             console.error('[ERROR]  [EPSILON AI WEIGHTS] Error initializing Epsilon AI weights:', error);
