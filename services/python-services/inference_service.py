@@ -44,7 +44,21 @@ def load_model():
     """Load Epsilon AI model using transformers - optimized for GPU"""
     global model, tokenizer, pipe, model_metadata
     
+    # #region agent log
+    import json
+    log_path = Path(__file__).parent.parent.parent / '.cursor' / 'debug.log'
+    def log_debug(location, message, data, hypothesis_id):
+        try:
+            with open(log_path, 'a') as f:
+                f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":hypothesis_id,"location":location,"message":message,"data":data,"timestamp":int(__import__('time').time()*1000)}) + '\n')
+        except: pass
+    # #endregion
+    
     print(f"[INFERENCE SERVICE] Loading Epsilon AI model: {MODEL_ID}", flush=True)
+    
+    # #region agent log
+    log_debug("inference_service.py:47", "load_model entry", {"MODEL_ID":MODEL_ID,"HF_HUB_ENABLE_HF_TRANSFER":os.environ.get('HF_HUB_ENABLE_HF_TRANSFER')}, "A")
+    # #endregion
     
     try:
         # Clear CUDA cache before loading
@@ -55,10 +69,19 @@ def load_model():
         
         # Load tokenizer
         print(f"[INFERENCE SERVICE] Loading tokenizer...", flush=True)
+        
+        # #region agent log
+        log_debug("inference_service.py:58", "before tokenizer load", {"MODEL_ID":MODEL_ID}, "C")
+        # #endregion
+        
         tokenizer = AutoTokenizer.from_pretrained(
             MODEL_ID,
             trust_remote_code=True
         )
+        
+        # #region agent log
+        log_debug("inference_service.py:61", "after tokenizer load", {"tokenizer_loaded":tokenizer is not None}, "C")
+        # #endregion
         
         # Load model - simple GPU loading (keep original to match RunPod deployment)
         print(f"[INFERENCE SERVICE] Loading model on GPU (this may take a while)...", flush=True)
@@ -68,6 +91,13 @@ def load_model():
             torch.cuda.empty_cache()
             torch.cuda.synchronize()
         
+        # #region agent log
+        import glob
+        hf_cache = Path.home() / '.cache' / 'huggingface' / 'hub'
+        cache_files = list(hf_cache.glob('**/*.safetensors')) if hf_cache.exists() else []
+        log_debug("inference_service.py:72", "before model load", {"cache_files_count":len(cache_files),"hf_transfer_env":os.environ.get('HF_HUB_ENABLE_HF_TRANSFER'),"cache_exists":hf_cache.exists()}, "B")
+        # #endregion
+        
         # Note: If model is already loaded on RunPod, this matches that configuration
         model = AutoModelForCausalLM.from_pretrained(
             MODEL_ID,
@@ -76,6 +106,10 @@ def load_model():
             trust_remote_code=True,
             low_cpu_mem_usage=True
         )
+        
+        # #region agent log
+        log_debug("inference_service.py:78", "after model load", {"model_loaded":model is not None}, "B")
+        # #endregion
         
         # Create pipeline
         print(f"[INFERENCE SERVICE] Creating pipeline...", flush=True)
