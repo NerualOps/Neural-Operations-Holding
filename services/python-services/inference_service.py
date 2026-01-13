@@ -4,8 +4,6 @@ Uses the Epsilon AI model with Harmony response format
 Created by Neural Operations & Holdings LLC
 """
 import os
-# Explicitly disable hf_transfer (deprecated) - use hf_xet default instead
-os.environ['HF_HUB_ENABLE_HF_TRANSFER'] = '0'
 
 # #region agent log
 import json
