@@ -391,22 +391,24 @@ async def generate(request: GenerateRequest):
         else:
             generated_text = str(outputs).strip()
         
-        # Clean up the response - remove analysis text and unwanted prefixes
-        # Remove "analysis" prefixes (internal thinking process)
-        if "analysis" in generated_text.lower():
-            # Find and remove analysis sections
-            # Remove patterns like "analysisThe user says..." or "analysis" followed by text
-            generated_text = re.sub(r'analysis\s*', '', generated_text, flags=re.IGNORECASE)
-            # Remove "assistantfinal" prefix
-            generated_text = re.sub(r'assistantfinal\s*', '', generated_text, flags=re.IGNORECASE)
-            # Remove "The user says" analysis patterns
-            generated_text = re.sub(r'The user says[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
-            # Remove "We should respond" analysis patterns
-            generated_text = re.sub(r'We should respond[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
-            # Remove instruction patterns like "The instruction:"
-            generated_text = re.sub(r'The instruction:[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
-            # Remove "So reply with" patterns
-            generated_text = re.sub(r'So reply with[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Clean up the response - ALWAYS remove analysis text and unwanted prefixes
+        # Remove "analysis" prefixes (internal thinking process) - be aggressive
+        generated_text = re.sub(r'analysis\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "assistantfinal" prefix
+        generated_text = re.sub(r'assistantfinal\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "The user says" analysis patterns (with or without quotes)
+        generated_text = re.sub(r'The user says\s*"[^"]*"\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'The user says[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "We should respond" analysis patterns
+        generated_text = re.sub(r'We should respond[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "We need to" analysis patterns
+        generated_text = re.sub(r'We need to[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove instruction patterns like "The instruction:"
+        generated_text = re.sub(r'The instruction:[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "So reply with" patterns
+        generated_text = re.sub(r'So reply with[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "Let's" analysis patterns
+        generated_text = re.sub(r"Let's[^.]*\.\s*", '', generated_text, flags=re.IGNORECASE)
         
         # Remove any "Epsilon:" or "Epsilon AI:" prefixes if they appear
         generated_text = re.sub(r'^Epsilon\s*(AI)?:\s*', '', generated_text, flags=re.IGNORECASE)

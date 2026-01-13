@@ -640,10 +640,30 @@ async function handleGetEpsilonResponse(body) {
       throw new Error('Inference service returned invalid response - no text generated');
     }
     
+    // Safety cleanup: Remove any analysis text that might have slipped through
+    let cleanedResponse = result.text;
+    // Remove analysis prefixes
+    cleanedResponse = cleanedResponse.replace(/analysis\s*/gi, '');
+    cleanedResponse = cleanedResponse.replace(/assistantfinal\s*/gi, '');
+    // Remove analysis patterns
+    cleanedResponse = cleanedResponse.replace(/The user says\s*"[^"]*"\.\s*/gi, '');
+    cleanedResponse = cleanedResponse.replace(/The user says[^.]*\.\s*/gi, '');
+    cleanedResponse = cleanedResponse.replace(/We should respond[^.]*\.\s*/gi, '');
+    cleanedResponse = cleanedResponse.replace(/We need to[^.]*\.\s*/gi, '');
+    cleanedResponse = cleanedResponse.replace(/The instruction:[^.]*\.\s*/gi, '');
+    cleanedResponse = cleanedResponse.replace(/So reply with[^.]*\.\s*/gi, '');
+    cleanedResponse = cleanedResponse.replace(/Let's[^.]*\.\s*/gi, '');
+    // Remove ChatGPT/OpenAI mentions
+    cleanedResponse = cleanedResponse.replace(/\bChatGPT\b/gi, 'Epsilon AI');
+    cleanedResponse = cleanedResponse.replace(/\bChat-GPT\b/gi, 'Epsilon AI');
+    cleanedResponse = cleanedResponse.replace(/\bOpenAI\b/gi, 'Neural Operations & Holdings LLC');
+    // Clean up whitespace
+    cleanedResponse = cleanedResponse.replace(/\s+/g, ' ').trim();
+    
     _silent('[PROXY EPSILON] Response generated via inference client');
     return {
       success: true,
-      response: result.text,
+      response: cleanedResponse,
       session_id: session_id,
       meta: {
         source: 'inference_service',
