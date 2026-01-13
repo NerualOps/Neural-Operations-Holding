@@ -86,51 +86,41 @@ def load_model():
         quantization_config = None
         
         # Check if we need quantization based on available RAM
-        if available_ram_gb < 16:
-            print(f"[INFERENCE SERVICE] Low RAM detected ({available_ram_gb:.2f} GB)", flush=True)
-            
-            # Try 4-bit quantization (requires CUDA/bitsandbytes)
-            if torch.cuda.is_available():
-                try:
-                    from transformers import BitsAndBytesConfig
-                    quantization_config = BitsAndBytesConfig(
-                        load_in_4bit=True,
-                        bnb_4bit_compute_dtype=torch.float16,
-                        bnb_4bit_use_double_quant=True,
-                        bnb_4bit_quant_type="nf4"  # NormalFloat4
-                    )
-                    use_quantization = True
-                    print(f"[INFERENCE SERVICE] 4-bit quantization enabled (reduces memory to ~10GB)", flush=True)
-                except ImportError:
-                    print(f"[INFERENCE SERVICE] WARNING: bitsandbytes not available for GPU quantization", flush=True)
-            else:
-                # CPU-only: Use CPU offloading to disk (slower but works with limited RAM)
-                print(f"[INFERENCE SERVICE] CPU-only detected, using disk offloading for memory efficiency", flush=True)
-                device_map = "sequential"  # Load layers sequentially to reduce peak memory
-                # Note: This will be slower but should work with 8GB RAM
-                print(f"[INFERENCE SERVICE] WARNING: Model will be slow on CPU with limited RAM", flush=True)
+        # With 44GB GPU, we don't need quantization - disable it to avoid memory issues
+        # Only use quantization if RAM is very low (< 8GB) AND no GPU available
+        if available_ram_gb < 8 and not torch.cuda.is_available():
+            print(f"[INFERENCE SERVICE] Low RAM detected ({available_ram_gb:.2f} GB) and no GPU - using CPU offloading", flush=True)
+            device_map = "sequential"  # Load layers sequentially to reduce peak memory
+            print(f"[INFERENCE SERVICE] WARNING: Model will be slow on CPU with limited RAM", flush=True)
+        else:
+            # With GPU available, don't use quantization - load at full precision
+            print(f"[INFERENCE SERVICE] GPU available - loading model at full precision (no quantization)", flush=True)
         
         # Check GPU memory if available
         if torch.cuda.is_available():
             gpu_memory = torch.cuda.get_device_properties(0).total_memory / (1024**3)
             print(f"[INFERENCE SERVICE] GPU memory: {gpu_memory:.2f} GB", flush=True)
             
-            if gpu_memory < 40 and not use_quantization:
-                print(f"[INFERENCE SERVICE] GPU memory insufficient for full model, using CPU", flush=True)
-                device_map = "cpu"
-                torch_dtype = torch.float32
+            # Clear any existing CUDA cache to avoid fragmentation
+            torch.cuda.empty_cache()
+            
+            # With 44GB GPU, we should be able to load the 20B model at float16 (~40GB)
+            if gpu_memory < 40:
+                print(f"[INFERENCE SERVICE] GPU memory may be insufficient - will attempt loading anyway", flush=True)
         
-        # Load model with quantization if needed
+        # Load model - disable quantization to avoid memory issues
         model_kwargs = {
             "torch_dtype": torch_dtype,
             "device_map": device_map,
             "trust_remote_code": True,
             "low_cpu_mem_usage": True,
+            "max_memory": {0: "40GiB"} if torch.cuda.is_available() else None,  # Limit GPU memory usage
             **load_kwargs
         }
         
-        if use_quantization and quantization_config:
-            model_kwargs["quantization_config"] = quantization_config
+        # Don't use quantization - it's causing memory issues
+        # if use_quantization and quantization_config:
+        #     model_kwargs["quantization_config"] = quantization_config
         
         model = AutoModelForCausalLM.from_pretrained(
             str(model_path),
