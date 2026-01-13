@@ -57,9 +57,7 @@ def load_model():
         print(f"[INFERENCE SERVICE] Loading tokenizer...", flush=True)
         tokenizer = AutoTokenizer.from_pretrained(
             MODEL_ID,
-            trust_remote_code=True,
-            cache_dir=MODEL_DIR,
-            resume_download=False  # Don't resume - prevents loops from corrupted partial downloads
+            trust_remote_code=True
         )
         
         # Load model - simple GPU loading (keep original to match RunPod deployment)
@@ -76,9 +74,7 @@ def load_model():
             torch_dtype=torch.float16,
             device_map="auto",
             trust_remote_code=True,
-            low_cpu_mem_usage=True,
-            cache_dir=MODEL_DIR,
-            resume_download=False  # Don't resume - prevents loops from corrupted partial downloads
+            low_cpu_mem_usage=True
         )
         
         # Create pipeline
