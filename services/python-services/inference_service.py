@@ -110,16 +110,19 @@ def load_model():
             # 1) Download snapshot to a stable local directory ONCE
             Path(MODEL_DIR).mkdir(parents=True, exist_ok=True)
             
-            # Check if model already exists locally
-            if Path(MODEL_DIR).exists() and any(Path(MODEL_DIR).glob("*.safetensors")):
-                print(f"[INFERENCE SERVICE] Model files found locally, skipping download...", flush=True)
+            # Check if model already exists locally - count safetensors files
+            safetensors_files = list(Path(MODEL_DIR).glob("*.safetensors"))
+            if safetensors_files and len(safetensors_files) >= 2:  # Model has 2 shards
+                print(f"[INFERENCE SERVICE] Model files found locally ({len(safetensors_files)} safetensors files), skipping download...", flush=True)
                 local_path = MODEL_DIR
             else:
                 print(f"[INFERENCE SERVICE] Downloading model snapshot to local directory...", flush=True)
+                # Disable resume to prevent retry loops - force clean download
                 local_path = snapshot_download(
                     repo_id=MODEL_ID,
                     local_dir=MODEL_DIR,
                     local_dir_use_symlinks=False,
+                    max_workers=1,  # Single worker to prevent concurrent downloads
                 )
                 print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
         
