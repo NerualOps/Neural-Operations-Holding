@@ -58,7 +58,7 @@ def load_model():
             cache_dir=MODEL_DIR
         )
         
-        # Load model - use bfloat16 for better compatibility (matches model's native dtype)
+        # Load model - simple GPU loading (keep original to match RunPod deployment)
         print(f"[INFERENCE SERVICE] Loading model on GPU (this may take a while)...", flush=True)
         
         # Clear GPU cache before loading to avoid fragmentation
@@ -66,26 +66,23 @@ def load_model():
             torch.cuda.empty_cache()
             torch.cuda.synchronize()
         
-        # Use bfloat16 for better stability and compatibility with modern models
-        # This matches the model's native dtype and avoids dtype mismatch errors
+        # Note: If model is already loaded on RunPod, this matches that configuration
         model = AutoModelForCausalLM.from_pretrained(
             MODEL_ID,
-            dtype=torch.bfloat16,  # Use dtype instead of deprecated torch_dtype
+            torch_dtype=torch.float16,
             device_map="auto",
             trust_remote_code=True,
             low_cpu_mem_usage=True,
             cache_dir=MODEL_DIR
         )
         
-        # Ensure model is in eval mode for inference
-        model.eval()
-        
-        # Create pipeline with matching dtype
+        # Create pipeline
         print(f"[INFERENCE SERVICE] Creating pipeline...", flush=True)
         pipe = pipeline(
             "text-generation",
             model=model,
             tokenizer=tokenizer,
+            torch_dtype=torch.float16,
             device_map="auto",
         )
         
@@ -173,6 +170,7 @@ async def model_info():
 @app.post("/generate", response_model=GenerateResponse)
 async def generate(request: GenerateRequest):
     """Generate text using Epsilon AI with Harmony format"""
+    global model, pipe  # Allow modification of global variables
     
     if model is None or tokenizer is None or pipe is None:
         raise HTTPException(status_code=503, detail="Model not loaded. Check /health endpoint.")
@@ -191,16 +189,52 @@ async def generate(request: GenerateRequest):
         
         # Generate using pipeline
         # Use formatted prompt as string (pipeline handles tokenization)
-        outputs = pipe(
-            formatted_prompt,
-            max_new_tokens=min(request.max_new_tokens, 512),  # Increased limit
-            temperature=request.temperature,
-            top_p=request.top_p,
-            repetition_penalty=request.repetition_penalty,
-            do_sample=True,
-            return_full_text=False,
-            pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id
-        )
+        # Wrap in try-catch to handle dtype mismatches if model is bfloat16 but pipeline expects float16
+        try:
+            outputs = pipe(
+                formatted_prompt,
+                max_new_tokens=min(request.max_new_tokens, 512),  # Increased limit
+                temperature=request.temperature,
+                top_p=request.top_p,
+                repetition_penalty=request.repetition_penalty,
+                do_sample=True,
+                return_full_text=False,
+                pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id
+            )
+        except RuntimeError as e:
+            # Handle dtype mismatch errors (e.g., "expected scalar type Half but found BFloat16")
+            if "dtype" in str(e).lower() or "scalar type" in str(e).lower():
+                print(f"[INFERENCE SERVICE] Dtype mismatch detected, attempting to convert model to float16...", flush=True)
+                # Convert model to float16 if it's bfloat16
+                if hasattr(model, 'to'):
+                    try:
+                        model = model.to(torch.float16)
+                        # Recreate pipeline with converted model
+                        pipe = pipeline(
+                            "text-generation",
+                            model=model,
+                            tokenizer=tokenizer,
+                            torch_dtype=torch.float16,
+                            device_map="auto",
+                        )
+                        # Retry generation
+                        outputs = pipe(
+                            formatted_prompt,
+                            max_new_tokens=min(request.max_new_tokens, 512),
+                            temperature=request.temperature,
+                            top_p=request.top_p,
+                            repetition_penalty=request.repetition_penalty,
+                            do_sample=True,
+                            return_full_text=False,
+                            pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id
+                        )
+                    except Exception as conv_error:
+                        print(f"[INFERENCE SERVICE] Failed to convert model dtype: {conv_error}", flush=True)
+                        raise e  # Re-raise original error
+                else:
+                    raise e
+            else:
+                raise e
         
         # Extract generated text - handle different output formats
         if isinstance(outputs, list) and len(outputs) > 0:
