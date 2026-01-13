@@ -3,8 +3,6 @@ Epsilon AI Inference Service
 Uses the Epsilon AI model with Harmony response format
 Created by Neural Operations & Holdings LLC
 """
-# Note: hf_transfer is deprecated, huggingface_hub now uses hf_xet by default for faster downloads
-# We don't need to disable anything - let it use the default (hf_xet if available)
 import os
 
 # #region agent log
@@ -20,7 +18,6 @@ def _log(loc, msg, data, hyp):
             f.flush()
     except Exception as e:
         print(f"[DEBUG LOG ERROR] {e}", flush=True)
-_log("inference_service.py:8", "env var set", {"HF_HUB_ENABLE_HF_TRANSFER":os.environ.get('HF_HUB_ENABLE_HF_TRANSFER'),"has_hf_transfer":__import__('pkgutil').find_loader('hf_transfer') is not None,"log_path":str(_log_path)}, "A")
 # #endregion
 
 from pathlib import Path
