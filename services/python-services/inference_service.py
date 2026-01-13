@@ -51,7 +51,16 @@ pipe = None
 model_metadata = None
 
 # Import model configuration
-from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
+try:
+    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
+except ImportError:
+    # Fallback if model_config.py is not in the same directory
+    import sys
+    from pathlib import Path
+    config_path = Path(__file__).parent
+    if str(config_path) not in sys.path:
+        sys.path.insert(0, str(config_path))
+    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
 
 # Model configuration
 MODEL_ID = os.getenv('EPSILON_MODEL_ID', HF_MODEL_ID)
