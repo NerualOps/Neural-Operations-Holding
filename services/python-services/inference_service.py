@@ -403,12 +403,25 @@ async def generate(request: GenerateRequest):
         generated_text = re.sub(r'We should respond[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
         # Remove "We need to" analysis patterns
         generated_text = re.sub(r'We need to[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "We have to" analysis patterns
+        generated_text = re.sub(r'We have to[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
         # Remove instruction patterns like "The instruction:"
         generated_text = re.sub(r'The instruction:[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
         # Remove "So reply with" patterns
         generated_text = re.sub(r'So reply with[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "So we can say" patterns
+        generated_text = re.sub(r'So we can say[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "per developer instruction" patterns
+        generated_text = re.sub(r'per developer instruction[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "Ensure no references" patterns
+        generated_text = re.sub(r'Ensure no references[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "Ok\." patterns (analysis conclusion)
+        generated_text = re.sub(r'Ok\.\s*', '', generated_text, flags=re.IGNORECASE)
         # Remove "Let's" analysis patterns
         generated_text = re.sub(r"Let's[^.]*\.\s*", '', generated_text, flags=re.IGNORECASE)
+        # Remove multi-sentence analysis blocks (e.g., "We have to... So we can say... Ensure...")
+        # This catches analysis that spans multiple sentences
+        generated_text = re.sub(r'We (have to|should|need to)[^.]*\.\s*(So we can say|Ensure|Ok\.)[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
         
         # Remove any "Epsilon:" or "Epsilon AI:" prefixes if they appear
         generated_text = re.sub(r'^Epsilon\s*(AI)?:\s*', '', generated_text, flags=re.IGNORECASE)
