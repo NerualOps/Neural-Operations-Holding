@@ -7,6 +7,18 @@ Created by Neural Operations & Holdings LLC
 import os
 os.environ['HF_HUB_ENABLE_HF_TRANSFER'] = '0'
 
+# #region agent log
+import json
+from pathlib import Path as PathLib
+_log_path = PathLib(__file__).parent.parent.parent / '.cursor' / 'debug.log'
+def _log(loc, msg, data, hyp):
+    try:
+        with open(_log_path, 'a') as f:
+            f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":hyp,"location":loc,"message":msg,"data":data,"timestamp":int(__import__('time').time()*1000)}) + '\n')
+    except: pass
+_log("inference_service.py:8", "env var set", {"HF_HUB_ENABLE_HF_TRANSFER":os.environ.get('HF_HUB_ENABLE_HF_TRANSFER'),"has_hf_transfer":__import__('pkgutil').find_loader('hf_transfer') is not None}, "A")
+# #endregion
+
 from pathlib import Path
 from typing import Optional, List
 import torch
