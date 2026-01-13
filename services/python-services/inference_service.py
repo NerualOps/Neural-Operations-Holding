@@ -55,7 +55,8 @@ from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
 
 # Model configuration
 MODEL_ID = os.getenv('EPSILON_MODEL_ID', HF_MODEL_ID)
-MODEL_DIR = os.getenv('EPSILON_MODEL_DIR', str(Path(__file__).parent / 'models' / 'epsilon-20b'))
+# Use /workspace for model storage (usually has more space than /root)
+MODEL_DIR = os.getenv('EPSILON_MODEL_DIR', str(Path('/workspace/models/epsilon-20b')))
 
 
 def load_model():
