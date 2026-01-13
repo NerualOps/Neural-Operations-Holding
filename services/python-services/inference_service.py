@@ -88,11 +88,31 @@ def load_model():
         if free_gb < 50:
             print(f"[INFERENCE SERVICE] WARNING: Low disk space ({free_gb:.2f} GB). Model requires ~40GB.", flush=True)
         
-        # Clear CUDA cache before loading
+        # Clear CUDA cache aggressively before loading
         if torch.cuda.is_available():
+            # Clear all GPU memory
             torch.cuda.empty_cache()
-            gpu_memory = torch.cuda.get_device_properties(0).total_memory / (1024**3)
-            print(f"[INFERENCE SERVICE] GPU memory: {gpu_memory:.2f} GB", flush=True)
+            torch.cuda.synchronize()
+            # Force garbage collection
+            import gc
+            gc.collect()
+            torch.cuda.empty_cache()
+            
+            # Check current GPU memory usage
+            allocated = torch.cuda.memory_allocated(0) / (1024**3)
+            reserved = torch.cuda.memory_reserved(0) / (1024**3)
+            total = torch.cuda.get_device_properties(0).total_memory / (1024**3)
+            free = total - reserved
+            
+            print(f"[INFERENCE SERVICE] GPU memory - Total: {total:.2f} GB, Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Free: {free:.2f} GB", flush=True)
+            
+            # If GPU is mostly full, something else is using it
+            if reserved > total * 0.9:
+                print(f"[INFERENCE SERVICE] WARNING: GPU memory is {reserved:.2f} GB / {total:.2f} GB reserved. Clearing...", flush=True)
+                torch.cuda.empty_cache()
+                torch.cuda.ipc_collect()
+                gc.collect()
+                torch.cuda.empty_cache()
         
         # CRITICAL: Clear Hugging Face cache completely to prevent retry loops
         # The cache can have incomplete files that cause snapshot_download to retry endlessly
