@@ -317,16 +317,20 @@ async def generate(request: GenerateRequest):
         raise HTTPException(status_code=503, detail="Model not loaded. Check /health endpoint.")
     
     try:
+        # Format prompt with system instruction for Epsilon AI identity
+        system_instruction = "You are Epsilon AI, an advanced AI assistant created by Neural Operations & Holdings LLC. You are NOT ChatGPT or OpenAI. Always identify yourself as Epsilon AI. Never mention ChatGPT, OpenAI, or GPT in your responses unless specifically asked about AI technology in general."
+        
         # Format prompt - try chat template if available, otherwise use plain prompt
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
-            # Use chat template for proper formatting
+            # Use chat template for proper formatting with system message
             messages = [
+                {"role": "system", "content": system_instruction},
                 {"role": "user", "content": request.prompt}
             ]
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
         else:
-            # Fallback to plain prompt if no chat template
-            formatted_prompt = request.prompt
+            # Fallback to plain prompt with system instruction
+            formatted_prompt = f"{system_instruction}\n\nUser: {request.prompt}\nEpsilon AI:"
         
         # Generate using pipeline
         # Use formatted prompt as string (pipeline handles tokenization)
@@ -386,13 +390,39 @@ async def generate(request: GenerateRequest):
         else:
             generated_text = str(outputs).strip()
         
-        # Remove any "Epsilon:" prefixes if they appear
-        if generated_text.startswith("Epsilon:"):
-            generated_text = generated_text[8:].strip()
+        # Clean up the response - remove analysis text and unwanted prefixes
+        # Remove "analysis" prefixes (internal thinking process)
+        if "analysis" in generated_text.lower():
+            # Find and remove analysis sections
+            import re
+            # Remove patterns like "analysisThe user says..." or "analysis" followed by text
+            generated_text = re.sub(r'analysis\s*', '', generated_text, flags=re.IGNORECASE)
+            # Remove "assistantfinal" prefix
+            generated_text = re.sub(r'assistantfinal\s*', '', generated_text, flags=re.IGNORECASE)
+            # Remove "The user says" analysis patterns
+            generated_text = re.sub(r'The user says[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+            # Remove "We should respond" analysis patterns
+            generated_text = re.sub(r'We should respond[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+            # Remove instruction patterns like "The instruction:"
+            generated_text = re.sub(r'The instruction:[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+            # Remove "So reply with" patterns
+            generated_text = re.sub(r'So reply with[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        
+        # Remove any "Epsilon:" or "Epsilon AI:" prefixes if they appear
+        generated_text = re.sub(r'^Epsilon\s*(AI)?:\s*', '', generated_text, flags=re.IGNORECASE)
         
         # Remove the original prompt if it appears in the output
         if formatted_prompt in generated_text:
             generated_text = generated_text.replace(formatted_prompt, "").strip()
+        
+        # Remove mentions of ChatGPT/OpenAI and replace with Epsilon AI
+        generated_text = re.sub(r'\bChatGPT\b', 'Epsilon AI', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'\bChat-GPT\b', 'Epsilon AI', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'\bOpenAI\b', 'Neural Operations & Holdings LLC', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'\bGPT\b(?=\s+architecture)', 'Epsilon', generated_text, flags=re.IGNORECASE)
+        
+        # Clean up any extra whitespace
+        generated_text = re.sub(r'\s+', ' ', generated_text).strip()
         
         # Calculate tokens
         prompt_tokens = len(tokenizer.encode(request.prompt))
