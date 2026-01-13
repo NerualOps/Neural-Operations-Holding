@@ -23,6 +23,7 @@ def _log(loc, msg, data, hyp):
 from pathlib import Path
 from typing import Optional, List
 import torch
+import re
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -394,7 +395,6 @@ async def generate(request: GenerateRequest):
         # Remove "analysis" prefixes (internal thinking process)
         if "analysis" in generated_text.lower():
             # Find and remove analysis sections
-            import re
             # Remove patterns like "analysisThe user says..." or "analysis" followed by text
             generated_text = re.sub(r'analysis\s*', '', generated_text, flags=re.IGNORECASE)
             # Remove "assistantfinal" prefix
