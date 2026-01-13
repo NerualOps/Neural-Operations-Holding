@@ -119,12 +119,16 @@ def load_model():
         # #endregion
         
         # Note: If model is already loaded on RunPod, this matches that configuration
+        # Use local_files_only=False to ensure fresh download, and explicitly disable resume
+        from transformers.utils import is_offline_mode
         model = AutoModelForCausalLM.from_pretrained(
             MODEL_ID,
             torch_dtype=torch.float16,
             device_map="auto",
             trust_remote_code=True,
-            low_cpu_mem_usage=True
+            low_cpu_mem_usage=True,
+            local_files_only=False,
+            force_download=False  # Don't force, but don't resume corrupted downloads
         )
         
         # #region agent log
