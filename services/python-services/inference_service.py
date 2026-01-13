@@ -94,9 +94,23 @@ def load_model():
             gpu_memory = torch.cuda.get_device_properties(0).total_memory / (1024**3)
             print(f"[INFERENCE SERVICE] GPU memory: {gpu_memory:.2f} GB", flush=True)
         
-        # Clean incomplete/lock files BEFORE downloading to free up space
+        # CRITICAL: Clear Hugging Face cache completely to prevent retry loops
+        # The cache can have incomplete files that cause snapshot_download to retry endlessly
         hub_dir = Path.home() / ".cache" / "huggingface" / "hub"
         if hub_dir.exists():
+            # Find the specific model cache directory
+            model_cache_pattern = f"models--{MODEL_ID.replace('/', '--')}"
+            model_cache_dir = hub_dir / model_cache_pattern
+            if model_cache_dir.exists():
+                print(f"[INFERENCE SERVICE] Clearing Hugging Face cache for {MODEL_ID} to prevent retry loops...", flush=True)
+                import shutil
+                try:
+                    shutil.rmtree(model_cache_dir)
+                    print(f"[INFERENCE SERVICE] Cleared cache directory: {model_cache_dir}", flush=True)
+                except Exception as e:
+                    print(f"[INFERENCE SERVICE] Warning: Could not clear cache: {e}", flush=True)
+            
+            # Also clean any incomplete/lock files in the entire cache
             incomplete_count = 0
             for p in hub_dir.glob("**/*.incomplete"):
                 try:
@@ -138,6 +152,12 @@ def load_model():
                                 print(f"[INFERENCE SERVICE] Removed incomplete file: {f.name}", flush=True)
                             except:
                                 pass
+                    # Clear cache again before re-downloading
+                    if model_cache_dir.exists():
+                        try:
+                            shutil.rmtree(model_cache_dir)
+                        except:
+                            pass
                     local_path = snapshot_download(
                         repo_id=MODEL_ID,
                         local_dir=MODEL_DIR,
@@ -146,7 +166,7 @@ def load_model():
                     )
                     print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
             else:
-                print(f"[INFERENCE SERVICE] Downloading model snapshot to local directory...", flush=True)
+                print(f"[INFERENCE SERVICE] Downloading model snapshot to local directory (this may take 10-15 minutes)...", flush=True)
                 local_path = snapshot_download(
                     repo_id=MODEL_ID,
                     local_dir=MODEL_DIR,
