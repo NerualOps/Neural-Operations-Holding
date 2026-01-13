@@ -3,7 +3,10 @@ Epsilon AI Inference Service
 Uses the Epsilon AI model with Harmony response format
 Created by Neural Operations & Holdings LLC
 """
+# CRITICAL: Disable hf_transfer BEFORE any imports to prevent download loops
 import os
+os.environ['HF_HUB_ENABLE_HF_TRANSFER'] = '0'
+
 from pathlib import Path
 from typing import Optional, List
 import torch
@@ -11,11 +14,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-
-# Disable hf_transfer to prevent download loops (use standard download method)
-# hf_transfer can be installed but we disable it to prevent repeating downloads
-# Set this BEFORE any imports that might use it
-os.environ['HF_HUB_ENABLE_HF_TRANSFER'] = '0'
 
 app = FastAPI(title="Epsilon AI Inference Service")
 
