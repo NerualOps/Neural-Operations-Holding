@@ -126,15 +126,16 @@ def load_model():
                 )
                 print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
         
-        # 2) Load tokenizer/model FROM LOCAL PATH (no more remote re-download loop)
-        print(f"[INFERENCE SERVICE] Loading tokenizer from local path...", flush=True)
+        # 2) Load tokenizer/model FROM LOCAL PATH ONLY (no remote downloads)
+        print(f"[INFERENCE SERVICE] Loading tokenizer from local path: {local_path}", flush=True)
         tokenizer = AutoTokenizer.from_pretrained(
             local_path,
-            trust_remote_code=True
+            trust_remote_code=True,
+            local_files_only=True  # CRITICAL: Only use local files, no remote downloads
         )
         
         # Load model - simple GPU loading
-        print(f"[INFERENCE SERVICE] Loading model on GPU (this may take a while)...", flush=True)
+        print(f"[INFERENCE SERVICE] Loading model on GPU from local path: {local_path}", flush=True)
         
         # Clear GPU cache before loading to avoid fragmentation
         if torch.cuda.is_available():
@@ -147,6 +148,7 @@ def load_model():
             device_map="auto",
             trust_remote_code=True,
             low_cpu_mem_usage=True,
+            local_files_only=True  # CRITICAL: Only use local files, no remote downloads
         )
         
         # Create pipeline
