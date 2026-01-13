@@ -658,8 +658,10 @@ async function handleGetEpsilonResponse(body) {
     cleanedResponse = cleanedResponse.replace(/Ensure no references[^.]*\.\s*/gi, '');
     cleanedResponse = cleanedResponse.replace(/Ok\.\s*/gi, '');
     cleanedResponse = cleanedResponse.replace(/Let's[^.]*\.\s*/gi, '');
-    // Remove multi-sentence analysis blocks
-    cleanedResponse = cleanedResponse.replace(/We (have to|should|need to)[^.]*\.\s*(So we can say|Ensure|Ok\.)[^.]*\.\s*/gi, '');
+    // Remove entire analysis blocks
+    cleanedResponse = cleanedResponse.replace(/We (have to|should|need to) respond[^.]*\.\s*(We (should|can|need to))?[^.]*\.\s*(So (we can say|reply with))?[^.]*\.\s*(Ensure|Ok\.)?[^.]*\.\s*/gi, '');
+    cleanedResponse = cleanedResponse.replace(/[^.]*per developer instruction[^.]*\.\s*/gi, '');
+    cleanedResponse = cleanedResponse.replace(/[^.]*developer instruction[^.]*\.\s*/gi, '');
     // Remove ChatGPT/OpenAI mentions
     cleanedResponse = cleanedResponse.replace(/\bChatGPT\b/gi, 'Epsilon AI');
     cleanedResponse = cleanedResponse.replace(/\bChat-GPT\b/gi, 'Epsilon AI');
