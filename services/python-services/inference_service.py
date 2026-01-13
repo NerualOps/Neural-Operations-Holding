@@ -419,9 +419,12 @@ async def generate(request: GenerateRequest):
         generated_text = re.sub(r'Ok\.\s*', '', generated_text, flags=re.IGNORECASE)
         # Remove "Let's" analysis patterns
         generated_text = re.sub(r"Let's[^.]*\.\s*", '', generated_text, flags=re.IGNORECASE)
-        # Remove multi-sentence analysis blocks (e.g., "We have to... So we can say... Ensure...")
-        # This catches analysis that spans multiple sentences
-        generated_text = re.sub(r'We (have to|should|need to)[^.]*\.\s*(So we can say|Ensure|Ok\.)[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove entire analysis blocks that start with "We have to respond" or similar
+        # This catches multi-sentence analysis blocks
+        generated_text = re.sub(r'We (have to|should|need to) respond[^.]*\.\s*(We (should|can|need to))?[^.]*\.\s*(So (we can say|reply with))?[^.]*\.\s*(Ensure|Ok\.)?[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove analysis blocks that mention "per developer instruction" or "developer instruction"
+        generated_text = re.sub(r'[^.]*per developer instruction[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'[^.]*developer instruction[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
         
         # Remove any "Epsilon:" or "Epsilon AI:" prefixes if they appear
         generated_text = re.sub(r'^Epsilon\s*(AI)?:\s*', '', generated_text, flags=re.IGNORECASE)
