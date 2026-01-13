@@ -151,20 +151,14 @@ def load_model():
                     local_path = MODEL_DIR
                 else:
                     print(f"[INFERENCE SERVICE] Found {len(safetensors_files)} safetensors but only {len(complete_files)} are complete, re-downloading...", flush=True)
-                    # Remove incomplete files
-                    for f in safetensors_files:
-                        if f not in complete_files:
-                            try:
-                                f.unlink()
-                                print(f"[INFERENCE SERVICE] Removed incomplete file: {f.name}", flush=True)
-                            except:
-                                pass
-                    # Clear cache again before re-downloading
-                    if model_cache_dir.exists():
-                        try:
-                            shutil.rmtree(model_cache_dir)
-                        except:
-                            pass
+                    # Remove ALL files in MODEL_DIR to start fresh (incomplete files)
+                    import shutil
+                    try:
+                        shutil.rmtree(MODEL_DIR)
+                        MODEL_DIR.mkdir(parents=True, exist_ok=True)
+                        print(f"[INFERENCE SERVICE] Cleared incomplete model directory", flush=True)
+                    except Exception as e:
+                        print(f"[INFERENCE SERVICE] Warning: Could not clear model directory: {e}", flush=True)
                     local_path = snapshot_download(
                         repo_id=MODEL_ID,
                         local_dir=MODEL_DIR,
