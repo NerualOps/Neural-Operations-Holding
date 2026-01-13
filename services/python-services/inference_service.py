@@ -110,14 +110,34 @@ def load_model():
             # 1) Download snapshot to a stable local directory ONCE
             Path(MODEL_DIR).mkdir(parents=True, exist_ok=True)
             
-            # Check if model already exists locally - count safetensors files
+            # Check if model already exists locally - count safetensors files and verify sizes
             safetensors_files = list(Path(MODEL_DIR).glob("*.safetensors"))
-            if safetensors_files and len(safetensors_files) >= 2:  # Model has 2 shards
-                print(f"[INFERENCE SERVICE] Model files found locally ({len(safetensors_files)} safetensors files), skipping download...", flush=True)
-                local_path = MODEL_DIR
+            if safetensors_files and len(safetensors_files) >= 2:
+                # Verify files are complete (each should be ~4-5GB)
+                complete_files = [f for f in safetensors_files if f.stat().st_size > 4 * 1024 * 1024 * 1024]  # > 4GB
+                if len(complete_files) >= 2:
+                    total_size = sum(f.stat().st_size for f in complete_files) / (1024**3)
+                    print(f"[INFERENCE SERVICE] Model files found locally ({len(complete_files)} complete safetensors, {total_size:.2f} GB), skipping download...", flush=True)
+                    local_path = MODEL_DIR
+                else:
+                    print(f"[INFERENCE SERVICE] Found {len(safetensors_files)} safetensors but only {len(complete_files)} are complete, re-downloading...", flush=True)
+                    # Remove incomplete files
+                    for f in safetensors_files:
+                        if f not in complete_files:
+                            try:
+                                f.unlink()
+                                print(f"[INFERENCE SERVICE] Removed incomplete file: {f.name}", flush=True)
+                            except:
+                                pass
+                    local_path = snapshot_download(
+                        repo_id=MODEL_ID,
+                        local_dir=MODEL_DIR,
+                        local_dir_use_symlinks=False,
+                        max_workers=1,
+                    )
+                    print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
             else:
                 print(f"[INFERENCE SERVICE] Downloading model snapshot to local directory...", flush=True)
-                # Disable resume to prevent retry loops - force clean download
                 local_path = snapshot_download(
                     repo_id=MODEL_ID,
                     local_dir=MODEL_DIR,
