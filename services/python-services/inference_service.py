@@ -70,45 +70,57 @@ def load_model():
     print(f"[INFERENCE SERVICE] Loading Epsilon AI model: {MODEL_ID}", flush=True)
     
     try:
+        # Check disk space before downloading
+        import shutil
+        disk_usage = shutil.disk_usage(MODEL_DIR if Path(MODEL_DIR).exists() else Path(__file__).parent)
+        free_gb = disk_usage.free / (1024**3)
+        print(f"[INFERENCE SERVICE] Available disk space: {free_gb:.2f} GB", flush=True)
+        if free_gb < 50:
+            print(f"[INFERENCE SERVICE] WARNING: Low disk space ({free_gb:.2f} GB). Model requires ~40GB.", flush=True)
+        
         # Clear CUDA cache before loading
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
             gpu_memory = torch.cuda.get_device_properties(0).total_memory / (1024**3)
             print(f"[INFERENCE SERVICE] GPU memory: {gpu_memory:.2f} GB", flush=True)
         
+        # Clean incomplete/lock files BEFORE downloading to free up space
+        hub_dir = Path.home() / ".cache" / "huggingface" / "hub"
+        if hub_dir.exists():
+            incomplete_count = 0
+            for p in hub_dir.glob("**/*.incomplete"):
+                try:
+                    p.unlink()
+                    incomplete_count += 1
+                except:
+                    pass
+            lock_count = 0
+            for p in hub_dir.glob("**/*.lock"):
+                try:
+                    p.unlink()
+                    lock_count += 1
+                except:
+                    pass
+            if incomplete_count > 0 or lock_count > 0:
+                print(f"[INFERENCE SERVICE] Cleaned {incomplete_count} incomplete files and {lock_count} lock files", flush=True)
+        
         # Acquire lock to prevent concurrent downloads
         with FileLock(lock_path, timeout=60 * 60):  # 1 hour timeout
             # 1) Download snapshot to a stable local directory ONCE
             Path(MODEL_DIR).mkdir(parents=True, exist_ok=True)
             
-            print(f"[INFERENCE SERVICE] Downloading model snapshot to local directory...", flush=True)
-            local_path = snapshot_download(
-                repo_id=MODEL_ID,
-                local_dir=MODEL_DIR,
-                local_dir_use_symlinks=False,
-                resume_download=True,  # Safe with lock; prevents re-downloading whole shards
-            )
-            print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
-            
-            # Optional: clean only known incomplete artifacts (NOT "small files")
-            hub_dir = Path.home() / ".cache" / "huggingface" / "hub"
-            if hub_dir.exists():
-                incomplete_count = 0
-                for p in hub_dir.glob("**/*.incomplete"):
-                    try:
-                        p.unlink()
-                        incomplete_count += 1
-                    except:
-                        pass
-                lock_count = 0
-                for p in hub_dir.glob("**/*.lock"):
-                    try:
-                        p.unlink()
-                        lock_count += 1
-                    except:
-                        pass
-                if incomplete_count > 0 or lock_count > 0:
-                    print(f"[INFERENCE SERVICE] Cleaned {incomplete_count} incomplete files and {lock_count} lock files", flush=True)
+            # Check if model already exists locally
+            if Path(MODEL_DIR).exists() and any(Path(MODEL_DIR).glob("*.safetensors")):
+                print(f"[INFERENCE SERVICE] Model files found locally, skipping download...", flush=True)
+                local_path = MODEL_DIR
+            else:
+                print(f"[INFERENCE SERVICE] Downloading model snapshot to local directory...", flush=True)
+                local_path = snapshot_download(
+                    repo_id=MODEL_ID,
+                    local_dir=MODEL_DIR,
+                    local_dir_use_symlinks=False,
+                )
+                print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
         
         # 2) Load tokenizer/model FROM LOCAL PATH (no more remote re-download loop)
         print(f"[INFERENCE SERVICE] Loading tokenizer from local path...", flush=True)
