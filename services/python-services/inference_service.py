@@ -14,8 +14,8 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
 # Disable hf_transfer to prevent download loops (use standard download method)
 # hf_transfer can be installed but we disable it to prevent repeating downloads
-if 'HF_HUB_ENABLE_HF_TRANSFER' not in os.environ:
-    os.environ['HF_HUB_ENABLE_HF_TRANSFER'] = '0'
+# Set this BEFORE any imports that might use it
+os.environ['HF_HUB_ENABLE_HF_TRANSFER'] = '0'
 
 app = FastAPI(title="Epsilon AI Inference Service")
 
