@@ -30,6 +30,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+from filelock import FileLock
+from huggingface_hub import snapshot_download
 
 app = FastAPI(title="Epsilon AI Inference Service")
 
@@ -60,25 +62,12 @@ def load_model():
     """Load Epsilon AI model using transformers - optimized for GPU"""
     global model, tokenizer, pipe, model_metadata
     
-    # #region agent log
-    import json
-    log_dir = Path(__file__).parent / '.cursor'
-    log_dir.mkdir(exist_ok=True)
-    log_path = log_dir / 'debug.log'
-    def log_debug(location, message, data, hypothesis_id):
-        try:
-            with open(log_path, 'a') as f:
-                f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":hypothesis_id,"location":location,"message":message,"data":data,"timestamp":int(__import__('time').time()*1000)}) + '\n')
-                f.flush()
-        except Exception as e:
-            print(f"[DEBUG LOG ERROR] {e}", flush=True)
-    # #endregion
+    # Use file lock to prevent concurrent downloads from multiple workers
+    lock_dir = Path(__file__).parent / '.cursor'
+    lock_dir.mkdir(exist_ok=True)
+    lock_path = str(lock_dir / "hf_download.lock")
     
     print(f"[INFERENCE SERVICE] Loading Epsilon AI model: {MODEL_ID}", flush=True)
-    
-    # #region agent log
-    log_debug("inference_service.py:47", "load_model entry", {"MODEL_ID":MODEL_ID,"HF_HUB_ENABLE_HF_TRANSFER":os.environ.get('HF_HUB_ENABLE_HF_TRANSFER')}, "A")
-    # #endregion
     
     try:
         # Clear CUDA cache before loading
@@ -87,23 +76,48 @@ def load_model():
             gpu_memory = torch.cuda.get_device_properties(0).total_memory / (1024**3)
             print(f"[INFERENCE SERVICE] GPU memory: {gpu_memory:.2f} GB", flush=True)
         
-        # Load tokenizer
-        print(f"[INFERENCE SERVICE] Loading tokenizer...", flush=True)
+        # Acquire lock to prevent concurrent downloads
+        with FileLock(lock_path, timeout=60 * 60):  # 1 hour timeout
+            # 1) Download snapshot to a stable local directory ONCE
+            Path(MODEL_DIR).mkdir(parents=True, exist_ok=True)
+            
+            print(f"[INFERENCE SERVICE] Downloading model snapshot to local directory...", flush=True)
+            local_path = snapshot_download(
+                repo_id=MODEL_ID,
+                local_dir=MODEL_DIR,
+                local_dir_use_symlinks=False,
+                resume_download=True,  # Safe with lock; prevents re-downloading whole shards
+            )
+            print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
+            
+            # Optional: clean only known incomplete artifacts (NOT "small files")
+            hub_dir = Path.home() / ".cache" / "huggingface" / "hub"
+            if hub_dir.exists():
+                incomplete_count = 0
+                for p in hub_dir.glob("**/*.incomplete"):
+                    try:
+                        p.unlink()
+                        incomplete_count += 1
+                    except:
+                        pass
+                lock_count = 0
+                for p in hub_dir.glob("**/*.lock"):
+                    try:
+                        p.unlink()
+                        lock_count += 1
+                    except:
+                        pass
+                if incomplete_count > 0 or lock_count > 0:
+                    print(f"[INFERENCE SERVICE] Cleaned {incomplete_count} incomplete files and {lock_count} lock files", flush=True)
         
-        # #region agent log
-        log_debug("inference_service.py:58", "before tokenizer load", {"MODEL_ID":MODEL_ID}, "C")
-        # #endregion
-        
+        # 2) Load tokenizer/model FROM LOCAL PATH (no more remote re-download loop)
+        print(f"[INFERENCE SERVICE] Loading tokenizer from local path...", flush=True)
         tokenizer = AutoTokenizer.from_pretrained(
-            MODEL_ID,
+            local_path,
             trust_remote_code=True
         )
         
-        # #region agent log
-        log_debug("inference_service.py:61", "after tokenizer load", {"tokenizer_loaded":tokenizer is not None}, "C")
-        # #endregion
-        
-        # Load model - simple GPU loading (keep original to match RunPod deployment)
+        # Load model - simple GPU loading
         print(f"[INFERENCE SERVICE] Loading model on GPU (this may take a while)...", flush=True)
         
         # Clear GPU cache before loading to avoid fragmentation
@@ -111,44 +125,13 @@ def load_model():
             torch.cuda.empty_cache()
             torch.cuda.synchronize()
         
-        # #region agent log
-        import glob
-        hf_cache = Path.home() / '.cache' / 'huggingface' / 'hub'
-        cache_files_before = list(hf_cache.glob('**/*.safetensors')) if hf_cache.exists() else []
-        # Check for incomplete downloads (files that are too small)
-        incomplete_files = []
-        for f in cache_files_before:
-            try:
-                size = f.stat().st_size
-                # Model shards should be ~4-5GB, if less than 100MB it's likely incomplete
-                if size < 100 * 1024 * 1024:
-                    incomplete_files.append(str(f))
-            except: pass
-        log_debug("inference_service.py:114", "before model load", {"cache_files_count":len(cache_files_before),"incomplete_files":len(incomplete_files),"incomplete_file_paths":incomplete_files[:3],"hf_transfer_env":os.environ.get('HF_HUB_ENABLE_HF_TRANSFER'),"cache_exists":hf_cache.exists()}, "B")
-        # #endregion
-        
-        # Clear incomplete/corrupted downloads to prevent retry loops
-        if incomplete_files:
-            print(f"[INFERENCE SERVICE] Found {len(incomplete_files)} incomplete download(s), clearing...", flush=True)
-            import shutil
-            for f_path in incomplete_files:
-                try:
-                    Path(f_path).unlink()
-                    log_debug("inference_service.py:123", "deleted incomplete file", {"file":f_path}, "B")
-                except: pass
-        
-        # Note: If model is already loaded on RunPod, this matches that configuration
         model = AutoModelForCausalLM.from_pretrained(
-            MODEL_ID,
+            local_path,
             torch_dtype=torch.float16,
             device_map="auto",
             trust_remote_code=True,
-            low_cpu_mem_usage=True
+            low_cpu_mem_usage=True,
         )
-        
-        # #region agent log
-        log_debug("inference_service.py:78", "after model load", {"model_loaded":model is not None}, "B")
-        # #endregion
         
         # Create pipeline
         print(f"[INFERENCE SERVICE] Creating pipeline...", flush=True)
