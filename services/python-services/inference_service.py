@@ -206,10 +206,23 @@ def load_model():
         # Load model - simple GPU loading
         print(f"[INFERENCE SERVICE] Loading model on GPU from local path: {local_path}", flush=True)
         
-        # Clear GPU cache before loading to avoid fragmentation
+        # Clear GPU cache aggressively before loading to avoid fragmentation
         if torch.cuda.is_available():
+            import gc
+            gc.collect()
             torch.cuda.empty_cache()
             torch.cuda.synchronize()
+            torch.cuda.ipc_collect()
+            torch.cuda.empty_cache()
+            
+            # Set environment variable to help with memory fragmentation
+            os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True'
+            
+            # Check memory before loading
+            allocated = torch.cuda.memory_allocated(0) / (1024**3)
+            reserved = torch.cuda.memory_reserved(0) / (1024**3)
+            total = torch.cuda.get_device_properties(0).total_memory / (1024**3)
+            print(f"[INFERENCE SERVICE] GPU memory before load - Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Total: {total:.2f} GB", flush=True)
         
         model = AutoModelForCausalLM.from_pretrained(
             local_path,
@@ -217,7 +230,8 @@ def load_model():
             device_map="auto",
             trust_remote_code=True,
             low_cpu_mem_usage=True,
-            local_files_only=True  # CRITICAL: Only use local files, no remote downloads
+            local_files_only=True,  # CRITICAL: Only use local files, no remote downloads
+            max_memory={0: "45GB"}  # Limit to 45GB to leave headroom
         )
         
         # Create pipeline
