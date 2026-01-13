@@ -10,7 +10,7 @@ class InferenceClient {
   constructor() {
     // Get inference URL from environment or default to local
     this.inferenceUrl = process.env.INFERENCE_URL || 'http://127.0.0.1:8005';
-    this.timeout = parseInt(process.env.INFERENCE_TIMEOUT || '30000', 10); // 30s default - faster timeout
+    this.timeout = parseInt(process.env.INFERENCE_TIMEOUT || '120000', 10); // 120s default - allow time for longer responses
     this.ready = false;
     this.modelInfo = null;
   }
@@ -81,7 +81,7 @@ class InferenceClient {
 
     const {
       prompt,
-      max_new_tokens = 75,  // Default to faster responses
+      max_new_tokens = 256,  // Default to reasonable response length
       temperature = 0.7,
       top_p = 0.9,
       stop = null,

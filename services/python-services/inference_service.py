@@ -355,7 +355,7 @@ async def generate(request: GenerateRequest):
                             "text-generation",
                             model=model,
                             tokenizer=tokenizer,
-                            torch_dtype=torch.float16,
+                            dtype=torch.float16,  # Use dtype instead of deprecated torch_dtype
                             device_map="auto",
                         )
                         # Retry generation
