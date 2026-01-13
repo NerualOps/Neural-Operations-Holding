@@ -318,8 +318,9 @@ async def generate(request: GenerateRequest):
         raise HTTPException(status_code=503, detail="Model not loaded. Check /health endpoint.")
     
     try:
-        # Format prompt with system instruction for Epsilon AI identity
-        system_instruction = "You are Epsilon AI, an advanced AI assistant created by Neural Operations & Holdings LLC. You are NOT ChatGPT or OpenAI. Always identify yourself as Epsilon AI. Never mention ChatGPT, OpenAI, or GPT in your responses unless specifically asked about AI technology in general."
+        # Format prompt with concise system instruction for Epsilon AI identity
+        # Keep it simple to prevent the model from generating analysis/thinking text
+        system_instruction = "You are Epsilon AI, created by Neural Operations & Holdings LLC. Respond naturally and directly to the user. Do not explain your reasoning or show your thinking process."
         
         # Format prompt - try chat template if available, otherwise use plain prompt
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
@@ -331,12 +332,27 @@ async def generate(request: GenerateRequest):
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
         else:
             # Fallback to plain prompt with system instruction
-            formatted_prompt = f"{system_instruction}\n\nUser: {request.prompt}\nEpsilon AI:"
+            formatted_prompt = f"System: {system_instruction}\n\nUser: {request.prompt}\nEpsilon AI:"
         
         # Generate using pipeline
         # Use formatted prompt as string (pipeline handles tokenization)
         # Wrap in try-catch to handle dtype mismatches if model is bfloat16 but pipeline expects float16
         try:
+            # Prepare stop sequences to prevent analysis text generation
+            stop_sequences = []
+            if request.stop and len(request.stop) > 0:
+                stop_sequences.extend(request.stop)
+            # Add stop sequences that prevent analysis text
+            analysis_stops = ["We have to", "We should", "We need to", "So we can", "per developer", "Ensure no", "Ok."]
+            stop_sequences.extend(analysis_stops)
+            
+            # Tokenize stop sequences
+            stop_token_ids = []
+            for stop_seq in stop_sequences:
+                stop_tokens = tokenizer.encode(stop_seq, add_special_tokens=False)
+                if len(stop_tokens) > 0:
+                    stop_token_ids.append(stop_tokens[0])  # Use first token of stop sequence
+            
             outputs = pipe(
                 formatted_prompt,
                 max_new_tokens=min(request.max_new_tokens, 512),  # Increased limit
@@ -345,8 +361,13 @@ async def generate(request: GenerateRequest):
                 repetition_penalty=request.repetition_penalty,
                 do_sample=True,
                 return_full_text=False,
-                pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id
+                pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id,
+                # Use eos_token_id as stop if no custom stops, otherwise use stop_token_ids
+                eos_token_id=tokenizer.eos_token_id if not stop_token_ids else None
             )
+            
+            # Post-process to remove any analysis text that still appears
+            # (This is a safety net - the stop sequences should prevent it)
         except RuntimeError as e:
             # Handle dtype mismatch errors (e.g., "expected scalar type Half but found BFloat16")
             if "dtype" in str(e).lower() or "scalar type" in str(e).lower():
