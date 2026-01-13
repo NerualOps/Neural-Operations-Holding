@@ -135,7 +135,17 @@ class InferenceClient {
       } else if (error.response) {
         const status = error.response.status || 'unknown';
         const detail = error.response.data?.detail || error.response.statusText || 'unknown error';
+        const method = error.config?.method?.toUpperCase() || 'POST';
+        const url = error.config?.url || `${this.inferenceUrl}/generate`;
         console.warn(`[INFERENCE CLIENT] Generation failed: ${status} - ${detail}`);
+        console.warn(`[INFERENCE CLIENT] Request was: ${method} ${url}`);
+        
+        // If 405 Method Not Allowed, log full error details for debugging
+        if (status === 405) {
+          console.error(`[INFERENCE CLIENT] 405 Method Not Allowed - Check if endpoint accepts ${method}`);
+          console.error(`[INFERENCE CLIENT] Full URL: ${url}`);
+          console.error(`[INFERENCE CLIENT] Response headers:`, error.response.headers);
+        }
       } else {
         console.warn(`[INFERENCE CLIENT] Generation failed: ${error.message}`);
       }
