@@ -114,21 +114,36 @@ def load_model():
         # #region agent log
         import glob
         hf_cache = Path.home() / '.cache' / 'huggingface' / 'hub'
-        cache_files = list(hf_cache.glob('**/*.safetensors')) if hf_cache.exists() else []
-        log_debug("inference_service.py:72", "before model load", {"cache_files_count":len(cache_files),"hf_transfer_env":os.environ.get('HF_HUB_ENABLE_HF_TRANSFER'),"cache_exists":hf_cache.exists()}, "B")
+        cache_files_before = list(hf_cache.glob('**/*.safetensors')) if hf_cache.exists() else []
+        # Check for incomplete downloads (files that are too small)
+        incomplete_files = []
+        for f in cache_files_before:
+            try:
+                size = f.stat().st_size
+                # Model shards should be ~4-5GB, if less than 100MB it's likely incomplete
+                if size < 100 * 1024 * 1024:
+                    incomplete_files.append(str(f))
+            except: pass
+        log_debug("inference_service.py:114", "before model load", {"cache_files_count":len(cache_files_before),"incomplete_files":len(incomplete_files),"incomplete_file_paths":incomplete_files[:3],"hf_transfer_env":os.environ.get('HF_HUB_ENABLE_HF_TRANSFER'),"cache_exists":hf_cache.exists()}, "B")
         # #endregion
         
+        # Clear incomplete/corrupted downloads to prevent retry loops
+        if incomplete_files:
+            print(f"[INFERENCE SERVICE] Found {len(incomplete_files)} incomplete download(s), clearing...", flush=True)
+            import shutil
+            for f_path in incomplete_files:
+                try:
+                    Path(f_path).unlink()
+                    log_debug("inference_service.py:123", "deleted incomplete file", {"file":f_path}, "B")
+                except: pass
+        
         # Note: If model is already loaded on RunPod, this matches that configuration
-        # Use local_files_only=False to ensure fresh download, and explicitly disable resume
-        from transformers.utils import is_offline_mode
         model = AutoModelForCausalLM.from_pretrained(
             MODEL_ID,
             torch_dtype=torch.float16,
             device_map="auto",
             trust_remote_code=True,
-            low_cpu_mem_usage=True,
-            local_files_only=False,
-            force_download=False  # Don't force, but don't resume corrupted downloads
+            low_cpu_mem_usage=True
         )
         
         # #region agent log
