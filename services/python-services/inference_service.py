@@ -412,6 +412,22 @@ async def generate(request: GenerateRequest):
         else:
             generated_text = str(outputs).strip()
         
+        # CRITICAL: Find where the actual response starts by looking for analysis conclusion markers
+        # The model sometimes generates: "analysis... Ok.<actual response>"
+        # We need to find the actual response after "Ok." or similar markers
+        analysis_markers = ["Ok.", "Okay.", "So,", "Therefore,", "Thus,"]
+        for marker in analysis_markers:
+            if marker in generated_text:
+                # Find the position after the marker
+                marker_pos = generated_text.find(marker)
+                if marker_pos != -1:
+                    # Get text after marker, but check if there's actual content
+                    after_marker = generated_text[marker_pos + len(marker):].strip()
+                    # If there's substantial content after marker, use that (likely the real response)
+                    if len(after_marker) > 10:
+                        generated_text = after_marker
+                        break
+        
         # Clean up the response - ALWAYS remove analysis text and unwanted prefixes
         # Remove "analysis" prefixes (internal thinking process) - be aggressive
         generated_text = re.sub(r'analysis\s*', '', generated_text, flags=re.IGNORECASE)
