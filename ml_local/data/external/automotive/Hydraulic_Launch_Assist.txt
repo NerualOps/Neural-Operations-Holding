@@ -1,0 +1,26 @@
+Title: Hydraulic Launch Assist
+
+Hydraulic Launch Assist (HLA) is the name of a hydraulic hybrid regenerative braking system for land vehicles produced by the Eaton Corporation.
+
+Background
+The HLA system recycles energy by converting kinetic energy into potential energy during deceleration via hydraulics, storing the energy at high pressure in an accumulator filled with nitrogen gas. The energy is then returned to the vehicle during subsequent acceleration thereby reducing the amount of work done by the internal combustion engine.  This system provides considerable increase in vehicle productivity while reducing fuel consumption in stop-and-go use profiles like refuse vehicles and other heavy duty vehicles.
+
+Parallel vs. series hybrids
+The HLA system is called a parallel hydraulic hybrid.  In parallel systems the original vehicle drive-line remains, allowing the vehicle to operate normally when the HLA system is disengaged.  When the HLA is engaged, energy is captured during deceleration and released during acceleration, in contrast to series hydraulic hybrid systems which replace the entire traditional drive-line to provide power transmission in addition to regenerative braking.
+
+Hydraulic vs. electric hybrids
+Hydraulic hybrids are said to be power dense, while electric hybrids are energy dense.  This means that electric hybrids, while able to deliver large amounts of energy over long periods of time are limited by the rate at which the chemical energy in the batteries is converted to mechanical energy and vice versa.  This is largely governed by reaction rates in the battery and current ratings of associated components.  Hydraulic hybrids on the other hand are capable of transferring energy at a much higher rate, but are limited by the amount of energy that can be stored.  For this reason, hydraulic hybrids lend themselves well to stop-and-go applications and heavy vehicles.
+
+Applications
+Concept vehicles
+Ford Motor Company included the HLA system in their 2002 F-350 Tonka truck concept vehicle, reported to have lower emissions and better fuel economy than any V-8 diesel truck engine of the time, with HLA designed to eventually improve fuel economy by 25%-35% in heavy truck city driving.
+
+Shuttle bus
+Eaton, Ford, the US Army, and IMPACT Engineering, Inc. (of Kent, Washington), built an E-450 shuttle bus as part of the Army's HAMMER (Hydraulic Hybrid Advanced Materials Multifuel Engine Research) project.
+
+Refuse
+Eaton has been awarded the Texas government’s New Technology Research and Development grant to build 12 refuse vehicles with HLA systems.
+Peterbilt Motors has designed a Model 320 chassis that incorporates the HLA system, which was featured on the cover of the December 13, 2007, issue of Machine Design.
+
+
+== References ==

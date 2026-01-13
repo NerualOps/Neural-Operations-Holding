@@ -1,0 +1,126 @@
+Title: Electric motorsport
+
+Electric motorsport  is a category of motor sport that consists of the racing of electric powered vehicles for competition, either in all-electric series, or in open-series against vehicles with different powertrains. Very early in the history of automobiles, electric cars held several performance records over internal combustion engine cars, such as land speed records, but fell behind in performance during the first decade of the 20th century.
+With the renaissance of electric vehicles during the early 21st century, notable electric-only racing series have been developed, for both cars and motorcycles, including for example, the FIA Formula E World Championship. In other racing events, electric vehicles are competing alongside combustion engine vehicles, for example in the Isle of Man TT and the Pikes Peak International Hill Climb, and in some cases winning outright.
+
+History
+Early land speed records
+The table below details the early history of land speed records from 1898 into the early decades of the 20th century. La Jamais Contente (English: The Never Satisfied) was the first road vehicle to go over 100 kilometres per hour (62 mph). It was an electric vehicle with a light alloy torpedo shaped bodywork and with Fulmen batteries. The vehicle established the land speed record on 29 April or 1 May 1899 at Achères, Yvelines near Paris, France.  The vehicle had two direct drive Postel-Vinay 25 kW motors, running at 200 V drawing 124 Amperes each for about 68 hp, and was equipped with Michelin tires.
+As of 1900, 38% of US automobiles, 33,842 cars, were powered by electricity (40% by steam, and 22% by gasoline). However, as combustion powertrains developed, they offered a superior range to electrics and had a much lower price after the Ford Model T was invented in 1908. In 1912 the electric starter motor was invented by Charles Kettering leading to easier and faster starting of internal combustion powertrains, and removing what had been perceived as one of their main drawbacks (having to use a hand crank). Electric and subsequently steam still had some performance advantages and dominated the outright speed record until 1924.  Yet the combustion engine technology benefitted from much greater market penetration and thus more development, and began to achieve greater speed performance than electrics and stream from 1924 onwards.
+
+21st century renaissance
+The emergence of higher volume manufacturing of electric powertrain vehicles has allowed for economies of scale and increased research and development of electrical batteries, the critical technology in electric powertrains. Specific energy (the amount of energy stored per unit mass) has typically been the greatest drawback of electric powertrains in comparison to gasoline combustion engine powertrains. Steady advances in battery technology, especially lithium-ion battery technologies first commercialized in the early 1990s have driven innovations in electric powertrains, and further battery advances allow them to once again compete with the combustion engine powertrains in motorsports events.
+Electric drag racing is a sport where electric vehicles start from standstill and attempt the highest possible speed over a short given distance. They sometimes race and usually beat gasoline sports cars. Organizations such as NEDRA keep track of records worldwide using certified equipment.
+
+At the Formula Student competition at the Silverstone Circuit in July 2013, the electric powered car of the ETH Zurich won against all cars with internal combustion engines. It is believed to be the first time that an electric vehicle has beaten cars powered by combustion engines in any accredited motorsport competition.
+In 2015, an electric car won all places of the Pikes Peak International Hill Climb. Also in that year the second place on all classes was won by an electric car. Already in 2014, electric cars had won second and third place.
+In 2016, the company E-RacingCar based in France launched an electric racing car with a 140 kW engine designed for racing schools and competition.
+In January 2017, a pure electric car participated in the Paris-Dakar Rally and completed the entire route of 9,000 km (5,600 mi) through Argentina, Paraguay and Bolivia. The vehicle had been specially designed and built for the race. The car had a 250 kW engine (340 hp) and a 150 kWh battery. The battery consisted of several modules. Each module could be charged separately by power cable to speed up the charging process.
+
+Open-category series
+Pikes Peak International Hill Climb
+The Pikes Peak International Hill Climb, also known as The Race to the Clouds, is an annual automobile and motorcycle hillclimb to the summit of Pikes Peak in Colorado, USA. The track measures 12.42 miles (19.99 km) over 156 turns, climbing 4,720 ft (1,440 m) from the start at Mile 7 on Pikes Peak Highway, to the finish at 14,110 ft (4,300 m), on grades averaging 7.2%.
+The race is self sanctioned and has taken place since 1916, making it the second oldest motorsport event in the Western Hemisphere behind the Indianapolis 500. It is contested by a variety of classes of cars, trucks, motorcycles and quads. There are often numerous new classes tried and discarded year-to-year. In the modern era, electric vehicles have competed in the event since 1983 (Joe Balls, Sears Electric car). In the 2-wheeled divisions, the electric powertrains are already able to outcompete the combustion engines; the 2013 overall winner was an electric bike, the Lightning Motorcycle LS-218 electric Superbike ridden by Carlin Dunne in a time of 10:00.694 minutes, a new course record for the 2-wheeled class.
+In the 4-Wheeled Divisions, the results of recent years show that the relative improvements in race time are advancing at different rates in the electric classes compared to the unlimited/combustion engine classes. Unlimited class vehicles, with combustion engines, broke the 16 minute barrier in 1938, and have steadily improved over the subsequent decades, breaking the 10-minute barrier in 2011. Meanwhile, the electric vehicle class broke the 16 minute barrier in 1994 (Katy Endicott, Honda Civic Shuttle finishing in 15:44:71 minutes), and the 10-minute barrier in 2013 (Nabuhiro 'Monster' Tajima, E-Runner finishing in 9:46:53 minutes). In the 2014 event, the Mitsubishi team (MiEV Evolution III) achieved 2nd (Greg Tracey, 9:08.188 minutes) and 3rd position (Hiroshi Masuoka, 9:12:204 minutes) – within 3 seconds and 7 seconds (respectively) of the overall fastest vehicle, a gasoline powered Norma race car. The graph to the right shows the relative rates of improvement of these two classes since the 1980s.
+2015 for the first time in the history of the race was an electric car to win the race outright. The winning car was the Latvian team Drive eO's 3rd generation vehicle, eO PP03 with peak power of 1020 kW and peak torque of 2160 Nm, weighing 1200 kg. The time achieved was 9:07.222 minutes, just faster than Greg Tracey's 9:08.188 time in 2014. Second place was also earned by an electric car, the Tajima Rimac Automobili E-Runner Concept_One with peak power of 1100 kW, peak torque of 1500 Nm, and weighing 1500 kg.
+The winning driver Rhys Millen said in an interview that the vehicle had lost half its tractive power (due to heat) from around the halfway point. Based on testing the team had expected a run 30 seconds faster.
+Both the two above teams and drivers raced again in 2016, with evolutions of the vehicles, and were joined by a prototype '4-motor EV' from Acura based on the 2016 NSX production car, with heavy modifications to all-electric drive. The Acura, driven by Tetsuya Yamano, achieved a remarkable time for its first outing, finishing in 9:06:015 minutes, and third place overall. Drive eO's 4th generation vehicle, eO PP100 achieved a time of 8:57:118 minutes, improving on the previous year's time and coming second overall. The winning 2016 vehicle was a combustion engine Norma driven by Romain Dumas with a time 8:51:445 minutes. The Norma has similar power to weight ratio to the PP100, but weighs half as much and as a result has better traction in corners. Dumas' team also won in an earlier version of the same vehicle in 2014 with a time of 9:05:801 minutes, thus improving by some 14 seconds over 2 years technological evolution. The Drive eO vehicle improved by some 10 seconds in one year, over its 2015 time.
+In 2018, the outright winner was the all-electric Volkswagen I.D. R Pikes Peak Prototype driven by Romain Dumas, in new overall record time 7:57.148 minutes. The previous track record stood at 8:13.878 minutes, driven by Sébastien Loeb in the 2013 Peugeot 208 T16 Pikes Peak.
+
+Isle of Man TT
+TT Zero is part of the Isle of Man TT and races for 1 lap (37.733 miles) of the Snaefell Mountain Course. The TT Zero event as an officially sanctioned Isle of Man TT race is for racing motorcycles where "The technical concept is for motorcycles (two wheeled) to be powered without the use of carbon based fuels and have zero toxic/noxious emissions."
+The inaugural 2010 TT Zero race was won by Mark Miller riding a MotoCzysz E1pc motor-cycle in 23 minutes and 22.89 seconds at an average race speed of 96.820 mph for 1 lap (37.733 miles) of the Mountain Course and the first United States winner since Dave Roper won the 1984 Historic TT riding a 500cc Matchless. The TT Zero race replaced the TTXGP franchise with the simplification of the regulations and the emphasis on electric powered motor-cycles.  The MotoCzysz E1pc was also the first American manufactured motor-cycle to win an Isle of Man TT Race since Oliver Godfrey won the 1911 Senior TT with an Indian V-Twin motor-cycle.
+Since joining the event in 2012, and following a brace of runner-up finishes in 2012/2013, the Japanese team Mugen won the TT Zero race for the first time in 2014, and were victors in the race for 6 consecutive years through to 2019, setting 4 new lap records, and becoming the first electric motorcycle to lap the Snaefell Course at an average speed in excess of 120 mph (190 km/h) in the process.
+The riders of the TT Zero bikes are typically those that also compete in the combustion engine classes and are very experienced on the circuit. Comparing the experience of the different powertrains, Lee Johnston said as he climbed off his electric bike in the 2015 practice sessions: "That was just mint. It feels so stable, it's unbelievable. It's just so peaceful. No revving." Asked for what was memorable, he responded "I think just the peace and quiet and riding over the mountain, no noise and seeing the sunset..."
+
+Fastest race lap by year
+(practice & qualifying session laps not included)
+
+The TT Zero lap speeds have been improving at an average rate of around 2 mph in recent years (121.824 mph as of 2018). With more mature technology, the combustion engine bikes' lap speeds in the mainstream TT have been improving at a lower rate of around 1 mph each year in recent years (135.452 mph as of 2018). It's likely that the electric bikes will surpass the combustion bikes at some point, but it may not happen until the mid to late 2020s.
+
+FIA World Endurance Championship
+The FIA World Endurance Championship is an auto racing world championship organized by the Automobile Club de l'Ouest (ACO) and sanctioned by the Fédération Internationale de l'Automobile (FIA).  The series usurps the ACO's former Intercontinental Le Mans Cup which began in 2010, and is the first endurance series of world championship status since the demise of the World Sportscar Championship at the end of 1992.  The World Endurance Championship name was previously used by the FIA from 1981 to 1985.
+The series feature multiple classes of cars competing in endurance races, with sports prototypes competing in the Le Mans Prototype categories, and production-based grand tourers competing in the LM GTE categories.  World champion titles are awarded to the top scoring manufacturers and drivers over the season, while other cups and trophies will be awarded for drivers and private teams.
+The Nissan ZEOD RC was designed by Ben Bowlby, who previously designed the 2012 Garage 56 entry DeltaWing as an employee for DeltaWing Project 56 LLC, a consortium led by Don Panoz. He previously worked for DeltaWing LLC, a Chip Ganassi company created to develop a DeltaWing concept race car for IndyCar. Nissan provided an engine and received naming rights on the Garage 56 entry at the 2012 Le Mans race, as well as and other 2012 American Le Mans Series races
+The ZEOD RC had a hybrid electric drivetrain with lithium ion battery packs in a chassis similar in design to the DeltaWing. 
+In a 22 June 2013 article at Autosport.com, Bowlby said: "This is a new car, but it uses the narrow track technology of the DeltaWing and that gives us great efficiency. It is something we understand and it is an efficient way of getting around Le Mans."
+At the 2014 24 Hours of Le Mans, the car had to retire during the race's early hours due to a gearbox failure. However it managed to achieve its goals of reaching a speed above 300 km/h and completing a lap in Le Mans using electric power only.
+
+Rally Paris-Dakar
+In January 2017, a pure electric car participated in the Paris-Dakar Rally and completed the entire route of 9000 km through Argentina, Paraguay and Bolivia. The vehicle had been specially designed and built for the race. The car had a 250 kW engine (340 hp) and a 150 kWh battery. The battery consisted of several modules. Each module could be charged separately by power cable to speed up the charging process.
+
+All-electric series
+Formula racing
+Formula E
+Formula E is the highest class of competition for electrically powered single-seater racing cars. The series was conceived in 2012, and the inaugural championship started in Beijing in September 2014.
+Since the 2020–21 season, the Formula E Championship has FIA World Championship status.
+
+Two-wheeler
+MotoE World Championship
+The MotoGP motorcycle world championship has an all-electric series called MotoE since 2019. 
+The series has used the Energica Ego Corsa motorcycle from inception, manufactured by Energica Motor Company, but changed to Ducati in 2023.
+
+ESkootr World Championship
+Electric Mountain Bike World Cup
+Electric mountain bike under cross-country and enduro categories, since 2023.
+
+Touring Car
+FIA ETCR – eTouring Car World Cup
+The FIA ETCR – eTouring Car World Cup (known as Pure ETCR during the 2021 season) was a touring car series for electric cars. It ran for two seasons in 2021 and 2022, but then ended, with the promoter citing unresolvable differences among the various stakeholders concerning the sporting and regulatory format.
+
+STCC Scandinavia Touring Car Championship
+STCC is the first national touring car series for electric cars. It was announced in 2022. The inaugural season was meant to be held in 2023, but was delayed due to production challenges. The first races are now intended for the 2024 season. The top 3 drivers from NXT Gen Cup were offered a test in the STCC prototype car in advance of the season.
+
+NXT Gen Cup
+NXT Gen Cup is an electric junior (ages 15 to 25) touring car championship that started in 2023. Founded by Fredrik Lestrup, former racing driver and owner of Lestrup Racing, the series developed a custom electric race car, the LRT NXT1, based on the Mini Cooper electric chassis. In 2023 the series completed 6 race weekends, with 4 in Sweden and two in Germany. In 2024 four of the six European races were planned to be held at FIA Formula E weekends, but those were later cancelled due to "unexpected constraints". The series features a push-to-pass feature where drivers receive additional power twice per race. The 2023 series champion was Elias Adestam.
+
+Offroad
+Extreme E
+Extreme E was an off-road racing series that was using electric SUVs to race in remote parts of the world, such as the Arabian desert or Greenland. The series was conceived in 2018, and the first event took place in April 2021. After its fourth season in 2024, Extreme E will be replaced by Extreme H, which uses hydrogen-powererd cars for a similar race format.
+
+Grand Tourer
+Electric GT Championship
+The FIA Electric GT Championship is a planned sports car racing series for electric grand tourers sanctioned by the Fédération Internationale de l'Automobile set to premiere in 2026.
+
+Rallycross
+Because of the short races, and focus on acceleration, rallycross is well suited for electric vehicles. Several electric rallycross series exist already or are planned:
+
+World Rallycross (World RX)
+Since the 2022 season, the FIA World Rallycross Championship top category "World RX" uses the fully electric class RX1e. All cars in this new class are based on the same powertrain developed by Kreisel Electric.
+A second-tier electric support series to the World Rallycross Championship is RX2e. The first season of six races was held alongside the 2021 WorldRX season. It uses a spec car developed by QEV Technologies and Swedish rallycross team Olsbergs MSE.
+Projekt E was an electric support series during the 2020 World Rallycross season., but due to the COVID-19 only two rounds were contested. No further races have been held since then.
+
+Nitro Rallycross
+Since the 2022–23 season, the main Nitro Rallycross category is electric. The car, designated FC1-X, has been developed by QEV Technologies and Olsbergs MSE.
+
+Andros Trophy
+The Andros Trophy, a French ice racing series, began experimenting with electric cars in 2007. An electric car class was added in 2010. The car, developed by Exagon, features a 67 kW engine and a total weight of 800 kg. Since the 2019–20 season, the series has exclusively featured electric cars.
+
+Jaguar I-Pace eTrophy
+The Jaguar I-Pace eTrophy was a stock car support series for Formula E run by Jaguar lasting for two Formula E seasons from 2018 to 2020. The races took place on the same tracks and on the same day as the Formula E races.
+
+Air
+Drone racing and flying cars
+Student competitions
+World Solar Challenge
+The World Solar Challenge is a biennial solar-powered car race which covers 3,021 km (1,877 mi) through the Australian Outback, from Darwin, Northern Territory to Adelaide, South Australia.
+The race attracts teams from around the world, most of which are fielded by universities or corporations although some are fielded by high schools. The race has a 28-year history spanning twelve races, with the inaugural event taking place in 1987.
+
+MotoStudent Electric
+The MotoStudent Electric is the pure electric category of the International Competition MotoStudent. The first race took place in 2016 being the first full electric two wheeled race under FIM Standards. The competition is based as a university challenge, where teams have to design a racing bike similar to a Moto3. The series use a sealed racing kit provided by the Moto Engineering Foundation and TechnoPark MotorLand, with same standards for all teams and capability of reaching 200 km/h (120 mph). The championship is biennial and held in the MotorLand Aragon complex over six laps.
+
+Formula SAE
+Formula SAE is a student design competition organized by SAE International (previously known as the Society of Automotive Engineers, SAE). The competition was started in 1980 by the SAE student branch at the University of Texas at Austin after a prior asphalt racing competition proved to be unsustainable.
+
+Greenpower
+The Greenpower Education Trust is a charitable organization, whose objective is to inspire more young people to become engineers by presenting the engineering industry as an interesting and relevant career choice which could help to solve problems relating to the personal, social and emotional development (known in Britain as PSED) of individuals and societies. The main idea is for teams of students between the ages of 9 and 25 to design, build, and race their own electric powered race cars on top racing circuits such as Goodwood.
+
+Future prospects
+Electric powertrains have advantages over combustion engines in power delivery and vehicle dynamics (especially on motorbikes), but are heavy and still have range disadvantages in longer races (note that combustion engine vehicle often have to refill energy supply also, e.g. Isle of Man TT bikes refill every two laps). Early electric challengers to combustion engine vehicles are therefore typically in shorter more intensive races such as hill climbs or other limited distance races, or simply in fastest lap times (e.g. around the Isle of Man Snaefell circuit). Nevertheless, for endurance racing, hybrid electric powertrains have also proven their advantages over pure combustion engine powertrains, with recent years at the 24 Hours of Le Mans all won by the hybrid electric powered cars.
+
+See also
+Eco Grand Prix
+Environmentalism in motorsport
+
+
+== References ==

@@ -1,0 +1,21 @@
+Title: Alfa Romeo 690T engine
+
+The Alfa Romeo 690T is a twin-turbocharged, direct injected, 90° V6 petrol engine designed and produced by Alfa Romeo since 2015. It is used in the high-performance Giulia Quadrifoglio and Stelvio Quadrifoglio models and is manufactured at the Alfa Romeo Termoli engine plant.
+
+Description
+The 690T is often considered to be the Ferrari F154 engine with two less cylinders, but in fact it is a completely new engine developed by the same engineer, Gianluca Pivetti. Specification similarities that Alfa knew worked well reduced the development time. 
+This 2.9-litre V6 uses single-scroll rather than twin-scroll turbos, which produce 1.4 bars (20 psi) of boost pressure. Alfa also added mechanical cylinder deactivation to the right bank for increased highway fuel efficiency. The 90-degree V6 engine's crankshaft has three crankpins 120 degrees apart, each with two connecting rods mounted side by side. This configuration results in uneven firing at 90 and 150 degrees of each rotation, but for each cylinder bank results in even pulses every 240 degrees, providing evenly-spaced exhaust pulses to each turbocharger and allows one bank to deactivate. Additionally, from 2020 onward, Alfa added port injection, doubling the number of injectors to 12.
+The Maserati 3.0-litre V6 Nettuno engine, introduced in the Maserati MC20, shares many characteristics with the Ferrari F154 and the Alfa Romeo 690T engines.
+The new Alfa Romeo 33 Stradale features a larger 3.0-litre version of the 690T engine producing 456 kW (620 PS).
+
+Applications
+Alfa Romeo Giulia Quadrifoglio
+Alfa Romeo Stelvio Quadrifoglio
+Alfa Romeo Giulia GTA and GTAm
+2023 Alfa Romeo Giulia SWB Zagato
+Alfa Romeo 33 Stradale
+
+Alfa Romeo
+
+
+== References ==

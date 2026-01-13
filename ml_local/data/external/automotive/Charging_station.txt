@@ -1,0 +1,240 @@
+Title: Charging station
+
+A charging station, also known as a charge point, chargepoint, or electric vehicle supply equipment (EVSE), is a power supply device that supplies electrical power for recharging the on-board battery packs of plug-in electric vehicles (including battery electric vehicles, electric trucks, electric buses, neighborhood electric vehicles, and plug-in hybrid vehicles).
+There are two main types of EV chargers: alternating current (AC) charging stations and direct current (DC) charging stations. Electric vehicle batteries can only be charged by direct current electricity, while most mains electricity is delivered from the power grid as alternating current. For this reason, most electric vehicles have a built-in AC-to-DC converter commonly known as the "on-board charger" (OBC). At an AC charging station, AC power from the grid is supplied to this onboard charger, which converts it into DC power to recharge the battery. DC chargers provide higher-power charging (which requires much larger AC-to-DC converters) by building the converter into the charging station to avoid size, weight and cost restrictions inside vehicles. The station then directly supplies DC power to the vehicle, bypassing the onboard converter. Most modern electric vehicles can accept both AC and DC power.
+
+Public charging stations
+Public charging stations are typically found street-side or at retail shopping centers, government facilities, and other parking areas. Private charging stations are usually found at residences, workplaces, and hotels.
+
+Standards
+Charging stations provide connectors that conform to a variety of international standards. DC charging stations are commonly equipped with multiple connectors to charge various vehicles that use competing standards.
+Multiple standards have been established for charging technology to enable interoperability across vendors. Standards are available for nomenclature, power, and connectors. Tesla developed proprietary technology in these areas and began building its charging network in 2012.
+
+Nomenclature
+In 2011, the European Automobile Manufacturers Association (ACEA) defined the following terms:
+
+Socket outlet: the port on the electric vehicle supply equipment (EVSE) that supplies charging power to the vehicle
+Plug: the end of the flexible cable that interfaces with the socket outlet on the EVSE. The socket outlet and plug are not used in North America because the cable is permanently attached.
+Cable: a flexible bundle of conductors that connects the EVSE with the electric vehicle
+Connector: the end of the flexible cable that interfaces with the vehicle inlet
+Vehicle inlet: the port on the electric vehicle that receives charging power
+The terms "electric vehicle connector" and "electric vehicle inlet" were previously defined in the same way under Article 625 of the United States National Electrical Code (NEC) of 1999. NEC-1999 also defined the term "electric vehicle supply equipment" as the entire unit "installed specifically for the purpose of delivering energy from the premises wiring to the electric vehicle", including "conductors ... electric vehicle connectors, attachment plugs, and all other fittings, devices, power outlets, or apparatuses".
+Tesla, Inc. uses the term charging station as the location of a group of chargers, and the term connector for an individual EVSE.
+
+Voltage and power
+Early standards
+The US National Electric Transportation Infrastructure Working Council (IWC) was formed in 1991 by the Electric Power Research Institute with members drawn from automotive manufacturers and the electric utilities to define standards in the US; early work by the IWC led to the definition of three levels of charging in the 1999 National Electrical Code (NEC) Handbook.
+Under the 1999 NEC, Level 1 charging equipment (as defined in the NEC handbook but not in the code) was connected to the grid through a standard NEMA 5-20R 3-prong electrical outlet with grounding, and a ground-fault circuit interrupter was required within 12 in (30 cm) of the plug. The supply circuit required protection at 125% of the maximum rated current; for example, charging equipment rated at 16 amperes ("amps" or "A") continuous current required a breaker sized to 20 A.
+Level 2 charging equipment (as defined in the handbook) was permanently wired and fastened at a fixed location under NEC-1999. It also required grounding and ground-fault protection; in addition, it required an interlock to prevent vehicle startup during charging and a safety breakaway for the cable and connector. A 40 A breaker (125% of continuous maximum supply current) was required to protect the branch circuit. For convenience and speedier charging, many early EVs preferred that owners and operators install Level 2 charging equipment, which was connected to the EV either through an inductive paddle (Magne Charge) or a conductive connector (Avcon).
+Level 3 charging equipment used an off-vehicle rectifier to convert the input AC power to DC, which was then supplied to the vehicle. At the time it was written, the 1999 NEC handbook anticipated that Level 3 charging equipment would require utilities to upgrade their distribution systems and transformers.
+
+SAE
+The Society of Automotive Engineers (SAE International) defines the general physical, electrical, communication, and performance requirements for EV charging systems used in North America, as part of standard SAE J1772, initially developed in 2001. SAE J1772 defines four levels of charging, two levels each for AC and DC supplies; the differences between levels are based upon the power distribution type, standards and maximum power.
+
+Alternating current (AC)
+AC charging stations connect the vehicle's onboard charging circuitry directly to the AC supply.
+
+AC Level 1: Connects directly to a standard 120 V North American outlet; capable of supplying 6–16 A (0.7–1.92 kilowatts or "kW") depending on the capacity of a dedicated circuit.
+AC Level 2: Uses 240 V (single phase) or 208 V (three phase) power to supply between 6 and 80 A (1.4–19.2 kW). It provides a significant charging speed increase over AC Level 1 charging.
+
+Direct current (DC)
+Commonly, though incorrectly, called "Level 3" charging based on the older NEC-1999 definition, DC charging is categorized separately in the SAE standard. In DC fast-charging, grid AC power is passed through an AC-to-DC converter in the station before reaching the vehicle's battery, bypassing any AC-to-DC converter on board the vehicle.
+
+DC Level 1: Supplies a maximum of 80 kW at 50–1000 V.
+DC Level 2: Supplies a maximum of 400 kW at 50–1000 V.
+Additional standards released by SAE for charging include SAE J3068 (three-phase AC charging, using the Type 2 connector defined in IEC 62196-2) and SAE J3105 (automated connection of DC charging devices).
+
+IEC
+In 2003, the International Electrotechnical Commission (IEC) adopted a majority of the SAE J1772 standard under IEC 62196-1 for international implementation.
+
+The IEC alternatively defines charging in modes (IEC 61851-1):
+
+Mode 1: slow charging from a regular electrical socket (single- or three-phase AC)
+Mode 2: slow charging from a regular AC socket but with some EV-specific protection arrangement (i.e. the Park & Charge or the PARVE systems)
+Mode 3: slow or fast AC charging using a specific EV multi-pin socket with control and protection functions (i.e. SAE J1772 and IEC 62196-2)
+Mode 4: DC fast charging using a specific charging interface (i.e. IEC 62196-3, such as CHAdeMO)
+The connection between the electric grid and "charger" (electric vehicle supply equipment) is defined by three cases (IEC 61851-1):
+
+Case A: any charger connected to the mains (the mains supply cable is usually attached to the charger) usually associated with modes 1 or 2.
+Case B: an on-board vehicle charger with a mains supply cable that can be detached from both the supply and the vehicle – usually mode 3.
+Case C: DC dedicated charging station. The mains supply cable may be permanently attached to the charge station as in mode 4.
+
+Tesla NACS
+The North American Charging System (NACS) was developed by Tesla, Inc. for use in the company's vehicles. It remained a proprietary standard until 2022 when its specifications were published by Tesla. The connector is physically smaller than the J1772/CCS connector, and uses the same pins for both AC and DC charging functionality.
+As of November 2023, automakers Ford, General Motors, Rivian, Volvo, Polestar, Mercedes-Benz, Nissan, Honda, Jaguar, Fisker, Hyundai, BMW, Toyota, Subaru, and Lucid Motors have all committed to equipping their North American vehicles with NACS connectors in the future. Automotive startup Aptera Motors has also adopted the connector standard in its vehicles. Other automakers, such as Stellantis and Volkswagen had not made an announcement as of late 2023.
+To meet European Union (EU) requirements on recharging points, Tesla vehicles sold in the EU are equipped with a CCS Combo 2 port. Both the North America and the EU port take 480 V DC fast charging through Tesla's network of Superchargers, which variously use NACS and CCS charging connectors. Depending on the Supercharger version, power is supplied at 72, 150, or 250 kW, the first corresponding to DC Level 1 and the second and third corresponding to DC Level 2 of SAE J1772. As of Q4 2021, Tesla reported 3,476 supercharging locations worldwide and 31,498 supercharging chargers (about 9 chargers per location on average).
+
+Development for higher power charging
+An extension to the CCS DC fast-charging standard for electric cars and light trucks was being developed as of 2020, which was slated to provide higher power charging for large commercial vehicles (Class 8, and possibly 6 and 7 as well, including school and transit buses). When the Charging Interface Initiative e. V. (CharIN) task force was formed in March 2018, the new standard being developed was originally called High Power Charging (HPC) for Commercial Vehicles (HPCCV), later renamed Megawatt Charging System (MCS). MCS is expected to operate in the range of 200–1500 V and 0–3000 A for a theoretical maximum power of 4.5 megawatts (MW). The proposal calls for MCS charge ports to be compatible with existing CCS and HPC chargers. The task force released aggregated requirements in February 2019, which called for maximum limits of 1000 V DC (optionally, 1500 V DC) and 3000 A continuous rating.
+A connector design was selected in May 2019 and tested at the US National Renewable Energy Laboratory (NREL) in September 2020. Thirteen manufacturers participated in the test, which checked the coupling and thermal performance of seven vehicle inlets and eleven charger connectors. The final connector requirements and specification was adopted in December 2021 as MCS connector version 3.2.
+With support from Portland General Electric, on 21 April 2021 Daimler Trucks North America opened the "Electric Island", the first heavy-duty vehicle charging station, across the street from its headquarters in Portland, Oregon. The station is capable of charging eight vehicles simultaneously, and the charging bays are sized to accommodate tractor-trailers. In addition, the design is capable of accommodating >1 MW chargers once they are available. A startup company, WattEV, announced plans in May 2021 to build a 40-stall truck stop/charging station in Bakersfield, California. At full capacity, it was slated to provide a combined 25 MW of charging power, partially drawn from an on-site solar array and battery storage.
+
+Connectors
+Common connectors include Type 1 (Yazaki), Type 2 (Mennekes), CCS Combo 1 and 2, CHAdeMO, and Tesla. Many standard plug types are defined in IEC 62196-2 (for AC supplied power) and 62196-3 (for DC supplied power):
+
+Type 1: single-phase AC vehicle coupler – SAE J1772/2009 automotive plug specifications
+Type 2: single- and three-phase AC vehicle coupler – VDE-AR-E 2623-2-2, SAE J3068, and GB/T 20234.2 plug specifications
+Type 3: single- and three-phase AC vehicle coupler equipped with safety shutters – EV Plug Alliance proposal
+Type 4: DC fast-charge couplers
+Configuration AA: CHAdeMO
+Configuration BB: GB/T 20234.3
+Configurations CC/DD: (reserved)
+Configuration EE: CCS Combo 1
+Configuration FF: CCS Combo 2
+
+Quick Notes on EV Charger types
+
+Notes
+
+CCS DC charging requires power-line communication (PLC). Two connectors are added at the bottom of Type 1 or Type 2 vehicle inlets and charging plugs to supply DC current. These are commonly known as Combo 1 or Combo 2 connectors. The choice of style inlets is normally standardized on a per-country basis so that public chargers do not need to fit cables with both variants. Generally, North America uses Combo 1 style vehicle inlets, while most of the rest of the world uses Combo 2.
+The CHAdeMO standard is favored by Nissan, Mitsubishi, and Toyota, while the SAE J1772 Combo standard is backed by GM, Ford, Volkswagen, BMW, and Hyundai. Both systems charge to 80% in approximately 20 minutes, but the two systems are incompatible. Richard Martin, editorial director for clean technology marketing and consultant firm Navigant Research, stated:
+
+The broader conflict between the CHAdeMO and SAE Combo connectors, we see that as a hindrance to the market over the next several years that needs to be worked out.
+
+Historical connectors
+In the United States, many of the EVs first marketed in the late 1990s and early 2000s such as the GM EV1, Ford Ranger EV, and Chevrolet S-10 EV preferred the use of Level 2 (single-phase AC) EVSE, as defined under NEC-1999, to maintain acceptable charging speed. These EVSEs were fitted with either an inductive connector (Magne Charge) or a conductive connector (generally AVCON). Proponents of the inductive system were GM, Nissan, and Toyota; DaimlerChrysler, Ford, and Honda backed the conductive system.
+Magne Charge paddles were available in two different sizes: an older, larger paddle (used for the EV1 and S-10 EV) and a newer, smaller paddle (used for the first-generation Toyota RAV4 EV, but backwards compatible with large-paddle vehicles through an adapter). The larger paddle (introduced in 1994) was required to accommodate a liquid-cooled vehicle inlet charge port; the smaller paddle (introduced in 2000) interfaced with an air-cooled inlet instead. SAE J1773, which described the technical requirements for inductive paddle coupling, was first issued in January 1995, with another revision issued in November 1999.
+The influential California Air Resources Board adopted the conductive connector as its standard on 28 June 2001, based on lower costs and durability, and the Magne Charge paddle was discontinued by the following March. Three conductive connectors existed at the time, named according to their manufacturers: Avcon (aka butt-and-pin, used by Ford, Solectria, and Honda); Yazaki (aka pin-and-sleeve, on the RAV4 EV); and ODU (used by DaimlerChrysler). The Avcon butt-and-pin connector supported Level 2 and Level 3 (DC) charging and was described in the appendix of the first version (1996) of the SAE J1772 recommended practice; the 2001 version moved the connector description into the body of the practice, making it the de facto standard for the United States. IWC recommended the Avcon butt connector for North America, based on environmental and durability testing. As implemented, the Avcon connector used four contacts for Level 2 (L1, L2, Pilot, Ground) and added five more (three for serial communications, and two for DC power) for Level 3 (L1, L2, Pilot, Com1, Com2, Ground, Clean Data ground, DC+, DC−). By 2009, J1772 had instead adopted the round pin-and-sleeve (Yazaki) connector as its standard implementation, and the rectangular Avcon butt connector was rendered obsolete.
+
+Charging time
+Charging time depends on the battery's capacity, power density, and charging power. The larger the capacity, the more charge the battery can hold (analogous to the size of a fuel tank). Higher power density allows the battery to accept more charge per unit time (the size of the tank opening). Higher charging power supplies more energy per unit time (analogous to a pump's flow rate). An important downside of charging at fast speeds is that it also adds stress to the mains electricity grid.
+The California Air Resources Board specified a target minimum range of 150 miles (240 km) to qualify as a zero-emission vehicle, and further specified that the vehicle should allow for fast-charging.
+Charge time can be calculated as:
+
+  
+    
+      
+        
+          Charging Time (h)
+        
+        =
+        
+          
+            Battery capacity (kWh)
+            Charging power (kW)
+          
+        
+      
+    
+    {\displaystyle {\text{Charging Time (h)}}={\frac {\text{Battery capacity (kWh)}}{\text{Charging power (kW)}}}}
+  
+
+The effective charging power can be lower than the maximum charging power due to limitations of the battery or battery management system, charging losses (which can be as high as 25%), and vary over time due to charging limits applied by a charge controller.
+In early 2025, two Chinese companies announced battery technology to enable electric vehicles to drive long distances on a five-minute charge. BYD developed a battery with a peak charging capacity of 1,000 kW (1 MW), compared to US chargers then having peak rates of 400 kW or less. China's grid infrastructure allows high-power charging hubs to be connected directly to the power grid—sometimes even to high-voltage lines—avoiding the delay of local utility upgrades in the US.
+
+Battery capacity
+The usable battery capacity of a first-generation electric vehicle, such as the original Nissan Leaf, was about 20 kilowatt-hours (kWh), giving it a range of about 100 mi (160 km). Tesla was the first company to introduce longer-range vehicles, initially releasing their Model S with battery capacities of 40 kWh, 60 kWh and 85 kWh, with the latter lasting for about 480 km (300 mi). As of 2022 plug-in hybrid vehicles typically had an electric range of 15 to 60 miles (24–97 km).
+
+AC-to-DC conversion
+Batteries are charged with DC power. To charge from the AC power supplied by the electrical grid, EVs have a small AC-to-DC converter built into the vehicle. The charging cable supplies AC power directly from the grid, and the vehicle converts this power to DC internally and charges its battery. The built-in converters on most EVs typically support charging speeds up to 6–7 kW, sufficient for overnight charging. This is known as "AC charging". To facilitate rapid recharging of EVs, much higher power (50–100+ kW) is necessary. This requires a much larger AC-to-DC converter which is not practical to integrate into the vehicle. Instead, the AC-to-DC conversion is performed by the charging station, and DC power is supplied to the vehicle directly, bypassing the built-in converter. This is known as DC fast charging.
+
+Safety
+Charging stations are usually accessible to multiple electric vehicles and are equipped with current or connection sensing mechanisms to disconnect the power when the EV is not charging.
+The two main types of safety sensors:
+
+Current sensors monitor power consumed, and maintain the connection only while demand is within a predetermined range.
+Sensor wires provide a feedback signal such as specified by the SAE J1772 and IEC 62196 schemes that require special (multi-pin) power plug fittings.
+Sensor wires react more quickly, have fewer parts to fail, and are possibly less expensive to design and implement. Current sensors however can use standard connectors and can allow suppliers to monitor or charge for the electricity actually consumed.
+
+Public charging stations over the world
+Longer drives require a network of public charging stations. In addition, they are essential for vehicles that lack access to a home charging station, as is common in multi-family housing. Costs vary greatly by country, power supplier, and power source. Some services charge by the minute, while others charge by the amount of energy received (measured in kilowatt-hours). In the United States, some states have banned the use of charging by kWh.
+Charging stations may not need much new infrastructure in developed countries, less than delivering a new fuel over a new network. The stations can leverage the existing ubiquitous electrical grid.
+Charging stations are offered by public authorities, commercial enterprises, and some major employers to address a range of barriers. Options include simple charging posts for roadside use, charging cabinets for covered parking places, and fully automated charging stations integrated with power distribution equipment.
+As of December 2012, around 50,000 non-residential charging points were deployed in the US, Europe, Japan and China. As of August 2014, some 3,869 CHAdeMO quick chargers were deployed, with 1,978 in Japan, 1,181 in Europe and 686 in the United States, and 24 in other countries. As of December 2021 the total number of public and private EV charging stations was over 57,000 in the United States and Canada combined. As of May 2023, there are over 3.9 million public EV charging points worldwide, with Europe having over 600,000, China leading with over 2.7 million. United States has over 138,100 charging outlets for plug-in electric vehicles (EVs). In January 2023, S&P Global Mobility estimated that the US has about 126,500 Level 2 and 20,431 Level 3 charging stations, plus another 16,822 Tesla Superchargers and Tesla destination chargers.
+
+Asia/Pacific
+In 2012, there are 17,000 public charging stations in China, mostly built by State Grid as a pilot program in major cities such as Beijing, Shanghai, Hangzhou, Shenzhen and Hefei. As of July 2024, China's total number of charging stations have reached 10.6 million, which include 3.2 million public units and 7.4 million private units, with over 55% being DC charging stations according to CCTV News, making China the country with the largest and most diverse vehicle charging network in the world.
+As of December 2012, Japan had 1,381 public DC fast-charging stations, the largest deployment of fast chargers in the world, but only around 300 AC chargers.
+As of September 2013, the largest public charging networks in Australia were in the capital cities of Perth and Melbourne, with around 30 stations (7 kW AC) established in both cities – smaller networks exist in other capital cities.
+In India, public electric vehicle (EV) charging stations are commonly located street-side and at retail shopping centers, government facilities, and other parking areas. Private charging stations are typically found at residences, workplaces, and hotels.
+
+Europe
+As of December 2013, Estonia was the only country that had completed the deployment of an EV charging network with nationwide coverage, with 165 fast chargers available along highways at a maximum distance of between 40–60 km (25–37 mi), and a higher density in urban areas.
+
+As of November 2012, about 15,000 charging stations had been installed in Europe. As of March 2013, Norway had 4,029 charging points and 127 DC fast-charging stations. As part of its commitment to environmental sustainability, the Dutch government initiated a plan to establish over 200 fast (DC) charging stations across the country by 2015. The rollout will be undertaken by ABB and Dutch startup Fastned, aiming to provide at least one station every 50 km (31 mi) for the Netherlands' 16 million residents. In addition to that, the E-laad foundation installed about 3000 public (slow) charge points since 2009.
+Compared to other markets, such as China, the European electric car market has developed slowly. This, together with the lack of charging stations, has reduced the number of electric models available in Europe. In 2018 and 2019 the European Investment Bank (EIB) signed several projects with companies like Allego, Greenway, BeCharge and Enel X. The EIB loans will support the deployment of the charging station infrastructure with a total of €200 million. The UK government declared that it will ban the selling of new petrol and diesel vehicles by 2035 for a complete shift towards electric charging vehicles.
+
+North America
+As of February 2025, there are 84,191 charging stations, including the Level 1, Level 2 and DC fast-charging stations, across the United States and Canada.
+As of October 2023, in the US and Canada, there are 6,502 stations with CHAdeMO connectors, 7,480 stations with SAE CCS1 connectors, and 7,171 stations with Tesla North American Charging System (NACS) connectors, according to the US Department of Energy's Alternative Fuels Data Center.
+As of August 2018, 800,000 electric vehicles and 18,000 charging stations operated in the United States, up from 5,678 public charging stations and 16,256 public charging points in 2013. By July 2020, Tesla had installed 1,971 stations (17,467 plugs).
+Colder areas in northern US states and Canada have some infrastructure for public power receptacles provided primarily for use by block heaters. Although their circuit breakers prevent large current draws for other uses, they can be used to recharge electric vehicles, albeit slowly. In public lots, some such outlets are turned on only when the temperature falls below −20 °C, further limiting their value.
+As of late 2023, a limited number of Tesla Superchargers are starting to open to non-Tesla vehicles through the use of a built in CCS adapter for existing superchargers.
+Other charging networks are available for all electric vehicles. Networks like Electrify America, EVgo, ChargeFinder and ChargePoint are popular among consumers. Electrify America currently has 15 agreements with various automakers for their electric vehicles to use its network of chargers or provide discounted charging rates or complimentary charging, including Audi, BMW, Ford, Hyundai, Kia, Lucid Motors, Mercedes, Volkswagen, and more. Prices are generally based on local rates and other networks may accept cash or a credit card.
+In June 2022, United States President Biden announced a plan for a standardized nationwide network of 500,000 electric vehicle charging stations by 2030 that will be agnostic to EV brands, charging companies, or location, in the United States. The US will provide US$5 billion between 2022 and 2026 to states through the National Electric Vehicle Infrastructure (NEVI) Formula Program to build charging stations along major highways and corridors. One such proposed corridor called Greenlane plans to establish charging infrastructure between Los Angeles, California and Las Vegas, Nevada. However, by December 2023, no charging stations had been built.
+
+Africa
+South Africa
+South Africa has a small, but expanding network of charging stations, and a growing number of EVs and PHEVs on the road. There is no direct government infrastructure spending on EV charging, and SA therefore has a patchwork of private charging sites. Investment in infrastructure is increasing.
+There are already proof of concept high-capacity DC chargers installed at various sites across SA, including the three 400 kW chargers at Zero Carbon Charge's N12 North West facility, the 200 kW station at the Mall of Africa in Midrand, and the 150 kW one at Canal Walk in Cape Town.
+The cost of installing a charging station is estimated to be between R500,0000 and R2 million. To reach profitability, SA will need around 100,000 EVs on the road.
+As of 2025, there are around 3,500 new EVs sold per year in South Africa. Sales are expected to grow steadily, as new models are introduced into the market. At the same time, the industry was estimated to already be worth R2.8 billion.
+There are plans to build around xxxxxx charging stations over the next few years. Companies included in these developments are Eskom, BYD, the National Automobile Association of South Africa, and Cape Town-based Zero Carbon Charge, with its solar-powered passenger vehicle and electric truck charging stations, as part of a R100 million investment from the Development Bank of Southern Africa).
+
+South America
+In April 2017 YPF, the state-owned oil company of Argentina, reported that it will install 220 fast-load stations for electric vehicles in 110 of its service stations in the national territory.
+
+Projects
+Electric car manufacturers, charging infrastructure providers, and regional governments have entered into agreements and ventures to promote and provide electric vehicle networks of public charging stations.
+The EV Plug Alliance is an association of 21 European manufacturers that proposed an IEC norm and a European standard for sockets and plugs. Members (Schneider Electric, Legrand, Scame, Nexans, etc.) claimed that the system was safer because they use shutters. Prior consensus was that the IEC 62196 and IEC 61851-1 standards have already established safety by making parts non-live when touchable.
+
+Home chargers
+Over 80% of electric vehicle charging is done at home, usually in a garage. In North America, Level 1 charging is connected to a standard 120 volt outlet and provides less than 5 miles (8.0 km) of range per hour of charging.
+To address the need for faster charging, Level 2 charging stations have become more prevalent. These stations operate at 240 volts and can significantly increase the charging speed, delivering up to more than 30 miles (48 km) of range per hour. Level 2 chargers offer a more practical solution for EV owners, especially for those who have higher daily mileage requirements.
+Charging stations can be installed using two main methods: hardwired connections to the main electrical panel box or through a cord and plug connected to a 240-volt receptacle. A popular choice for the latter is the NEMA 14-50 receptacle. This type of outlet provides 240 volts and, when wired to a 50-ampere circuit, can support charging at 40 amperes according to North American electrical code. This translates to a power supply of up to 9.6 kilowatts, offering a faster and more efficient charging experience.
+
+Battery swap
+A battery swapping (or switching) station allow vehicles to exchange a discharged battery pack for a charged one, eliminating the charge interval. Battery swapping is common in electric forklift applications.
+
+History
+The concept of an exchangeable battery service was proposed as early as 1896. It was first offered between 1910 and 1924, by Hartford Electric Light Company, through the GeVeCo battery service, serving electric trucks. The vehicle owner purchased the vehicle, without a battery, from General Vehicle Company (GeVeCo), part-owned by General Electric. The power was purchased from Hartford Electric in the form of an exchangeable battery. Both vehicles and batteries were designed to facilitate a fast exchange. The owner paid a variable per-mile charge and a monthly service fee to cover truck maintenance and storage. These vehicles covered more than 6 million miles (9.7 million kilometres).
+Beginning in 1917, a similar service operated in Chicago for owners of Milburn Electric cars. 91 years later, a rapid battery replacement system was implemented to service 50 electric buses at the 2008 Summer Olympics.
+Better Place, Tesla, and Mitsubishi Heavy Industries considered battery switch approaches. One complicating factor was that the approach requires vehicle design modifications.
+In 2012, Tesla started building a proprietary fast-charging Tesla Supercharger network. In 2013, Tesla announced it would also support battery pack swaps. A demonstration swapping station was built at Harris Ranch and operated for a short period of time. However customers vastly preferred using the Superchargers, so the swapping program was shut down.
+
+Benefits
+The following benefits were claimed for battery swapping:
+
+"Refueling" in under five minutes.
+Automation: The driver can stay in the car while the battery is swapped.
+Switch company subsidies could reduce prices without involving vehicle owners.
+Spare batteries could participate in vehicle-to-grid energy services.
+
+Providers
+The Better Place network was the first modern attempt at the battery switching model. The Renault Fluence Z.E. was the first car enabled to adopt the approach and was offered in Israel and Denmark.
+Better Place launched its first battery-swapping station in Israel, in Kiryat Ekron, near Rehovot in March 2011. The exchange process took five minutes. Better Place filed for bankruptcy in Israel in May 2013.
+In June 2013, Tesla announced its plan to offer battery swapping. Tesla showed that a battery swap with the Model S took just over 90 seconds. Elon Musk said the service would be offered at around US$60 to US$80 at June 2013 prices. The vehicle purchase included one battery pack. After a swap, the owner could later return and receive their battery pack fully charged. A second option would be to keep the swapped battery and receive/pay the difference in value between the original and the replacement. Pricing was not announced. In 2015 the company abandoned the idea for lack of customer interest.
+By 2022, Chinese luxury carmaker Nio had built more than 900 battery swap stations across China and Europe, up from 131 in 2020.
+
+Sites
+Unlike filling stations, which need to be located near roads that tank trucks can enter conveniently, charging stations can theoretically be placed anywhere with access to electric power and adequate parking.
+Private locations include residences, workplaces, and hotels. Residences are by far the most common charging location. Residential charging stations typically lack user authentication and separate metering, and may require a dedicated circuit. Many vehicles being charged at residences simply use a cable that plugs into a standard household electrical outlet. These cables may be wall mounted.
+Public stations have been sited along highways, in shopping centers, hotels, government facilities and at workplaces. Some gas stations offer EV charging stations. Some charging stations have been criticized as inaccessible, hard to find, out of order, and slow, thus slowing EV adoption.
+Public charge stations may charge a fee or offer free service based on government or corporate promotions. Charge rates vary from residential rates for electricity to many times higher. The premium is usually for the convenience of faster charging. Vehicles can typically be charged without the owner present, allowing the owner to partake in other activities. Sites include malls, freeway rest areas, transit stations, and government offices. Typically, AC Type 1/Type 2 plugs are used.
+
+Wireless charging uses inductive charging mats that charge without a wired connection and can be embedded in parking stalls or even on roadways.
+Mobile charging involves another vehicle that brings the charge station to the electric vehicle; the power is supplied via a fuel generator (typically gasoline or diesel), or a large battery.
+An offshore electricity recharging system named Stillstrom, to be launched by Danish shipping firm Maersk Supply Service, will give ships access to renewable energy while at sea. Connecting ships to electricity generated by offshore wind farms, Stillstrom is designed to cut emissions from idling ships.
+
+Related technologies
+Smart grid
+A smart grid is a power grid that can adapt to changing conditions by limiting service or adjusting prices. Some charging stations can communicate with the grid and activate charging when conditions are optimal, such as when prices are relatively low. Some vehicles allow the operator to control recharging. Vehicle-to-grid scenarios allow the vehicle battery to supply the grid during periods of peak demand. This requires communication between the grid, charging station, and vehicle. SAE International is developing related standards. These include SAE J2847/1. ISO and IEC are developing similar standards known as ISO/IEC 15118, which also provide protocols for automatic payment.
+
+Renewable energy
+Electric vehicles (EVs) can be powered by renewable energy sources like wind, solar, hydropower, geothermal, biogas, and some low-impact hydroelectric sources. Renewable energy sources are generally less expensive, cleaner, and more sustainable than non-renewable sources like coal, natural gas, and petroleum power.
+Charging stations are powered by whatever the power grid runs on, which might include oil, coal, and natural gas. However, many companies have been making advancements towards clean energy for their charging stations. As of November 2023, Electrify America has invested over $5 million to develop over 50 solar-powered electric vehicle (EV) charging stations in rural California, including areas like Fresno County. These resilient Level 2 (L2) stations aren't tied to the electrical grid, and they provide drivers in rural areas access to EV charging via renewable resources. Electrify America’s Solar Glow 1 project, a 75-megawatt solar power initiative in San Bernardino County, is expected to generate 225,000 megawatt-hours of clean electricity annually, enough to power over 20,000 homes.
+Tesla's Superchargers and Destination Chargers are mostly powered by solar energy. Tesla's Superchargers have solar canopies with solar panels that generate energy to offset electricity use. Some Destination Chargers have solar panels mounted on canopies or nearby rooftops to generate energy. As of 2023, Tesla's global network was 100% renewable, achieved through a combination of onsite resources and annual renewable matching.
+
+The E-Move Charging Station is equipped with eight monocrystalline solar panels, which can supply 1.76 kW of solar power.
+In 2012, Urban Green Energy introduced the world's first wind-powered electric vehicle charging station, the Sanya SkyPump. The design features a 4 kW vertical-axis wind turbine paired with a GE WattStation.
+
+In 2021, Nova Innovation introduced the world's first direct from tidal power EV charge station.
+
+Alternative technologies
+Along a section of the Highway E20 in Sweden, which connects Stockholm, Gothenburg and Malmö, a plate has been placed under the asphalt that interfaces with electric cars, recharging an electromagnetic coil receiver.
+This allows greater vehicle autonomy and reduces the size of the battery compartment. The technology is planned to be implemented along 3,000 km of Swedish roads. Sweden's first electrified stretch of road, and the world's first permanent one, connects the Hallsberg and Örebro area. The work is scheduled for completion by 2025.
+
+See also
+
+
+== References ==

@@ -1,0 +1,106 @@
+Title: SECU-3
+
+SECU-3 is an internal combustion engine control unit. It is being developed as an open source project (drawings, schematic diagrams, source code etc. are open and freely available for all). Anyone can take part in the project, and can access all the information without any registrations.
+SECU-3 system controls the ignition, fuel injection and various other actuators of the internal combustion engine (ICE) and vehicle. In particular, it is capable of controlling the carburetor choke using a stepper motor (auto choke), thus controlling RPM when engine is warming up. SECU-3 manages AFR on the carburetor engines (similar to AXTEC AFR systems), idle cut-off valve and wide open throttle mode valve in carburetor systems, controls electric fuel pump and gas valves in closed loop mode according to the feedback from the oxygen sensor. The SECU-3 system provides unique opportunities for reassigning the I/O pins of the mainboard for custom uses in engine tuning. It also provides smooth speed control of the engine electric cooling fan. The system includes its own software which allows editing all major settings and fuel and ignition maps in real time (when the engine is running), and switching between 2 or 4 sets of maps. SECU-3 system has many other advanced features (listed below).
+Currently, there are five modifications of the unit:
+
+SECU-3. The first version of the unit, developed in 2007, controls ignition, cooling fan and has some other functions. In the latest software releases, the support for this unit had been discontinued. History of the SECU-3 versions with photos could be accessed here
+SECU-3T. It can control the ignition and fuel injection. It does not contain built-in power drivers for ignition coils, fuel injectors and idling air control (IAC) valve. External drivers must be used.
+SECU-3L. It was designed for ignition control only and it can be considered as a light version of the SECU-3T unit. However, it contains built-in drivers for ignition coils, as well as manifold absolute pressure (MAP) sensor. Regarding the software, it is fully compatible with the SECU-3T unit.
+SECU-3 Micro. Very easy-to-use and low-cost ignition controller unit in small plastic enclosure. Has only few inputs and outputs and doesn't contain built-in power drivers for ignition coils. It is the simplest SECU-3 unit.
+SECU-3i. Full-featured, complete engine management system in metal enclosure with integrated power drivers (for ignition coils, injectors, IAC actuator etc.), with extended number of I/O and Bluetooth connectivity. The latest development of the system. This unit has double-board design.
+The device is developed using the 8-bit AVR microcontroller ATMega644, with 64kB memory (ROM), 4kB random access memory (RAM), and operates at a clock frequency of 20 MHz. It includes analog and digital inputs, separate chip for preprocessing signal from the knock sensor (KS) (except SECU-3 'Lite' and 'Micro' units), a signal conditioner for VR start-pulse sensor (except SECU-3 Micro unit), a signal conditioner for the VR crankshaft position sensor (CKP), the interface with a computer, and the outputs for actuators control.
+Structural diagram of the system with SECU-3T unit:
+
+Structural diagram of the system with SECU-3L unit is shown on the following picture:
+Structural diagram of the system with SECU-3 Micro unit:
+Example of wiring diagram of the SECU-3T unit for controlling of simultaneous or semi-sequential fuel injection on the 4-cylinder engine is shown on the picture below.
+Hi-z injectors and stepper IAC valve are used. On the right side of picture we can see external connector functions which should be remapped to specified values. It is done in the SECU-3 Manager software.
+
+History
+The first version of SECU-3 was launched in October 2007 and successfully works on the author's (A.Shabelnikov) vehicle for now.
+Since then, the project has received a lot of new features and synchronization methods. First discussing of the project was started in 2007 in one topic on the iXBT conference. Since Dec. 2010 discussion moved to the forum on diyefi.org. In 2013 own project's forum had been opened.
+The system has evolved from the ignition control to the engine management system (ECU). The project is supported by author all the time.
+
+Current status
+Continue to develop and extend fuel injection features and algorithms (inter alia, full-sequential injection support). Also, author works on software for the SECU-3i unit.
+Features of the current firmware related to fuel injection:
+
+Simultaneous (all injectors open at the same time), central (throttle-body) injection, two banks alternating (two injectors or two banks of injectors fire alternately) and semi-sequential injection (injectors fire by pairs). In the nearest future full-sequential injection support will be added
+Speed-density method of estimating airflow into an engine (MAP and IAT sensors are used)
+Open-loop IAC (closed-loop algorithm (PID) will be implemented in the nearest future)
+Closed loop control of AFR using oxygen sensor. Ability to set voltage threshold, integrator step etc.
+Tables: VE, AFR, inj.open time, warm up enrichment, IAC position on cranking, IAC position vs coolant temperature, inj.time on cranking, inj.timing
+After start enrichment
+Acceleration enrichment (TPS, RPM)
+Priming pulse (wetting of intake manifold) vs coolant temperature
+
+License
+GPL, TAPR OHL with one addition: developments can not be used in commercial purposes without written approval of author (according to information from the official site).
+
+Features
+Support of engines with the following number of cylinders: 1, 2, 3, 4, 5, 6, 8
+Synchronization from CKP sensor and missing tooth wheel or from two sensors and non-missing tooth wheel. Support of 60-2, 36-1 and other wheels with different number of teeth (from 16 to 200)
+Synchronization from Hall sensor (the distributor can be left in the system)
+Advance angle regulation from engine speed (from 1 VR sensor, 2 VR sensors or Hall sensor)
+Advance angle regulation from engine load (from MAP sensor)
+Correction of advance angle depending on temperature (various types of coolant temperature sensors)
+Correction of advance angle from detonation  (from 1 or 2 knock sensors)
+Measurement of on-board electric system voltage
+Idle cut-off valve solenoid control
+Control of power valve solenoid (part load enrichment valve)
+Multichannel output (from 1 up to 6 igniters). It is possible to use up to 8 channels!
+Support of 2 channel igniters (single input driven by both edges)
+RS-232 interface for reprogramming, control and tuning (with optical isolation) or USB interface (without optical isolation)
+Able to control of engine cooling fan (use of PWM is also supported)
+Starter blocking when engine speed reaches specified value
+Gas equipment support (automatic switch between gas/gasoline modes)
+Output for error indication “Check Engine” with support of blink codes
+Ability to emergency start of boot loader
+Ability to recover settings in emergency case
+Idle speed regulation using advance angle
+Control of coil energy accumulation (dwell control)
+Cam sensor support (coil per cylinder – full sequential ignition)
+Fuel injection control (central, simultaneous injection)
+Injection timing control using custom fuel map
+Calculation of air flow using Speed-Density method
+AFR control on carburetor (Solex) by means of valve actuators with closed loop (oxygen sensor)
+Additional features:
+
+Control of an electric fuel pump
+Tunable pulses output for Hall sensor or tachometer
+Embedded stroboscope function (it is possible to use any free output)
+Output and input functions remapping
+Determine throttle gate position by TPS sensor
+Processing and writing to log file signals from 2 additional inputs (e.g. Oxygen sensor can be connected)
+Power management (ability of some functions to work after ignition is switched off, for instance working off cooling fan or auto choke control)
+Carburetor choke control (using a stepper motor)
+Stepper gas valve control
+Support of speed sensor (Displaying and writing to log vehicle speed (km/h) and passed distance (km))
+Control of manifold heater (also known as grid and intake heaters)
+Correction of advance angle using air temperature sensor (connected to one of 2 additional inputs)
+3 versatile programmable outputs, which can be programmed by user to perform different actions in very convenient and flexible way
+
+Version differences
+References
+External links
+Official site of the project
+Official forum of the project
+Author's official page in VK social network
+Users' community in VK social network
+Old forum of the project on DIYEFI.org
+Old topic on the iXBT forum (when SECU-3 had no its own forum)
+History of developing of the SECU-3T unit
+Author's page on the GitHub (repositories)
+Schematic diagram of the SECU-3T unit (for revCU6 board)
+Repository containing all information and documentation
+Electronic control unit for internal combustion engine SECU-3, p.90-95, ISSN 2411-2798
+Ignition control system for internal combustion engines SECU-3L (Lite), p.115-121, p-ISSN 2079-5459, e-ISSN 2413-4295
+Microprocessor system SECU-3 for internal combustion engine control, p.22-25 ISBN 978-966-8736-05-6
+Fuel injection time calculation in the internal combustion engine control unit SECU-3, p.55-56
+SECU-3i PROGRAMMABLE ENGINE MANAGEMENT SYSTEM, с.67-73
+MICROPROCESSOR CONTROLLED IGNITION SYSTEM SECU-3 MICRO, с.55-61
+Schematic diagram of the SECU-3L (Lite) unit
+Community in Google+
+Community in Facebook
+ATmega644 datasheet

@@ -1,0 +1,57 @@
+Title: Electronic control unit
+
+An electronic control unit (ECU), also known as an electronic control module (ECM), is an embedded system in automotive electronics that controls one or more of the electrical systems or subsystems in a car or other motor vehicle.
+Modern vehicles have many ECUs, and these can include some or all of the following: engine control module (ECM), powertrain control module (PCM), transmission control module (TCM), brake control module (BCM or EBCM), central control module (CCM), central timing module (CTM), general electronic module (GEM), body control module (BCM), and suspension control module (SCM). These ECUs together are sometimes referred to collectively as the car's computer though technically they are all separate computers, not a single one. Sometimes an assembly incorporates several individual control modules (a PCM often controls both the engine and the transmission).
+Some modern motor vehicles have up to 150 ECUs. Embedded software in ECUs continues to increase in line count, complexity, and sophistication. Managing the increasing complexity and number of ECUs in a vehicle has become a key challenge for original equipment manufacturers (OEMs).
+
+Types
+Generic industry controller naming – Is the naming of controllers where the logical thought of the controller's name implies the system the controller is responsible for controlling
+Generic powertrain – The generic powertrain pertains to a vehicle's emission system and is the only regulated controller name.
+Other controllers – All other controller names are decided upon by the individual OEM. The engine controller may have several different names, such as "DME", "Enhanced Powertrain", "PGM-FI" and many others.
+Door control unit (DCU)
+Engine control unit (ECU) – not to be confused with electronic control unit, the generic term for all these devices
+Electric power steering control unit (PSCU) – Generally this will be integrated into the EPS power pack.
+Human–machine interface (HMI)
+Powertrain control module (PCM) – Sometimes the functions of the engine control unit and transmission control module (TCM) are combined into a single unit called the Powertrain Control Module.
+Seat control unit
+Speed control unit (SCU)
+Telematic control unit (TCU)
+Transmission control module (TCM)
+Brake control module (BCM; ABS or ESC)
+Battery management system (BMS)
+
+Key elements
+Core
+Microcontroller
+Memory
+SRAM
+EEPROM
+Flash
+Inputs
+Supply Voltage and Ground
+Digital inputs
+Analog inputs
+Outputs
+Actuator drivers (e.g. injectors, relays, valves)
+H bridge drivers for servomotors
+Logic outputs
+Communication links
+Housing
+Bus Transceivers, e.g. for K-Line, CAN, Ethernet
+Embedded Software
+Boot Loader
+Metadata for ECU and Software Identification, Version Management, Checksums
+Functional Software Routines
+Configuration Data
+
+Design and development
+The development of an ECU involves both hardware and software required to perform the functions expected from that particular module. Automotive ECU's are being developed following the V-model. Recently the trend is to dedicate a significant amount of time and effort to develop safe modules by following standards like ISO 26262. It is rare that a module is developed fully from scratch. The design is generally iterative and improvements are made to both the hardware and software. The development of most ECUs is carried out by Tier 1 suppliers based on specifications provided by the OEM.
+
+Testing and validation
+As part of the development cycle, manufacturers perform detailed FMEAs and other failure analyses to catch failure modes that can lead to unsafe conditions or driver annoyance. Extensive testing and validation activities are carried out as part of the Production part approval process to gain the confidence of the hardware and software. On-board diagnostics or OBD help provide specific data related to which system or component failed or caused a failure during run time and help perform repairs.
+
+Modifications
+Some people may wish to modify their ECU so as to be able to add or change functionality. However modern ECUs come equipped with protection locks to prevent users from modifying the circuit or exchange chips. The protection locks are a form of digital rights management (DRM), the circumventing of which is illegal in certain jurisdictions. In the United States for example, the DMCA criminalizes circumvention of DRM, though an exemption does apply that allows the owner of a motorized land vehicle circumvention if it is required to allow diagnosis, repair or lawful modification (ie. that does not violate applicable law such as emissions regulations).
+
+
+== References ==

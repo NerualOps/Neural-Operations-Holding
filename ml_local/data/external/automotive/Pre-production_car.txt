@@ -1,0 +1,25 @@
+Title: Pre-production car
+
+Pre-production cars are vehicles that allow the automaker to find problems before a new model goes on sale to the public. Pre-production cars come after prototypes, or development mules which themselves are preceded by concept cars. Pre-production vehicles are followed by production vehicles in the mass production of them for distribution through car dealerships.
+
+Application
+Pre-production cars are typically built in small quantities on a pilot production line, or in some cases on the real production line alongside the current model. Typically, the parts used will be off the production tooling or at least are intended to represent the final part very closely. Sometimes the components used to make a pre-production car are a mix between the prototype models and the mass production versions to come later.
+
+A pre-production car is like a beta version of a software program — it is used for demonstration and evaluation purposes of an all-new vehicle.
+An example was Preston Tucker in the development the radically designed 1948 Tucker Sedan for the postwar car market and purchased a factory in Chicago for building the pre-production cars. Automakers may assemble pre-production cars in a specialized small facility, often by hand, to try out the new tooling, as well as test vehicle assembly fits and techniques. This is also an opportunity to train foremen and supervisors for volume production, sometimes ten months before pilot assembly of the new cars.
+In some cases, pre-production cars may be built before management has made final marketing decisions. Although the Nash and Hudson brands disappeared for 1958 in favor of a unified Rambler line under AMC, pre-production cars included the Nash or Hudson emblems ahead of the Ambassador nameplates on the sides of the front fenders, and early factory literature has visible airbrushing to eliminate the emblems. Chevrolet built 43 pre-production, third-generation Corvettes, but none were released to the public as the automaker skipped over the 1983 model year and decided to introduce the new cars as 1984s with an extended production run.
+Manufacturers sometimes use pre-production cars to provide the automotive press a chance to experience and create publicity and articles about the models that are yet to appear in dealer showrooms for public view. Some of these cars are exhibited at auto shows. They may also be destroyed during crash tests. Most of the rest are scrapped, as some may not meet automobile safety regulations or emission standards.
+An example was the Dodge Tomahawk motorcycle, "that hundreds were projected to be built", but even the few that were sold "do not meet the legal requirements to be classified as a motorcycle by the U.S. government, or to be driven on the street".
+Pre-production prototypes are used for testing and evaluation of upcoming designs. These evaluation cars are built early on during a model year, but with some of changes that are going to be incorporated in the manufacture of the next model year models. In the case of American Motors (AMC), these included appearance modifications such as grilles, taillights, trims, or interiors that were fabricated in clay, fiberglass, wood, or plaster. These experimental vehicles were road tested in anticipation of consumer demand and regulatory changes. Designs were tested in these cars in response to customers and drive reports, as well as to include better solutions like making the ashtray and cigar lighter more user friendly.
+Automakers put new technologies in endurance or motor sport contests to test their use in extreme conditions before incorporating them in production cars. For example, the electronic fuel-injected (EFI) Rambler Rebels that participated in the 1957 NASCAR Daytona Speed Weeks (held on the Daytona Beach Road Course) were "pre-production pilot cars." However, AMC's supplier, Bendix, was not able to work out all the drivability problems from its "Electrojector" system. Although the EFI option was announced to AMC dealers and described in the Owner's Manual, no 1957 fuel injected Rebels were sold to retail customers.
+Automakers also design production prototypes to experiment and help develop new standards and regulations. Major safety improvements may be taken into account during the initial development stages of vehicles, but not removed from actual production cars even after the proposed stiffer regulations are rolled back. The AMC Pacer was designed with shortened ends, but incorporated "new impact energy absorbing ideas" to perform at higher crash speeds than the final U.S. regulations that were mandated for the 1975 model year production.
+
+Hardware Module Maturity
+The maturity of the hardware components increases during the pre-production phase until the component reaches production quality (PPAP). The maturity is typically indicated using alphabetic notation (i.e. A,B,C samples), sometimes appended with numerals to indicate the design iteration.
+
+See also
+Automotive design
+Clay modeling
+
+
+== Notes ==

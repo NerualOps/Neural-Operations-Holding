@@ -1,0 +1,44 @@
+Title: Automotive Industry Standards
+
+The Automotive Industry Standards are the automotive technical specifications of India. They are based on the Central Motors Vehicles Regulations, 1989 (CMVR). All safety norms prescribed under the CMVR 1989 was based on the UN/European Regulations which are internationally accepted. Enforcement of provision of CMV Act and CMV Rules come under the purview of the State Governments/UTs.
+
+Regulatory framework
+The automotive and vehicle regulations in India are governed by the Ministry of Road Transport and Highways (MoRT&H) which is the nodal ministry for regulation of the automotive sector in India.
+In India the Rules and Regulations related to driving license, registration of motor vehicles, control of traffic, construction & maintenance of motor vehicles etc. are governed by the Motor Vehicles Act, 1988 (MVA) and the Central Motor Vehicles rules 1989 (CMVR).
+The CMVR - Technical Standing Committee (CMVR-TSC) advises MoRT&H on various technical aspects related to CMVR. This Committee has representatives from various organisations namely; Ministry of Heavy Industries & Public Enterprises (MoHI&PE), MoRT&H, Bureau of Indian Standards (BIS), Testing Agencies such as International Centre for Automotive Technology (ICAT), Automotive Research Association of India (ARAI), Vehicle Research and Development Establishment (VRDE), Central Institute of Road Transport (CIRT), industry representatives from Society of Indian Automobile Manufacturers (SIAM), Automotive Component Manufacturers Association (ACMA) and Tractor Manufacturers Association (TMA) and representatives from State Transport Departments.
+CMVR-TSC is assisted by another Committee called the Automobile Industry Standards Committee (AISC) having members from various stakeholders in drafting the technical standards related to Safety. The major functions of the committee are as follows:
+
+Preparation of new standards for automotive items related to safety.
+To review and recommend amendments to the existing standards
+Recommend adoption of such standards to CMVR Technical Standing Committee
+Recommend commissioning of testing facilities at appropriate stages
+Recommend the necessary funding of such facilities to the CMVR Technical Standing Committee
+Advise CMVR Technical Standing Committee on any other issues referred to it
+AISC submits the draft safety standards in the form of recommendations to CMVR-TSC for final approval. The CMVR – TSC looks into the recommendations of AISC and either approves or sends the recommendations to AISC for amendments. After approval CMVR-TSC submits its final proposal to MoRT&H. MoRT&H then takes the final decision for incorporation of the recommendations in CMVR.
+The Automotive Industry Standards are published by the Automotive Research Association of India on behalf of the Automotive Industry Standards Committee.
+Under Rule 126 of the CMVR, various test agencies are established to test and certify the vehicles based on the safety standards and emission norms prescribed by the Ministry. Every manufacturer of motor vehicle has to submit a prototype of the vehicle to be manufactured to any of the test agencies mentioned hereafter. After testing the vehicle for compliance of all standards and norms, the test agency shall grant a certificate to the manufacturer. The test agencies are – Automotive Research Association of India, Pune (ARAI), Vehicle Research & Development Establishment, Ahmednagar, Central Farm Machinery Testing and Training Institute, Budhni, Indian Institute of Petroleum, Dehradun, Central Institute of Road Transport, Pune and International Centre for Automotive Technology, Manesar.
+
+List of standards
+Following is a list of some of the AIS standards:
+
+AIS 038(Rev. 2): Specific requirements for Electric Power Train of motor vehicles of M category and N category 
+AIS-098: Offset frontal crash
+AIS-100: Pedestrian protection
+AIS-140: NavIC-based vehicle tracking systems
+AIS-99: Side mobile deformable offset
+AIS 156: requirements for electric powertrain components, including batteries, motors, and control systems
+
+Criticism
+AIS have been criticised for not enforcing occupant safety norms. As a result, vehicles sold in India often do not meet safety requirements, as was seen when some of India's best-selling cars were tested for the first time in Germany much after being launched in India. The number of deaths due to road accidents in India is around three to four times that of European countries like France, Germany and Spain. While the use of seatbelts is compulsory, the enforcement of these laws is poor resulting in only 27% of drivers complying with the law which aggravates the problem.
+There has been much criticism of the fact that all the bodies involved in formulating vehicle norms are under the control of the automotive manufacturers, and that instead of having a single central body, there are numerous ministries and bodies involved.
+
+See also
+Bharat NCAP
+Automotive industry in India
+Bharat stage emission standards
+Vehicle regulation
+Automotive Industry Standard 140
+
+References
+External links
+AIS at the ARAI website

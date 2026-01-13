@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Epsilon AI - Intelligent AI Assistant | Neural Operations</title>
+    <meta name="title" content="Epsilon AI - Intelligent AI Assistant | Neural Operations">
+    <meta name="description" content="Epsilon AI: Your intelligent AI assistant for business automation, workflow optimization, and intelligent decision-making. Self-learning AI that adapts to help you work smarter.">
+    <meta name="keywords" content="Epsilon AI, AI assistant, business AI, intelligent automation, workflow optimization, AI chatbot, business automation AI, machine learning assistant, neural network AI">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="author" content="Neural Operations & Holdings LLC">
+    <link rel="canonical" href="https://neuralops.biz/epsilon">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://neuralops.biz/epsilon">
+    <meta property="og:title" content="Epsilon AI - Intelligent AI Assistant | Neural Operations">
+    <meta property="og:description" content="Epsilon AI: Your intelligent AI assistant for business automation, workflow optimization, and intelligent decision-making. Self-learning AI that adapts to help you work smarter.">
+    <meta property="og:image" content="https://neuralops.biz/images/neural-ops-og.jpg">
+    <meta property="og:site_name" content="Neural Operations">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://neuralops.biz/epsilon">
+    <meta property="twitter:title" content="Epsilon AI - Intelligent AI Assistant | Neural Operations">
+    <meta property="twitter:description" content="Your intelligent AI assistant for business automation, workflow optimization, and intelligent decision-making.">
+    <meta property="twitter:image" content="https://neuralops.biz/images/neural-ops-og.jpg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <!-- Performance: Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    
+    <!-- Async Font Loading -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Professional Design System - Ignition Precision */
+        :root {
+            --flame-core: #F97316;
+            --flame-highlight: #FF8A3D;
+            --flame-deep: #C2410C;
+            --near-black: #0F0F0F;
+            --soft-white: #FAFAFA;
+            --ash-neutral: #A1A1AA;
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--near-black); 
+            color: var(--soft-white); 
+            overflow: hidden;
+        }
+        
+        @media (max-width: 768px) {
+            body { overflow: auto; }
+            
+            /* Hide nav buttons on mobile when typing to maximize chat space */
+            .top-left-nav { 
+                opacity: 0.3;
+                pointer-events: auto;
+            }
+            .sidebar-toggle { 
+                opacity: 0.3;
+                pointer-events: auto;
+            }
+            
+            /* Show them clearly when not focused on input */
+            body:not(.input-focused) .top-left-nav,
+            body:not(.input-focused) .sidebar-toggle {
+                opacity: 1;
+            }
+            
+            /* Move buttons to not interfere with typing */
+            .top-left-nav {
+                top: 0.75rem;
+                left: 0.75rem;
+            }
+            .sidebar-toggle {
+                top: 3.5rem;
+                left: 0.75rem;
+            }
+            
+            /* When sidebar is open, hide the toggle button */
+            body.sidebar-open .sidebar-toggle {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+        
+        body.sidebar-open .top-left-nav { left: calc(1.5rem + 280px); }
+        .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; transition: left 0.35s ease; }
+        body.sidebar-open .sidebar-toggle { left: calc(1.5rem + 280px); }
+        .sidebar-toggle { 
+            position: fixed; 
+            top: 5rem; 
+            left: 1.5rem; 
+            width: 40px; 
+            height: 40px; 
+            background: transparent; 
+            border: 1px solid var(--ash-neutral); 
+            border-radius: 6px; 
+            cursor: pointer; 
+            z-index: 2000; 
+            display: none; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 5px; 
+            transition: all 0.12s ease-out; 
+        }
+        .sidebar-toggle.visible { display: flex; }
+        .sidebar-toggle:hover {
+            border-color: var(--flame-core);
+            background: rgba(249, 115, 22, 0.08);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px);
+        }
+        .sidebar-toggle span { 
+            width: 20px; 
+            height: 2px; 
+            background: var(--soft-white); 
+            border-radius: 2px; 
+            transition: all 0.12s ease-out;
+        }
+        .sidebar-toggle:hover span {
+            background: var(--flame-core);
+        }
+        
+        .top-nav-button { 
+            padding: 0.6rem 1.2rem; 
+            background: rgba(15, 15, 15, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--ash-neutral); 
+            border-radius: 6px; 
+            color: var(--soft-white); 
+            text-decoration: none; 
+            font-size: 0.85rem; 
+            font-weight: 500; 
+            transition: all 0.12s ease-out;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        .top-nav-button:hover { 
+            border-color: var(--flame-core); 
+            color: var(--flame-core); 
+            background: rgba(249, 115, 22, 0.08);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px);
+        }
+        
+        .top-right-auth { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 1999; display: none; gap: 0.75rem; transition: right 0.35s ease; }
+        .top-right-profile { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 2001; display: none; align-items: center; gap: 0.5rem; transition: right 0.35s ease; }
+        .profile-bubble { 
+            width: 42px; 
+            height: 42px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 700; 
+            font-size: 1rem; 
+            color: var(--near-black); 
+            text-transform: uppercase; 
+            cursor: pointer; 
+            box-shadow: 0 0 16px rgba(249, 115, 22, 0.2); 
+            background: var(--flame-core); 
+            transition: all 0.12s ease-out;
+        }
+        .profile-bubble:hover {
+            background: var(--flame-highlight);
+            box-shadow: 0 0 24px rgba(249, 115, 22, 0.35);
+        }
+        .profile-dropdown { 
+            position: absolute; 
+            top: 55px; 
+            right: 0; 
+            background: var(--near-black); 
+            border: 1px solid var(--ash-neutral); 
+            border-radius: 8px; 
+            padding: 0.5rem; 
+            min-width: 200px; 
+            display: none; 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8); 
+            z-index: 2002; 
+        }
+        .profile-dropdown.active { display: block; }
+        .profile-dropdown-item { 
+            display: block; 
+            padding: 0.75rem 1rem; 
+            color: var(--soft-white); 
+            text-decoration: none; 
+            border-radius: 6px; 
+            font-size: 0.9rem; 
+            transition: all 0.12s ease-out; 
+        }
+        .profile-dropdown-item:hover { 
+            background: rgba(249, 115, 22, 0.1); 
+            color: var(--flame-core);
+        }
+        .profile-dropdown-item.logout { color: #ff3b30; border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: 0.5rem; }
+        
+        .chat-sidebar { 
+            position: fixed;
+            top: 0; 
+            left: 0;
+            width: 280px; 
+            height: 100vh; 
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--ash-neutral); 
+            transform: translateX(-100%); 
+            transition: transform 0.35s ease; 
+            z-index: 1999; 
+            display: flex; 
+            flex-direction: column;
+            box-shadow: 2px 0 16px rgba(0, 0, 0, 0.5);
+        }
+        .chat-sidebar.open { transform: translateX(0); }
+        .sidebar-header { 
+            padding: 1.5rem; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .sidebar-header h3 {
+            color: var(--soft-white);
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            margin: 0;
+        }
+        .sidebar-header-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .new-chat-btn,
+        .folder-btn { 
+            padding: 0.5rem 0.875rem; 
+            background: var(--flame-core); 
+            border: none; 
+            border-radius: 6px; 
+            color: var(--near-black); 
+            font-size: 0.85rem; 
+            font-weight: 600;
+            cursor: pointer; 
+            transition: all 0.12s ease-out;
+            box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+        }
+        .folder-btn {
+            background: rgba(15, 15, 15, 0.6);
+            color: var(--soft-white);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .new-chat-btn:hover { 
+            background: var(--flame-highlight); 
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+        }
+        .folder-btn:hover {
+            background: rgba(249, 115, 22, 0.15);
+            border-color: var(--flame-core);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+        }
+        .new-chat-btn:active,
+        .folder-btn:active {
+            transform: translateY(0);
+        }
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); opacity: 0; visibility: hidden; z-index: 1998; transition: all 0.2s ease-out; }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+        
+        .chat-interface { width: 100%; height: 100vh; display: flex; flex-direction: column; transition: margin-left 0.35s ease; }
+        .chat-interface.sidebar-open { margin-left: 280px; }
+        .chat-container { flex: 1; max-width: 800px; width: 100%; margin: 0 auto; padding: 100px 2rem 2rem; overflow-y: auto; }
+        .welcome-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 60vh; padding: 2rem; }
+        .welcome-screen.hidden { display: none; }
+        .welcome-title { 
+            font-size: clamp(2.5rem, 6vw, 3.5rem); 
+            font-weight: 700; 
+            margin-bottom: 1.25rem; 
+            color: var(--soft-white);
+            letter-spacing: 0.01em;
+            line-height: 0.95;
+            text-shadow: 0 2px 20px rgba(249, 115, 22, 0.3);
+        }
+        .welcome-subtitle { 
+            font-size: 1.3rem; 
+            color: var(--ash-neutral); 
+            margin-bottom: 2.5rem; 
+            font-weight: 400;
+        }
+        .welcome-chat-input { display: flex; gap: 1rem; width: 100%; max-width: 600px; margin-bottom: 1.5rem; }
+        .suggestion-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        .suggestion-chip {
+            padding: 0.6rem 1.2rem;
+            background: rgba(15, 15, 15, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            color: var(--soft-white);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.12s ease-out;
+        }
+        .suggestion-chip:hover {
+            background: rgba(249, 115, 22, 0.15);
+            border-color: var(--flame-core);
+            color: var(--flame-core);
+            transform: translateY(-2px);
+        }
+        .welcome-input { 
+            flex: 1; 
+            min-height: 60px; 
+            padding: 1.2rem 1.8rem; 
+            background: transparent; 
+            border: 1px solid var(--ash-neutral); 
+            border-radius: 8px; 
+            color: var(--soft-white); 
+            font-family: inherit; 
+            font-size: 1.1rem; 
+            resize: none; 
+            outline: none; 
+            transition: all 0.12s ease-out;
+        }
+        .welcome-input:focus {
+            border-color: var(--flame-core);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+        
+        /* Recent Chats Section */
+        .recent-chats-section { width: 100%; max-width: 900px; margin-top: 2rem; text-align: left; }
+        .recent-chats-title { font-size: 1.1rem; font-weight: 600; color: var(--soft-white); margin-bottom: 1rem; text-align: center; letter-spacing: 0; }
+        .recent-chats-container { display: flex; flex-direction: column; gap: 1rem; padding: 0.5rem; }
+        .recent-chats-container.expanded { max-height: 400px; overflow-y: auto; }
+        .recent-chats-container.expanded::-webkit-scrollbar { display: none; }
+        .recent-chats-container.expanded { -ms-overflow-style: none; scrollbar-width: none; }
+        .expand-chats-btn {
+            padding: 0.75rem 1rem;
+            background: rgba(15, 15, 15, 0.4);
+            border: none;
+            border-radius: 6px;
+            color: var(--flame-core);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.12s ease-out;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+        .expand-chats-btn:hover {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--flame-highlight);
+        }
+        .recent-chat-item { 
+            padding: 1rem 1.25rem; 
+            background: rgba(15, 15, 15, 0.6);
+            border-radius: 6px; 
+            cursor: pointer; 
+            transition: all 0.12s ease-out;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+        }
+        .recent-chat-item:hover { 
+            background: rgba(249, 115, 22, 0.12);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.3), 0 2px 8px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        .recent-chat-item-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .recent-chat-actions {
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.12s ease-out;
+        }
+        .recent-chat-item:hover .recent-chat-actions {
+            opacity: 1;
+        }
+        .chat-action-btn {
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            background: rgba(15, 15, 15, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            color: var(--ash-neutral);
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.12s ease-out;
+        }
+        .chat-action-btn:hover {
+            background: rgba(249, 115, 22, 0.2);
+            border-color: var(--flame-core);
+            color: var(--flame-core);
+        }
+        .chat-action-btn.delete:hover {
+            background: rgba(255, 59, 48, 0.2);
+            border-color: #ff3b30;
+            color: #ff3b30;
+        }
+        .view-all-chats-btn {
+            padding: 0.75rem 1.25rem;
+            background: rgba(15, 15, 15, 0.6);
+            border: 1px solid var(--flame-core);
+            border-radius: 6px;
+            color: var(--flame-core);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.12s ease-out;
+            margin-top: 1rem;
+                text-align: center;
+            box-shadow: 0 2px 8px rgba(249, 115, 22, 0.2);
+        }
+        .view-all-chats-btn:hover {
+            background: rgba(249, 115, 22, 0.15);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+            transform: translateY(-2px);
+        }
+        .recent-chat-name { font-size: 0.95rem; font-weight: 500; color: var(--soft-white); margin-bottom: 0.25rem; }
+        .recent-chat-preview { font-size: 0.85rem; color: var(--ash-neutral); line-height: 1.4; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .recent-chat-time { font-size: 0.75rem; color: var(--ash-neutral); margin-top: 0.5rem; }
+        .no-recent-chats { text-align: center; color: var(--ash-neutral); font-size: 0.9rem; padding: 2rem; }
+        
+        .chat-messages { display: none; flex-direction: column; gap: 1.5rem; padding-bottom: 1rem; }
+        .chat-messages.visible { display: flex; }
+        .message { padding: 1.25rem 1.5rem; border-radius: 6px; background: rgba(15, 15, 15, 0.3); margin-bottom: 0.5rem; position: relative; }
+        .message.user { 
+            background: rgba(15, 15, 15, 0.4);
+        }
+        .message.assistant { 
+            background: rgba(15, 15, 15, 0.3);
+        }
+        .message-role { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: var(--ash-neutral); margin-bottom: 0.75rem; }
+        .message-text { line-height: 1.7; word-wrap: break-word; color: var(--soft-white); }
+        .message-feedback { margin-top: 1rem; padding-top: 1rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+        .feedback-label { font-size: 0.8rem; color: var(--ash-neutral); }
+        .feedback-buttons { display: flex; gap: 0.5rem; align-items: center; }
+        .feedback-btn { padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--ash-neutral); border-radius: 6px; color: var(--soft-white); font-size: 0.8rem; cursor: pointer; transition: all 0.15s ease-out; }
+        .feedback-btn:hover { background: rgba(249, 115, 22, 0.05); border-color: var(--flame-core); color: var(--flame-core); }
+        .feedback-btn.active { 
+            background: rgba(249, 115, 22, 0.15); 
+            border-color: var(--flame-core); 
+            color: var(--flame-core); 
+        }
+        .feedback-btn.negative { background: rgba(255, 59, 48, 0.2); border-color: rgba(255, 59, 48, 0.4); }
+        .feedback-btn.negative:hover { background: rgba(255, 59, 48, 0.3); }
+        .feedback-btn.negative.active { background: rgba(255, 59, 48, 0.4); border-color: #ff3b30; }
+        .feedback-thanks { font-size: 0.8rem; color: var(--flame-core); display: none; }
+        .feedback-thanks.show { display: block; }
+        
+        body.sidebar-open .bottom-chat-input { left: 280px; }
+        .bottom-chat-input { 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            padding: 1.5rem 2rem 2rem; 
+            background: var(--near-black); 
+            border-top: 1px solid var(--ash-neutral);
+            z-index: 1000; 
+            display: none; 
+            transition: left 0.35s ease; 
+        }
+        .bottom-chat-input.visible { display: block; }
+        .chat-input-form { max-width: 900px; margin: 0 auto; display: flex; gap: 1rem; align-items: center; }
+        .chat-input { 
+            flex: 1; 
+            height: 54px; 
+            min-height: 54px; 
+            max-height: 54px;
+            padding: 0.875rem 1.25rem; 
+            background: transparent; 
+            border: 1px solid var(--ash-neutral); 
+            border-radius: 8px; 
+            color: var(--soft-white); 
+            font-family: inherit; 
+            font-size: 1rem; 
+            resize: none; 
+            outline: none; 
+            transition: all 0.12s ease-out;
+            box-sizing: border-box;
+        }
+        .chat-input:focus {
+            border-color: var(--flame-core);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+        .send-btn { 
+            width: 54px; 
+            height: 54px; 
+            min-height: 54px;
+            max-height: 54px;
+            background: var(--flame-core); 
+            border: none; 
+            border-radius: 8px; 
+            color: var(--near-black); 
+            font-size: 1.2rem; 
+            font-weight: 600;
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            flex-shrink: 0; 
+            transition: all 0.12s ease-out;
+            box-sizing: border-box;
+        }
+        .send-btn:hover { 
+            background: var(--flame-highlight); 
+            transform: translateY(-1px); 
+            box-shadow: 0 0 24px rgba(249, 115, 22, 0.35); 
+        }
+        .send-btn:active {
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            .chat-container { 
+                padding: 80px 1rem 120px; 
+                width: 100%;
+                max-width: 100%;
+            }
+            .welcome-title { 
+                font-size: clamp(2rem, 8vw, 2.5rem); 
+                line-height: 1.2;
+            }
+            .welcome-subtitle { 
+                font-size: clamp(1rem, 4vw, 1.1rem); 
+                margin-bottom: 2rem;
+                padding: 0 1rem;
+            }
+            .welcome-chat-input { 
+                max-width: 100%; 
+                padding: 0 1rem;
+            }
+            .welcome-input { 
+                min-height: 50px; 
+                padding: 1rem 1.5rem; 
+                font-size: clamp(0.95rem, 3.5vw, 1rem);
+                width: 100%;
+            }
+            .chat-messages { 
+                gap: 1rem; 
+                padding-bottom: 0.5rem; 
+                width: 100%;
+            }
+            .message { 
+                padding: clamp(0.875rem, 3vw, 1rem) clamp(1rem, 4vw, 1.25rem); 
+                margin-bottom: 0.75rem;
+                width: 100%;
+                max-width: 100%;
+            }
+            .message-role { 
+                font-size: clamp(0.7rem, 2.5vw, 0.75rem); 
+                margin-bottom: 0.5rem; 
+            }
+            .message-text { 
+                font-size: clamp(0.9rem, 3.5vw, 0.95rem); 
+                line-height: 1.6; 
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+            .message-feedback { 
+                margin-top: 0.75rem; 
+                padding-top: 0.75rem; 
+                gap: 0.5rem; 
+                flex-wrap: wrap;
+            }
+            .feedback-label { 
+                font-size: clamp(0.7rem, 2.5vw, 0.75rem); 
+            }
+            .feedback-buttons { 
+                gap: 0.4rem; 
+                flex-wrap: wrap;
+            }
+            .feedback-btn { 
+                padding: clamp(0.3rem, 2vw, 0.35rem) clamp(0.6rem, 3vw, 0.7rem); 
+                font-size: clamp(0.7rem, 2.5vw, 0.75rem); 
+            }
+            .feedback-thanks { 
+                font-size: clamp(0.7rem, 2.5vw, 0.75rem); 
+            }
+            .bottom-chat-input { 
+                padding: 1rem 1rem 1.5rem; 
+                width: 100%;
+            }
+            .chat-input-form { 
+                gap: 0.75rem; 
+                width: 100%;
+                max-width: 100%;
+            }
+            .chat-input-form { align-items: center; }
+            .chat-input { 
+                height: clamp(44px, 10vw, 48px);
+                min-height: clamp(44px, 10vw, 48px);
+                max-height: clamp(44px, 10vw, 48px);
+                padding: 0.75rem 1rem; 
+                font-size: clamp(0.9rem, 3.5vw, 0.95rem);
+                width: 100%;
+            }
+            .send-btn { 
+                width: clamp(44px, 10vw, 48px); 
+                height: clamp(44px, 10vw, 48px);
+                min-height: clamp(44px, 10vw, 48px);
+                max-height: clamp(44px, 10vw, 48px);
+                font-size: clamp(1rem, 4vw, 1.1rem); 
+                flex-shrink: 0;
+            }
+            body.sidebar-open .bottom-chat-input { left: 0; }
+            
+            .top-left-nav {
+                padding: 0.5rem 0.75rem;
+                font-size: clamp(0.8rem, 3vw, 0.85rem);
+            }
+            
+            .top-right-profile {
+                right: 0.75rem;
+                top: 0.75rem;
+            }
+            
+            .profile-bubble {
+                width: clamp(36px, 9vw, 42px);
+                height: clamp(36px, 9vw, 42px);
+                font-size: clamp(0.85rem, 3vw, 1rem);
+            }
+            
+            .chat-sidebar {
+                width: 100%;
+                max-width: 320px;
+            }
+            
+            body.sidebar-open .chat-interface {
+                margin-left: 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .chat-container {
+                padding: 70px 0.75rem 110px;
+            }
+            
+            .welcome-title {
+                font-size: 1.75rem;
+                padding: 0 0.5rem;
+            }
+            
+            .welcome-subtitle {
+                font-size: 0.95rem;
+                padding: 0 0.75rem;
+            }
+            
+            .welcome-chat-input {
+                padding: 0 0.75rem;
+            }
+            
+            .message {
+                padding: 0.75rem 1rem;
+            }
+            
+            .bottom-chat-input {
+                padding: 0.75rem 0.75rem 1.25rem;
+            }
+            
+            .chat-input-form { align-items: center; }
+            .chat-input {
+                height: 44px;
+                min-height: 44px;
+                max-height: 44px;
+                font-size: 0.9rem;
+                padding: 0.7rem 0.9rem;
+            }
+            
+            .send-btn {
+                width: 44px;
+                height: 44px;
+                min-height: 44px;
+                max-height: 44px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-left-nav">
+        <a href="/"><img src="/logo.png" alt="NeuralOps Logo" style="height: 2rem; width: auto; margin-right: 0.5rem; vertical-align: middle;"></a>
+        <a href="/" class="top-nav-button">← Home</a>
+    </div>
+    <button class="sidebar-toggle" id="sidebarToggle"><span></span><span></span><span></span></button>
+    
+    <div class="top-right-auth" id="topRightAuth">
+        <a href="/login" class="top-nav-button">Sign In</a>
+        <a href="/register" class="top-nav-button">Register</a>
+        </div>
+        
+    <div class="top-right-profile">
+        <div class="profile-bubble" id="profileBubble"><span id="profileInitials">U</span></div>
+        <div class="profile-dropdown" id="profileDropdown">
+            <div id="profileName" style="padding: 0.75rem 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 600; border-bottom: 1px solid rgba(255, 255, 255, 0.1);"></div>
+            <a href="/" class="profile-dropdown-item">Home</a>
+            <a href="/epsilon" class="profile-dropdown-item">Epsilon AI</a>
+            <a href="/about" class="profile-dropdown-item">About Us</a>
+            <a href="/contact" class="profile-dropdown-item">Contact Us</a>
+            <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 0.5rem 0;"></div>
+            <a href="/edit_profile" class="profile-dropdown-item">Edit Profile</a>
+            <a href="/owner" class="profile-dropdown-item" id="ownerLink" style="display: none;">Owner Dashboard</a>
+            <a href="#" class="profile-dropdown-item logout" id="profileLogout">Logout</a>
+            </div>
+        </div>
+        
+            <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+            <div class="chat-sidebar" id="chatSidebar">
+                <div class="sidebar-header">
+                    <h3>Chats</h3>
+                <div class="sidebar-header-actions">
+                    <button class="folder-btn" id="folderBtn" title="Folders">📁</button>
+                    <button class="new-chat-btn" id="newChatBtn">+ New</button>
+                </div>
+            </div>
+            <div class="sidebar-chats" id="sidebarChats" style="flex: 1; overflow-y: auto; padding: 1rem;"></div>
+        </div>
+
+    <div class="chat-interface">
+        <div class="chat-container">
+                        <div class="welcome-screen" id="welcomeScreen">
+                <h1 class="welcome-title">Epsilon AI</h1>
+                <p class="welcome-subtitle">Your Advanced AI Assistant</p>
+                <div class="welcome-chat-input">
+                    <textarea id="welcomeInput" class="welcome-input" placeholder="Ask anything..." rows="1"></textarea>
+                    <button type="button" class="send-btn" id="welcomeSendBtn">→</button>
+                </div>
+                <div class="recent-chats-section" id="recentChatsSection" style="display: none;">
+                    <div class="recent-chats-title">Recent Conversations</div>
+                    <div class="recent-chats-container" id="recentChatsContainer">
+                        <div class="no-recent-chats">No recent conversations</div>
+                    </div>
+                    </div>
+                        </div>
+            <div class="chat-messages" id="chatMessages"></div>
+                            </div>
+        <div class="bottom-chat-input" id="bottomChatInput">
+            <div class="chat-input-form">
+                <textarea id="chatInput" class="chat-input" placeholder="Type your message..." rows="1"></textarea>
+                <button type="button" class="send-btn" id="sendBtn">→</button>
+                        </div>
+                    </div>
+                </div>
+
+    <script>
+    // IMMEDIATE auth check - runs synchronously before page fully loads to prevent flash
+    (function() {
+        var userStr = localStorage.getItem('epsilon_user');
+        var topRightAuth = document.getElementById('topRightAuth');
+        var topRightProfile = document.querySelector('.top-right-profile');
+        
+        // If user exists in localStorage, hide auth buttons immediately
+        if (userStr) {
+            try {
+                var user = JSON.parse(userStr);
+                if (user && user.id && user.email) {
+                    // User is logged in - hide auth buttons immediately, show profile
+                    if (topRightAuth) {
+                        topRightAuth.style.display = 'none';
+                        topRightAuth.style.visibility = 'hidden';
+                        topRightAuth.style.opacity = '0';
+                    }
+                    if (topRightProfile) {
+                        topRightProfile.style.display = 'flex';
+                    }
+                    return; // Exit early - profile bubble will be styled by initProfileBubble
+                }
+            } catch (e) {
+                // Invalid user data - show auth buttons
+            }
+        }
+        
+        // No user or invalid - show auth buttons
+        if (topRightAuth) {
+            topRightAuth.style.display = 'flex';
+            topRightAuth.style.visibility = 'visible';
+            topRightAuth.style.opacity = '1';
+        }
+        if (topRightProfile) {
+            topRightProfile.style.display = 'none';
+        }
+    })();
+    
+    window.initProfileBubble = async function() {
+        var userStr = localStorage.getItem('epsilon_user');
+        var profileBubble = document.getElementById('profileBubble');
+        var topRightProfile = document.querySelector('.top-right-profile');
+        var topRightAuth = document.getElementById('topRightAuth');
+        
+        // If no user, hide profile bubble and show auth buttons
+        if (!userStr) {
+            if (topRightProfile) {
+                topRightProfile.style.display = 'none';
+            }
+            if (topRightAuth) {
+                topRightAuth.style.display = 'flex';
+                topRightAuth.style.visibility = 'visible';
+                topRightAuth.style.opacity = '1';
+                topRightAuth.style.pointerEvents = 'auto';
+                topRightAuth.style.zIndex = '1000';
+            }
+            return;
+        }
+        
+        var user;
+        try {
+            user = JSON.parse(userStr);
+            if (!user || !user.id || !user.email) {
+                // Invalid user data
+                if (topRightProfile) topRightProfile.style.display = 'none';
+                if (topRightAuth) {
+                    topRightAuth.style.display = 'flex';
+                    topRightAuth.style.visibility = 'visible';
+                    topRightAuth.style.opacity = '1';
+                }
+                return;
+            }
+        } catch (error) {
+            // Invalid JSON
+            if (topRightProfile) topRightProfile.style.display = 'none';
+            if (topRightAuth) {
+                topRightAuth.style.display = 'flex';
+                topRightAuth.style.visibility = 'visible';
+                topRightAuth.style.opacity = '1';
+            }
+            return;
+        }
+        
+        var profileData = null;
+        
+        // Refresh user role and avatar from server (non-blocking, uses cached data if slow)
+        // Use Promise.race to prevent slow API from blocking UI
+        var profilePromise = fetch('/api/profile/me', {
+            method: 'GET',
+            credentials: 'include'
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            return null;
+        }).catch(() => null);
+        
+        // Timeout after 300ms - if API is slow, use cached data
+        var timeoutPromise = new Promise(resolve => setTimeout(() => resolve(null), 300));
+        
+        try {
+            const result = await Promise.race([profilePromise, timeoutPromise]);
+            if (result && result.profile) {
+                profileData = result.profile;
+                if (profileData.role) {
+                    user.role = profileData.role;
+                    localStorage.setItem('epsilon_user', JSON.stringify(user));
+                }
+                if (profileData.avatar_url) {
+                    user.avatar = profileData.avatar_url;
+                    user.avatar_url = profileData.avatar_url;
+                    localStorage.setItem('epsilon_user', JSON.stringify(user));
+                }
+            }
+        } catch (error) {
+            // Non-critical - continue with existing data
+        }
+        
+        var profileInitials = document.getElementById('profileInitials');
+        var profileName = document.getElementById('profileName');
+        var ownerLink = document.getElementById('ownerLink');
+        
+        // Use name if available, otherwise use email
+        var displayName = (user.name || user.full_name || user.email.split('@')[0]);
+        var initial = displayName.charAt(0).toUpperCase();
+        var colors = ['#F97316', '#FF8A3D', '#EA580C', '#C2410C', '#F97316', '#FF8A3D', '#EA580C'];
+        var randomColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Get avatar from profile if available
+        var avatarUrl = null;
+        if (profileData && profileData.avatar_url) {
+            avatarUrl = profileData.avatar_url;
+        } else if (user.avatar || user.avatar_url) {
+            avatarUrl = user.avatar || user.avatar_url;
+        }
+        
+        // Show profile bubble and hide auth buttons
+        if (topRightProfile) {
+            topRightProfile.style.display = 'flex';
+            topRightProfile.style.visibility = 'visible';
+            topRightProfile.style.opacity = '1';
+            topRightProfile.style.pointerEvents = 'auto';
+            topRightProfile.style.zIndex = '2001';
+        }
+        if (topRightAuth) {
+            topRightAuth.style.display = 'none';
+            topRightAuth.style.visibility = 'hidden';
+            topRightAuth.style.opacity = '0';
+            topRightAuth.style.pointerEvents = 'none';
+            topRightAuth.style.zIndex = '-1';
+        }
+        
+        if (profileBubble) {
+            profileBubble.style.display = 'flex';
+            profileBubble.style.visibility = 'visible';
+            profileBubble.style.opacity = '1';
+            profileBubble.style.pointerEvents = 'auto';
+            if (avatarUrl && avatarUrl.startsWith('data:image/')) {
+                profileBubble.style.backgroundImage = 'url(' + avatarUrl + ')';
+                profileBubble.style.backgroundSize = 'cover';
+                profileBubble.style.backgroundPosition = 'center';
+                profileBubble.style.backgroundColor = '';
+                profileBubble.style.backgroundRepeat = 'no-repeat';
+                if (profileInitials) {
+                    profileInitials.style.display = 'none';
+                    profileInitials.style.visibility = 'hidden';
+                }
+            } else {
+                profileBubble.style.backgroundImage = 'none';
+                profileBubble.style.backgroundColor = randomColor;
+                profileBubble.style.background = randomColor;
+                if (profileInitials) {
+                    profileInitials.style.display = 'flex';
+                    profileInitials.style.visibility = 'visible';
+                    profileInitials.textContent = initial;
+                }
+            }
+        }
+        
+        if (profileInitials) {
+            if (avatarUrl && avatarUrl.startsWith('data:image/')) {
+                profileInitials.style.display = 'none';
+                profileInitials.style.visibility = 'hidden';
+            } else {
+                profileInitials.style.display = 'flex';
+                profileInitials.style.visibility = 'visible';
+                profileInitials.textContent = initial;
+            }
+        }
+        
+        if (profileName) {
+            profileName.textContent = displayName;
+        }
+        
+        if (ownerLink) {
+            // Use profileData role if available (most up-to-date), otherwise use user.role
+            const currentRole = (profileData && profileData.role) ? profileData.role : (user.role || 'client');
+            if (currentRole === 'owner') {
+                ownerLink.style.display = 'block';
+            } else {
+                ownerLink.style.display = 'none';
+            }
+        }
+    };
+    
+    window.currentSessionId = window.currentSessionId || `session_${Date.now()}`;
+    
+    // Global CSRF token function
+    window.getCsrfToken = async function() {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim().split('=');
+            if (cookie[0] === 'csrfToken') {
+                return cookie[1];
+            }
+        }
+        var stored = localStorage.getItem('csrfToken');
+        if (stored) return stored;
+        
+        try {
+            var response = await fetch('/api/csrf-token', {
+                method: 'GET',
+                credentials: 'include'
+            });
+            if (response.ok) {
+                var data = await response.json();
+                if (data.token) {
+                    localStorage.setItem('csrfToken', data.token);
+                    return data.token;
+                }
+            }
+        } catch (e) {}
+        return '';
+    };
+    
+    window.sendMessage = async function() {
+        var welcomeInput = document.getElementById('welcomeInput');
+        var chatInput = document.getElementById('chatInput');
+        var input = (welcomeInput && welcomeInput.value) ? welcomeInput.value.trim() : (chatInput && chatInput.value) ? chatInput.value.trim() : '';
+        
+        if (!input) return;
+        
+        var welcomeScreen = document.getElementById('welcomeScreen');
+        var chatMessages = document.getElementById('chatMessages');
+        var bottomChatInput = document.getElementById('bottomChatInput');
+        var sidebarToggle = document.getElementById('sidebarToggle');
+        
+        if (welcomeScreen) welcomeScreen.style.display = 'none';
+        if (chatMessages) {
+            chatMessages.style.display = 'flex';
+            chatMessages.classList.add('visible');
+        }
+        if (bottomChatInput) bottomChatInput.classList.add('visible');
+        if (sidebarToggle) sidebarToggle.classList.add('visible');
+        if (welcomeInput) welcomeInput.value = '';
+        if (chatInput) chatInput.value = '';
+        
+        window.addMessage('user', input);
+        window.messageStartTime = Date.now();
+        var loadingId = window.addMessage('assistant', 'Thinking...');
+        
+        try {
+            var response;
+            var sessionId = window.currentSessionId;
+            var userStr = localStorage.getItem('epsilon_user');
+            var userId = null;
+            if (userStr) {
+                try {
+                    var user = JSON.parse(userStr);
+                    if (user && user.id) {
+                        userId = user.id;
+                    }
+                } catch (e) {}
+            }
+            
+            if (window.epsilonLearningEngine && window.epsilonLearningEngine.getResponse) {
+                response = await window.epsilonLearningEngine.getResponse(input);
+                sessionId = window.epsilonLearningEngine.sessionId || sessionId;
+            } else {
+                var csrfToken = await window.getCsrfToken();
+                var apiResponse = await fetch('/api/epsilon-chat', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken
+                },
+                credentials: 'include',
+                    body: JSON.stringify({ message: input, sessionId: sessionId, userId: userId })
+                });
+                var data = await apiResponse.json();
+                if (!apiResponse.ok || !data.response) {
+                    throw new Error(data.error || data.message || 'Failed to generate response');
+                }
+                response = data.response || data.content;
+                if (data.sessionId) window.currentSessionId = data.sessionId;
+            }
+            
+            window.removeMessage(loadingId);
+            
+            var conversationId = null;
+            if (userId && sessionId) {
+                try {
+                    var csrfToken = await window.getCsrfToken();
+                    var storeResponse = await fetch('/api/supabase-proxy', {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'X-CSRF-Token': csrfToken
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify({
+                            action: 'store-epsilon-conversation',
+                            data: {
+                                session_id: sessionId,
+                                user_id: userId,
+                                user_message: input,
+                                epsilon_response: response,
+                                response_time_ms: Date.now() - (window.messageStartTime || Date.now()),
+                                context_data: {
+                                    source: 'web_chat',
+                                    timestamp: new Date().toISOString()
+                                }
+                            }
+                        })
+                    });
+                    
+                    if (storeResponse.ok) {
+                        var storeData = await storeResponse.json();
+                        if (storeData.success && storeData.conversation_id) {
+                            conversationId = storeData.conversation_id;
+                        }
+                    }
+                } catch (storeError) {
+                }
+            }
+            
+            window.addMessage('assistant', response, conversationId);
+            
+            setTimeout(function() {
+                window.loadChatHistory();
+            }, 500);
+        } catch (error) {
+            window.removeMessage(loadingId);
+            var errorMessage = error.message || 'Failed to generate response. The AI model may not be trained yet or the service is unavailable.';
+            window.addMessage('assistant', 'Error: ' + errorMessage);
+        }
+    };
+    
+    var msgCounter = 0;
+    window.conversationIds = window.conversationIds || {};
+    
+    window.addMessage = function(role, text, conversationId) {
+        var chatMessages = document.getElementById('chatMessages');
+        if (!chatMessages) return null;
+        var msgId = 'msg' + (++msgCounter);
+        var div = document.createElement('div');
+        div.className = 'message ' + role;
+        div.id = msgId;
+        if (conversationId) {
+            div.setAttribute('data-conversation-id', conversationId);
+        }
+        
+        var messageContent = '<div class="message-role">' + (role === 'user' ? 'You' : 'Epsilon AI') + '</div><div class="message-text">' + text + '</div>';
+        
+        if (role === 'assistant' && conversationId) {
+            messageContent += '<div class="message-feedback">' +
+                '<span class="feedback-label">Was this helpful?</span>' +
+                '<div class="feedback-buttons">' +
+                '<button class="feedback-btn" data-rating="helpful" data-conversation-id="' + conversationId + '">👍 Helpful</button>' +
+                '<button class="feedback-btn negative" data-rating="not-helpful" data-conversation-id="' + conversationId + '">👎 Not Helpful</button>' +
+                '</div>' +
+                '<span class="feedback-thanks">Thank you for your feedback!</span>' +
+                '</div>';
+        }
+        
+        div.innerHTML = messageContent;
+        chatMessages.appendChild(div);
+        setTimeout(function() {
+            var chatContainer = document.querySelector('.chat-container');
+            if (chatContainer) {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        }, 100);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        if (role === 'assistant' && conversationId) {
+            var feedbackBtns = div.querySelectorAll('.feedback-btn');
+            feedbackBtns.forEach(function(btn) {
+                btn.onclick = function() {
+                    var rating = this.getAttribute('data-rating');
+                    var convId = this.getAttribute('data-conversation-id');
+                    window.submitFeedback(convId, rating === 'helpful' ? 5 : 2, rating === 'helpful', null);
+                    feedbackBtns.forEach(function(b) { b.classList.remove('active'); });
+                    this.classList.add('active');
+                    var thanks = div.querySelector('.feedback-thanks');
+                    if (thanks) thanks.classList.add('show');
+                    setTimeout(function() {
+                        if (thanks) thanks.classList.remove('show');
+                    }, 3000);
+                };
+            });
+        }
+        
+        return msgId;
+    };
+    
+    window.removeMessage = function(msgId) {
+        var msg = document.getElementById(msgId);
+        if (msg) msg.remove();
+    };
+    
+    var welcomeSendBtn = document.getElementById('welcomeSendBtn');
+    var sendBtn = document.getElementById('sendBtn');
+    var welcomeInput = document.getElementById('welcomeInput');
+    var chatInput = document.getElementById('chatInput');
+    
+    if (welcomeSendBtn) welcomeSendBtn.onclick = function() { window.sendMessage(); };
+    if (sendBtn) sendBtn.onclick = function() { window.sendMessage(); };
+    
+    var suggestionChips = document.querySelectorAll('.suggestion-chip');
+    suggestionChips.forEach(function(chip) {
+        chip.onclick = function() {
+            var suggestion = this.getAttribute('data-suggestion');
+            var welcomeInput = document.getElementById('welcomeInput');
+            var chatInput = document.getElementById('chatInput');
+            if (welcomeInput) {
+                welcomeInput.value = suggestion;
+                welcomeInput.focus();
+            } else if (chatInput) {
+                chatInput.value = suggestion;
+                chatInput.focus();
+            }
+        };
+    });
+    
+    if (welcomeInput) {
+        welcomeInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                window.sendMessage();
+            }
+        });
+    }
+    
+    if (chatInput) {
+        chatInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                window.sendMessage();
+            }
+        });
+        
+        // Mobile: Fade nav buttons when focusing input
+        chatInput.addEventListener('focus', function() {
+            if (window.innerWidth <= 768) {
+                document.body.classList.add('input-focused');
+            }
+        });
+        chatInput.addEventListener('blur', function() {
+            document.body.classList.remove('input-focused');
+        });
+    }
+    
+    if (welcomeInput) {
+        // Mobile: Fade nav buttons when focusing input
+        welcomeInput.addEventListener('focus', function() {
+            if (window.innerWidth <= 768) {
+                document.body.classList.add('input-focused');
+            }
+        });
+        welcomeInput.addEventListener('blur', function() {
+            document.body.classList.remove('input-focused');
+        });
+    }
+    
+    var sidebarToggle = document.getElementById('sidebarToggle');
+    var chatSidebar = document.getElementById('chatSidebar');
+    var sidebarOverlay = document.getElementById('sidebarOverlay');
+    var newChatBtn = document.getElementById('newChatBtn');
+    
+    if (sidebarToggle) sidebarToggle.onclick = function() { 
+        if (chatSidebar) chatSidebar.classList.toggle('open'); 
+        if (sidebarOverlay) sidebarOverlay.classList.toggle('active');
+        document.body.classList.toggle('sidebar-open');
+    };
+    if (sidebarOverlay) sidebarOverlay.onclick = function() { 
+        if (chatSidebar) chatSidebar.classList.remove('open'); 
+        if (sidebarOverlay) sidebarOverlay.classList.remove('active');
+        document.body.classList.remove('sidebar-open');
+    };
+    if (newChatBtn) newChatBtn.onclick = function() { 
+        var cm = document.getElementById('chatMessages'); 
+        if (cm) cm.innerHTML = ''; 
+        var ws = document.getElementById('welcomeScreen'); 
+        if (ws) ws.style.display = 'flex';
+        var bottomInput = document.getElementById('bottomChatInput');
+        if (bottomInput) bottomInput.classList.remove('visible');
+        window.currentSessionId = `session_${Date.now()}`;
+        // Reload chat history to show recent chats on welcome screen
+        setTimeout(function() {
+            window.loadChatHistory();
+        }, 100);
+    };
+    
+    function getChatName(conv) {
+        if (!conv) return 'Chat';
+        if (conv.last_message && conv.last_message.trim()) {
+            var firstWord = conv.last_message.trim().split(/\s+/)[0];
+            if (firstWord) return firstWord;
+        }
+        return 'Chat ' + (conv.session_id ? conv.session_id.slice(-8) : 'XXXX');
+    }
+    
+    window.loadChatHistory = async function(showAll) {
+        try {
+            var userStr = localStorage.getItem('epsilon_user');
+            if (!userStr) {
+                console.debug('[CHAT] No user found in localStorage');
+                return;
+            }
+            
+            var user = JSON.parse(userStr);
+            if (!user || !user.id) {
+                console.debug('[CHAT] Invalid user data');
+                return;
+            }
+            
+            var csrfToken = await window.getCsrfToken();
+            var response = await fetch('/api/supabase-proxy', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    action: 'get-conversations',
+                    data: { user_id: user.id, limit: 50 }
+                })
+            });
+            
+            if (response.ok) {
+                var data = await response.json();
+                if (data && data.success && data.conversations && Array.isArray(data.conversations)) {
+                    // Populate sidebar chats
+                    var sidebarChats = document.getElementById('sidebarChats');
+                    if (sidebarChats) {
+                        sidebarChats.innerHTML = '';
+                        data.conversations.forEach(function(conv) {
+                            var div = document.createElement('div');
+                            var sessionName = getChatName(conv);
+                            
+                            div.style.cssText = 'padding: 0.75rem; margin: 0.4rem 0; background: rgba(15, 15, 15, 0.4); backdrop-filter: blur(8px); border: 1px solid var(--ash-neutral); border-radius: 6px; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03); transition: all 0.15s ease-out;';
+                            div.textContent = sessionName;
+                            div.onclick = function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                if (window.loadChat) {
+                                window.loadChat(conv.id, conv.session_id);
+                                }
+                            };
+                            div.style.cursor = 'pointer';
+                            div.addEventListener('mouseenter', function() {
+                                this.style.background = 'rgba(249, 115, 22, 0.1)';
+                                this.style.borderColor = 'var(--flame-core)';
+                                this.style.transform = 'translateY(-1px)';
+                                this.style.boxShadow = '0 4px 12px rgba(249, 115, 22, 0.25), 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05)';
+                            });
+                            div.addEventListener('mouseleave', function() {
+                                this.style.background = 'rgba(15, 15, 15, 0.4)';
+                                this.style.borderColor = 'var(--ash-neutral)';
+                                this.style.transform = 'translateY(0)';
+                                this.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03)';
+                            });
+                            sidebarChats.appendChild(div);
+                        });
+                    }
+                    
+                    // Populate welcome screen recent chats (show first 2, then expand button)
+                    var recentChatsSection = document.getElementById('recentChatsSection');
+                    var recentChatsContainer = document.getElementById('recentChatsContainer');
+                    if (recentChatsSection && recentChatsContainer && data.conversations && data.conversations.length > 0) {
+                        recentChatsContainer.innerHTML = '';
+                        var recentConvs = showAll ? data.conversations : data.conversations.slice(0, 2);
+                        var allConvs = data.conversations;
+                        recentConvs.forEach(function(conv) {
+                            var chatItem = document.createElement('div');
+                            chatItem.className = 'recent-chat-item';
+                            
+                            var sessionName = getChatName(conv);
+                            
+                            var headerDiv = document.createElement('div');
+                            headerDiv.className = 'recent-chat-item-header';
+                            
+                            var chatName = document.createElement('div');
+                            chatName.className = 'recent-chat-name';
+                            chatName.textContent = sessionName;
+                            
+                            var actionsDiv = document.createElement('div');
+                            actionsDiv.className = 'recent-chat-actions';
+                            
+                            var renameBtn = document.createElement('button');
+                            renameBtn.className = 'chat-action-btn';
+                            renameBtn.title = 'Rename';
+                            renameBtn.innerHTML = '✏️';
+                            renameBtn.onclick = function(e) {
+                                e.stopPropagation();
+                                var newName = prompt('Enter new chat name:', sessionName);
+                                if (newName && newName.trim() && newName.trim() !== sessionName) {
+                                    window.renameConversation(conv.id, newName.trim());
+                                }
+                            };
+                            
+                            var deleteBtn = document.createElement('button');
+                            deleteBtn.className = 'chat-action-btn delete';
+                            deleteBtn.title = 'Delete';
+                            deleteBtn.innerHTML = '🗑️';
+                            deleteBtn.onclick = function(e) {
+                                e.stopPropagation();
+                                if (confirm('Are you sure you want to delete this chat?')) {
+                                    window.deleteConversation(conv.id);
+                                }
+                            };
+                            
+                            actionsDiv.appendChild(renameBtn);
+                            actionsDiv.appendChild(deleteBtn);
+                            headerDiv.appendChild(chatName);
+                            headerDiv.appendChild(actionsDiv);
+                            
+                            var chatPreview = document.createElement('div');
+                            chatPreview.className = 'recent-chat-preview';
+                            chatPreview.textContent = conv.last_message || 'No messages yet';
+                            
+                            var chatTime = document.createElement('div');
+                            chatTime.className = 'recent-chat-time';
+                            if (conv.updated_at) {
+                                var date = new Date(conv.updated_at);
+                                var now = new Date();
+                                var diffMs = now - date;
+                                var diffMins = Math.floor(diffMs / 60000);
+                                var diffHours = Math.floor(diffMs / 3600000);
+                                var diffDays = Math.floor(diffMs / 86400000);
+                                
+                                if (diffMins < 1) chatTime.textContent = 'Just now';
+                                else if (diffMins < 60) chatTime.textContent = diffMins + ' min ago';
+                                else if (diffHours < 24) chatTime.textContent = diffHours + ' hour' + (diffHours > 1 ? 's' : '') + ' ago';
+                                else if (diffDays < 7) chatTime.textContent = diffDays + ' day' + (diffDays > 1 ? 's' : '') + ' ago';
+                                else chatTime.textContent = date.toLocaleDateString();
+                            } else {
+                                chatTime.textContent = 'Recently';
+                            }
+                            
+                            chatItem.appendChild(headerDiv);
+                            chatItem.appendChild(chatPreview);
+                            chatItem.appendChild(chatTime);
+                            
+                            chatItem.onclick = function(e) {
+                                if (e.target.classList.contains('chat-action-btn')) return;
+                                e.preventDefault();
+                                e.stopPropagation();
+                                if (window.loadChat) {
+                                    window.loadChat(conv.id, conv.session_id);
+                                }
+                            };
+                            
+                            recentChatsContainer.appendChild(chatItem);
+                        });
+                        
+                        if (allConvs.length > 2 && !showAll) {
+                            var viewAllBtn = document.createElement('button');
+                            viewAllBtn.className = 'view-all-chats-btn';
+                            viewAllBtn.textContent = 'View All Chats (' + allConvs.length + ')';
+                            viewAllBtn.onclick = function() {
+                                var chatSidebar = document.getElementById('chatSidebar');
+                                var sidebarOverlay = document.getElementById('sidebarOverlay');
+                                if (chatSidebar) {
+                                    chatSidebar.classList.add('open');
+                                    if (sidebarOverlay) sidebarOverlay.classList.add('active');
+                                    document.body.classList.add('sidebar-open');
+                                }
+                            };
+                            recentChatsContainer.appendChild(viewAllBtn);
+                        }
+                        
+                        recentChatsSection.style.display = 'block';
+                    } else if (recentChatsContainer) {
+                        recentChatsContainer.innerHTML = '<div class="no-recent-chats">No recent conversations</div>';
+                    }
+                } else {
+                    console.debug('[CHAT] Invalid response data:', data);
+                }
+            } else {
+                console.debug('[CHAT] Failed to load chat history:', response.status, response.statusText);
+            }
+        } catch (error) {
+            console.debug('[CHAT] Error loading chat history:', error);
+        }
+    };
+    
+    window.loadChat = async function(conversationId, sessionId) {
+        try {
+            window.currentSessionId = sessionId;
+            var csrfToken = await window.getCsrfToken();
+            var response = await fetch('/api/supabase-proxy', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    action: 'get-messages',
+                    data: { conversation_id: conversationId }
+                })
+            });
+            
+            if (response.ok) {
+                var data = await response.json();
+                if (data.success && data.messages) {
+                    var chatMessages = document.getElementById('chatMessages');
+                    var welcomeScreen = document.getElementById('welcomeScreen');
+                    var bottomChatInput = document.getElementById('bottomChatInput');
+                    
+                    if (welcomeScreen) welcomeScreen.style.display = 'none';
+                    if (chatMessages) {
+                        chatMessages.innerHTML = '';
+                        chatMessages.style.display = 'flex';
+                        chatMessages.classList.add('visible');
+                        
+                        var lastConversationId = null;
+                        data.messages.forEach(function(msg, index) {
+                            if (msg.role === 'epsilon' && index > 0) {
+                                var prevMsg = data.messages[index - 1];
+                                if (prevMsg && prevMsg.role === 'user') {
+                                    lastConversationId = msg.conversation_id || null;
+                                }
+                            }
+                            window.addMessage(msg.role === 'epsilon' ? 'assistant' : 'user', msg.text, msg.role === 'epsilon' ? (msg.conversation_id || lastConversationId) : null);
+                        });
+                    }
+                    if (bottomChatInput) bottomChatInput.classList.add('visible');
+                }
+            }
+        } catch (error) {
+        }
+    };
+    
+    // Load chat history on page load (faster for better UX)
+    setTimeout(function() {
+        window.loadChatHistory();
+    }, 500);
+    
+    window.deleteConversation = async function(conversationId) {
+        try {
+            var userStr = localStorage.getItem('epsilon_user');
+            var userId = null;
+            if (userStr) {
+                try {
+                    var user = JSON.parse(userStr);
+                    if (user && user.id) {
+                        userId = user.id;
+                    }
+                } catch (e) {}
+            }
+            
+            var csrfToken = await window.getCsrfToken();
+            var response = await fetch('/api/supabase-proxy', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    action: 'delete-conversation',
+                    data: { conversation_id: conversationId, user_id: userId }
+                })
+            });
+            
+            if (response.ok) {
+                var data = await response.json();
+                if (data.success) {
+                    window.loadChatHistory();
+                }
+            }
+        } catch (error) {
+            console.error('Error deleting conversation:', error);
+        }
+    };
+    
+    window.renameConversation = async function(conversationId, newName) {
+        try {
+            var userStr = localStorage.getItem('epsilon_user');
+            var userId = null;
+            if (userStr) {
+                try {
+                    var user = JSON.parse(userStr);
+                    if (user && user.id) {
+                        userId = user.id;
+                    }
+                } catch (e) {}
+            }
+            
+            var csrfToken = await window.getCsrfToken();
+            var response = await fetch('/api/supabase-proxy', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    action: 'rename-conversation',
+                    data: { conversation_id: conversationId, name: newName, user_id: userId }
+                })
+            });
+            
+            if (response.ok) {
+                var data = await response.json();
+                if (data.success) {
+                    window.loadChatHistory();
+                }
+            }
+        } catch (error) {
+            console.error('Error renaming conversation:', error);
+        }
+    };
+    
+    var profileBubble = document.getElementById('profileBubble');
+    var profileDropdown = document.getElementById('profileDropdown');
+    if (profileBubble) profileBubble.onclick = function() { if (profileDropdown) profileDropdown.classList.toggle('active'); };
+    
+    var profileLogout = document.getElementById('profileLogout');
+    if (profileLogout) profileLogout.onclick = function(e) { e.preventDefault(); localStorage.removeItem('epsilon_user'); window.location.reload(); };
+    
+    // Initialize profile bubble immediately (non-blocking)
+    if (window.initProfileBubble) {
+        // Run immediately but don't block
+        Promise.resolve().then(() => {
+            window.initProfileBubble().catch(() => {
+                // Silent fail - will retry on DOMContentLoaded
+            });
+        });
+    }
+    
+    // Also initialize on DOMContentLoaded as backup
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.initProfileBubble) {
+                window.initProfileBubble().catch(() => {
+                    // Silent fail
+                });
+            }
+        });
+    } else {
+        // DOM already loaded, run immediately
+        if (window.initProfileBubble) {
+            window.initProfileBubble().catch(() => {
+                // Silent fail
+            });
+        }
+    }
+    
+    window.submitFeedback = async function(conversationId, rating, wasHelpful, feedbackText) {
+        try {
+            var userStr = localStorage.getItem('epsilon_user');
+            var userId = null;
+            if (userStr) {
+                try {
+                    var user = JSON.parse(userStr);
+                    if (user && user.id) {
+                        userId = user.id;
+                    }
+                } catch (e) {}
+            }
+            
+            var csrfToken = await window.getCsrfToken();
+            var response = await fetch('/api/supabase-proxy', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    action: 'store-epsilon-feedback',
+                    data: {
+                        conversation_id: conversationId,
+                        user_id: userId,
+                        rating: rating,
+                        was_helpful: wasHelpful,
+                        feedback_type: 'rating',
+                        feedback_text: feedbackText || null
+                    }
+                })
+            });
+            
+            if (response.ok) {
+                var data = await response.json();
+                return data.success;
+            }
+        } catch (error) {
+        }
+        return false;
+    };
+    </script>
+    
+    <script src="/services/libs/supabase.js" defer></script>
+    <script src="/core/epsilon-learning-engine.js" defer></script>
+    
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #ffffff; padding: 20px; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5); z-index: 10000; border-top: 1px solid #F97316; will-change: transform, opacity; backface-visibility: hidden;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+            <div style="flex: 1; min-width: 300px;">
+                <h3 style="margin: 0 0 10px 0; font-size: 18px; color: #F97316;">🍪 Cookie & Privacy Notice</h3>
+                <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #e0e0e0;">
+                    We use cookies and similar technologies to enhance your experience, analyze site traffic, and personalize content. 
+                    By clicking "Accept All", you consent to our use of cookies. You can manage preferences or learn more in our 
+                    <a href="/privacy" style="color: #F97316; text-decoration: underline;">Privacy Policy</a>.
+                </p>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button id="cookie-consent-preferences" style="padding: 10px 20px; background: transparent; border: 1px solid #F97316; color: #F97316; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;">Preferences</button>
+                <button id="cookie-consent-accept-all" style="padding: 10px 30px; background: #F97316; border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;">Accept All</button>
+                </div>
+            </div>
+        </div>
+    
+    <!-- Cookie Preferences Modal -->
+    <div id="cookie-preferences-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); z-index: 10001; overflow-y: auto;">
+        <div style="max-width: 800px; margin: 50px auto; background: #1a1a2e; border-radius: 12px; padding: 30px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <h2 style="margin: 0; color: #F97316; font-size: 24px;">Cookie Preferences</h2>
+                <button id="cookie-preferences-close" style="background: transparent; border: none; color: #ffffff; font-size: 28px; cursor: pointer; padding: 0; width: 30px; height: 30px;">&times;</button>
+            </div>
+            <div style="margin-bottom: 30px;">
+                <p style="color: #e0e0e0; line-height: 1.6; margin-bottom: 20px;">Manage your cookie preferences. You can enable or disable different types of cookies below.</p>
+                <div style="background: #0f1520; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 2px solid #F97316;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <div><h3 style="margin: 0; color: #ffffff; font-size: 18px;">Essential Cookies</h3><p style="margin: 5px 0 0 0; color: #a0a0a0; font-size: 14px;">Required for website functionality</p></div>
+                        <span style="color: #F97316; font-weight: 600;">Always Active</span>
+                    </div>
+                </div>
+                <div style="background: #0f1520; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <div><h3 style="margin: 0; color: #ffffff; font-size: 18px;">Analytics Cookies</h3><p style="margin: 5px 0 0 0; color: #a0a0a0; font-size: 14px;">Help us improve our website</p></div>
+                        <label style="position: relative; display: inline-block; width: 50px; height: 26px;"><input type="checkbox" id="cookie-analytics" style="opacity: 0; width: 0; height: 0;"><span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; border-radius: 26px; transition: 0.3s;"><span style="position: absolute; content: ''; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: 0.3s;"></span></span></label>
+                    </div>
+                </div>
+                <div style="background: #0f1520; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <div><h3 style="margin: 0; color: #ffffff; font-size: 18px;">Marketing Cookies</h3><p style="margin: 5px 0 0 0; color: #a0a0a0; font-size: 14px;">Personalize your experience</p></div>
+                        <label style="position: relative; display: inline-block; width: 50px; height: 26px;"><input type="checkbox" id="cookie-marketing" style="opacity: 0; width: 0; height: 0;"><span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; border-radius: 26px; transition: 0.3s;"><span style="position: absolute; content: ''; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: 0.3s;"></span></span></label>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button id="cookie-preferences-save" style="padding: 12px 30px; background: #F97316; border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-weight: 600;">Save Preferences</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Analytics & Cookie Consent Scripts -->
+    <script src="/analytics.js" defer></script>
+    <script src="/cookie-consent.js" defer></script>
+    
+    <script>
+        function createStarfield() {
+            const starfield = document.getElementById('starfield');
+            if (!starfield) return;
+            
+            const starCount = 150;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random() * 3.5 + 1.2;
+                if (!isFinite(size) || size <= 0 || size > 10) continue;
+                
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                const leftPos = Math.random() * 100;
+                if (!isFinite(leftPos) || leftPos < 0 || leftPos > 100) continue;
+                
+                star.style.left = leftPos + '%';
+                const topPos = Math.random() * 100;
+                if (!isFinite(topPos) || topPos < 0 || topPos > 100) continue;
+                star.style.top = topPos + '%';
+                
+                const colors = ['#F97316', '#FF8A3D', '#FAFAFA', '#A1A1AA'];
+                star.style.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                
+                starfield.appendChild(star);
+            }
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', createStarfield);
+        } else {
+            createStarfield();
+        }
+    </script>
+</body>
+</html>

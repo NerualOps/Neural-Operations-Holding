@@ -1,0 +1,64 @@
+Title: Feedback carburetor
+
+A feedback carburetor (also known as electronic or computer controlled carburetor) is a specific type of carburetor made mostly during the 1980s to improve emissions on certain vehicles in the US.
+
+History
+Before the 1970s, most vehicles didn't have many emissions systems on them, but as time went on, smog pumps, charcoal canisters, and thermal reactors were added to meet new regulations. As vehicle emissions standards became more stringent due to the Clean Air Act and CAFE standards, vehicle engineers had to come up with different ways to meet this problem. Initially decreasing the engine compression and installing EGR systems and two way catalytic converters were able to solve this problem but later this became more difficult. In the 1980s, many vehicle manufacturers were required to use three-way catalytic converters and oxygen sensors to determine the air fuel ratio (AFR) of the vehicle to determine if the car is running correctly.
+This was paired with either an early version of fuel injection (typically through a mechanical or electronic version of a Bosch Jetronic system for European vehicles) or through a feedback carburetor, which had an increasing number of vacuum lines and diaphragms or solenoids to control settings to make sure the vehicle would emit less and less harmful emissions.
+First results occurred in the mid to late 1970s, where Chrysler was first out with their new "Lean Burn" system in 1976 for its larger 400-cu in V8s, that would change engine timing and AFR so that it would run as lean as 18.0:1 AFR, which is much leaner than stoichiometric 14.7:1.
+Other brands would soon follow and would design different ways to tackle the same problem and would increase in complexity until they were replaced with electronic fuel injection (EFI) in the mid to late 1980s and early 1990s. Throttle Body Injection (TBI) was common to see as a cheap and simple way to swap to fuel injection in the 1980s from a carbureted engine design, and many early EFI cars used it until a newer engine could be designed for Multi Point Fuel Injection (MPFI).
+Some of the last cars with carburetors in the US include the 1994 Isuzu Pickup, 1991 Jeep Grand Wagoneer, and the 1991 Ford Crown Victoria P72.
+
+Features and operation
+The basic operation of a feedback carburetor:
+
+Cold starting is typically aided by an electric choke for improved efficiency and to warm up any catalytic converters that the vehicle might have.
+While driving, vacuum lines and diaphragms, or in more advanced versions, an oxygen sensor and solenoids or stepper motors, were used to adjust the AFR to typically lean out the mixture to produce less emissions.
+Typically was a progressive carburetor design where half the barrels were only opened when necessary for fuel economy reasons unless heavy throttle application were used.
+
+Chrysler Lean Burn (1976-1989)
+Chrysler was the first American automaker to create a system that tried to improve emissions by doing more than just utilizing a catalytic converter. At the time, catalytic converters led to large power loss and were not reliable, which led to higher maintenance costs. The goal of Lean Burn was to improve on emissions without utilizing a catalytic converter, which might lead to better reliability and performance, as well as buyer confidence when introducing new emissions devices to comply with regulations. However, Chrysler decided to try a different approach, by using fairly new technology, like circuit boards and computers, which were rarely found in vehicles from the 1970s.
+Chrysler had a lot of experience with cutting edge electronics when working with NASA in the 1960's and 70's, as they helped pioneer many things, like designing the first stage of the Saturn 1B rocket that was used in the early Apollo missions, such as the moon landing of 1969. This resulted in other firsts too, like creating diagnostic trouble codes for their cars in the 1980s, which was similar to the extremely complicated electronics systems that were used in the rockets they helped design.
+Their first attempt ran from 1976-1978, where they didn't utilize a feedback carburetor at all, but instead had a spark computer on the air cleaner that adjusted the spark advance while the engine was running. When the engine is warmed up, it would advance the timing more and more to work with a very lean running variant of the Carter Thermoquad carburetor, which worked like other carburetors with leaner jets to run at a very lean 18.0:1 AFR. Over time, while the vehicle was driven, the timing would continually advance in steps after the vehicle warms up, and every minute that has passed, up to a certain time, would result in a more advanced timing setup, and every minute that has passed when idling would remove timing, to be as efficient as possible. The issue was it made the car feel "gutless" when trying to accelerate, so later advancements in the system helped to simplify and reduce this feeling. Reliability also suffered due to being placed on the air cleaner, which was the greatest flaw in the system. Later systems improved on this but this design ultimately sealed the fate of this unique system.
+In 1979, a feedback carburetor (Holley 6145) and oxygen sensor were added to some models with engines like the slant 6, but only for California, but for 1980, it was used on cars in all 50 states. Catalytic converters were added too, to try to meet the ever tightening emissions regulations.
+This new system utilized a mixture control solenoid to adjust the amount of fuel it would spray in the system, based on the values sent to the computer from the oxygen sensor, throttle position sensor, and temperature sensor. This very early system worked almost like electronic fuel injection, and was used for designing the electronic fuel injection system in the 1980-81 Chrysler Imperial, which ended up being very unreliable and was discontinued. The system was continued on the 2.2L in the Chrysler K Car, but was not included on trucks or vans due to the emissions laws being less restrictive.
+By 1984, the earlier issues in their electronic fuel injection system was fixed and over time, many vehicles swapped over to it, and utilized an onboard diagnostic system pioneered by Chrysler. Other vehicles went on to utilize the GM system with a Rochester QuadraJet E4M, which was a different feedback carburetor with a similar usage of solenoids and oxygen sensors.
+
+General Motors (1981-1990)
+General Motors (GM) has been known to utilize unique fuel injection systems in their vehicles, like the mechanical Rochester Ramjet system on some Corvettes and other passenger cars between 1957-65 and the analog fuel injection system on some 1975-79 Cadillacs. With this experimentation, GM became familiar with the difficulty and expense of making an EFI system affordable, and resorted to feedback carburetors for many of their cheaper vehicles for the 1980s, while Cadillac used their experience to develop EFI and cylinder deactivation for their high end models, named the V8-6-4 system. Due to the large amount of models, they ultimately ended up with 4 different carburetors to fit their lineup:
+
+Rochester 4 barrel feedback carburetor (E4M QuadraJet)
+For the large sporty V8's, a 4 barrel feedback carburetor was offered on engines such as the 301, 305 and 350 in all GM brands, as well as later Chrysler and Dodge products from 1985-88. This system relied on the Computer Command Control (CCC) system that monitored things like AFR from an oxygen sensor, as well as throttle position. From this, an electronic mixture control solenoid  would control the depth of the primary metering rod in their jets, to adjust how rich or lean the mixture is to keep a stable 14.7 AFR ratio. Some models were called the E4MC for having a hot air choke while the E4ME has an electric choke.
+Due to using a solenoid that only has 2 positions, the CCC system would use Pulse Width Modulation (PWM) to modulate the position of the rod to have a more variable amount of fuel injected into the engine. With a constant frequency of 10 hertz (cycles per second), the duration length of being open or closed (duty cycle) had to be changed, which can be done with PWM.
+
+Rochester 2 barrel feedback carburetors (E2M DualJet & E2S VariJet)
+Rochester produced 2 different variations of the 2 barrel variant of their feedback carburetors. The E2M DualJet was basically an E4M QuadraJet with the secondary barrels removed, while the E2S VariJet was a progressive carburetor with a primary and secondary barrel for fuel economy.
+The E2M DualJet worked the same as an E4M QuadraJet, with the same mixture control solenoid and CCC system. These were put on 6 and 8 cylinders on GM engines, as well as in vehicles such as the Checker Marathon.
+The E2S VariJet utilized a more complicated system with the same mixture control solenoid but an additional air bleed circuit as well to adjust the amount of air as well as the amount of fuel entering the engine at one time. These were typically put on GM and AMC 4 and 6 cylinder engines.
+Some of these systems are not adjustable due to fear of causing worse emissions if a technician messed with the system, so many mixture control screws had rivets or plugs to prevent tampering with the settings.
+
+Holley 2 barrel feedback carburetor
+This carburetor was specifically designed for the four-cylinder in the Chevrolet Chevette. It's a progressive carburetor design and also includes a mixture control circuit similar to the VariJet.
+
+Ford (1977-1991)
+Variable Venturi (Motorcraft 2700 & 7200 VV)
+The Variable Venturi system was a system that utilized moveable venturi valves that would move in and out depending on intake manifold vacuum to change the speed and amount of air entering the engine. The usage of venturi valves would, according to the venturi effect, cause the air to speed up during a sudden squeeze in width of an opening, so air flow and velocity can be adjusted with the addition of the valves for more precise metering of air in the engine. The valves are connected to fuel metering rods that are controlled by a diaphragm that detects intake manifold vacuum so it can adjust the rod length to push the valves open to increase the area for the air entering the engine, while also allows more fuel to enter the engine from those metering rods also opening too. This combination allows for a more precise control of AFR, but does not work as well as some of the electronic feedback systems in other designs.
+In addition to the valves, it also has a cranking enrichment circuit to add additional fuel instead of by using a choke. It utilizes a thermostatic coil to rotate a cam to allow more fuel into the engine until it warms up.
+
+Motorcraft 2150
+The Motorcraft 2150 is a 2 barrel carburetor that was used on many small Ford and AMC 4 and 6 cylinders between 1973 - 1991. In 1983, the carburetor was given a two stage stepper motor to meter the air around the closed throttle plates to adjust AFR. This system utilized the EEC-IV system to control the stepper motor, which was Ford's way of using computer systems in their 1980's cars.
+
+Other examples
+Ford & AMC: Carter YFA, Carter BBD
+Honda CVCC system and "vacuum computer"
+Nissan Electronic Emission control (1984-1986 Z20 & Z24 engines)
+Toyota Aisan carburetor and Emission Control Computer (on 22R engine)
+
+See also
+Ford EEC
+AMC Computerized Engine Control
+
+Notes
+
+
+== References ==

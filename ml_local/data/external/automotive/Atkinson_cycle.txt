@@ -1,0 +1,66 @@
+Title: Atkinson cycle
+
+The Atkinson-cycle engine is a type of internal combustion engine invented by James Atkinson in 1882. The Atkinson cycle is designed to provide efficiency at the expense of power density. 
+A variation of this approach is used in some modern automobile engines. While originally seen exclusively in hybrid electric applications such as the earlier-generation Toyota Prius, later hybrids and some non-hybrid vehicles now feature engines with variable valve timing. Variable valve timing can run in the Atkinson cycle as a part-time operating regimen, giving good economy while running in Atkinson cycle mode, and conventional power density when running in conventional Otto cycle mode.
+
+Design
+Atkinson produced three different designs that had a short compression stroke and a longer expansion stroke. The first Atkinson-cycle engine, the differential engine, used opposed pistons. The second and best-known design was the cycle engine, which used an over-center arm to create four piston strokes in one crankshaft revolution. This unusual reciprocating engine had the intake, compression, power, and exhaust strokes of the four-stroke cycle in a single turn of the crankshaft, and was designed to avoid infringing certain patents covering Otto-cycle engines. Atkinson's third and final engine, the utilite engine, operated much like a two-stroke engine. 
+Apart from the features implemented to avoid Otto patents, the truly unique Atkinson's design is that the engines have an expansion stroke that is longer than the compression stroke, and by this method the engine achieves greater thermal efficiency than a traditional piston engine. Atkinson's engines were produced by the British Gas Engine Company and also licensed to other overseas manufacturers. 
+Many modern engines now use a crankshaft center-line offset from the cylinder center-line (making them desaxe engines) and/or unconventional valve timing to produce the effect of a shorter compression stroke/longer power stroke. Miller applied this technique to the four-stroke engine, so it is sometimes referred as the Atkinson/Miller cycle, US patent 2817322 dated Dec 24, 1957. In 1888, Charon filed a French patent and displayed an engine at the Paris Exhibition in 1889. The Charon gas engine (four-stroke) used a similar cycle to Miller, but without a supercharger. It is referred to as the "Charon cycle".
+Hugo Güldner argued in his 1914 book that Körting was the first firm to build a gas engine with a short compression stroke and a longer expansion phase in 1891, based on a design first proposed by Otto Köhler in 1887. This engine also had an engine-load dependent valve train which increased the intake and compression stroke with increasing engine load. On the other hand, the compression was decreasing at low and medium loads, which ultimately reduced the efficiency.
+Roy Fedden, at Bristol, tested an arrangement in the Bristol Jupiter IV engine in 1928, with variable retard timing allowing part of the charge to be blown back into the intake manifold, in order to have sustainable reduced operation pressures during takeoff.
+Modern engine designers are realizing the potential fuel-efficiency improvements the Atkinson-type cycle can provide.
+
+Atkinson "Differential Engine"
+The first implementation of the Atkinson cycle was in 1882; unlike later versions, it was arranged as an opposed-piston engine, the Atkinson differential engine. In this, a single crankshaft was connected to two opposed pistons through a toggle-jointed linkage that had a nonlinearity; for half a revolution, one piston remained almost stationary while the other approached it and returned, and then for the next half revolution, the second-mentioned piston was almost stationary while the first approached and returned. 
+Thus, in each revolution, one piston provided a compression stroke and a power stroke, and then the other piston provided an exhaust stroke and a charging stroke. As the power piston remained withdrawn during exhaust and charging, it was practical to provide exhaust and charging using valves behind a port that was covered during the compression stroke and the power stroke, and so the valves did not need to resist high pressure and could be of the simpler sort used in many steam engines, or even reed valves.
+
+Atkinson "Cycle Engine"
+The next engine designed by Atkinson in 1887 was named the "Cycle Engine" This engine used poppet valves, a cam, and an over-center arm to produce four piston strokes for every revolution of the crankshaft. The intake and compression strokes were significantly shorter than the expansion and exhaust strokes. 
+The "Cycle" engines were produced and sold for several years by the British Engine Company. Atkinson also licensed production to other manufacturers. Sizes ranged from a few up to 100 horsepower.
+
+Atkinson "Utilite Engine"
+Atkinson's third design was named the "Utilite Engine". Atkinson's "Cycle" engine was efficient; however, its linkage was difficult to balance for high speed operation. Atkinson realized an improvement was needed to make his cycle more applicable as a higher-speed engine. 
+With this new design, Atkinson was able to eliminate the linkages and make a more conventional, well balanced engine capable of operating at speeds up to 600 rpm and capable of producing power every revolution, yet he preserved all of the efficiency of his "Cycle Engine" having a proportionally short compression stroke and a longer expansion stroke. The Utilite operates much like a standard two-stroke except that the exhaust port is located at about the middle of the stroke. 
+During the expansion/power stroke, a cam-operated valve (which remains closed until the piston nears the end of the stroke) prevents pressure from escaping as the piston moves past the exhaust port. The exhaust valve is opened near the bottom of the stroke; it remains open as the piston heads back toward compression, letting fresh air charge the cylinder and exhaust escape until the port is covered by the piston. 
+After the exhaust port is covered the piston begins to compress the remaining air in the cylinder. A small piston fuel pump injects liquid during compression. The ignition source was likely a hot tube as in Atkinson's other engines. This design resulted in a two-stroke engine with a short compression and longer expansion stroke. 
+The Utilite Engine tested as even more efficient than Atkinson's previous "differential" and "cycle" designs. Very few were produced, and none are known to survive. The British patent is from 1892, #2492. No US patent for the Utilite Engine is known.
+
+Ideal thermodynamic cycle
+The ideal Atkinson cycle consists of:
+
+1–2 Isentropic, or reversible, adiabatic compression
+2–3 Isochoric heating (Qp)
+3–4 Isobaric heating (Qp')
+4–5 Isentropic expansion
+5–6 Isochoric cooling (Qo)
+6–1 Isobaric cooling (Qo')
+
+Modern Atkinson-cycle engines
+In the late 20th century, the term "Atkinson cycle" began to be used to describe a modified Otto-cycle engine—in which the intake valve is held open longer than normal, allowing a reverse flow of intake air into the intake manifold. This "simulated" Atkinson cycle is most notably used in the Toyota 1NZ-FXE engine from the early Prius and the Toyota Dynamic Force engines. 
+The effective compression ratio is reduced—for the time the air is escaping the cylinder freely rather than being compressed—but the expansion ratio is unchanged (i.e., the compression ratio is smaller than the expansion ratio). The goal of the modern Atkinson cycle is to make the pressure in the combustion chamber at the end of the power stroke equal to atmospheric pressure. When this occurs, all available energy has been obtained from the combustion process. For any given portion of air, the greater expansion ratio converts more energy from heat to useful mechanical energy—meaning the engine is more efficient.
+The disadvantage of the four-stroke Atkinson-cycle engine versus the more common Otto-cycle engine is reduced power density. Due to a smaller portion of the compression stroke being devoted to compressing the intake air, an Atkinson-cycle engine does not take in as much air as would a similarly designed and sized Otto-cycle engine. Four-stroke engines of this type that use the same type of intake valve motion but also utilize forced induction to make up for the loss of power density are known as Miller-cycle engines.
+
+Rotary Atkinson-cycle engine
+The Atkinson cycle can be used in a rotary engine. In this configuration, an increase in both power and efficiency can be achieved when compared to the Otto cycle. This type of engine retains the one power phase per revolution, together with the different compression and expansion volumes of the original Atkinson cycle.
+Exhaust gases are expelled from the engine by compressed-air scavenging. This modification of the Atkinson cycle allows the use of alternative fuels such as diesel and hydrogen. 
+Disadvantages of this design include the requirement that rotor tips seal very tightly on the outer housing wall and the mechanical losses suffered through friction between rapidly oscillating parts of irregular shape. See § External links below for more information.
+
+Vehicles using Atkinson-cycle engines
+While a modified Otto-cycle piston engine using the Atkinson cycle provides good fuel efficiency, it is at the expense of a lower power-per-displacement as compared to a traditional four-stroke engine. If demand for more power is intermittent, the power of the engine can be supplemented by an electric motor during times when more power is needed. This forms the basis of an Atkinson cycle-based hybrid electric drivetrain. These electric motors can be used independently of, or in combination with, the Atkinson-cycle engine, to provide the most efficient means of producing the desired power. This drive-train first entered production in late 1997 in the first-generation Toyota Prius.
+
+Patents
+The 1887 patent (US 367496) describes the mechanical linkages necessary to obtain all four strokes of the four-stroke cycle for a gas engine within one revolution of the crankshaft. There is also a reference to an 1886 Atkinson patent (US 336505), which describes an opposed-piston gas engine. The British patent for the "Utilite'" is from 1892 (#2492).
+
+See also
+History of the internal combustion engine
+Variable valve timing
+Variable valve lift
+
+References
+External links
+Comparison of Prime Movers Suitable for USMC Expeditionary Power Sources, Oak Ridge National Laboratory
+Libralato Engines – developing a rotary Atkinson cycle engine
+Rotary Atkinson cycle engine Archived 2020-06-19 at the Wayback Machine – gives details of this engine as well as comparisons with conventional and Wankel engines
+The Prius's Not So Secret Gas-Mileage Secrets – how the Prius uses the Atkinson cycle to get better results than an Otto cycle engine
+James Atkinson at Find A Grave – personal details

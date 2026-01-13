@@ -1,0 +1,28 @@
+Title: Dana 50
+
+The Dana/Spicer Model 50 was an automotive axle manufactured by the Dana Holding Corporation for 25 years and was used solely in OEM Ford applications. Dana 50's were made as front axles only until it was revived in rear solid axle configuration in the 2022 Ford Bronco Raptor. The Dana 50 has a "50" cast into the housing and is regarded to have more strength than a Dana 44, but not as much as a Dana 60. It was only produced in a reverse cut gear set aka a high pinion.
+The Dana 50 was made as a solid axle and as a Twin Traction Beam (TTB) which pivots in the center allowing the wheels to move independently of each other. A unique quality of the Dana 50 axle is the lack of variation in both TTB and Solid axle versions, which simplifies repairs and upgrades. There were no carrier breaks and only one spline count (30 spline). Gross axle weight ratings were lowered by Ford for safety and tire reasons.
+
+General Specifications
+Ring gear measures 9.0"; 9.25" Bronco Raptor
+Gear Ratios: 3.54:1 - 5.38:1
+No carrier breaks
+Pinion shaft diameter: 1.375"
+Pinion shaft splines: 26
+Axle shaft diameter: 1.50"
+Axle shaft splines: 30
+Axle spline diameter: 1.31"
+
+Twin Traction Beam
+The Twin Traction Beam or TTB was used in the Ford F-250 from 1980 to 1997. The TTB Dana 50 was also used selectively in the F-350 from 1980 to 1986. The GVW was lower in a F-350 with a TTB Dana 50, than a F-350 with a solid axle. The GAWR of a TTB Dana 50 was 4600 lbs.
+
+The Dana 50 TTB spindles will accept the Dana 60 hubs however the knuckles are not interchangeable.
+All Dana 50 TTB axles were leaf sprung axles.
+
+Solid Axle
+The solid axle Dana 50 was used in the Ford F-250 and the F-350 from 1999 to 2003. This axle was also the only OEM axle used in Four-wheel drive Ford Excursions. The GAWR of a solid axle Dana 50 is 5000 lbs.
+The 2022 Ford Bronco Raptor utilizes an AdvanTEK M235 (not Dana 50) solid rear axle with a 235mm (9.25 in) ring gear and electronic locking differential. The ratio is 4.70:1.
+The 2023+ Ford Super Duty F-250 and F-350 come equipped with the Dana Advantek M235 (not Dana 50) front axle in high pinion configuration.
+
+
+== References ==

@@ -1,0 +1,238 @@
+<!-- Cookie Consent Banner -->
+<div id="cookie-consent-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #ffffff; padding: 20px; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5); z-index: 10000; border-top: 1px solid #F97316;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+        <div style="flex: 1; min-width: 300px;">
+            <h3 style="margin: 0 0 10px 0; font-size: 18px; color: #F97316;">🍪 Cookie & Privacy Notice</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #e0e0e0;">
+                We use cookies and similar technologies to enhance your experience, analyze site traffic, and personalize content. 
+                By clicking "Accept All", you consent to our use of cookies. You can manage preferences or learn more in our 
+                <a href="/privacy" style="color: #F97316; text-decoration: underline;">Privacy Policy</a>.
+            </p>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button id="cookie-consent-preferences" style="padding: 10px 20px; background: transparent; border: 1px solid #F97316; color: #F97316; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                Preferences
+            </button>
+            <button id="cookie-consent-accept-all" style="padding: 10px 30px; background: #F97316; border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                Accept All
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Cookie Preferences Modal -->
+<div id="cookie-preferences-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); z-index: 10001; overflow-y: auto;">
+    <div style="max-width: 800px; margin: 50px auto; background: #1a1a2e; border-radius: 12px; padding: 30px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h2 style="margin: 0; color: #F97316; font-size: 24px;">Cookie Preferences</h2>
+            <button id="cookie-preferences-close" style="background: transparent; border: none; color: #ffffff; font-size: 28px; cursor: pointer; padding: 0; width: 30px; height: 30px;">&times;</button>
+        </div>
+        
+        <div style="margin-bottom: 30px;">
+            <p style="color: #e0e0e0; line-height: 1.6; margin-bottom: 20px;">
+                Manage your cookie preferences. You can enable or disable different types of cookies below. 
+                Note that some cookies are essential for the website to function properly.
+            </p>
+            
+            <!-- Essential Cookies (Always On) -->
+            <div style="background: #0f1520; padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 2px solid #F97316;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div>
+                        <h3 style="margin: 0; color: #ffffff; font-size: 18px;">Essential Cookies</h3>
+                        <p style="margin: 5px 0 0 0; color: #a0a0a0; font-size: 14px;">Required for website functionality</p>
+                    </div>
+                    <span style="color: #F97316; font-weight: 600;">Always Active</span>
+                </div>
+                <p style="margin: 0; color: #c0c0c0; font-size: 14px; line-height: 1.6;">
+                    These cookies are necessary for the website to function and cannot be switched off. They include authentication, security, and session management.
+                </p>
+            </div>
+            
+            <!-- Analytics Cookies -->
+            <div style="background: #0f1520; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div>
+                        <h3 style="margin: 0; color: #ffffff; font-size: 18px;">Analytics Cookies</h3>
+                        <p style="margin: 5px 0 0 0; color: #a0a0a0; font-size: 14px;">Help us improve our website</p>
+                    </div>
+                    <label style="position: relative; display: inline-block; width: 50px; height: 26px;">
+                        <input type="checkbox" id="cookie-analytics" style="opacity: 0; width: 0; height: 0;">
+                        <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; border-radius: 26px; transition: 0.3s;">
+                            <span style="position: absolute; content: ''; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: 0.3s;"></span>
+                        </span>
+                    </label>
+                </div>
+                <p style="margin: 0; color: #c0c0c0; font-size: 14px; line-height: 1.6;">
+                    These cookies allow us to analyze website usage and improve performance. They help us understand how visitors interact with our site.
+                </p>
+            </div>
+            
+            <!-- Marketing Cookies -->
+            <div style="background: #0f1520; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div>
+                        <h3 style="margin: 0; color: #ffffff; font-size: 18px;">Marketing Cookies</h3>
+                        <p style="margin: 5px 0 0 0; color: #a0a0a0; font-size: 14px;">Personalize your experience</p>
+                    </div>
+                    <label style="position: relative; display: inline-block; width: 50px; height: 26px;">
+                        <input type="checkbox" id="cookie-marketing" style="opacity: 0; width: 0; height: 0;">
+                        <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; border-radius: 26px; transition: 0.3s;">
+                            <span style="position: absolute; content: ''; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: 0.3s;"></span>
+                        </span>
+                    </label>
+                </div>
+                <p style="margin: 0; color: #c0c0c0; font-size: 14px; line-height: 1.6;">
+                    These cookies are used to deliver personalized advertisements and track campaign performance.
+                </p>
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+            <button id="cookie-preferences-save" style="padding: 12px 30px; background: #F97316; border: none; color: #ffffff; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                Save Preferences
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    'use strict';
+    
+    // Cookie management functions
+    function setCookie(name, value, days) {
+        const expires = new Date();
+        expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+        document.cookie = name + '=' + value + ';expires=' + expires.toUTCString() + ';path=/;SameSite=Lax';
+    }
+    
+    function getCookie(name) {
+        const nameEQ = name + '=';
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+    
+    function acceptAllCookies() {
+        setCookie('cookie_consent', 'accepted', 365);
+        setCookie('cookie_analytics', 'true', 365);
+        setCookie('cookie_marketing', 'true', 365);
+        document.getElementById('cookie-consent-banner').style.display = 'none';
+        
+        // Initialize analytics if enabled
+        if (typeof gtag !== 'undefined') {
+            gtag('consent', 'update', {
+                'analytics_storage': 'granted',
+                'ad_storage': 'granted'
+            });
+        }
+    }
+    
+    function savePreferences() {
+        const analytics = document.getElementById('cookie-analytics').checked;
+        const marketing = document.getElementById('cookie-marketing').checked;
+        
+        setCookie('cookie_consent', 'custom', 365);
+        setCookie('cookie_analytics', analytics ? 'true' : 'false', 365);
+        setCookie('cookie_marketing', marketing ? 'true' : 'false', 365);
+        
+        document.getElementById('cookie-preferences-modal').style.display = 'none';
+        document.getElementById('cookie-consent-banner').style.display = 'none';
+        
+        // Update Google Analytics consent
+        if (typeof gtag !== 'undefined') {
+            gtag('consent', 'update', {
+                'analytics_storage': analytics ? 'granted' : 'denied',
+                'ad_storage': marketing ? 'granted' : 'denied'
+            });
+        }
+    }
+    
+    // Check if consent already given
+    const consent = getCookie('cookie_consent');
+    if (!consent) {
+        // Show banner after page load
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('cookie-consent-banner').style.display = 'block';
+            }, 1000);
+        });
+    } else {
+        // Load saved preferences
+        const analytics = getCookie('cookie_analytics') === 'true';
+        const marketing = getCookie('cookie_marketing') === 'true';
+        
+        if (document.getElementById('cookie-analytics')) {
+            document.getElementById('cookie-analytics').checked = analytics;
+        }
+        if (document.getElementById('cookie-marketing')) {
+            document.getElementById('cookie-marketing').checked = marketing;
+        }
+    }
+    
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        const acceptBtn = document.getElementById('cookie-consent-accept-all');
+        const preferencesBtn = document.getElementById('cookie-consent-preferences');
+        const closeBtn = document.getElementById('cookie-preferences-close');
+        const saveBtn = document.getElementById('cookie-preferences-save');
+        
+        if (acceptBtn) {
+            acceptBtn.addEventListener('click', acceptAllCookies);
+        }
+        
+        if (preferencesBtn) {
+            preferencesBtn.addEventListener('click', function() {
+                document.getElementById('cookie-preferences-modal').style.display = 'block';
+            });
+        }
+        
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                document.getElementById('cookie-preferences-modal').style.display = 'none';
+            });
+        }
+        
+        if (saveBtn) {
+            saveBtn.addEventListener('click', savePreferences);
+        }
+        
+        // Close modal on background click
+        const modal = document.getElementById('cookie-preferences-modal');
+        if (modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+        
+        // Toggle switch styling
+        const toggles = document.querySelectorAll('input[type="checkbox"][id^="cookie-"]');
+        toggles.forEach(function(toggle) {
+            toggle.addEventListener('change', function() {
+                const span = this.nextElementSibling;
+                if (this.checked) {
+                    span.style.backgroundColor = '#F97316';
+                    span.querySelector('span').style.transform = 'translateX(24px)';
+                } else {
+                    span.style.backgroundColor = '#333';
+                    span.querySelector('span').style.transform = 'translateX(0)';
+                }
+            });
+            
+            // Initialize toggle state
+            if (toggle.checked) {
+                const span = toggle.nextElementSibling;
+                span.style.backgroundColor = '#F97316';
+                span.querySelector('span').style.transform = 'translateX(24px)';
+            }
+        });
+    });
+})();
+</script>
+

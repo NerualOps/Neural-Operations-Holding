@@ -1,0 +1,89 @@
+Title: Need for cognition
+
+The need for cognition (NFC), in psychology, is a personality variable reflecting the extent to which individuals are inclined towards effortful cognitive activities.
+Need for cognition has been variously defined as "a need to structure relevant situations in meaningful, integrated ways" and "a need to understand and make reasonable the experiential world". Higher NFC is associated with increased appreciation of debate, idea evaluation, and problem solving. Those with a high need for cognition may be inclined towards  high elaboration. Those with a lower need for cognition may display the opposite tendencies, and may process information more heuristically, often through low elaboration.
+Need for cognition is closely related to the five factor model domain openness to experience, typical intellectual engagement, and epistemic curiosity (see below).
+
+History
+Cohen, Stotland and Wolfe (1955), in their work on individual differences in cognitive motivation, identified a "need for cognition" which they defined as "the individual's need to organize his experience meaningfully", the "need to structure relevant situations in meaningful, integrated ways", and "need to understand and make reasonable the experiential world" (p. 291). They argued that, if this "need" were frustrated, it would generate "feelings of tension and deprivation" that would instigate "active efforts to structure the situation and increase understanding" (p. 291), though the particular situations arousing and satisfying the need may vary (p. 291). Cohen argued that even in structured situations, people high in NFC see ambiguity and strive for higher standards of cognitive clarity.
+Cohen and colleagues themselves identified multiple prior identifications of need for cognition, citing works by Murphy, Maslow, Katz, Harlow and Asch. They  distinguished their concept from the apparently similar "intolerance of ambiguity" proposed by Frenkel-Brunswik, arguing that NFC does not reflect the need to experience an integrated and meaningful world. Contemporary research suggests that Cohen's conception of need is, however, closer to tolerance of ambiguity, need for structure, or need for cognitive closure than to current ideas of need for cognition. For instance, studies using Cohen's measures indicated avoidance of ambiguity and a need to get "meaning" even if this meant relying on heuristics or expert advice rather than careful scrutiny of incoming information.
+Building on this work, Cacioppo therefore moved away from drive-reduction toward measuring individual differences in the self-reward potential of cognitive activity, stressing (p. 118) that they were using the word need in the statistical sense of a "likelihood or tendency", rather than in the rudimentary biological sense of "tissue deprivation", they defined the need for cognition as an individual's tendency to "engage in and enjoy thinking" (p. 116) and the tendency to "organize, abstract, and evaluate information" (p. 124)—or, variously, as a stable, but individually different "tendency to engage in and enjoy effortful cognitive endeavors", or an "intrinsic motivation to engage in effortful cognitive endeavors... and exercise their mental faculties", or an "intrinsic motivation for effortful thought".
+Cacioppo and Petty (1982) created their own 34-item scale to measure the need for cognition. Two years later, an 18-item version was published and in most of the cases reported in the subsequent literature it is this amended scale that is administered. Recently, a 6-item version of the need for cognition scale was proposed that is comparable to the 18-item scale in terms of validity and reliability.
+
+Features
+People high in the need for cognition are more likely to form their attitudes by paying close attention to relevant arguments (i.e., via the central route to persuasion), whereas people low in the need for cognition are more likely to rely on peripheral cues, such as how attractive or credible a speaker is.  People low in need for cognition are also more likely to rely on stereotypes alone in judging other people than those high in  need for cognition.
+Psychological research on the need for cognition has been conducted using self-report tests, where research participants answered a series of statements such as "I prefer my life to be filled with puzzles that I must solve" and were scored on how much they felt the statements represented them. The results have suggested that people who are high in the need for cognition scale score slightly higher in verbal intelligence tests but no higher in abstract reasoning tests.
+Research has concluded that individuals high in NFC are less likely to attribute higher social desirability to more attractive individuals or to mates. College students high in NFC report higher life satisfaction.
+A study on lucid dreaming found that frequent and occasional lucid dreamers scored higher on NFC than non-lucid dreamers. This suggests there is continuity between waking and dreaming cognitive styles. Researchers have argued that this is because self-reflectiveness or self-focused attention is heightened in lucid dreams and also is associated with greater need for cognition.
+
+Relationship to intelligence
+A number of studies have found moderate correlations between NFC and measures of verbal intelligence. One study found that need for cognition had a moderate positive correlation with fluid intelligence (reasoning ability, particularly verbal, and to a lesser extent numeric and figural reasoning), and a weaker correlation with crystallised intelligence (knowledge), which had much smaller positive correlations.
+
+Dual-system theory
+NFC has been incorporated into Epstein's dual-system theory of personality called cognitive-experiential self-theory. The theory proposes that people have two information processing systems, a rational system and an experiential system. The rational system is thought to be logical, verbal and relatively unemotional. The experiential system is thought to be intuitive, based on images and highly reliant on emotion. A modified version of the Need for Cognition scale has been used to assess individual differences in the rational system, whereas the experiential system has been assessed using a scale called Faith in Intuition.
+Research shows that the two systems are uncorrelated and hence independent of each other. That is individuals either high or low in need for cognition may also make use of their intuitions in forming judgments. In fact, individuals high and low in need for cognition respectively may make use of their intuitions in differing ways. When individuals give little thought to their judgments these judgments may be influenced directly by emotions, intuitions, and images in an automatic way. On the other hand, those who are high in need for cognition tend to give more thought to their judgments, and the thoughts generated may be indirectly biased by their emotions, intuitions, and images. Hence individuals high in need for cognition are not necessarily more "rational" than those low in this trait, if their faith in intuition is also high. Rather, their "irrational" intuitions tend to be given more thoughtful elaboration than those who are low in need for cognition and yet also high in faith in intuition.
+
+Biases and decision making
+NFC is associated with the amount of thought that goes into making a decision. Both high and low levels of the trait may be associated with particular biases in judgment. People low in need for cognition tend to show more bias when this bias is due to relying on mental shortcuts, that is, heuristic biases. People high in this trait tend to be more affected by biases that are generated by effortful thought.
+
+False memories
+High need for cognition is associated with a greater susceptibility to the creation of false memories associated with certain learning tasks. In a commonly used research paradigm, participants are asked to memorise a list of related words. Recognition is tested by having them pick out learned words from a set of studied and non-studied items. Certain non-studied items are conceptually related to studied items (e.g., chair if the original list contained table and legs). People high in NFC are more likely to show false memory for these lures, due to their greater elaboration of learned items in memory as they are more likely to think of semantically related (but non-studied) items.
+
+Halo effects
+A bias associated with low need for cognition is the halo effect, a phenomenon in which attractive or likeable people tend to be rated as superior on a variety of other characteristics (e.g., intelligence). People low on NFC are more likely to rely on stereotypes rather than individual features of a person when rating a novel target. People high in NFC still show a halo effect, however, albeit a smaller one, perhaps because their thoughts about the target are still biased by the target's attractiveness.
+
+Relationship with personality traits
+Related constructs
+NFC has been found to be strongly associated with a number of independently developed constructs, specifically epistemic curiosity, typical intellectual engagement, and openness to ideas.
+
+Epistemic curiosity can be defined as "desire for knowledge that motivates individuals to learn new ideas, eliminate information-gaps, and solve intellectual problems".
+Typical intellectual engagement was proposed by Goff and Ackerman (1992) and was defined as a "personality construct that represents an individual's aversion or attraction to tasks that are intellectually taxing".
+
+Openness to ideas is a facet of openness to experience associated with "aspects of being open minded, engaging in unconventional thoughts, and solving problems and thinking as an end in itself".
+Based on the very large positive correlation between NFC and  typical intellectual engagement (r = .78) it has been argued that they may be essentially the same construct.
+Further studies have found that NFC,  typical intellectual engagement, epistemic curiosity, and openness to ideas were all strongly intercorrelated. Factor analysis showed that measures of all four constructs loaded strongly onto a single factor suggesting they all share a common conceptual basis.
+The author of this study argued that although the four constructs lack discriminant validity they are not necessarily all conceptually equivalent as each one may emphasise particular aspects of functioning more than others.
+A study comparing need for cognition and openness to ideas using confirmatory factor analysis found that although the two constructs were very strongly related they were not redundant. NFC and openness to ideas had somewhat contrasting correlation patterns with other personality traits.
+For example, NFC was more strongly correlated with emotional stability and activity than openness to ideas, whereas openness to ideas was more strongly correlated with novelty and experience seeking than NFC.
+
+Other personality characteristics
+Within the Big Five model of personality, NFC has been found to relate positively to openness to experience most strongly and to a more moderate extent to conscientiousness, particularly the competence and achievement striving facets, and to relate inversely to an extent to neuroticism.
+Regarding Cloninger's temperament traits, NFC has been related negatively to harm avoidance and positively to persistence and was unrelated to reward dependence or novelty seeking.
+NFC has only a weak positive relationship with sensation seeking, specifically a weak correlation with the boredom susceptibility subscale but no relationship to the other subscales.
+NFC has a modest inverse correlation with negative affect. NFC had no significant correlation with a broad measure of overall positive affect, although it was positively correlated with feelings of activity, interest, and alertness.
+NFC has been positively related to other, theoretically unrelated, personality characteristics such as self-esteem, masculine sex-role attitudes, and absorption.
+NFC is negatively related to social anxiety (more strongly in females than males).
+It has been speculated that people who more carefully analyse their world feel a greater sense of mastery, and hence greater self-esteem, although it is also possible that higher self-esteem may lead to greater motivation to engage in thinking.
+NFC may be related to masculine sex-role due to the stereotype associating masculinity with rationality.
+Regarding absorption, people high in NFC may find it easier to devote their attentional processes exclusively to intellectual tasks.
+Regarding social anxiety, it is possible that greater attention to cognitive activity may be associated with reduced attention to social cues associated with negative evaluation.
+NFC is positively related to stimulation, self-direction, and universalism values, and negatively to security and conformity values.
+
+Consumers
+Research has shown that high-need-for-cognition consumers prefer open-ended comparative advertising that allows consumers to decide which brand is best.
+NFC has also offered insights into how people respond to alternative web site designs. Martin, Sherrard and Wentzel (2005) demonstrate that high-need for cognition people prefer web sites with high verbal complexity (more in-depth information) and low visual complexity (static images rather than animations).
+
+See also
+Elaboration likelihood model – Dual process theory of persuasion
+Empathising–systemising theory – Theory on the psychological basis of autism
+Goal orientation – Social-cognitive motivational disposition
+Heuristic-systematic model of information processing – Dual-process theory of persuasion
+Need for achievement – Person's desire for significant accomplishment
+Need for affiliation
+Need for power
+Need theory – Theory of human achievement and motivation by David McClelland (1961)
+
+Footnotes
+References
+Evans, C.J., Kirby, J.R. & Fabrigar, L.R., "Approaches to Learning, Need for Cognition, and Strategic Flexibility Among University Students", British Journal of Educational Psychology, Vol. 73, No. 4, (December 2003), pp. 507–528.
+Henning, B. & Vorderer, P., "Psychological Escapism: Predicting the Amount of Television Viewing by Need for Cognition", Journal of Communication, Vol. 51, No. 1, (March 2001), pp. 100–120.
+Loewenstein, G., "The Psychology of Curiosity: A Review and Reinterpretation", Psychological Bulletin, Vol. 116, No. 1, (July 1994), pp. 75–98.
+Nair, K.U. & Ramnarayan, S., "Individual Differences in Need for Cognition and Complex Problem Solving", Journal of Research in Personality, Vol. 34, No. 3, (September 2000), pp. 305–328.
+Nussbaum, E.M. & Bendixen, L.D., "Approaching and Avoiding Arguments: The Role of Epistemological Beliefs, Need for Cognition, and Extraverted Personality Traits", Contemporary Educational Psychology, Vol. 28, No. 4, (October 2003), pp. 573–595.
+Olson, K.R., Camp, C.J. & Fuller, D., "Curiosity and Need for Cognition", Psychological Reports, Vol. 54, No. 1, (February 1984), pp. 71–74.
+Sorrentino, R.M., Bobocel, D.R., Gitta, M.Z., Olson, J.M. & Hewitt, E.C., "Uncertainty Orientation and Persuasion: Individual Differences in the Effects of Personal Relevance on Social Judgments", Journal of Personality and Social Psychology, Vol. 55, No. 3, (September 1988), pp. 357–371.
+Watt, J.D. & Blanchard, M.J., "Boredom Proneness and the Need for Cognition",  Journal of Research in Personality, Vol. 28, No. 1, (March 1994), pp. 44–51.
+West, S.S., "Class Origin of Scientists", Sociometry, Vol. 24, No. 3, (September 1961), pp. 251–269.
+
+External links
+Need for Cognition Scale

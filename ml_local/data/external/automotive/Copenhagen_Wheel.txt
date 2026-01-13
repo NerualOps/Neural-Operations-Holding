@@ -1,0 +1,11 @@
+Title: Copenhagen Wheel
+
+The Copenhagen Wheel was a rear-wheel e-bike system. The wheel was connected using an iOS or Android application and was equipped with an electric motor, battery, and suite of sensors that worked together to amplify a rider's pedal power. The Copenhagen Wheel was developed at MIT's Senseable City Lab in 2009 in partnership with the city of Copenhagen, and unveiled at the 2009 United Nations Climate Change Conference. In December 2012, Assaf Biderman, a co-inventor of the Wheel and associate director of the MIT Senseable City Lab, founded SuperPedestrian Inc. with an exclusive license to commercialize the Wheel. The Copenhagen Wheel officially launched in the U.S. in April 2017, and in Europe in October 2017
+In 2020, the Copenhagen Wheel was discontinued by Superpedestrian.
+
+Physical components
+The Copenhagen Wheel contained a custom brushless motor, advanced sensors, control systems, and a lithium-ion battery, enclosed within the rear wheel hub. The control system interfaced with a range of sensors measuring torque, power, cadence, pedal position, and acceleration to monitor a rider's effort when pedaling. The Wheel responded to a rider's inputs by providing the appropriate level of assistance at each moment. The wheel's battery was charged via an external cord that fitted a standard wall outlet. Electronic braking assistance while riding partially recharged the wheel when coasting or backpedaling. With a full charge, the wheel's reported range was up to 50 kilometres (31 mi). Extensions in range were possible when using low-power modes.
+
+References
+External links
+Company website

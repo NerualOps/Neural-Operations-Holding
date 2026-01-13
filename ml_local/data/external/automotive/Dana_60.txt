@@ -1,0 +1,168 @@
+Title: Dana 60
+
+The Dana/Spicer Model 60 is an automotive axle manufactured by Dana Holding Corporation and used in OEM pickup and limited passenger car applications by Chevrolet, Dodge, Chrysler, Jeep, Ford and Land Rover. There are front and rear versions of the Dana 60. It can be readily identified by its straight axle tubes, 10 bolt asymmetrical cover, and a "60" cast into the housing.  Gross axle weight ratings are often lowered by the vehicle manufacturer for safety and tire reasons. They are also lowered to reduce loads on other powertrain components such as transmissions and transfer cases.
+Dana 60 Axles are also increasingly swapped into many custom offroad applications to accommodate larger tires and deep compound gearing with locking differentials.
+
+General specifications
+Every Dana 60 that was originally manufactured by Dana Corp (i.e. not aftermarket) is stamped with a build date and bill of materials on the back of the right hand axle tube.
+
+Gross Axle Weight Rating (GAWR)
+6500 lbs (full float, rear axle)
+5500 lbs (semi float)
+GAWR is vehicle axle weight plus rated payload capacity
+Ring gear diameter: 93⁄4"
+Axle shaft diameter
+1.41” Front (32 spline)
+1.46” Rear  (32 spline)
+1.50” Front (35 spline)
+1.50” Rear  (35 spline)
+Inner axle shaft splines: 16, 23, 30, 32, 33 or 35
+Aftermarket inner axle shaft splines: 40 for after market, high performance axles, equivalent to Dana 70 components
+Pinion shaft diameter: 1.625"
+Pinion shaft splines: 10 or 29
+Gear ratios: 3.54:1 - 7.17:1
+1st Generation Dodge Cummins trucks with non-OD transmissions are equipped with 3.07:1 "Dana 61" front axles with unique differential housings and carriers with extra clearance for the very large pinion gear. They can be easily "converted" to 3.54:1 gearing by replacing the carrier.
+Carrier break: 3.54:1 - 4.10:1 and 4.56:1 - 7.17:1
+
+Dana 60 front steer axle
+History
+In the mid-1970s the Big Three all started using this axle. Dodge used a Dana 60 up to 2002. 3rd Generation Dodge Rams dropped the Dana 60 in favor of AAM (American Axle & Manufacturing) axles.  Ford still uses the Dana 60 front axle.  Manufactured in both Kingpin and Ball joint variations, "standard" (low pinion) and "reverse cut" rotation (high pinion) variations and open and limited slip, and locking variations. The housing material is Gray iron in early axles and Ductile iron in later axles. GM and Ford Dana 60 axles utilize locking hubs. Dodge Dana 60 axles utilized locking hubs until 1994 when a Center Axle Disconnect (CAD) system was adopted. However, model year 2002 Rams phased out the CAD system leaving some 2002 Dana 60 axles permanently locked in.
+
+Big Three variations
+Ford versions are driver's side differential drop, reverse-cut gears, and kingpin knuckles up to 1991. The later axles have ball joints. Ford Dana 60 axles mostly feature 35 spline inner axle shafts, but some are 30 spline. Larger brakes and 35 spline outer shafts were made standard in 2005.
+Dodge versions were passenger side differential drop, standard rotation gears, kingpin knuckles and 35 spline axle shafts in early models. The 2nd Generation axles were driver's side with ball joints. 30 spline axle shafts were used instead of 35 splines, except 2000, 2001 and 2002 models which were equipped with 32 spline axle shafts.
+GM versions are passenger side differential drop, standard rotation gears, kingpin knuckles and 35 spline axle shafts.
+
+Dana 60 aftermarket
+The Dana 60 front axle has a great deal of aftermarket/third-party support, including many upgrades. Stronger axle shafts, universal joints and ball joints are widely available, as well as a large selection of traction-control devices such as locking differentials and limited slip differentials. Axle shafts, universal joints and carriers made from chromoly steel are even available. High capacity differential covers are available that increase the amount of oil the differential holds. These covers also feature heat sinks that help keep the axle cool.
+
+Dana Super 60 (Dana S 60)
+The Dana Super 60 is an upgraded version of the Dana 60 axle.
+Differences in the Dana Super 60 versus the regular Dana 60:
+
+Larger and thicker diameter steel tubes (3.75 inches diameter and ½ in thick)
+Larger ring and pinion which increase the contact area and overall strength.
+Some use larger ("1550") Universal Joints which increase strength and steering angle.
+Net formed spider gears for increased strength.
+
+Dana 60 rear axle
+Manufactured in both full float and semi float variations. The semi float axles have GAWR up to 5,500 lbs and the full float axles were rated up to 6,500 lbs.
+Full floating variants are common while Semi-floating axles exist, but are less common. Axle spline count varies, with 30 spline being the most common.
+
+Dana 60 rear steer axle
+Quadrasteer
+Quadrasteer was an option in 2002–2005 GM full size, single rear wheel trucks. Constant-velocity joints were used instead of universal joints.
+
+Dana 61
+A variation of the Dana 60 known as a Dana 61 was made to accommodate gear ratios that allowed for better fuel mileage. This was done as a direct result of the 1973 oil crisis. A 3.07:1 gear ratio was common for these axles and unachievable in a regular Dana 60. To allow for the different gearing, the Dana 61 had a greater pinion offset. This offset meant that a different carrier and a different ring and pinion had to be used.
+Dodge Cummins pickups from the "First Generation" that are not equipped with an overdrive transmission Archived 2021-02-09 at the Wayback Machine commonly have the 3.07:1 Dana 61 front axle because the higher gears are necessary to achieve reasonable road speeds at the low 2500 rpm governed speed of the Cummins engine in those pickups.
+
+ The Dana 61 was made in semi-float and full-float axles for select 4×2 and 4x4 Ford 3⁄4-ton and 1 Ton Pickups and Vans from 1974 to 1987. A Dana 61 front axle was selectively used in Dodge 4×4 3⁄4-ton and 1 Ton pickups from 1987 to 1993. Although 3.07:1 and 3.31:1 gear sets are common for a Dana 61, lower gear sets deeper than (4.10:1 on down) are not. 
+
+Dana 61 external case is similar to Dana 60 HD in its use of dual ribbing: a reinforcement truss extends from the tube all the way around the differential case, in addition to raised cover flange. This is better than on Dana 60 “standard duty” where tube reinforcement extends diagonally to join with the cover flange.
+Some Dana 61s shared a common carrier with the Dana 60 part #706040x, which means the gearsets (3.07-4.10) will interchange between the two. Dana differential case #706400 (3.07-3.73) shows in Dana's parts catalog to be Dana 61-specific. The 706040x carrier can be purchased relatively inexpensively and used to install lower gears in a Dana 61 axle, such as when replacing a broken or damaged Dana 60 with a Dana 61 while retaining the factory gear ratio.
+
+Dana 53
+The Dana 53 first appeared in the late 1940s and is much like a Dana 60. Although all Dana 53s are semi-floating, rear axles, 9.25" ring gear diameter. It was used as OEM in 1960s full-size (C-body) Chrysler passenger cars equipped with the 440 CID engine. The Dana 53 was phased out in the late 1960s, replaced by the Dana 60.
+
+Common Applications
+Source:
+Front axle
+International Harvester
+
+1975 1300 Camper Special ← A Dana BOM number series was created but no record of any Dana 60 front axles being used by International has been proven.
+Chevrolet
+
+1977–1991 1Ton (K30/V30)
+1984–1988 Commercial Utility Cargo Vehicle
+2019–2020 Medium Duty
+Dodge
+
+1975–2002 3⁄4-ton (D-600/W-250/2500)
+1975–2002 1 Ton (D-700/W-300/W-350/W-400/3500)
+Ford
+
+1974–1979 F-250 (optional)
+1999–2011 F-250 (optional)
+1979, 1986-2011 F-350 (optional)
+2000–2004 F-450/F-550
+2011-2016 F-250/F-350
+2017-2024 F-250/F-350
+Dana "Super 60"
+
+2005–2012 F-450/F-550
+2011–2012 F-450(Class 3)
+Kaiser/Jeep
+
+1967–1969 Kaiser Jeep M715/725/726
+Land Rover 
+Dana 60 is known as a Salisbury 60 in the UK. In 1919 Spicer purchased the Salisbury Axle Company (US). In 1939 Spicer's UK license holder created a company named "Salisbury Transmission Limited." With permission to manufacture a British model of the Dana 44. Land Rover Salisbury axles are compatible with some but not all parts related to their American counterparts, including differential covers, bearings, and some shafts. Many Land Rover applications used 10 or 24 spline shafts. Defender applications were a right-hand drop.
+
+1971–1977 Land Rover Series 2B Forward Control
+1971–1977 Land Rover Series 3 1 ton (both front and rear axles)
+1971–1985 Land Rover Series 3 Military Spec (rear on series III 109s)
+1972–1978 Land Rover 101 Forward Control
+1983–2001 Land Rover Defender 110
+Military Spec
+Rear axle
+Studebaker
+
+1956–1964 E12 3⁄4t and E14 1t
+Dodge
+
+1966–1970 Coronet & R/T
+1966–1972 Charger & R/T
+1968–1972 Super Bee
+1970–1971 Challenger
+1963–1993 Dodge Ram 250 and 350
+1994–2002 Dodge Ram 2500 (V8 only)
+2004–2006 Dodge Ram SRT-10
+Plymouth
+
+1966-1967 Belvedere
+1966 Satellite
+1968–1972 Road Runner
+1967–1971 GTX
+1970–1971 'Cuda
+Ford
+
+1955–1985 Ford 3⁄4-ton trucks
+1955–1979 Ford 1 ton trucks
+1980–2012 Ford E200/E250/E350 vans
+Ford UK
+
+1973–1982 Ford A0406 Truck (option)
+Chevrolet
+
+1964–1977 Chevrolet and GMC 3/4-ton pickups
+1975–1987 Chevrolet and GMC 1-ton pickups and Suburbans
+1979–2012 Chevrolet and GMC 1-ton vans
+2002–2005 Chevrolet and GMC 1/2 + 3/4 Ton pickups and Suburbans with Quadrasteer
+International Harvester
+
+1966 1/2 Ton 4X4 Pickup Truck (1100A 4X4)
+1969-75 3/4 Ton Pickup Truck and Travelall. (D1200, 1210 and 200 series)
+Jeep
+
+1968–1973 Jeep J3800/J4800 Camper Truck (full float 30 spline)
+1968–1970 Jeep J-2600/J2700/J3600/J3700 (semi float 30 & 35 spline)
+1971–1973 Jeep J4000/4600/J4700 (semi float 35 spline)
+1974–1988 Jeep J20 (full float 30 spline)
+Land Rover
+
+1971–1977 Land Rover Series 2B Forward Control
+1971–1977 Land Rover Series 3 1 ton
+1971–1985 Land Rover Series 3 109
+1972–1978 Land Rover 101 Forward Control
+1979–1985 Land Rover Stage One V8
+1983–2002 Land Rover Defender 110 (up to VIN ending in 2A622423)
+1983–2002 Land Rover Defender 130 (up to VIN ending in 2A622423)
+
+See also
+Ford 9-inch axle
+10.5" Corporate 14 Bolt Differential
+
+References
+External links
+http://www.hemmings.com/mus/stories/2006/04/01/hmn_feature27.html
+http://www.therangerstation.com/tech_library/Dana_BOM_numbers.html

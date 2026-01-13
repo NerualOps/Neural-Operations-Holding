@@ -1,0 +1,55 @@
+Title: Aehra
+
+AEHRA (stylized AEHRA) is an Italian ultra-premium electric vehicle manufacturer headquartered in Milan. The company describes itself as Italy's first “pure EV” brand and aims to combine Italian design traditions with advanced EV technology and a service model influenced by American consumer expectations.
+Founded in 2020 by physicist and entrepreneur Hazim Nada and aviation entrepreneur Sandro Andreotti, AEHRA focuses on large, composite bodied luxury EVs with long range, high charging speeds and distinctive styling. The company's first two models are the Impeto sport-utility vehicle and the Estasi sedan, both targeting more than 800 km range and prices in the high-premium segment, with production planned to start in the mid-2020s.
+
+History
+AEHRA emerged publicly in 2022, but company profiles date its founding to 2020, when Hazim Nada and Sandro Andreotti decided to create a new ultra-premium EV brand headquartered in Milan. Nada, a theoretical physicist turned commodities trader and entrepreneur, serves as chairman and CEO; he previously co-founded the indoor skydiving facility AeroGravity with Andreotti, and has described AEHRA as a way to apply his interest in aerodynamics to road vehicles.
+From the outset the brand positioned itself as “Italian-American”: design, styling and much of the engineering are based in Italy, while AEHRA's communications emphasise an American-inspired focus on customer service and direct relationships with buyers. In 2022 AEHRA announced a leadership team that included former Lamborghini and Italdesign designer Filippo Perini as chief design officer and former Ferrari and Lotus engineer Franco Cimatti as chief engineering officer.
+AEHRA unveiled the exterior design of its first model, an unnamed SUV, in Milan in November 2022, describing it as a ground-breaking ultra-premium electric SUV with an unusually long wheelbase, very short overhangs and a flowing “monobody” silhouette made possible by a dedicated EV platform. The exterior design of the brand's second model, a sedan, was presented at the Milano Monza Motor Show in June 2023.
+In May 2023 AEHRA announced a partnership with Austrian technology group Miba Battery Systems to co-develop bespoke battery packs for its SUV and sedan, targeting up to 120kWh capacity, 800 km range, 925V architecture and 350 kW DC fast charging. Reuters reported that AEHRA expected both models to enter production in 2026, with prices targeted between €160,000 and €180,000 and deliveries initially in Europe and the United States.
+In August 2024 AEHRA publicly named its first two models Impeto (SUV) and Estasi (sedan), and announced that it had submitted a €1.2billion development plan to the Italian government's Automotive Fund to finance construction of a dedicated manufacturing facility and expansion of its Milan operations.
+
+Models
+Impeto (SUV)
+The Impeto is AEHRA's first model, a large all-electric sport-utility vehicle positioned in the ultra-premium segment. Initial concept images and design details were released in November 2022, with the model name announced in 2024. The SUV is based on AEHRA's dedicated EV platform with an approximately 3m wheelbase, very short front and rear overhangs and a flat floor, contributing to interior space and aerodynamics.
+AEHRA and independent reports state that the Impeto is expected to use a 120kWh battery, three-motor all-wheel drive and to deliver between 550 and 600 kW (around 750–800hp), with a targeted WLTP range of roughly 800 km and an electronically limited top speed of about 265 km/h.
+Interior previews show a highly configurable cabin with a full-width dashboard screen that can extend upwards when the vehicle is parked, allowing the SUV to function as a mobile lounge, office or home-cinema space.
+
+Estasi (sedan)
+The Estasi is a low-slung all-electric sedan sharing AEHRA's EV platform and design language with the Impeto. The sedan's exterior was first shown at the Milano Monza Motor Show in June 2023 under the generic name “AEHRA Sedan”, with the Estasi name revealed in 2024.
+AEHRA targets similar technical specifications to the SUV, including a 120kWh battery, three-motor powertrain and claimed range  of around 800 km, with pricing broadly between US$170,000 and US$200,000. Company statements emphasize a focus on supercar-like proportions and aerodynamics while providing a spacious cabin enabled by the flat-floor platform.
+
+Future models
+Company literature and brand-DNA material refer to plans for a future AEHRA “supercar” model using a smaller 96kWh battery and similar design themes, though as of 2025 this remains in the concept and development stage.
+
+Technology
+Platform and body
+AEHRA's vehicles use a bespoke EV architecture with a long wheelbase, short overhangs and flat floor, which the company says allows it to “rewrite” conventional vehicle proportions by pushing most mechanical components between the axles. The cars employ a composite monobody or monocoque structure using carbon fiber and other advanced composites, manufactured with partners in Italy and Europe. AEHRA describes itself as the first automotive company planning volume production of vehicles made entirely from composites and carbon materials, though this claim reflects its own marketing.
+Design interviews with Filippo Perini emphasise the aerodynamic focus of the bodywork, with smooth surfaces, minimal frontal area and integrated aero features aimed at reducing drag and maximizing range. The absence of a traditional front engine bay permits a low hood and steeply raked windshield, contributing to the vehicles’ distinctive “monobody” silhouette.
+Distinctive dihedral “facing” doors spanning both front and rear seats, camera-based exterior mirrors and large-diameter wheels (up to 24 inches) are used on both Impeto and Estasi concepts.
+
+Battery and powertrain
+Under AEHRA's partnership with Miba Battery Systems, both Impeto and Estasi are planned to use bespoke battery packs with capacities up to 120kWh, targeting an 800 km driving range, 925V peak system voltage and DC fast charging at up to 350 kW. The company states that the packs are designed for modular repair and recyclability, with liquid cooling and bidirectional charging capability to support vehicle-to-home functions.
+Public statements and third-party reports suggest that production vehicles will offer power outputs of around 550–600 kW and all-wheel drive via multiple electric motors, positioning them among the more powerful luxury EVs but with greater emphasis on range and efficiency than outright acceleration.
+
+Design and engineering
+AEHRA's design is led by chief design officer Filippo Perini, formerly head of design at Lamborghini and a senior figure at Italdesign, while chief engineering officer Franco Cimatti brings experience from Ferrari and Lotus. The brand's visual identity combines elements of Italian supercar aesthetics, such as dramatic surfacing and sculpted lighting, with the packaging freedoms of a skateboard style EV platform, resulting in vehicles closer in silhouette to low, long crossovers than traditional SUVs or sedans.
+Perini has described AEHRA's approach as using a single, flowing volume rather than separate cabin and engine bay forms, while also prioritizing recyclability and the use of existing industrial supply chains for composite materials in Italy. Interior design emphasizes flexible “lounge” concepts, with rear seats and surfaces arranged to allow work or entertainment when parked, supported by the full-width display and flat floor.
+
+Business and funding
+AEHRA positions itself as an “ultra-premium” manufacturer with annual volumes in the tens of thousands rather than mass market levels. Its initial business model has been described as substantially self-funded by its founders and early investors, with external funding sought to build a dedicated manufacturing facility in Italy.
+In 2024 the company announced that it had submitted a €1.2billion development plan to Italy's Ministry of Enterprise and Made in Italy, linked to the national Automotive Fund, to support construction of a plant and the creation of more than 500 manufacturing jobs plus around 110 new roles in Milan.
+Reuters and other outlets have reported that AEHRA plans initial deliveries of Impeto and Estasi from 2026, with combined annual production targets on the order of 25,000 units per model once full capacity is reached, and that the company is evaluating options for manufacturing either in Italy or potentially through partnerships abroad.
+
+Market positioning and reception
+Industry observers often compare AEHRA with brands such as Tesla, Lucid and Porsche in terms of performance and pricing, while highlighting the Italian design emphasis and composite construction as differentiating factors. Commentators have described the SUV and sedan concepts as visually striking and unconventional, noting that their proportions depart from typical tall-SUV and three-box saloon templates.
+Coverage in specialist EV and automotive media has been cautiously positive but has also pointed to the challenges faced by new entrants in the high-end EV segment, including the capital intensity of vehicle production, the need to establish brand recognition and service infrastructure, and competition from established manufacturers and well-funded startups.
+
+See also
+Electric car
+Battery electric vehicle
+Automotive industry in Italy
+
+
+== References ==

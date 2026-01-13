@@ -1,0 +1,28 @@
+Title: Artificial Passenger
+
+The Artificial Passenger is a telematic device, developed by IBM, that interacts verbally with a driver to reduce the likelihood of them falling asleep at the controls of a vehicle. It is based on inventions covered by U.S. patent 6,236,968. Whereas, Telematics device perform a range of functions by gathering vehicle location and activity data, and turning this into business insight. Also Telematic machine  works by Capturing vehicle location data via a GPS enabled device installed in a vehicle. The Artificial Passenger is equipped to engage a vehicle operator by carrying on conversations, playing verbal games, controlling the vehicle's stereo system, and so on. It also monitors the driver's speech patterns to detect fatigue, and in response can suggest that the driver take a break or get some sleep. The Artificial Passenger may also be integrated with wireless services to provide weather and road information, driving directions, and other such notifications systems.
+
+Voice control interface
+According to Dimitri Kanevsky, a former IBM researcher, currently at Google, The Artificial Passenger was developed using the Conversational Interactivity for Telematics (CIT) speech system which counts on the driver's natural speech instead of the use of hands. The CIT relies on a Natural Language Understanding (NLU) system that is difficult to develop because of the low-powered computer systems available inside cars. IBM suggests that this system be located on a server and accessed through the cars' wireless technologies. IBM also says they are working on a "quasi-NLU" that uses fewer resources from the CPU and can be used inside the car. The CIT system includes another system called the Dialog Manager (DM). The DM takes the load of the NLU system by interacting with the vehicle, the driver, and external systems such as weather systems, email, telephones and more.
+The NLU system receives a voice command from the driver and looks through a file system to come up with an action to be performed and executes that action. The DM works with questions asked by the driver such as "How far is The Gallatin Field Airport from here?" The NLU system will still not be able to understand everything a driver says. Reasons for that are the different idioms and dialects of different regions. IBM is working on developing a system that recognizes where the driver is and acknowledge the regional diction used in that area. 
+Another system used within this technology is the Learning Transformation (LT) system which monitors the actions of the occupants of the car and of the cars around it, learns patterns within the driver's speech and store that data, and learns from such data to try to improve the performance of the technology as a whole.
+
+Speech recognition
+The speech recognition process relies on three steps. The front-end filters out any unwanted noise such as noise from the car, background music, or background passengers. It gets rid of all low energy and high variability signal being recognized. The labeler breaks apart the speech and searches in a data base to recognize what is being said. It starts broad by seeing what subject the driver is speaking of. Then goes into more details of what the driver is truly asking. The decoder next takes all this information and formulates a response to the driver. IBM states through much experimentation that the speech recognition is very accurate but the process has not fully been refined and still has kinks with in it.
+The main part of the Artificial Passenger is the disruptive speech recognition. This technology keeps a conversation with the driver and analyzes what the driver is saying and how s/he is saying it. It can recognize fluctuations in the driver's voice to determine if the driver is sleepy, upset, or in a good mood through different vibration patterns in the driver's speech. It also record the time it takes for a driver to respond in the conversation and from that determine if the driver is nodding off or being distracted by something.
+
+Driver drowsiness prevention
+When the computer recognizes that the driver is dozing off, it sends a signal to interfere. The computer will step in by changing the radio, trying to play games with the driver, or by opening window to wake the driver up. The computer wants to improve their alertness by doing these. If it finds that the driver is nodding off over and over, the computer system is programmed to ask to call a nearby hotel and book a room or suggest the driver take a break.
+The Artificial Passenger will try to read jokes, play games, ask questions or read interactive books to stimulate the driver. Drivers that show more drowsiness will be given content that is more stimulating than a driver who is not as drowsy.
+
+Distributive user interface between cars
+IBM recognizes that there are more dangers to a driver than him/herself. Artificial Passenger is proposed to work between cars by relaying information to one another. The information could include driving records to show if they have a history of being a bad driver or on-time analysis of all drivers to show which ones are becoming drowsy and can interfere through this information. It can also show if a driver is being distracted by games or wireless devices and interfere with all surrounding drivers.
+
+See also
+Automobile safety
+Car accident
+Human factors
+Road traffic safety
+
+
+== References ==

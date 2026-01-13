@@ -1,0 +1,11 @@
+Title: Body flex
+
+Body flex is a lack of rigidity in a motor vehicle's chassis, causing the car body to turn and twist while cornering. It is often something to be avoided by car manufacturers as higher levels of body flex is a sign of structural weakness, and means that the vehicle's suspension cannot work as efficiently - the body takes up some of the 'slack', rather than the parts of the car which were specifically designed for this purpose. Body flex is usually caused by using weaker materials to build the chassis, so the car body will twist easier when cornering. Body flex will affect the stability and handling of the car, it will also contribute to body rolling. Severe body flex will weaken the chassis even more by adding stress onto it, which might eventually cause chassis failure. Therefore, sports car's chassis are often very 'stiff' to improve performance. Convertibles and older cars often have more body flex because of their lack of a rigid roof to support the car body and the lack of modern structural reinforcements. Since body flex is twisting the car body, it will also lead to rattles and squeaks.
+Sometimes body flex is the result of reducing weight, manufactures will choose lighter materials to build the chassis, but the cost might be a weaker chassis. Makers such as Audi (the A8), and Jaguar (with the 2003 XJ8) use aluminium in chassis production to get around this obstacle, ensuring the weight of these cars and their level of body flex can both be kept to a minimum.
+Typically, the stiffness of the body is measured in torsion. The body is supported at the spring caps at the rear, and then a torque is applied to the front spring caps via a long beam and a fulcrum. Values achieved range from 1,000 lb⋅ft (1,400 N⋅m) per degree for pre-War racing cars, up to 25,000 lb⋅ft (33,900 N⋅m) per degree for some modern production vehicles.
+
+See also
+Flexibility (engineering)
+
+
+== References ==

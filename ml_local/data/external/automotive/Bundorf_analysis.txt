@@ -1,0 +1,22 @@
+Title: Bundorf analysis
+
+A Bundorf analysis is a measure of the characteristics of a vehicle that govern its understeer balance. The understeer is measured in units of degrees of additional yaw per g of lateral acceleration.
+
+An imaginary example
+Hence the total under-steer is 11.0 deg/g minus 6.9 deg/g, or 4.1 deg/g. 
+Negative values are over-steering, positive values are under-steering, for that axle. If the under-steer contribution of the rear axle is greater than that of the front axle you get negative under-steer, which is known as oversteer. The analysis is only applicable while the parameters remain constant, and thus only up to about 0.4 g.
+
+Explanation of terms
+Load transfer effect and cornering stiffness of tire.  As load transfers across the vehicle the tire's ability to provide cornering force for a given slip angle changes. The latter is known as the cornering stiffness of the tire. See also Tire load sensitivity
+Aligning torque.  The tire does not just generate a lateral force, it generates a torque as well. This tends to rotate the vehicle as a whole.
+Roll camber.  As the vehicle rolls the kinematics of the suspension provide a change in the camber of the tire. This generates a force known as camber thrust.
+Roll steer.  As the vehicle rolls the kinematics of the suspension provide a change in the steer angle of the tire. This generates a cornering force in the normal way.
+Fy compliance steer.  The lateral force at the contact patch causes the wheel to rotate about the steer axis, generating a steer angle.
+SAT compliance steer.  The aligning torque directly twists the wheel on the compliances in the suspension, generating a steer angle.
+Under-steer.  In this case, the tendency for an axle or vehicle to turn outwards from a corner.
+
+See also
+Vehicle dynamics
+
+References
+Bundorf, R.T. and Leffert, R.L. (1976) 'Cornering compliance concept for description of vehicle. directional control properties', SAE paper 760713

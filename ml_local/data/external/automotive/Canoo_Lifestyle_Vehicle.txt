@@ -1,0 +1,36 @@
+Title: Canoo Lifestyle Vehicle
+
+The Canoo Lifestyle Vehicle (LV) is a battery electric vehicle with multiple body styles sharing a common platform, including minivan, cargo van, and pickup truck, that was manufactured by Canoo. The cargo van variant, named the Lifestyle Delivery Vehicle (LDV), was in production; an all-wheel-drive pickup truck, named the Light Tactical Vehicle (LTV), was delivered for evaluation by the United States Army; and three other models of passenger vans were announced. They had range estimates of 400 km (250 mi) and an estimated 0–100 km/h (0–62 mph) time of 6.3 seconds.
+The base price of the vehicle was US$34,750. Production of the Lifestyle Delivery Vehicle began in 2023. The first vehicles made in Oklahoma were delivered to the state of Oklahoma in November 2023.
+
+Design
+Chassis
+The LV and LDV were built on a chassis integrating the battery, traction motor, and suspension in a single skateboard chassis, which Canoo called the "multi-purpose platform" (MPP), designed to accommodate a wide variety of bodies, including cargo van, passenger van, and pickup truck styles. Canoo anticipated a body or powertrain swap would take approximately two hours.
+
+The double wishbone suspension uses transverse composite leaf springs. The LV is equipped with a drive-by-wire system, eliminating the need for mechanical connections like a steering shaft and allowing for greater flexibility in designing the cabin. A redundant 12 V DC–DC converter is included to ensure the steer-by-wire system is operable.
+
+Body variants
+The Canoo Lifestyle Vehicle (passenger minivan) was planned to be available in three trims. The Base trim had five seats. The Premium trim, priced $49,950, had a glass roof, a front street view window, a 17 speakers audio system, ambient lighting, an ultraviolet air purifying system, and seven seats; the two additional seats are mounted longitudinally on the rear doors, with its occupants facing each other. The Adventure trim added an exclusive paint color, a tow hitch and roof rack. The body uses a steel structure covered by plastic panels. There is 130 ft3 (3.7 m3) of enclosed space in the body, of which 13 ft3 (0.37 m3) is behind the rear seat in passenger models.
+
+The Lifestyle Delivery Vehicle (cargo minivan), priced US$34,750, has two seats and 1,464 lb (664 kg) of cargo capacity. In August 2023, Canoo announced the LDV 190, retroactively renaming the original LDV to LDV 130; the LDV 190 is a Class 2 vehicle with reinforced suspension and 172 ft3 (4.9 m3) of cargo space behind the bulkhead for the front cab. It also is equipped with a modular "rear cargo cartridge" which enables the user to install different rear hatch and tailgate configurations.
+An unnamed pickup truck concept was shown in 2021, with an extended cab configuration. It is anticipated to be available either as a single-motor, rear-wheel-drive chassis or a dual-motor, all-wheel-drive model. For the Canoo Light Tactical Vehicle (LTV), a single-cab pickup truck using the MPP chassis supplied to the United States Army for evaluation in December 2022, the leaf springs are replaced by air springs due to increased weight. Other changes include increased wheel and tire size, and unique control arms at all four wheels.
+
+Styling
+The Canoo LV was designed by a team led by Richard Kim; Kim previously had designed the BMW i3 and i8 concepts, and served as the vice president of design for Faraday Future before leaving to co-found Canoo. The design won a Red Dot "Best of the Best" design concept award for mobility & transportation in 2020.
+
+Powertrain
+A prototype driven by Motor Trend in December 2022 was equipped with a single rear-mounted traction motor which weighs 200 lb (91 kg). It was designed and built by Canoo, with a maximum output of 200–350 hp (150–260 kW; 200–350 PS) and 304 lb⋅ft (412 N⋅m), which can be adjusted using software. The single-speed reduction gear has a ratio of 9.7:1.
+The LV considered adding a dual-motor, all-wheel-drive variant, as the LTV includes a second motor for the front axle. The estimated combined maximum output of the dual-motor LTV is 600 hp (450 kW; 610 PS) and 600 lb⋅ft (810 N⋅m).
+
+Battery and range
+The LV had an 80 kWh (290 MJ) battery with a range of approximately 250 mi (400 km). As originally announced, 40 and 60 kWh batteries also were planned to be available. The traction battery operates at 400 V and has an energy density of 195 Wh/kg using 2170-sized cells, suggesting the weight of the 80 kWh battery is 410.3 kg (905 lb).
+The battery uses 2170 cylindrical lithium-ion cells manufactured by Panasonic and integrated into the chassis in eight battery modules. The eight modules are sealed into the floor, riding between the frame rails, a belly panel below, and the cabin floor above; as Pete Savagian, Canoo's Chief Technology Officer explained in 2021, "Riding in that cavity are the modules, which are protected by the structure, and the modules themselves are structurally attached to the frame. They actually serve to stiffen, somewhat, the frame and transfer some of the load during a crash event." Due to its modular design, 4680 or pouch cells could be used.
+
+Production
+
+Lifestyle Vehicles were planned to be assembled in factories to be built in Arkansas and Pryor, Oklahoma. As of 2022, Canoo aimed to build at least 3,000 vehicles in 2022, then 14,000 in 2023 and 40,000 in 2024 and 70,000 in 2025. The production of the first vehicles was set originally to take place in Bentonville, Arkansas to support deliveries to Walmart, but later was shifted to an unspecified contractor in August 2022.
+Approximately 120 prototypes were built at Roush Industries in Livonia, Michigan by December 2022, using tooling and processes developed by Canoo; these tools were planned to be taken back to the Canoo Oklahoma factory in 2023. The first official production vehicle was assembled on November 17, 2022; Canoo planned to fill exclusively commercial fleet orders for the first year of production. Some of the prototypes were tested by Walmart InHome as delivery vehicles in the Dallas–Fort Worth metroplex starting in July 2022. The first vehicles made in Oklahoma were delivered to the state of Oklahoma in November 2023.
+Some vehicles are now employed by the United States Postal Service.
+
+
+== References ==

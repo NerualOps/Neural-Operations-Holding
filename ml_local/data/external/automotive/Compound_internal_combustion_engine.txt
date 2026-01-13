@@ -1,0 +1,36 @@
+Title: Compound internal combustion engine
+
+A compound internal combustion engine is a type of internal combustion engine (ICE) where gasses of combustion are expanded in two or more stages. A typical arrangement for a compound ICE is that the fuel/air is first combusted and expanded in one of two alternating 4-stroke combustion high-pressure (HP) cylinders, then having given up heat and losing pressure, it exhausts directly into a larger-volume low-pressure (LP) cylinder, where it is re-expanded extracting more work from it. 
+The crankshaft is arranged so the two high-pressure cylinders have synchronized reciprocating motion, while the low-pressure cylinder throw is positioned at a 180-degree phase difference from the high-pressure throws causing opposing reciprocating motion between the high-pressure and low-pressure cylinders.
+
+History
+Compound ICEs have been around for nearly as long as standard ICEs with the first patent being issued to Nicolaus Otto's Deutz company in 1879. This design was likely created by then Deutz employee Gottlieb Daimler.
+Other designs for compound ICEs were patented by well known engine designers Rudolf Diesel in 1892 and James Atkinson in 1903.
+
+The Eisenhuth Horseless Vehicle Company produced a series of automobiles with compound ICEs from 1900 to 1908. 
+The engines in these vehicles ranged from 2 cylinders (1908 model) to 6 cylinders (1907 model).
+In 2000 the design was "re-patented" as the five-stroke engine by Gerhard Schmitz. This design was prototyped by British engineering company Ilmor.
+
+Compound ICE patents
+Deutz 1879 (US222467A)
+Connelly 1888
+Forest-Gallice 1890 (DE52909C)
+Diesel 1892
+Bales 1897
+Atkinson 1903
+Babled 1903
+Butler 1904
+Eisenhuth (multiple) 1904–1907
+Abbot 1910
+Schmitz 2000
+
+See also
+Atkinson cycle
+Four-stroke engine
+Free piston engine
+History of the internal combustion engine
+Compound steam engine
+Turbo-compound engine
+
+
+== References ==

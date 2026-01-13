@@ -1,0 +1,73 @@
+Title: Superpedestrian
+
+Superpedestrian Inc., is a transportation robotics company based in Cambridge, Massachusetts, that developed electrified and AI technologies for micro mobility vehicles. The company ran the LINK e-scooter sharing program, which was active in 57 cities across the US and Europe.
+In December 2023 Tech Crunch reported that the business would close by December 31, 2023, with all scooters recalled into warehousing.
+Superpedestrian was acquired in February 2024 by the Norwegian SURF Beyond group led by the two founders Julian Alexander Hahn and Mats André Breesth.
+
+History
+Superpedestrian's first product, The Copenhagen Wheel, was developed at MIT's Senseable City Lab in 2009 in partnership with the city of Copenhagen, and unveiled at the 2009 United Nations Climate Change Conference. In December 2012, Assaf Biderman, a co-inventor of the Wheel and associate director of the MIT Senseable City Lab, founded Superpedestrian to commercialize the Wheel. After several years of engineering, testing, and validation, the Copenhagen Wheel officially launched in April 2017.
+In December 2018, the Boston Business Journal reported the company would shift its focus to start building electric scooters and supplying the scooter sharing fleet operators such as Bird and Lime. In 2020, the company instead began operating shared scooter fleets itself in the US, before expanding to Italy and Spain. In 2021, the company opened sharing services in Austria, Sweden and Portugal.
+
+Products
+VIS
+The Vehicle Intelligent Safety system (VIS) is a network of sensors, micro-computers and AI that enable micromobility vehicles to self-detect problems and respond.
+
+Copenhagen Wheel
+The Copenhagen Wheel converted bicycles into e-bikes. It replaced the existing rear wheel. The Copenhagen Wheel contained a custom brushless motor, advanced sensors, control systems, and a lithium-ion battery, all contained within the hub of a single rear bicycle wheel. Combining actual torque, power, cadence, pedal position, and acceleration sensing with high-speed controllers and actuators, the Wheel generated power that seamlessly synchronized with a rider's pedalling.
+Bluetooth connectivity enabled riders to personalize their cycling experience from their smartphone. A self-diagnostic safety system (VIS) monitored components and proactively responded to events within milliseconds, protecting both rider and Wheel.
+The Copenhagen Wheel is no longer available for sale.
+The company no longer responds to emailed requests for assistance, and login to utilize the wheel via the app no longer functions, stranding purchasers with a non-functioning wheel.
+
+LINK
+LINK is a shared electric scooter designed, engineered, manufactured and operated by Superpedestrian.
+During prototype road-testing, it was called "the Volvo of e-scooters" for its robust build quality.
+The LINK scooter features an operating system that can be updated wirelessly, over-the-air. The second version of the operating system was released in March 2021 and is called "Briggs".
+On board the scooter, VIS runs 1,000 health checks every second during rides and monitors 140 safety-critical conditions. VIS also allows the scooter to enforce onboard geofence commands in 0.7s.
+LINK has a 61-mile battery range.
+According to Superpedestrian's VP (EMEA), Haya Verwoord Douidi, the LINK scooter cost $75 million in R&D.
+
+Scooter sharing
+In June 2020, Zagster was bought by Superpedestrian to create an in-house shared mobility division using LINK scooters.
+Superpedestrian beat Bird in a competitive tender process in September 2020 to offer e-scooters in Seattle, US.
+By April 2021, the company was operating shared e-scooters in 21 cities and announced plans to begin e-scooter sharing services in Ireland.
+In May 2021, LINK scooters were available in 30 cities in the US, Spain, Italy and Austria.
+Superpedestrian partnered with ACI in May 2021 to launch a safety course for e-scooter riders in Italy.
+In December 2021, Superpedestrian acquired the UK subsidiary of Wind Mobility, which operates the e-scooter trial zone in Nottingham. The company then replaced the scooter fleet with its proprietary model.
+Silicon Republic reported in February 2022 that Superpedestrian was operating shared mobility fleets in 57 cities in the US and Europe.
+
+Labor
+Superpedestrian states that it has never used gig workers in its history, in contrast to the early shared e-scooter sector.
+Paul Steely White, a long-time active travel advocate in New York City, is Public Affairs Director at Superpedestrian.
+Haya Verwoord Douidri left Bird to join Superpedestrian on 1 July 2020, heading up the company's scooter expansion in Europe.
+
+Funding
+In December 2020, the company secured $60 million in funding to scale-up e-scooter sharing fleets. Investors included Citi Impact Fund.
+In February 2022, the Boston Globe revealed that Superpedestrian had secured new investment of $125 million. Investors included the Sony Investment Fund.
+In December 2023 TechCrunch reported that the business would close by December 31, 2023, with all scooters recalled into warehousing.
+
+Awards
+European Product Design Awards – Platinum – Urban Sustainable Design 2017
+European Product Design Awards – Gold – Bicycling and Bicycle Accessories 2017
+European Product Design Awards – Gold – Design for Sustainability 2017
+European Product Design Awards – Silver – Robotics 2017
+CNBC – Top 25 Startup 2017
+TIME Magazine - Best Tech of 2017
+Red Dot: Design Concept Awards – Luminary 2014
+Red Dot: Design Concept Awards – “Best of the Best” 2014
+TIME Magazine – The 25 Best Inventions of 2014
+Deutscher Werkbund Label – Werkbund Label for design 2014
+Green Dot Awards – Winner 2011
+Living Labs Global Awards – Shortlisted 2011
+Index Award – Finalist 2011
+Edison Awards – Silver in Personal Transportation – 2011
+U.S. James Dyson Award – Winner – 2010
+World Technology Summit and Awards – Winner – 2011
+The Grand Challenge Stories Award of the US National Academy of Engineers – Winner – 2010
+
+See also
+List of electric bicycle brands and manufacturers
+Outline of cycling
+
+References
+External links
+Official website

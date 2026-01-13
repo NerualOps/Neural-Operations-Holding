@@ -1,0 +1,42 @@
+Title: Hydraulic hybrid vehicle
+
+Hydraulic hybrid vehicles (HHVs) use a pressurized fluid power source, along with a conventional internal combustion engine (ICE), to achieve better fuel economy and reductions in harmful emissions. They capture and reuse 70–80% of the vehicle's kinetic braking/decelerating energy and potential descending energy compared to 55% for electric hybrids. For trucks and buses, this can also be less expensive than electric systems, due to the price of batteries required for the latter. Hydraulic hybrid vehicle systems can also weigh less than electric systems, due to the high weight of the batteries. This can lead to a lower impact on payload capacity, especially for heavy vehicle classes.
+
+Principle of operation
+Hydraulic hybrid vehicle systems consists of four main components: the working fluid, reservoir, pump/motor (in parallel hybrid system) or in-wheel motors and pumps (in series hybrid system), and accumulator. In some systems, a hydraulic transformer is also installed for converting output flow at any pressure with a very low power loss. In an electric hybrid system, energy is stored in the battery and is delivered to the electric motor to power the vehicle. During braking the kinetic energy of the vehicle is used to charge the battery through the regenerative braking. In hydraulic hybrid system, the pump/motor extracts the kinetic energy during braking to pump the working fluid from the reservoir to the accumulator. Working fluid is thus pressurized, which leads to energy storage. When the vehicle accelerates, this pressurized working fluid provides energy to the pump/motor to power the vehicle. For a parallel hybrid system, fuel efficiency gains and emissions reductions result from reduced mechanical load on the internal combustion engine due to the torque provided by the hybrid system.
+
+Efficiency gains
+The US EPA claims that in laboratory tests, the city fuel economy of an urban delivery truck was 60–70% increased miles per gallon versus a similar, conventionally powered internal combustion truck. The CO2 emissions of the same demonstration delivery truck were claimed to be over 40% lower, and the hydrocarbon and particulate matter production were also much lower (50% and 60% respectively).
+The EPA calculated for this test vehicle, the hybrid technology added a cost of about US$7,000 over a comparable conventional truck, while the lifetime fuel savings over 20 years were estimated above $50,000.
+
+Types of hydraulic hybrid vehicles
+Like the electric hybrid system, there are several possible drivetrain architectures.
+In a parallel hydraulic hybrid vehicles, the pump/motor is typically installed between the engine and gearbox, or between the gearbox and differential transmission box. The role of pump/motor is to provide assistance to the engine during acceleration and recapture energy under braking that would otherwise be lost as heat in the conventional brakes. As with electric hybrids, the pump/motor may or may not be able to drive the vehicle alone with the engine off.
+In a series hydraulic hybrid vehicle, the pump/motor directly connects to the driveshaft, or the in-wheel motors provide driving torque directly to the wheel. The internal combustion engine is only connected to a pump, and is set to operate in its most efficient power range to maintain the optimal hydraulic pressure in the accumulator. The traction motor must supply all the torque required to propel the vehicle, meaning maximum acceleration performance is available with the engine running or stopped. Its main disadvantage is in steady-state cruising, where the double conversion of energy introduces additional losses.
+
+Advantages and disadvantages
+In some cases hydraulic hybrid systems may be more cost-effective than electrical hybrid systems because no complicated or expensive materials (such as those required for batteries) are used. However, in most designs the pressure tanks of accumulators are made of carbon fiber that make the pressure tanks somewhat expensive, but the price of carbon fiber has been forecasted to drop as economies of scale and manufacturing energy efficiency is reduced by 60% according to Oak Ridge National Laboratory can lower the cost of manufacturing the tanks.
+Hydraulic hybrids recover, or harvest, the vehicle's kinetic energy during braking and decelerating significantly more efficiently than electric systems; hydraulic hybrids can recover up to 70–80% of the vehicle's kinetic energy compared to 55% for electric hybrids.
+Reduced cost, complexity, and weight for additional power take-off devices such as water pumps, hydraulic lifts, and winches.
+Technical challenges with hydraulic hybrid vehicles include noise, size, and complexity. Technical advances, such as very Large Diameter, Flat Format (LDFF) hydraulic motors which produce very high torque in limited drive line space, enable heavy vehicles like refuse trucks and city buses to be fitted with hydraulic hybrid systems. Sophisticated control software results in hydraulic hybrid vehicles which are safe, driveable, reliable and efficient.
+
+See also
+Hydraulic accumulator
+Hydraulic Launch Assist (HLA)
+Hybrid electric vehicle
+Regenerative braking
+
+References
+External links
+Fleet Test and Evaluation Project – Hydraulic Hybrid Fleet Vehicle Testing (National Renewable Energy Laboratory)
+Hydraulic Hybrid Vehicles - Research, United States Environmental Protection Agency Hydraulic Hybrid Research Page
+Hydraulic Hybrid Technology - A Proven Approach, United States Environmental Protection Agency, March 2004
+The ERS (Energy Recovery System) Archived 2016-11-04 at the Wayback Machine, Lightning Hybrids
+What are mechanical batteries?, Lightning Hybrids
+Emissions Testing Results: Hydraulic Hybrid Delivers Major Emissions Reductions, Lightning Hybrids
+Hydraulic Launch Assist (HLA) Video, Eaton Corporation (Requires QuickTime plug-in to view)
+https://www.innas.com/hydrid.html, Innas BV
+EPA Innovates Hydraulic Hybrid System, autoMedia.com
+Hydraulic hybrid retrofits KersTech Vehicle Systems
+"Eaton To Develop Digital Hydraulic Hybrid Drive System For U.S. Army Vehicles". Eaton Corporation (Press release). December 21, 2007.
+IFPE High Efficiency Hydraulic Hybrid Drive System, NRG Dynamix (Formerly Hybra-Drive Systems LLC), December 12, 2007

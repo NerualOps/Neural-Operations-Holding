@@ -1,0 +1,87 @@
+Title: Engine configuration
+
+The engine configuration describes the fundamental operating principles by which internal combustion engines are categorized. 
+Piston engines are often categorized by their cylinder layout, valves and camshafts. Wankel engines are often categorized by the number of rotors present. Gas turbine engines are often categorized into turbojets, turbofans, turboprops and turboshafts.
+
+Piston engines
+Any design of motor/engine, be it a V or a boxer can be called an "in-line" if it's mounted in-line with the frame/chassis and in-line with the direction of travel of the vehicle. When the motor/engine is across the frame/chassis this is called a TRANSVERSE motor. Cylinder arrangement is not in the description of how the motor/engine is oriented. Therefore a V4 motor/engine can be a transverse or an in-line.
+Where the cylinders are arranged in two or more lines (such as in V engines or flat engines), each line of cylinders is referred to as a 'cylinder bank'. The angle between cylinder banks is called the 'bank angle'. Engines with multiple banks are shorter than straight engines of the same size, and will often have better engine balance characteristics, resulting in reduced engine vibration and potentially higher maximum engine speeds.
+Most engines with four or less cylinders use a straight engine layout, and most engines with eight cylinders or more use a V engine layout. However, there are various exceptions to this, such as the straight-eight engines used by various luxury cars from 1919-1954, V4 engines used by some marine outboard motors, V-twin and flat-twin engines used by motorcycles and flat-four engines used by various cars.
+
+Single cylinder bank
+Straight engines (also known as "inline engines") have all cylinders aligned in one row along the crankshaft with no offset. When a straight engine is mounted at an angle, it is sometimes called a "slant engine". Types of straight engines include:
+
+Single cylinder example BMW R25 R26 R27
+Straight-2 example Sunbeam S7
+Straight-3, also known as "inline-triple"
+Straight-4
+Straight-5
+Straight-6
+Straight-8
+
+Multiple cylinder banks
+V engines
+V engines (also known as "Vee engines") have the cylinders aligned in two separate planes or 'banks', so that they appear to be in a "V" when viewed along the axis of the crankshaft. Types of V engines include:
+
+V2, commonly called "V-twin"
+V3
+V4
+V5
+V6
+V8
+V10
+V12
+V14
+V16
+V18
+VR5 and VR6 engines are very compact and light, having a narrow V angle which allows a single cylinder block and cylinder head.
+These engines use a single cylinder head so are technically a straight engine with the name "VR" coming from the combination of German words “Verkürzt” and “Reihenmotor” meaning “shortened inline engine”.
+
+Flat engines
+Flat engines (also known as "horizontally-opposed" engines) have the cylinders arranged in two banks on either side of a single crankshaft. Boxer engines are a subtype of flat engines where opposing pistons move in and out in tandem.
+Types of flat engines include:
+
+Flat-2, commonly called "flat-twin"
+Flat-4
+Flat-6
+Flat-8
+Flat-10
+Flat-12
+Flat-16
+
+W engines
+W engines have the cylinders in a configuration in which the cylinder banks resemble the letter W, in the same way those of a V engine resemble the letter V. Types of W engines include:
+
+W8
+W12
+W16
+W18
+W engines using twin "VR" engine banks are technically a V engine. These engine banks use a single cylinder head so are technically a straight bank with the name "VR" coming from the combination of German words “Verkürzt” and “Reihenmotor” meaning “shortened inline engine”.
+
+Other layouts
+Radial engines have cylinders mounted radially around a central crankcase. Rotary engines have a similar configuration, except that the crankshaft is fixed and the cylinders rotate around it. (This is different from the Wankel engine configuration described below.) Radial and rotary engine designs were widely used in early aircraft engines.
+U engines consist of two separate straight engines (complete with separate crankshafts) joined by gears or chains. Most U engines have four cylinders (i.e. two straight-two engines combined), such as square four engines and tandem twin engines. Similar to U engines, H engines consist of two separate flat engines joined by gears or chains. H engines have been produced with between 4 and 24 cylinders.
+An opposed-piston engine is similar to a flat engine in that pairs of pistons are co-axial but rather than sharing a crankshaft, instead share a single combustion chamber per pair of pistons. The crankshaft configuration varies amongst opposed-engine designs. One layout has a flat/boxer engine at its center and adds an additional opposed-piston to each end so there are two pistons per cylinder on each side.
+An X engine is essentially two V engines joined by a common crankshaft. A majority of these were existing V-12 engines converted into an X-24 configuration.
+The Swashplate engine with the K-Cycle engine is where pairs of pistons are in an opposed configuration sharing a cylinder and combustion chamber.
+A Delta engine has three (or its multiple) cylinders having opposing pistons, aligned in three separate planes or 'banks', so that they appear to be in a Δ when viewed along the axis of the main-shaft. An example of this type of layout is the Napier Deltic.
+
+Wankel (rotary) engines
+Wankel engines (sometimes called 'rotary engines') can be classified based on the number of rotors present. Most production Wankel engines have two rotors, however engines with one, three and four rotors have also been produced. Wankel engines can also be classified based on whether they are naturally aspirated or turbocharged.
+Most Wankel engines are fueled by petrol, however prototype engines running on diesel and hydrogen have been trialed.
+
+Gas turbine engines
+Gas turbine engines— mostly used for aircraft— are usually separated into the following categories:
+
+Turbojet, gasses travel through a propelling nozzle
+Turbofan, gasses travel through a ducted fan
+Turboprop, gasses travel through an unducted propeller, usually with variable pitch
+Turboshaft, a gas turbine optimised for producing mechanical torque instead of thrust
+
+See also
+Powertrain layout
+Car body style
+Car classification
+
+
+== References ==

@@ -1,0 +1,7 @@
+Title: Cross-bolted bearing
+
+A cross-bolted bearing is a bearing, usually a crankshaft main bearing of a piston engine, reinforced with additional transverse bolts placed at 90-degrees to the load. Most bearing caps are retained by two bolts, one on each side of the bearing journal, and parallel to the piston travel. A cross-bolted bearing has one or more additional bolts, at right-angles the first two. These bolts may be either two blind bolts threaded through the crankcase into the bearing cap from each side, or a single through bolt passing from one side to the other. Due to the dowel effect a through bolt is less effective.
+Cross-bolted mains are not to be confused with "4-bolt mains", which (if not specified as being cross-bolted) feature a second set of bolts parallel to the first, which reinforce the main caps' attachment but do not provide the same resistance to the direction of the load as cross-bolted mains, nor do they reinforce the crankcase against twisting forces.
+
+
+== References ==

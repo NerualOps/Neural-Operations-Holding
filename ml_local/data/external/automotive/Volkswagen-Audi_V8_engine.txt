@@ -1,0 +1,377 @@
+Title: Volkswagen-Audi V8 engine
+
+The Volkswagen-Audi V8 engine family is a series of mechanically similar, gasoline-powered and diesel-powered, V-8, internal combustion piston engines, developed and produced by the Volkswagen Group, in partnership with Audi, since 1988. They have been used in various Volkswagen Group models, and by numerous Volkswagen-owned companies. The first spark-ignition gasoline V-8 engine configuration was used in the 1988 Audi V8 model; and the first compression-ignition diesel V8 engine configuration was used in the 1999 Audi A8 3.3 TDI Quattro. The V8 gasoline and diesel engines have been used in most Audi, Volkswagen, Porsche, Bentley, and Lamborghini models ever since. The larger-displacement diesel V8 engine configuration has also been used in various Scania commercial vehicles; such as in trucks, buses, and marine (boat) applications.
+
+Discontinued production engines
+Gasoline
+All Volkswagen Group V8 gasoline engines are constructed from a lightweight, cast aluminum alloy cylinder block (crankcase) and cylinder heads.  They all use multi-valve technology, with the valves being operated by two overhead camshafts per cylinder bank (sometimes referred to as 'quad cam').  All functions of engine control are carried out by varying types of Robert Bosch GmbH Motronic electronic engine control units.  They are all longitudinally front-mounted, and the V8 engines listed below were for a long time only used in cars bearing the Audi marque, but latterly being installed in Volkswagen Passenger Cars flagship Volkswagen Phaeton.
+
+3.6 V8 32v 184kW
+identification
+parts code prefix: 077, ID code: PT
+engine displacement & engine configuration
+3,562 cc (217.4 cu in) 90° V8; bore x stroke: 81.0 mm × 86.4 mm (3.19 in × 3.40 in), stroke ratio: 0.94:1 – undersquare/long-stroke, 445.2 cc per cylinder; compression ratio: 10.6:1
+cylinder block & crankcase
+cast aluminium alloy; five main bearings, die-forged steel crankshaft
+cylinder heads & valvetrain
+cast aluminium alloy; four valves per cylinder, 32 valves total, timing belt and simplex chain-driven (hybrid system) double overhead camshafts
+fuel system, ignition system, engine management
+common rail multi-point electronic sequential indirect fuel injection with eight intake manifold-sited fuel injectors; twin Hitachi ignition coils (one per cylinder bank) with Bosch longlife spark plugs, Bosch Motronic electronic engine control unit (ECU); 95 RON/ROZ(91 AKI) EuroPremium (regular) unleaded recommended for optimum performance and fuel economy
+DIN-rated motive power & torque output
+184 kW (250 PS; 247 bhp) at 5,800 rpm; 340 N⋅m (251 lbf⋅ft) at 4,000 rpm
+application
+Audi V8 (10/88-11/93) "ID and data from ETKA".
+
+3.7 V8 32v 169kW
+identification
+parts code prefix: 077, ID codes: AEW, AKJ
+engine displacement & engine configuration
+3,697 cc (225.6 cu in) 90° V8; bore x stroke: 84.5 mm × 82.4 mm (3.33 in × 3.24 in), stroke ratio: 1.03:1 – oversquare/short-stroke, 462.1 cc per cylinder; compression ratio: 10.8:1
+cylinder block & crankcase
+cast aluminium alloy; five main bearings, die-forged steel crankshaft
+cylinder heads & valvetrain
+cast aluminium alloy; four valves per cylinder, 32 valves total, timing belt and simplex chain-driven (hybrid system) double overhead camshafts
+fuel system, ignition system, engine management
+common rail multi-point electronic sequential indirect fuel injection with eight intake manifold-sited fuel injectors; twin LAZ pre-power output stage control units (one per cylinder bank) and eight single spark ignition coils with Bosch longlife spark plugs, Bosch Motronic electronic engine control unit (ECU); 95 RON/ROZ(91 AKI) EuroPremium (regular) unleaded recommended for optimum performance and fuel economy
+DIN-rated motive power & torque output
+169 kW (230 PS; 227 bhp) at 5,500 rpm; 315 N⋅m (232 lbf⋅ft) at 2,700 rpm
+application
+Audi D2 A8 (AEW: 07/95-12/98, AKJ: 06/97-12/98) "ID and data from ETKA".
+
+3.7 V8 40v 191-206kW
+identification
+parts code prefix: 077, codes d'identification :AQG, AKC, BFL
+engine displacement & engine configuration
+3,697 cc (225.6 cu in) 90° V8; bore x stroke: 84.5 mm × 82.4 mm (3.33 in × 3.24 in), stroke ratio: 1.03:1 – oversquare/short-stroke, 462.1 cc per cylinder; compression ratio: 11.0:1 (BFL: 11.3:1)
+cylinder block & crankcase
+cast aluminium alloy; five main bearings, die-forged steel crankshaft
+cylinder heads & valvetrain
+cast aluminium alloy; five valves per cylinder, 40 valves total, low friction roller rocker fingers, timing belt and simplex chain-driven (hybrid system) hollow double overhead camshafts, variable inlet camshaft timing
+aspiration
+3-stage variable composite intake manifold
+fuel system, ignition system, engine management
+common rail multi-point electronic sequential indirect fuel injection with eight intake manifold-sited fuel injectors; eight single spark ignition coils with Bosch longlife spark plugs, Bosch Motronic electronic engine control unit (ECU); 95 RON/ROZ(91 AKI) EuroPremium (regular) unleaded recommended for optimum performance and fuel economy
+DIN-rated motive power & torque outputs, ID codes
+191 kW (260 PS; 256 bhp) at 6,000 rpm; 350 N⋅m (258 lbf⋅ft) at 3,250 rpm — AQG, AKC
+206 kW (280 PS; 276 bhp) at 6,000 rpm; 360 N⋅m (266 lbf⋅ft) at 3,750 rpm — BFL
+applications
+Audi D2 A8 (AQG: 10/98-02/01, AKC: 05/00-09/02), Audi D3 A8 (BFL: 11/02-05/06) "ID and data from ETKA".
+
+Awards
+was voted 'best technical innovation', and awarded the "Golden Pegasus" by "Za ruljom" at the Moscow Motor Show
+
+4.2 V8 32v 206-250kW
+identification
+parts code prefix: 077
+engine displacement & engine configuration
+4,172 cc (254.6 cu in) 90° V8; bore x stroke: 84.5 mm × 93.0 mm (3.33 in × 3.66 in), stroke ratio: 0.91:1 – undersquare/long-stroke, 521.5 cc per cylinder; compression ratio: 10.3:1 (ABH: 10.8:1)
+cylinder block & crankcase
+cast aluminium alloy; five main bearings, die-forged steel crankshaft
+cylinder heads & valvetrain
+cast aluminium alloy; four valves per cylinder, 32 valves total, timing belt and simplex chain-driven (hybrid system) double overhead camshafts
+fuel system, ignition system, engine management
+common rail multi-point electronic sequential indirect fuel injection with eight intake manifold-sited fuel injectors; Bosch Motronic electronic engine control unit (ECU); 98 RON/ROZ(93 AKI) EuroSuperPlus (premium) unleaded recommended for maximum performance and fuel economy
+dimensions
+mass: 208 to 211 kg (459 to 465 lb) depending on variant
+DIN-rated motive power & torque outputs, ID codes
+206 kW (280 PS; 276 bhp) at 5,800 rpm; 400 N⋅m (295 lbf⋅ft) at 4,000 rpm — ABH
+213 kW (290 PS; 286 bhp) at 5,900 rpm; 400 N⋅m (295 lbf⋅ft) at 4,000 rpm — AEC
+221 kW (300 PS; 296 bhp) at 6,000 rpm; 400 N⋅m (295 lbf⋅ft) at 3,000 rpm — ABZ, AKG, ARS, ASG
+240 kW (326 PS; 322 bhp) at 6,600 rpm; 410 N⋅m (302 lbf⋅ft) at 3,500 rpm — AHK
+250 kW (340 PS; 335 bhp) at 6,600 rpm; 420 N⋅m (310 lbf⋅ft) at 3,500 rpm — AHC, AKH, AQJ
+applications
+Audi V8 (ABH: 08/91-11/93), Audi C4 S4 (ABH: 10/92-07/94), Audi C4 S6 (AEC: 09/94-10/97), Audi C5 A6 (ARS: 04/99-05/01, ASG: 06/00-01/05), Audi D2 A8 (ABZ: 06/94-05/99, AKG: 06/97-12/98), Audi C4 S6 Plus (AHK: 06/96-10/97), Audi C5 S6 (AQJ: 09/99-05/01), Audi D2 S8 (AHC: 09/96-12/98, AKH: 08/97-12/98) "ID and data from ETKA".
+
+4.2 V8 40v 220-265kW
+identification
+parts code prefix: 077
+engine displacement & engine configuration
+4,172 cc (254.6 cu in) 90° V8; bore x stroke: 84.5 mm × 93.0 mm (3.33 in × 3.66 in), stroke ratio: 0.91:1 – undersquare/long-stroke, 521.5 cc per cylinder; compression ratio: 11.0:1
+cylinder block & crankcase
+cast aluminium alloy; five main bearings, die-forged steel crankshaft
+cylinder heads & valvetrain
+cast aluminium alloy; five valves per cylinder, 40 valves total, timing belt and simplex chain-driven (hybrid system) double overhead camshafts
+fuel system, ignition system, engine management
+two linked common rail fuel distributor rails, multi-point electronic sequential indirect fuel injection with eight intake manifold-sited fuel injectors; Bosch Motronic electronic engine control unit (ECU); 98 RON/ROZ(93 AKI) EuroSuperPlus (premium) unleaded recommended for maximum performance and fuel economy
+DIN-rated motive power & torque outputs, ID codes
+220 kW (299 PS; 295 bhp) at 6,200 rpm; 400 N⋅m (295 lbf⋅ft) at 3,000 rpm — ARS, ASG
+228 kW (310 PS; 306 bhp) at 6,200 rpm; 410 N⋅m (302 lbf⋅ft) at 3,000 rpm — AUX, AWN
+250 kW (340 PS; 335 bhp) at 7,000 rpm; 420 N⋅m (310 lbf⋅ft) at 3,400 rpm — AQJ, ANK
+265 kW (360 PS; 355 bhp) at 7,000 rpm; 430 N⋅m (317 lbf⋅ft) at 3,400 rpm — AQH, AVP, AYS, BCS
+applications
+Audi C5 A6 (ARS: 99-00, ASG: 00-04), Audi D2 A8 (AUX: 99-01, AWN: 01-02), Audi C5 S6 (AQJ: 99-01, ANK: 01-04), Audi S8 Plus (D2) (AQH: 05/99-02/01, AVP: 09/00-09/02, {Japan only – BCS: 09/00-02/01, AYS: 02/01-09/02}) "ID and data from ETKA".
+
+4.2 V8 40v T 331-353kW (C5 RS6)
+Based on the existing 4.2 V8 from the Audi C5 S6, this engine was tuned with the assistance of VW Group subsidiary Cosworth Technology (now MAHLE Powertrain), and featured two parallel turbochargers, known as 'biturbo', with two side-mounted intercoolers (SMICs).  Enlarged and modified intake and exhaust ports on the new five valve cylinder heads, together with new induction and dual branch exhaust systems, a re-calibrated Motronic engine management system, revised cooling system, and decorative carbon fibre engine covers complete the upgrade.
+The initial 331 kW (450 PS; 444 bhp) variant of this engine generates a specific power output of 79.3 kW (107.8 PS; 106.3 bhp) per litre displacement, and the 'RS6 Plus' 353 kW (480 PS; 473 bhp) variant gives 84.6 kW (115.0 PS; 113.5 bhp) per litre.
+
+identification
+parts code prefix: 077.A
+engine displacement & engine configuration
+4,172 cc (254.6 cu in) 90° V8; bore x stroke: 84.5 mm × 93.0 mm (3.33 in × 3.66 in), stroke ratio: 0.91:1 – undersquare/long-stroke, 521.5 cc per cylinder; compression ratio: 9.8:1, two oil coolers – oil:water and oil:air, two or three (dependent on target market) coolant radiators
+cylinder block & crankcase
+cast aluminium alloy; five main bearings, die-forged steel crossplane crankshaft with shared crankpins, two-part oil sump – upper: baffled cast alloy, lower: pressed steel, simplex roller chain driven oil pump
+cylinder heads & valvetrain
+cast aluminium alloy; five valves per cylinder (three inlet, and two sodium-cooled exhaust valves), 40 valves total, low-friction roller-bearing finger cam followers with automatic hydraulic valve clearance compensation, timing belt and simplex roller chain-driven (hybrid system) hollow-tube double overhead camshafts (the crankshaft-driven timing belt operates both exhaust camshafts, which in turn individually chain-drive the inlet camshafts), variable inlet camshaft timing
+aspiration
+two carbon fibre-cased siamesed air filters, two hot-film air mass meters, cast alloy intake manifold with Bosch 'E-Gas' drive by wire electronic throttle control valve, 'biturbo' – two fast-acting turbochargers (one per cylinder bank) with vacuum-actuated excess pressure control, two all-alloy side-mounted intercoolers (SMICs) optimised to prevent pressure loss
+fuel system, ignition system, engine management
+fuel tank sited electric low pressure fuel lift pump, underfloor electric high pressure relay fuel pump, common rail multi-point electronic sequential indirect fuel injection with eight intake manifold-sited fuel injectors; eight individual single-spark ignition coils, NGK longlife spark plugs; Bosch Motronic ME 7.1.1 electronic engine control unit (ECU); 98 RON/ROZ(93 AKI) EuroSuperPlus (premium) unleaded recommended for maximum performance and fuel economy
+exhaust system
+dual-branch exhaust pipes with metallic-element catalytic converters and secondary air injection, four lambda sensors, European EU3 emissions standard
+DIN-rated motive power & torque outputs, ID codes & applications
+331 kW (450 PS; 444 bhp) at 5,700–6,400 rpm; 560 N⋅m (413 lbf⋅ft) at 1,950–5,600 rpm — BCY: Audi C5 RS6 (07/02-09/04)
+353 kW (480 PS; 473 bhp) at 6,000–6,400 rpm; 560 N⋅m (413 lbf⋅ft) at 1,950–6,000 rpm — BRV: Audi C5 RS6 Plus (04/04-09/04)
+
+Diesel
+3.3 V8 32v TDI CR 165kW
+identification
+parts code prefix: 057.A; ID code: AKF
+engine configuration & engine displacement
+90° V8 engine, Turbocharged Direct Injection (TDI) turbodiesel; 3,328 cc (203.1 cu in); bore x stroke: 78.3 mm × 86.4 mm (3.08 in × 3.40 in), stroke ratio: 0.91:1 - undersquare/long-stroke, 416.0 cc per cylinder, compression ratio: 18.5:1, up to 160 bar (2,320 psi) cylinder pressure,
+cylinder block & crankcase
+compacted vermicular graphite cast iron (GJV/CGI); two-part cast aluminium alloy oil sump, five 86 mm (3.39 in) diameter main bearings, die–forged steel crossplane crankshaft with shared crankpins, diagonally split connecting rods, simplex roller chain-driven oil pump, pistons oil-cooled by cast-in cooling ducts
+cylinder heads & valvetrain
+cast aluminium alloy; four valves per cylinder, 32 valves total, sliding-finger cam followers with automatic hydraulic valve clearance compensation, 2x hybrid-driven double overhead camshafts (2xDOHC - two overhead camshafts per cylinder bank - 'quad cam', inlet camshafts are driven from a front-sited timing belt from the crankshaft, exhaust camshafts are gear-driven at the rear from the inlet camshafts)
+aspiration
+twin-turbo: two electronically controlled turbochargers with variable turbine geometry (VTG) (one turbo per cylinder bank), 2.2 bar (31.9 psi) maximum absolute pressure, combined 4-part inlet manifold and air-to-water intercooler mounted within the vee. With additional side-mounted coolant radiator and additional electric coolant pump
+fuel system & engine management
+(Common rail system) Low-pressure fuel lift pump mounted underneath the car turns on only when starter is being operated (when cranking); after that an electromagnetic valve bypass the pump. It uses a gear-type lift pump mounted on the passenger-side cylinder head driven by the camshaft; it is used to supply the high-pressure pump with sufficient pressure. Bosch CP3 high-pressure pump is used driven by the timing belt. Max rail pressure is 1350bar. Watercooled return line fuel cooler with an additional cooling pump (runs all the time) and side-mounted radiator and air-cooled return line cooler mounted on the bottom of the car. six-hole solenoid injection nozzles, CR electronic injection control. Dual Bosch EDC15 engine management computers running in master/slave configuration.
+exhaust system
+vacuum-operated water-cooled exhaust gas recirculation, two catalysts, European EU3 emissions standard compliant
+dimensions
+length: 717 mm (28.2 in), width: 842 mm (33.1 in), height: 688 mm (27.1 in)
+DIN-rated power & torque output
+165 kW (224 PS; 221 bhp) at 4,000 rpm; 480 N⋅m (354 lbf⋅ft) at 1,800–3,000 rpm
+best specific consumption
+205 g/kWh (41.1% energy efficiency)
+application
+Audi D2 A8 quattro (12/99-09/02)
+
+4.0 V8 32v TDI CR 202kW
+When introduced in May 2003, this 3.9 litre V8 was the highest power and highest torque diesel V8 fitted in any production car worldwide.  This was the second 'new' V engine from Audi which utilises new technologies - including chain-driven overhead camshafts and ancillary units, following the 4.2 40-valve V8 petrol engine first seen in the B6 S4.  This engine was discontinued in July 2005, superseded by the bored-out and updated but fundamentally identical 4.2 V8 TDI.
+
+identification
+parts code prefix: 057.B, ID code: ASE
+engine configuration & engine displacement
+90° V8 engine, Turbocharged Direct Injection (TDI) turbodiesel; 3,937 cc (240.3 cu in), bore x stroke: 81.0 mm × 95.5 mm (3.19 in × 3.76 in), stroke ratio: 0.85:1 - undersquare/long-stroke, 492.1 cc per cylinder, 88 mm (3.46 in) cylinder spacing, compression ratio: 17.5:1, water-cooled alternator
+cylinder block & crankcase
+compacted vermicular graphite cast iron (GJV/CGI); cast reinforcing bed-plate lower frame incorporating five main bearings with each bearing affixed by four bolts, three-part oil sump consisting of cast alloy upper section, a middle baffle section and pressed steel lower section, die–forged steel crossplane crankshaft with shared crankpins, diagonally fracture-split connecting rods, chain-driven ancillaries, oil filter module (incorporating oil separator and water-to-oil cooler) mounted within the 'vee'
+cylinder heads & valvetrain
+cast aluminium alloy; four valves per cylinder, 32 valves total, operated by low-friction roller finger cam followers with automatic hydraulic valve clearance compensation, 2x double overhead camshafts (2xDOHC - two overhead camshafts per cylinder bank - 'quad cam') - the inlets driven in a relay method at the rear (flywheel) end of the engine by four simplex roller chains and the exhausts driven from the inlets by automatic slack adjusting spur gears at the front end, two unequal-length swirl-inducing switchable inlet ports, siamesed unequal-length exhaust ports
+aspiration
+two air filters, two hot-film air mass meters, 'biturbo': two water-cooled Garrett GT1749 turbochargers with electrically actuated Variable Turbine Geometry (VTG) (one turbo per cylinder bank) operating up to 210,000 rpm with a maximum boost of 2.2 bar (32 psi), two air-to-air fan-assisted side-mounted intercoolers (SMICs), two separate cast alloy intake manifolds interconnected by a "feedthrough" system to equalise the turbo boost pressure in the two cylinder banks, two-position variable swirl flaps integrated into the intake tract
+fuel system & engine management
+electric low-pressure fuel lift pump, one toothed belt driven 1,600 bar (23,210 psi) injection pump, one central fuel distributor supplying two common rail (CR) fuel rails (one per cylinder bank), Bosch solenoid-valve injectors with seven-hole nozzles for homogenous fuel delivery, single and double pilot injection; Bosch EDC16 electronic engine control unit (ECU)
+exhaust system
+twin water-cooled exhaust gas recirculation (mounted within the 'vee'), air-gap insulated fan-branch alloy steel exhaust manifolds, two close-coupled primary catalytic converters plus two main underfloor converters, Euro3 emissions standard
+dimensions
+length: 516 mm (20.3 in), mass: 270 kg (595 lb)
+DIN-rated power & torque output
+202 kW (275 PS; 271 bhp); 650 N⋅m (479 lbf⋅ft) at 1,800–2,500 rpm
+application
+Audi D3 A8 4.0 TDI quattro (05/03-07/05)
+
+Current production engines
+Gasoline
+Of their eight-cylinder petrol engines, all Volkswagen Group V8 engines are primarily constructed from a lightweight cast aluminium alloy cylinder block (crankcase) and cylinder heads. They all use multi-valve technology, with the valves being operated by two overhead camshafts per cylinder bank (sometimes referred to as 'quad cam'). All functions of engine control are carried out by varying types of Robert Bosch GmbH Motronic electronic engine control units.
+These V8 petrol engines initially were only used in cars bearing the Audi marque, but are now also installed in Volkswagen Passenger Cars 'premium models'. They are all longitudinally orientated, and with the exception of the Audi R8, are front-mounted.
+
+4.2 V8 FSI 32v
+Based on the existing Audi 40 valve V8, this new engine is heavily revised over its predecessor, with all-new components including: crankshaft, connecting rods and pistons, cylinder heads, and valvetrain, oil and cooling system, intake and exhaust system, and engine management system. It is available in two versions; a basic or 'comfort' version, first used in the Audi Q7; and a sports-focussed high-revving version, with features borrowed from motorsport, for the B7 RS 4 quattro and the R8. This is the first eight-cylinder road car engine to use Fuel Stratified Injection (FSI), which was successfully developed by Audi in their Le Mans-winning R8 racing car. The 5.2 V10 FSI was developed directly from this V8 engine.
+
+identification
+parts code prefix/variant: 079.D
+displacement & configuration
+4,163 cc (254.0 cu in) 90° V8 engine; 18.5 mm (0.73 in) cylinder bank offset; 90 mm (3.54 in) cylinder spacing; bore and stroke: 84.5 mm × 92.8 mm (3.33 in × 3.65 in), stroke ratio: 0.91:1 – undersquare/long-stroke, 520.4 cc per cylinder, compression ratio: 12.5:1, firing order: 1–5–4–8–6–3–7–2; water:oil lubricant cooler (RS 4/R8 utilises an additional thermostatically controlled air:oil cooler); Q7 and RS 4 utilise a wet sump system (RS 4 with additional longitudinal axis flapped baffles controlled by lateral g-force), R8 uses dry sump
+cylinder block & crankcase
+homogeneous monoblock low-pressure chill gravity die casting hypereutectic 'Alusil' aluminium-silicon alloy (AlSi17Cu4Mg) with a closed-deck design, mechanically stripped hard silicon crystal integral liners, honed under simulated mechanical stress; reinforced by a cast lower crankcase alloy bedplate (AlSi17Cu4Mg) mimicking a ladder-frame design, and including five GGG50 nodular cast iron press-fit main bearing caps each attached by four bolts; 464 mm (18.3 in) overall length, 228 mm (9.0 in) cylinder block height; two-stage 3/8" simplex roller chain and gear driven 'accessory drive' which includes the oil pump, water pump, power steering pump, and air conditioning compressor; baffle-plate sump
+crankshaft, connecting rods and pistons
+die-forged and tempered high alloy steel (42CrMoS4) 90° crankshaft with 65 mm (2.6 in) diameter and 18.5 mm (0.73 in) width main bearing journals and 54 mm (2.1 in) diameter and 15.25 mm (0.60 in) width big end bearing journals; 154 mm (6.1 in) long high strength forged cracked trapezoidal connecting rods (36MnVS4 in basic engine, ultra high strength 34CrNiMo8 in RS 4/R8 with more restrictive geometry tolerances); forged 290 g (10.2 oz) aluminium pistons with shaped piston crowns designed to impart charged volume tumbling effect for fully homogeneous air/fuel charge
+cylinder heads & valvetrain
+cast aluminium alloy, partition-plate horizontally divided intake ports producing a tumble effect (larger cross-section on RS 4/R8); four valves per cylinder: chrome-plated solid-stem (hollow-stem on RS 4/R8) intake valves, and chrome-plated sodium-filled hollow-stem exhaust valves, both with 11 mm (0.43 in) valve lift (longer valve lift on RS 4/R8), 32 valves total; lightweight low-friction roller finger cam followers (uprated with peened rollers on RS 4/R8) with automatic hydraulic valve clearance compensation, double overhead camshafts (each a hollow tube composite) on each cylinder bank, driven from the flywheel side via a two-stage chain drive using three 3/8" simplex roller chains (sleeve-type on RS 4/R8), valve opening (in crank angle degrees) 200 intake (230 for RS 4/R8) and 210 exhaust (230 for RS 4/R8); valve overlap facilitates integral exhaust gas recirculation; continuous hydraulic vane-adjustable variable valve timing for intake and exhaust camshafts with up to 42 degrees adjustment, each controlled via information from Hall sensors, Audi "RS" 'red' plastic cam covers on RS 4, 'anthracite' plastic on R8
+aspiration
+two single-entry air filters each with hot-film air mass flow meters (Q7), or triple-entry single air filter with single hot-film air mass meter (RS 4), or double-entry dual-element single air filter with two hot-film air mass flow meters (R8); single (Q7 & RS 4) or twin (R8) cast alloy throttle body electronically controlled Bosch E-Gas throttle valves (Bosch 82 mm (3.2 in) diameter on Q7, Pierburg 90 mm (3.5 in) diameter on RS4), two-stage four-piece gravity die-cast (Q7) (sand-cast on RS 4/R8) magnesium-aluminium alloy variable length intake manifold with electronically map-controlled silicon tipped tract-length flaps along with tumble flaps inducing a swirling movement in the drawn air (RS 4 & R8 do not use a variable tract-length intake manifold)
+fuel system
+fully demand-controlled, (Q7 returnless, RS 4 return to tank); fuel tank–mounted low-pressure fuel pump; Fuel Stratified Injection (FSI): two inlet camshaft double-cam driven single-piston high-pressure injection pumps maintaining a pressure of between 30 and 100 bar (435 and 1,450 psi) in the two stainless steel common rail fuel distributor rails, eight combustion chamber sited direct injection solenoid-controlled 65 volt single-hole sequential fuel injectors with integrated swirl plates; 98 RON/ROZ (93 AKI) EuroSuperPlus (premium) unleaded recommended for maximum performance and fuel economy (95 RON (91 AKI) may be used, but will reduce performance and worsen fuel economy)
+ignition system & engine management
+mapped direct ignition with centrally mounted longlife spark plugs and eight individual direct-acting single spark coils; Bosch Motronic MED 9.1.1 electronic engine control unit (ECU) (two MED 9.1 ECUs in the RS 4 and R8, working on the 'master and slave' concept due to the high revving nature of the engine), four knock sensors, EU4 emissions standard, map-controlled coolant thermostat (Q7 only), additional electric after-run coolant pump with two additional side-mounted radiators (RS 4/R8), water-cooled alternator, two map-controlled radiator fans
+exhaust system
+vacuum-controlled secondary air injection to assist cold start operation; air-gap insulated exhaust manifold per cylinder bank (Q7), or 4-into-2-into-1 fan-branch exhaust manifold per cylinder bank to minimise reverse pulsation of expelled exhaust gases (RS 4), or fan branch manifold with integrated catalytic converter per cylinder bank; two close-coupled and two main underfloor catalytic converters – ceramic on Q7, high-flow metallic on RS 4, or main catalytic converter integrated into transverse main rear silencer with quad outlets; four heated oxygen (lambda) sensors (broadband upstream, nonlinear downstream) monitoring pre- and post-catalyst exhaust gases; siamesed absorption-type middle silencer (Q7 with crossover) and siamesed rear silencer, separate rear silencers on RS 4 with vacuum-operated flap valves
+dimensions
+Q7 (for auto transmission with plate-type flywheel): approx. 198 kg (437 lb), RS4 (for 6-speed manual with dual-mass flywheel): approx. 212 kg (467 lb)
+DIN-rated power & torque outputs, ID codes, applications
+257 kW (349 PS; 345 bhp) at 6,800 rpm; 440 N⋅m (325 lbf⋅ft) at 3,500 rpm, 85% available from 2,000 rpm — BAR: Audi Q7 (03/06-05/10), Volkswagen Touareg (06/06-05/10); BVJ: Audi C6 A6 (05/06-08/11), Audi D3 A8 (06/06-07/10)
+260 kW (354 PS; 349 bhp) at 7,000 rpm — CAU: Audi S5 (06/07-03/12)
+309 kW (420 PS; 414 bhp) or 316 kW (430 PS; 424 bhp) at 7,800 rpm; 430 N⋅m (317 lbf⋅ft) at 5,500 rpm, 90% available between 2,250 and 7,600 rpm, 8,250 rpm rev limiter — BNS: Audi RS 4 (B7) (09/05-06/08); BYH: Audi R8 (04/07-09/10; -02/15 for facelift model with 430-hp engine)
+331 kW (450 PS; 444 bhp) at 8,250 rpm; 430 N⋅m (317 lbf⋅ft) at 4000–6000 rpm, 90% available between 2,250 and 7600 rpm, 8,500 rpm rev limiter — CFSA: Audi RS 4 (B8) (06/12-09/15); Audi RS 5 (06/2010-09/17)
+
+Awards
+was placed in the 2005 and 2006 annual list of Ward's 10 Best Engines
+
+4.2 V8 40v
+identification
+parts code prefix: 079
+engine displacement & engine configuration
+4,163 cc (254.0 cu in) 90° V8 engine; 90 mm (3.54 in) cylinder spacing; bore x stroke: 84.5 mm × 92.8 mm (3.33 in × 3.65 in), stroke ratio: 0.91:1 – undersquare/long-stroke, 520.4 cc per cylinder
+cylinder block & crankcase
+homogeneous monobloc low-pressure gravity die cast hypereutectic 'Alusil' aluminium-silicon alloy (AlSi17Cu4Mg) with a closed-deck design, mechanically stripped hard silicon crystal integral liners, honed under simulated mechanical stress; five main bearings; die-forged steel crankshaft
+cylinder heads & valvetrain
+cast aluminium alloy, five valves per cylinder, 40 valves total; lightweight low-friction roller cam followers with automatic hydraulic valve clearance compensation, roller chain-driven double overhead camshafts
+aspiration
+synthetic material two-stage variable intake manifold
+fuel system & engine management
+two linked common rail fuel distributor rails, multi-point electronic sequential indirect fuel injection with eight intake manifold-sited fuel injectors; Bosch Motronic ME 7.1.1. electronic engine control unit (ECU); 98 RON/ROZ (93 AKI) EuroSuperPlus (premium) unleaded recommended for maximum performance and fuel economy
+exhaust system
+two multi-stage catalytic converters
+dimensions
+length: 464 mm (18.27 in), mass: 195 kg (430 lb)
+DIN-rated motive power & torque outputs, ID codes
+246 kW (334 PS; 330 bhp) at 6,600 rpm; 420 N⋅m (310 lbf⋅ft) at 3,500 rpm, 6,800 rpm max — Audi A6, BAT,  A8:  BFM (BFM engine is belt driven)
+221 kW (300 PS; 296 bhp) at 6,200 rpm; 380 N⋅m (280 lbf⋅ft) at 2,700–4,600 rpm, 6,500 rpm max — Audi A6 allroad: BAS
+253 kW (344 PS; 339 bhp) at 7,000 rpm; 410 N⋅m (302 lbf⋅ft) at 3,500 rpm — Audi S4: BBK (03/03-03/09)
+253 kW (344 PS; 339 bhp) at 7,200 rpm; 420 N⋅m (310 lbf⋅ft) at 3,000 rpm — Audi S4: BHF (03/03-03/09 – US/Korea only)
+246 kW (334 PS; 330 bhp) at 6,500 rpm; 435 N⋅m (321 lbf⋅ft) at 2,800-3,700 rpm — Volkswagen Phaeton: BGH, BGJ (Belt driven)
+applications
+Audi B6 S4, Audi B7 S4, Audi C5 A6 allroad (BAS: 07/02-08/05), Audi C6 A6 (BAT: 05/04-05/06), Audi A8 (BFM: 10/02-07/10), Volkswagen Phaeton (BGJ: 05/03-07/03, BGH: 08/03-05/10)
+
+Awards
+was placed in the 2004 annual list of Ward's 10 Best Engines
+
+4.0 TFSI
+This engine is part of Audi's modular 90° V6/V8 engine family. It shares its bore and stroke, 90° V-angle, and 90mm cylinder spacing with the Audi V6. The earlier V6 engines (EA837) used an Eaton TVS Supercharger instead of turbocharger(s). In 2016, Audi and Porsche released a new turbocharged V6 engine they dubbed EA839. These 2.9L (biturbo) & 3.0L (single turbo) V6 engines share the 4.0T TFSI V8's “hot vee” design, meaning the turbo(s) are placed in the Vee of the engine (between each bank of cylinders) instead of on the outside of each cylinder bank. This allows the turbocharger(s) to produce boost pressure more quickly as the path the exhaust gases travel is much reduced. It also aids in getting the engine's emissions hardware up to temperature more quickly. As with the V6, the V8 is used in various Audi and Porsche models, but the V8 also finds use in Bentley and Lamborghini vehicles.
+
+engine displacement & engine configuration
+3,993 cc (243.7 cu in) 90° V8 engine; 90 mm (3.54 in) cylinder spacing; bore x stroke: 84.5 mm × 89.0 mm (3.33 in × 3.50 in), stroke ratio: 0.95:1 – undersquare/long-stroke, 499.1 cc per cylinder, compression ratio: 10.5:1
+fuel system; Fuel Stratified Injection (FSI)
+Central-Overhead Injectors
+exhaust system
+two twin-scroll turbo chargers and twin air- and water-cooled intercoolers
+DIN-rated motive power & torque outputs, ID codes, applications
+309 kW (420 PS; 414 bhp) at 5,500 rpm; 550 N⋅m (406 lbf⋅ft) from 1,400 rpm to 5,400 rpm— CEUC: Audi S6 C7, S7, CEUA: A8 D4
+320 kW (435 PS; 429 bhp) at 5,800 rpm; 600 N⋅m (443 lbf⋅ft) from 1,400 rpm to 5,300 rpm— CTGA: A8 D4, A8 D5
+412 kW (560 PS; 553 bhp) at 5,700 rpm;  700 N⋅m (516 lbf⋅ft) from 1,750 rpm to 5,500 rpm— CRDB, CWUB: Audi RS6 C7 and RS7
+445 kW (605 PS; 597 bhp) at 6,200 rpm;  700 N⋅m (516 lbf⋅ft) from 1,700 rpm to 5,500 rpm (overboost to 750 Nm) — DDTA: Audi S8 Plus (D4), CWUC: Audi RS7 Performance, Audi RS6 Performance (C7)
+338 kW (460 PS; 453 bhp) at 6,000 rpm; 620 N⋅m (457 lbf⋅ft) from 1,700 rpm in Porsche Panamera GTS
+405 kW (551 PS; 543 bhp) at 6,000 rpm; 770 N⋅m (568 lbf⋅ft) from 1,700 rpm in Porsche Panamera Turbo
+463 kW (630 PS; 621 bhp) at 6,000 rpm; 820 N⋅m (605 lbf⋅ft) from 1,700 rpm in Porsche Panamera Turbo S
+505 kW (687 PS; 677 bhp) at 6,000 rpm; 850 N⋅m (627 lbf⋅ft) from 1,700 rpm in Porsche Panamera Turbo S E-Hybrid
+373 kW (507 PS; 500 bhp) at 6,000 rpm; 660 N⋅m (487 lbf⋅ft) from 1,700 rpm in Bentley Continental GT V8 and Flying Spur V8
+388 kW (528 PS; 520 bhp) at 6,000 rpm; 680 N⋅m (502 lbf⋅ft) from 1,700 rpm in Bentley Continental GT V8 S
+405 kW (551 PS; 543 bhp) at 6,000 rpm; 770 N⋅m (568 lbf⋅ft) in Bentley Continental GT V8 (2019–)
+478 kW (650 PS; 641 bhp) at 6,000 rpm; 850 N⋅m (627 lbf⋅ft) in Lamborghini Urus
+471 kW (640 PS; 632 bhp) at 6,000 rpm; 850 N⋅m (627 lbf⋅ft) Porsche Cayenne Coupé Turbo GT
+575 kW (782 PS; 771 bhp) at 6,000 rpm; 1,000 N⋅m (738 lbf⋅ft) in Bentley Continental GT Speed
+Audi version of the engine includes electronic monitoring of the oil level, while the Bentley engine includes a dipstick for an oil check. In addition, the Bentley engine uses switchable hydraulic mounts instead of Audi's active electrohydraulic engine mounts. The Bentley engine does not include a stop-start system.
+
+Diesel
+4.2 V8 TDI CR 235-257kW
+This Audi engine is an entirely redeveloped and bored-out evolution of the superseded 4.0 V8 TDI CR, now with 90 mm (3.54 in) cylinder spacing between bore centres, and again with roller chain drive for the overhead camshafts and ancillaries. Just like its 4.0 V8 TDI predecessor, this all-new 4.2 V8 TDI retains the mantle of the world's highest power output car with a diesel V8. This engine is manufactured at Győr, Hungary by AUDI AG subsidiary Audi Hungaria Motor Kft.
+
+identification
+parts code prefix: 057.C
+engine configuration & engine displacement
+90° V8 engine, Turbocharged Direct Injection (TDI) turbodiesel; 4,134 cc (252.3 cu in); bore x stroke: 83.0 mm × 95.5 mm (3.27 in × 3.76 in), stroke ratio: 0.87:1 - undersquare/long-stroke, 516.7 cc per cylinder, 90 mm (3.54 in) cylinder spacing, compression ratio: 16.5:1, water-cooled alternator
+cylinder block & crankcase
+compacted vermicular graphite cast iron (GJV/CGI), 62 kg (137 lb); UV laser-honed exposed bore; cast reinforcing bed-plate lower frame incorporating five main bearings (each 'bearing' affixed by four bolts), die-forged chrome molybdenum alloy steel crossplane crankshaft with first and second order forces and moments avoided, three-part oil sump consisting of cast alloy upper section, a middle baffle section and pressed steel lower section, diagonally fracture-split connecting rods, cast aluminium alloy Kolbenschmidt pistons (Mahle on CCFA), simplex roller chain-driven ancillaries, oil filter module (incorporating oil separator and water-to-oil cooler) mounted within the 'vee' (externally mounted on Marine variants)
+cylinder heads & valvetrain
+cast aluminium alloy; four valves per cylinder, 32 valves total, operated by low-friction roller finger cam followers with automatic hydraulic valve clearance compensation, double overhead camshafts - the inlets driven in a relay method at the rear (flywheel) end of the engine by four simplex roller chains and the exhausts driven from the inlets by automatic slack adjusting spur gears at the front end, two unequal-length swirl-inducing switchable inlet ports, siamesed unequal-length exhaust ports
+aspiration - automotive
+two air filters, two hot-film air mass meters, 'biturbo': two water-cooled turbochargers with electrically direct-actuated Variable Turbine Geometry (VTG) vanes (one turbo per cylinder bank) operating up to 226,000 rpm with a maximum electrically regulated boost of 2.5 bar (36 psi), two side-mounted air-to-air fan-assisted (not on Q7) intercoolers (SMICs), two separate cast alloy intake manifolds interconnected by a "feedthrough" system to equalise the pressure in the two cylinder banks, two-position variable swirl flaps integrated into the intake tract. Engines introduced from 2014 include 2 variable geometry turbocharger with maximum 1.7 bar (25 psi) of relative boost pressure.
+aspiration - Marine
+air filter with hot-film air mass meter, one water-cooled turbocharger with electric boost pressure control mounted within the vee, sea-water tube intercooler, two separate cast alloy intake manifolds interconnected by a "feedthrough" system to equalise the pressure in the two cylinder banks, two-position variable swirl flaps integrated into the intake tract
+fuel system & engine management
+common rail (CR) direct diesel injection: electric low-pressure fuel lift pump, one timing belt-driven 1,600 bar (23,210 psi) injection pump, two common rail fuel rails (one per cylinder bank), piezo-electric operated fuel injectors with eight-hole nozzles for homogenous fuel delivery, single and double pilot injection, up to four main injection actuations per piston cycle; Bosch EDC16 CP electronic engine control unit (ECU), Bosch MDC Marine Diesel Control on Marine variant. Engines introduced from 2014 has increased fuel pressure to 2,000 bar (29,008 psi).
+exhaust system
+two air-gap insulated fan-branch alloy steel exhaust manifolds, two close-coupled maintenance-free oxidizing catalytic converters, two silicon carbide diesel particulate filters, Euro4 emissions standard compliant
+dimensions
+length: 520 mm (20.5 in), mass: 255–257 kg (562–567 lb) (automotive - 15 kg (33 lb) lighter than its 4.0 V8 TDI predecessor, 4 kg (9 lb) lighter than the all-aluminium alloy Mercedes-Benz 4.0 V8 CDI diesel engine), 368 kg (811 lb) (Marine variant: dry weight, including DMF, cooling system & all ancillaries)
+DIN-rated power & torque outputs, ID codes
+BMC: 235 kW (320 PS; 315 bhp)
+BVN: 240 kW (326 PS; 322 bhp) at 3,750 rpm; 650 N⋅m (479 lbf⋅ft) at 1,600-3,500 rpm
+BTR: 240 kW (326 PS; 322 bhp) at 3,750 rpm; 760 N⋅m (561 lbf⋅ft) at 1,800-2,500 rpm
+CCFA: 250 kW (340 PS; 335 bhp)
+CEM: 257 kW (349 PS; 345 bhp) at 4,200 rpm; 800 N⋅m (590 lbf⋅ft) at 1,900 rpm
+CTEC: 283 kW (385 PS; 380 bhp) at 3,750 rpm; 850 N⋅m (627 lbf⋅ft) at 2,000-2,750 rpm
+applications
+Audi D3 A8 4.2 TDI quattro (BMC: 01/05-06/05, BVN: 07/05->), Audi Q7 4.2 TDI (BTR: 03/07-06/09, CCFA: 06/09->), Volkswagen Marine TDI 350-8 (CEM: 02/09->), Volkswagen Touareg, Porsche Cayenne
+
+4.0 V8 TDI 310-320kW
+A successor to the 4.2 TDI. The engine includes 2 turbochargers, 48-volt electrical system, 7 kW electric compressor, Bosch CRS 3.25 engine management.
+A turbocharger serves to supply engine boost and spools up the passive turbocharger.
+
+identification
+parts code prefix: EA 898
+engine configuration & engine displacement
+90° V8 engine, Turbocharged Direct Injection (TDI) turbodiesel; 3,956 cc (241.4 cu in); bore x stroke: 83.0 mm × 91.4 mm (3.27 in × 3.60 in), stroke ratio: 0.91:1 - undersquare/long-stroke, 494.5 cc per cylinder, 90 mm (3.54 in) cylinder spacing, compression ratio: 16.0:1, water-cooled alternator
+
+DIN-rated power and torque outputs, applications, ID codes
+310 kW (421 PS; 416 bhp) at 3,500-5,000 rpm; 850 N⋅m (627 lbf⋅ft) at 1,000-3,250 rpm, Porsche Panamera II 4S Diesel
+320 kW (435 PS; 429 bhp) at 3,750-5,000 rpm; 900 N⋅m (664 lbf⋅ft) at 1,000-3,250 rpm, Audi SQ7 2016-2020, Audi SQ8 2019-2020, Audi A8 D5, Bentley Bentayga,2020-
+VW Touareg
+
+Production
+The engine was developed in Ingolstadt.
+
+Racing engine
+The race version of the  engine was developed and produced for the Deutsche Tourenwagen Meisterschaft, between 1990 and 1992; and later the Deutsche Tourenwagen Masters and in the Audi R8C, Audi R8R, Audi R8 and Bentley Speed 8, between 1999 and 2018.
+
+Audi V8
+Audi developed a Group A competition version of the Audi V8 engine for entry into the Deutsche Tourenwagen Meisterschaft (DTM) (German Touring Car Championship) auto racing series equipped with a 309 kW (420 PS; 414 bhp), later 340 kW (462 PS; 456 bhp), 3.6 V8 engine and 6-speed manual transmission, and began racing with it in 1990 with Schmidt MotorSport (SMS) running the operation, and Hans-Joachim Stuck, Walter Röhrl and Frank Jelinski driving.
+
+Audi R8C/R8R engine
+The R8C and R8R both use 3.6-liter, twin-turbocharged V8 engines, producing between 600–640 hp (447–477 kW), and between 516–561 lb⋅ft (700–761 N⋅m) of torque, while using two 32.4 mm (1.28 in) air restrictors, and pushing 1.67 bar (24.2 psi) of absolute boost pressure. While the R8R has a large number of vents placed on the nose, most of the intakes and air exits on the R8C are placed on the sides.
+The R8R was estimated to boast around 610 hp (450 kW) from its V8 engine, allowing it to hit 335 km/h (208 mph) in 1999 at Le Mans (the original claims were that the car could go 350 km/h (217 mph)).
+
+Audi R8 engine
+The R8 is powered by a 3.6 L Audi V8 with Fuel Stratified Injection (FSI), which is a variation on the concept of gasoline direct injection developed by VW; it maximizes both power and fuel economy at the same time. FSI technology can be found in products available to the public, across all brands in the Volkswagen Group.
+The power supplied by the R8, officially listed at about 610 hp (455 kW) in 2000, 2001, and 2002, 550 hp (410.1 kW) in 2003 and 2004, and 520 hp (388 kW) in 2005, is sent to the rear wheels via a Ricardo six-speed sequential transmission with an electropneumatic paddle shift. Unofficially, the works team Audi R8 for Le Mans (2000, 2001, and 2002) is said to have had around 670 hp (500 kW) instead of the quoted 610 hp. The numbers were quoted at speed, and were due to the car making 50 extra horsepower due to twin ram-air intakes at speeds over 150 mph (240 km/h). Official torque numbers were quoted for this version of the engine at 516 lb⋅ft (700 N⋅m) at 6500 rpm (2004/2005), but the 2002/2003-spec engine produced more torque; with 553 lb⋅ft (750 N⋅m) at 5500 rpm, with boost pressure set at 1.67 bar (24.2 psi) absolute. The equation for horsepower (torque divided by 5250, multiplied by rpm) for these numbers produces a horsepower rating of 638 horsepower (476 kW) at the same 6500 rpm (516/5250*6500=638).
+Restrictor changes for 2003 brought the power down to 550 bhp for anyone still racing with the R8, but the maximum torque hardly changed.
+For 2005, The ACO still felt that the R8 needed to be kept in check, so they reduced the restrictor size on the R8's engine, due to the car not meeting new hybrid regulations, and stipulated the car shall carry ballast weight in an attempt to make the races more competitive. The R8 was restricted even further to only 520 bhp.
+
+Bentley Speed 8/EXP Speed 8 engine
+The engine from the Audi R8, a 3.6-liter V8, with (Honeywell Turbo Technologies) turbocharger, was used as the initial powerplant for the Bentley in 2001. It produced 637 hp (475 kW) and over 479 lb⋅ft (649 N⋅m) of torque, via two 33.1 mm (1.30 in) intake restrictor, with boost pressure limited to 1.87 bar (27.1 psi) by regulations.
+Following its initial year of competition, the Audi-sourced V8 was modified to better suit the EXP Speed 8. This saw the engine expand to 4.0 liters, producing between 600–650 hp (450–480 kW), and 590 lb⋅ft (800 N⋅m) of torque, using two 30.7 mm (1.21 in) intake restrictor plates, with boost pressure still being limited to 1.87 bar (27.1 psi) by regulations. This would ultimately lead to Bentley redesigning the car for 2003, leading to the change of name to simply Speed. Without the intake restrictor plates (completely unrestricted), and with boost pressure set at around 1.9 bar (28 psi), the 4.0-liter engine is reportedly capable of producing up to 860 hp (640 kW), and about 750 lb⋅ft (1,020 N⋅m) of torque.
+
+Audi DTM V8 engine
+The Audi DTM V8 engine family is a series of prototype, four-stroke, 3.6-liter to 4.0-liter, naturally aspirated V-8 racing engines, developed and produced by Audi for the Deutsche Tourenwagen Meisterschaft, between 1990 and 1992; and later the Deutsche Tourenwagen Masters, between 2000 and 2018.
+
+Audi V8 DTM
+Audi developed a Group A competition version of the Audi V8 engine for entry into the Deutsche Tourenwagen Meisterschaft (DTM) (German Touring Car Championship) auto racing series equipped with a 309 kW (420 PS; 414 bhp), later 340 kW (462 PS; 456 bhp), 3.6 V8 engine and 6-speed manual transmission, and began racing with it in 1990 with Schmidt MotorSport (SMS) running the operation, and Hans-Joachim Stuck, Walter Röhrl and Frank Jelinski driving.
+
+Audi TT-R DTM
+The Audi TT-R DTM uses a 4.0 L (244 cu in) Audi naturally-aspirated V8 engine in partnership with Neil Brown Engineering for development, building, assembly, maintenance and tune-up role, it has a power output of approximately 455 hp (339 kW; 461 PS) at 6,800 rpm and a maximum torque of about 510 N⋅m (376 lbf⋅ft) at 6,000 rpm, while using two 28 mm (1.1 in) air intake restrictors.
+
+Audi A4 DTM
+The Audi A4 DTM is powered by a 4.0 L (244 cu in) Audi naturally-aspirated V8 engine in partnership with Neil Brown Engineering for development, building, assembly, maintenance and tune-up role, it has a power output of approximately 460 hp (343 kW; 466 PS) and a maximum torque of more than 500 N⋅m (369 lbf⋅ft).
+
+Audi A5/RS5 DTM
+The A5 DTM was still fitted with a V8 engine that used in a previous Audi A4 DTM and Abt-Audi TT DTM were built jointly by Audi and Neil Brown Engineering (NBE) rated at 460 hp (343 kW) and coupled to a 6-speed transmission grafted from the previous A4 DTM car, while using a Bosch MS 5.1 ECU.
+After the 2012 season, the vehicle was renamed RS5 DTM, corresponding with the Audi RS5 production model. It is powered by a naturally-aspirated engine and 2x DOHC camshafts. The engine itself is a custom-built Audi 4.0 L V8, with four valves per cylinder, and a 90-degree V-angle. It now has a power output of over 500 hp (373 kW; 507 PS) and torque of over 500 N⋅m (369 lbf⋅ft). Front engined and longitudinally mounted engine mounting layout, the RS5's engine is indirect fuel injected. The RS5 DTM's ECU is a Bosch Motronic MS 5.1 and other components such as the CDI ignition are also supplied by Bosch.
+
+Applications
+Audi V8 DTM
+Abt-Audi TT-R DTM
+Audi R8C
+Audi R8R
+Audi R8
+Bentley Speed 8
+Audi A4 DTM
+Audi 5 Series DTM
+
+References
+Further reading
+"Audi V8 3.6 (1988–1994)". TopCarGuide.com. Archived from the original on 17 July 2011. Retrieved 4 March 2010.
+"Audi V8 (D11/4C) – Technische Daten". Motor Klassik (in German). Motor Presse Netzwerk. Archived from the original on 6 January 2013. Retrieved 4 March 2010."Der Motor (The Engine)". AudiV8.com (in German). 1 November 2008. Retrieved 4 March 2010.
+"Audi A8 3.7 (1995–2002)". TopCarGuide.com. Archived from the original on 17 November 2007. Retrieved 31 July 2009.
+"Audi A8 3.7 40v (1998–2002)". TopCarGuide.com. Archived from the original on 17 November 2007. Retrieved 31 July 2009."Audi A8 3.7 quattro (2002–...)". TopCarGuide.com. Archived from the original on 17 November 2007. Retrieved 31 July 2009.
+"Der Motor (The Engine)". AudiV8.com (in German). 1 November 2008. Retrieved 4 March 2010.
+"ID and data from ETKA"."Audi RS6 in depth". WorldCarFans.com. AUDI AG. 30 May 2002. Retrieved 15 February 2010."KS Aluminium-Technologie: engine blocks for the new Audi A6". Rheinmetall.de. Rheinmetall AG. August 2004. Archived from the original on 5 October 2012. Retrieved 27 January 2010.
+"Audi A8 3.3 TDI quattro: top TDI for the luxury class". AudiWorld.com. AUDI AG - press release. 10 July 2000. Archived from the original on 30 September 2009. Retrieved 1 October 2009. "Compacted Graphite Iron for diesel engine cylinder blocks" (PDF). Tupy.com.br. Tupy Fundições. May 2004. p. 9. Retrieved 18 January 2010.
+"Audi A8 4.0 TDI quattro". AudiWorld.com. AUDI AG - press release. 4 March 2003. Archived from the original on 31 January 2010. Retrieved 20 February 2010. 
+"Audi A8 4.0 TDI quattro - in detail". WorldCarFans.com. AUDI AG - press release. 12 May 2003. Retrieved 20 February 2010.
+"KS Aluminium-Technologie: engine blocks for the new Audi A6". Rheinmetall.de. Rheinmetall AG. August 2004. Archived from the original on 5 October 2012. Retrieved 27 January 2010."ALUSIL – Cylinder Blocks for the new Audi V6 and V8 SI engines" (PDF). KSPG-AG.com. KS Aluminium-Technologie AG. Retrieved 1 February 2010. 
+Audi 4.2-liter V8 FSI Engine – Self-Study Programme 921603. Auburn Hills, Michigan: Audi of America, Inc., Service Training. July 2006."Audi RS4 Saloon – Technical Data". AUDI AG. February 2005. Archived from the original (MS Word document) on 27 July 2011. Retrieved 14 September 2009."Geneva Motor Show: Audi RS4 – The Sports Car for 365 Days a Year". VWvortex.com – Audi News. AUDI AG. 1 March 2005. Archived from the original on 16 July 2011. Retrieved 14 September 2009."New Audi RS4". WorldCarFans.com. AUDI AG – press release. 5 September 2005. Archived from the original on 29 February 2012. Retrieved 16 September 2009."Audi Q7 in depth". WorldCarFans.com. AUDI AG – press release. 31 January 2006. Archived from the original on 3 October 2009. Retrieved 16 September 2009.
+"KS Aluminium-Technologie: engine blocks for the new Audi A6". Rheinmetall.de. Rheinmetall AG. August 2004. Archived from the original on 5 October 2012. Retrieved 27 January 2010."ALUSIL – Cylinder Blocks for the new Audi V6 and V8 SI engines" (PDF). KSPG-AG.com. KS Aluminium-Technologie AG. Retrieved 1 February 2010. "New Audi A6 in depth". WorldCarFans.com. Audi AG. 8 April 2004. Archived from the original on 22 April 2012. Retrieved 9 September 2009.
+"New Audi A8 4.2 TDI quattro". WorldCarFans.com. AUDI AG - press release. 19 May 2005. Retrieved 20 February 2010."Audi A8 new engines in detail". WorldCarFans.com. AUDI AG - press release. 9 June 2005. Retrieved 20 February 2010."Audi Q7 4.2 TDI in depth". WorldCarFans.com. AUDI AG - press release. 2 May 2007. Retrieved 20 February 2010."Compacted Graphite Iron – a material solution for modern diesel engine cylinder blocks and heads" (PDF). FoundryInfo-India.org. SinterCast, Sweden. February 2008. p. 3 of 7 (95). Archived from the original (PDF) on 26 July 2011. Retrieved 18 January 2010."Volkswagen Marine - engines for planing boats" (PDF). vw-m.de. Volkswagen AG. January 2009. Archived from the original (PDF) on 3 October 2011. Retrieved 18 February 2010."TDI 350-8 - technical data". vw-m.de. Volkswagen AG. Archived from the original on 3 October 2011. Retrieved 18 February 2010."Audi TDI Chronicle: 2014 4.2 TDI". Audi AG. Archived from the original on 14 November 2018. Retrieved 27 October 2021.
+"Scania Euro4, 16-litre". Scania.co.uk. Scania (Great Britain) Limited. Archived from the original on 21 April 2013. Retrieved 5 October 2009."Scania Euro5, 16-litre". Scania.co.uk. Scania (Great Britain) Limited. Archived from the original on 28 April 2009. Retrieved 5 October 2009.

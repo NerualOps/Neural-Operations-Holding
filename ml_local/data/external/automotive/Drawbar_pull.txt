@@ -1,0 +1,8 @@
+Title: Drawbar pull
+
+In automotive engineering, drawbar pull is the amount of horizontal force available to a vehicle at the drawbar for accelerating or pulling a load.
+Drawbar pull is a function of velocity, and in general decreases as the speed of the vehicle increases (due both to increasing resistance and decreasing transmission gear ratios).  Drawbar pull is the difference between tractive effort available and tractive effort required to overcome resistance at a specified speed.
+Drawbar pull data for a vehicle is usually determined by measuring the amount of available tractive force using a dynamometer, and then combining that data with coastdown data to obtain the available drawbar pull force at each speed.
+
+
+== References ==

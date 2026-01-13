@@ -1,0 +1,48 @@
+Title: Capacitor electric vehicle
+
+A capacitor electric vehicle is a vehicle that uses supercapacitors (also called ultracapacitors) to store electricity.
+As of 2010, the best ultracapacitors can only store about 5% of the energy that lithium-ion rechargeable batteries can, limiting them to a couple of miles per charge. This makes them ineffective as a general energy storage medium for passenger vehicles. But ultracapacitors can charge much faster than batteries, so in vehicles such as buses that have to stop frequently at known points where charging facilities can be provided, energy storage based exclusively on ultracapacitors becomes viable.
+
+Capabus
+China is experimenting with a new form of electric bus, known as a capabus, which runs without continuous overhead lines (as an autonomous vehicle) by using power stored in large onboard electric double-layer capacitors (EDLCs), which are quickly recharged whenever the vehicle stops at any bus stop (under so-called electric umbrellas), and fully charged in the terminus.
+A few prototypes were tested in Shanghai in early 2005. In 2006 two commercial bus routes began to use electric double-layer capacitor buses (capabuses), one of them being route 11 in Shanghai. In 2009 Sinautec Automobile Technologies, based in Arlington, Virginia, and its Chinese partner Shanghai Aowei Technology Development Company tested with 17 forty-one seat Ultracap Buses serving the Greater Shanghai area since 2006 without any major technical problems. During the Shanghai Expo in 2010, however, 40 supercapacitor buses were used for a special Expo bus service, and owing to the supercapacitors becoming overheated some of the buses broke down. Buses in the Shanghai pilot are made by Germantown, Tennessee-based Foton America Bus Company As of 2013, another 60 buses were delivered the following year with ultracapacitors that supply 10 watt-hours per kilogram.
+The buses have very predictable routes and need to stop every 3 miles (4.8 km) or less, allowing quick recharging at charging stations at bus stops. A collector on the top of the bus rises a few feet and touches an overhead charging line at the stop, and within a couple of minutes the ultracapacitor banks stored under the bus seats are fully charged. The buses can also capture energy from braking, and the company says that recharging stations can be equipped with solar panels. A third generation of the product which will give 20 miles (32 km) of range per charge or better is planned.
+Sinautec estimates that one of its buses has one-tenth the energy cost of a diesel bus and can achieve lifetime fuel savings of $200,000. The buses use 40% less electricity even when compared to an electric trolley bus, mainly because they are lighter. The ultracapacitors are made of activated carbon and have an energy density of six watt-hours per kilogram (for comparison, a high-performance lithium-ion battery can achieve 200 watt-hours per kilogram, but the ultracapacitor bus is about 40% cheaper than a lithium-ion battery bus and far more reliable).
+There is also a plug-in hybrid version which also uses ultracaps.
+RATP, the public-owned company that manages most of Paris' public transport system, is currently performing tests using a hybrid bus outfitted with ultracapacitors. The model, called Lion's City Hybrid, is supplied by German manufacturer MAN.
+GSP Belgrade of Serbia has launched the first bus line operated solo by supercapacitor buses from Chinese manufacturer Higer. The first sustainable ultracapacitor (UC) e-bus was represented by Chariot Motors Company in the European Union and Sofia, Bulgaria in 2014. The 18-month pilot project was successful and had a great public response. The UC bus was tested by the Reputable German laboratory Belicon GmbH and was defined as one of the lowest energy consumption effective vehicles. 
+Based on the pilot's success the capital of Bulgaria – Sofia, (one of the most polluted European cities) chose the UC e-buses as one of the innovative and suitable for the city transport technology. Sofia public transport operator - Stolichen Elektrotransport put 45 Cariot - Higer 12m UC electric buses into operation, 15 in 2020 and 30 in 2021. Electric vehicles are equipped with 40kWh UCs, the buses run on routes 6, 60, 11, 73, 74, 84, 123 and 184, with 11 km average unduplicated length.
+In Graz, Austria, lines 50 and 34E are running with short intermediate recharging, using 24–32 kWh EDLC supercapacitors.
+
+Current collectors at bus stops
+Pantographs and ground-level power supply current collectors are integrated in bus stops to recharge electric buses quickly, making it possible to use a smaller battery on the bus, which reduces the capital and running costs.
+
+Subway and tram
+In a subway car or tram, an insulator at a track switch may cut off power from the car for a few feet along the line and use a large capacitor to store energy to drive the subway car through the insulator in the power feed.
+The new Nanjing tram uses supercapacitor technology, with charging hardware at each stop instead of continuous catenary. The first line started operating in 2014. The rail vehicles were produced by CSR Zhuzhou; according to the manufacturers, they are the world's first low-floor tram completely powered by supercapacitors. Several similar rail vehicles have been ordered for the Guangzhou Tram line as well.
+
+Other deployments
+In 2001 and 2002 VAG, the public transport operator in Nuremberg, Germany, tested a hybrid bus which uses a diesel-electric drive system with electric double-layer capacitors.
+Since 2003 Mannheim Stadtbahn in Mannheim, Germany, has operated a capa vehicle, an LRV (light-rail vehicle), which uses electric double-layer capacitors to store braking energy.
+Other companies from the public transport manufacturing sector are developing electric double-layer capacitor technology: The Transportation Systems division of Siemens AG is developing a mobile energy storage based on EDLCs called Sibac Energy Storage and also Sitras SES, a stationary version integrated into the trackside power supply.
+Adetel Group has developed its own energy saver named ″NeoGreen″ for LRV, LRT and metros. 
+The company Cegelec is also developing an EDLC-based energy storage system.
+Proton Power Systems has created the world's first triple hybrid forklift truck, which uses fuel cells and batteries as primary energy storage with EDLCs to supplement them.
+University of Southampton spin-out Nanotecture has received a government grant to develop supercapacitors for hybrid vehicles. The company is set to receive £376,000 from the DTI in the UK for a project entitled "next generation supercapacitors for hybrid vehicle applications". The project also involves Johnson Matthey and HILTech Developments. The project will use supercapacitor technology to improve hybrid electric vehicles and increase overall energy efficiency.
+
+Future developments
+Sinautec is in discussions with MIT's Schindall about developing ultracapacitors of higher energy density using vertically aligned carbon nanotube structures that give the devices more surface area for holding a charge. So far they are able to get twice the energy density of an existing ultracapacitor, but they are trying to get about five times. This would create an ultracapacitor with one-quarter of the energy density of a lithium-ion battery.
+Future developments include the use of inductive charging under the street, to avoid overhead wiring. A pad under each bus stop and at each stop light along the way would be used.
+
+Motor racing
+The FIA, the governing body for many motor racing events, proposed in the Power-Train Regulation Framework for Formula 1 version 1.3 of 23 May 2007 that a new set of power train regulations be issued that includes a hybrid drive of up to 200 kW input and output power using "superbatteries" made with both batteries and supercapacitors.
+
+UltraBatteries
+Ultracapacitors are used in some electric vehicles to store rapidly available energy with their high power density, in order to keep batteries within safe resistive heating limits and extend battery life. The Ultrabattery combines a supercapacitor and a battery in a single unit, creating an electric vehicle battery that lasts longer, costs less and is more powerful than current technologies used in plug-in hybrid electric vehicles (PHEVs).
+
+See also
+External links
+An Electric Bus That Recharges While You Step Inside.
+
+
+== References ==

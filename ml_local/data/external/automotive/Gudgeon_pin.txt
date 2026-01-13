@@ -1,0 +1,25 @@
+Title: Gudgeon pin
+
+In internal combustion engines, the gudgeon pin (British English, wrist pin; U.S. English piston pin) connects the piston to the connecting rod, and provides a bearing for the connecting rod to pivot upon as the piston moves.  In very early engine designs, including those driven by steam, and many very large stationary or marine engines, the gudgeon pin is located in a sliding crosshead that connects to the piston via a rod. A gudgeon is a pivot or journal.
+
+Etymology
+The origin of the word gudgeon is the Middle English word gojoun, which originated from the Middle French word goujon; "pin, peg, spike". Its first known use was in the 15th century.
+
+Overview
+The gudgeon pin is typically a forged short hollow rod made of a steel alloy of high strength and hardness that may be physically separated from both the connecting rod and piston or crosshead. The design of the gudgeon pin, especially in the case of small, high-revving automotive engines is challenging. The gudgeon pin has to operate under some of the highest temperatures experienced in the engine, with difficulties in lubrication due to its location, while remaining small and light so as to fit into the piston diameter and not unduly add to the reciprocating mass. The requirements for lightness and compactness demand a small diameter rod that is subject to heavy shear and bending loads, with some of the highest pressure loadings of any bearing in the whole engine. To overcome these problems, the materials used to make the gudgeon pin and the way it is manufactured are amongst the most highly engineered of any mechanical component found in internal combustion engines.
+
+Design options
+Gudgeon pins use two broad design configurations: semi-floating and fully floating. 
+
+Typical construction of gudgeon pin (wrist pin) is shown on the picture. The design depend on technological and technical effectiveness.
+
+Semi-floating
+In the semi-floating configuration, the pin is usually fixed relative to the piston by an interference fit with the journal in the piston. (This replaced the earlier set screw method.) The connecting rod small end bearing thus acts as the bearing alone. In this configuration, only the small end bearing requires a bearing surface, if any. If needed, this is provided by either electroplating the small end bearing journal with a suitable metal, or more usually by inserting a sleeve bearing or needle bearing into the eye of the small end, which has an interference fit with the aperture of the small end. During overhaul, it is usually possible to replace this bearing sleeve if it is badly worn. The reverse configuration, fixing the gudgeon pin to the connecting rod instead of to the piston, is implemented using an interference fit with the small end eye instead, with the gudgeon pin journals in the piston functioning as bearings. This arrangement is usually more difficult to manufacture and service because two bearing surfaces or inserted sleeves complicate the design. In addition, the pin must be precisely set so that the small end eye is central. Because of thermal expansion considerations, this arrangement was more usual for single-cylinder engines as opposed to multiple cylinder engines with long cylinder blocks and crankcases, until precision manufacturing became more commonplace.
+Fully floating
+In the fully floating configuration, a bearing surface is created both between the small end eye and gudgeon pin and the journal in the piston. The gudgeon pins are usually secured with circlips. No interference fit is used in any instance and the pin 'floats' entirely on bearing surfaces. The average rubbing speed of each of the three bearings is halved and the load is shared across a bearing that is usually about three times the length of the semi-floating design with an interference fit with the piston.
+
+See also
+List of auto parts
+
+
+== References ==

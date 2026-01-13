@@ -1,0 +1,34 @@
+Title: Bumper cars
+
+Bumper cars or dodgems are the generic names for a type of flat amusement ride consisting of multiple small electrically powered cars which draw power from the floor or ceiling, and which are turned on and off remotely by an operator. They are also known as bumping cars, dodging cars and dashing cars. The first patent for them was filed in 1921.
+
+Design
+The metal floor is usually set up as a rectangular or oval track, and graphite is sprinkled on the floor to decrease friction. A rubber bumper surrounds each vehicle, and drivers either ram or dodge each other as they travel. The controls are usually an accelerator and a steering wheel. The cars can be made to go backwards by turning the steering wheel far enough in either direction, necessary in the frequent pile-ups that occur.
+
+Power source
+The cars are commonly powered by one of three methods. The oldest and most common method, the overhead system (OHS), uses a conductive floor and ceiling with opposing power polarities. Contacts under the vehicle touch the floor while a pole-mounted contact shoe touches the ceiling, forming a complete circuit.
+A newer method, the floor pick-up (FPU) system, uses alternating strips of metal across the floor separated by insulating spacers, and no ceiling grid. The strips carry the supply current, and the cars are large enough so that the vehicle covers at least two strips at all times. An array of brushes under each car makes random contact with the strips, and the voltage polarity on each contact is arranged to always provide a correct and complete circuit to operate the vehicle.
+
+A third method is used on Quantum-class cruise ships, where bumper cars run on electric batteries. This avoids the conductive floor/ceiling of the traditional bumper car setup, allowing the SeaPlex venue to be convertible from a bumper car ride to a multipurpose gym (basketball court). The disadvantage is that these ships' bumper cars take several hours to recharge.
+
+Bumping
+Although the idea of the ride is to bump other cars, safety-conscious (or at least litigation-conscious) owners sometimes put up signs reading "This way around" and "No (head on) bumping". Depending on the level of enforcement by operators, these rules are often ignored by bumper car riders, especially younger children and teenagers.
+
+History
+In the early 1920s, a patent was granted to Max Stoehrer and his son Harold for an "Amusement Apparatus" which became the basis for their Dodgem cars. They deliberately equipped their device with "novel instrumentalities to render their manipulation and control difficult and uncertain by the occupant-operator." They asserted that "in the hands of an unskilled operator," a "plurality of independently manipulated [...] cars" would "follow a promiscuous, irregular, and undefined path over the floor or other area, to not only produce various sensations during the travel of the vehicle but to collide with other cars as well as with portions of the platform provided for that purpose."
+During their heyday, from the late 1920s to 1950s, two major US bumper cars brands were Dodgem by Stoehrer and the Auto-Skooter by Lusse Brothers, owned by Joseph and Robert "Ray" Lusse. Lusse Brothers built the first fiberglass body in 1959, in part due to the survival of Chevrolet Corvette bodies over the previous six years. After getting permission from Chevrolet, then subsequently buying the actual Corvette chevrons from local Philadelphia dealers, those were attached to the nose of their product for 1959. In the mid-1960s, Disneyland introduced hovercraft-based bumper cars called Flying Saucers, which worked on the same principle as an air hockey game; however, the ride was a mechanical failure and closed after a few years.
+
+Notable examples
+The largest operating bumper car floor currently operating in the United States is at Six Flags Great America in Gurnee, Illinois. Called the Rue Le Dodge (renamed Rue Le Morgue during Fright Fest in the fall), it is 51 feet 9 inches (15.77 m) by 124 feet 9 inches (38.02 m) or a total of 6,455 square feet (599.7 m2). A replica of the ride was built at California's Great America in Santa Clara; in 2005, however, a concrete island was added to the middle of the floor to promote one-way traffic, reducing the floor area. Six Flags Great Adventure's Autobahn is the largest bumper car floor, but it has not operated since 2008.
+
+See also
+Bumper boats
+Collector pole
+Commutator (electric)
+Electric vehicle
+Go-kart
+Witching Waves
+
+References
+External links
+Bumping Down Memory Lane: The Lusse Legacy

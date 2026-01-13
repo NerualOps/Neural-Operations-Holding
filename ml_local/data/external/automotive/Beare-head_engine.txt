@@ -1,0 +1,11 @@
+Title: Beare-head engine
+
+The Beare-head engine internal combustion engine technology combines a four-stroke engine bottom end and piston, with a ported cylinder head closely resembling that of a two-stroke engine. The head piston is smaller and moves at half cycling of the bottom piston. Functionally, the cylinder-head piston replaces part of the valve mechanism of a conventional four-stroke engine, and protects the remainder from the higher pressures. This configuration has been described as a six-stroke engine based on adding together the four strokes per cycle of the bottom piston and the two strokes of the cylinder head piston, but there are essentially only 4 strokes, just with an alternative form of valving.
+
+References
+"After 16 years' work –- the six-stroke engine" (PDF). Border Chronicle. Vol. 87, no. 4365. Bordertown, South Australia. November 10, 1994. Archived (PDF) from the original on October 1, 2011.
+
+External links
+www.six-stroke.com
+Australian Federal Court judgment — Jack Brabham Engines Limited v Beare [2010] FCA 872, Federal Court (Australia).
+Costs judgment — Jack Brabham Engines Limited v Beare [2010] FCA 1096, Federal Court (Australia).

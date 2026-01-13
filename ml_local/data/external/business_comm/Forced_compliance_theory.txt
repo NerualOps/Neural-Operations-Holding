@@ -1,0 +1,31 @@
+Title: Forced compliance theory
+
+Forced compliance theory is a paradigm that is closely related to cognitive dissonance theory. It emerged in the field of social psychology.
+Forced compliance theory is the idea that authority or some other perceived higher-ranking person can force a lower-ranked individual to make statements or perform acts that violate their better judgment. It focuses on the goal of altering an individual's attitude through persuasion and authority.
+
+Festinger and Carlsmith
+Leon Festinger and James M. Carlsmith (1959) conducted an experiment entitled "Cognitive Consequences of Forced Compliance".  This study involved 71 male students from Stanford University, of which 11 students were disqualified.  The students were asked to perform a tedious task involving using one hand to turn small spools a quarter clockwise turn. The purpose was to make the task uninteresting and unexciting enough that none of the participants could possibly find it enjoyable.
+The experimental condition involved telling the subject before the experiment started that it would be fun, while the control condition did not set any expectations for the task. The control subjects were asked to go to a room to be interviewed. The experimental condition involved giving either $1 or $20 to try to convince the next participant that the experiment was fun.
+The results showed a significant difference between the groups in how much they reported to enjoy the experiment. Another large difference was observed between the $1 and $20 groups. However, no significant difference emerged between the $20 group and control group. The results indicate that when an individual is motivated by reward to say something contrary to their private belief, their private belief tended to change as a result. When the reward was small, (beyond what is necessary to elicit the desired behaviour) the magnitude of the dissonance was higher and as a consequence so was the pressure to reduce the dissonance.  
+In summary, the study demonstrated that when individuals experience a conflict of cognition they will tend to shift their private belief to reduce dissonance.
+
+Cognitive dissonance theory
+Forced compliance theory is essentially a subset of cognitive dissonance theory. Cognitive dissonance theory describes the unpleasant feeling that results from believing two contrary ideas at the same time. It is most persuasive when it comes to feelings and thoughts about oneself. It is also a strong motivational tool in influencing us to choose one action or thought over another.
+Forced compliance theory is being used as a mechanism to help aid in projections of cognitive dissonance theory.
+
+Supporting research
+Study 1
+Helmreich and Collins conducted an experiment entitled "Studies in Forced Compliance: Commitment and Magnitude of Inducement to Comply as Determinants of Opinion Change". This study consisted of sixty-sixty male college students who were asked to record a counter-attitudinal statement concerning a serious issue. Variables included multiple levels of commitment. These levels included making an anonymous audio recording, a non-anonymous video recording, and a non-anonymous video recording with no chance to withdraw their statement. Half of the participants were asked to make the recording, while the other half was asked to make the counter statement.
+The participants were paid for their tasks. For the two highest levels of commitment (identified video recordings) participants who received low pay exhibited more attitude change. However, within the lower commitment level (anonymous audio recording) participants, higher pay yielded more attitude change.
+
+Study 2
+Ashmore and Collins conducted an experiment called "Studies in Forced Compliance: X. Attitude Change and Commitment to Maintain Publicly a Counter-attitudinal Position".
+In this study, researchers manipulated three variables that were expected to influence attitude change under compulsion. These three variables were public-private, true-persuasive, and high-low financial motivation.
+At the beginning of the study, "public" subjects signed a document in which they vowed to preserve their counter-attitudinal position outside of the study. Results showed that public subjects were more likely to exhibit attitude change than private subjects.
+
+Study 3
+French researchers Beauvois, Bungert and Mariette conducted a study entitled "Forced Compliance: Commitment to Compliance and Commitment to Activity". This study consisted of two experiments. One involved 200 adolescents and adults and another involved 176 high school-aged participants.
+The study built on previous research that stated when individuals are not granted the freedom to agree or disagree with the task, signs of dissonance are not detected.
+
+
+== References ==

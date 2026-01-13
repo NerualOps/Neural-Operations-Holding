@@ -1,0 +1,52 @@
+Title: Dynamic rollover
+
+A helicopter is susceptible to a rolling tendency,
+called dynamic rollover, when close to the ground,
+especially when taking off or landing.
+For dynamic rollover to occur, some factor has to first
+cause the helicopter to roll or pivot around a skid, or
+landing gear wheel, until its critical rollover angle is
+reached. Then, beyond this point, main rotor thrust continues
+the roll and recovery is impossible. If the critical
+rollover angle is exceeded, the helicopter rolls on its
+side regardless of the cyclic control corrections made.
+Dynamic rollover begins when the helicopter starts to
+pivot around its skid or wheel. This can occur for a
+variety of reasons, including the failure to remove a
+tiedown or skid securing device, or if the skid or wheel
+contacts a fixed object while hovering sideward, or if
+the gear is stuck in ice, soft asphalt, or mud. Dynamic
+rollover may also occur if the pilot does not use the proper
+landing or takeoff technique or while performing slope
+operations. Whatever the cause, if the gear or skid
+becomes a pivot point, dynamic rollover is possible if
+the pilot does not use the proper corrective technique.
+Once started, dynamic rollover cannot be stopped by
+application of opposite cyclic control alone. For example, if
+the right skid contacts an object and becomes the
+pivot point while the helicopter starts rolling to the
+right, even with full left cyclic applied the main rotor
+thrust vector and its moment follows the aircraft as it
+continues rolling to the right. Quickly applying down
+collective is the most effective way to stop dynamic
+rollover from developing. Dynamic rollover can occur
+in both skid and wheel equipped helicopters, and all
+types of rotor systems.
+
+Static rollover
+Static Rollover is a rolling action when the helicopter blades are not in rotation. When the rotor blades stop, the helicopter has the same principles of any other object and will roll if the static rollover critical angle is exceeded. Each helicopter has its own critical angle; this is a byproduct of its center-of-gravity.
+A rolling object has a pivot point and an imaginary line extending upward from the pivot point; as the object rolls around the pivot point, the center of gravity moves closer to the pivot line. Only upon passing the pivot line will the object roll to the corresponding adjacent side of the base.
+The static rollover critical angle can be determined by measuring the angle between level ground and an imaginary line drawn from skid to skid, when the helicopter's center of gravity is located on the upward pivot line.
+Static rollover also pertains to automobiles.  In the study of roll stability of vehicles, the static rollover threshold is a key measure.  It is expressed as a lateral acceleration in gravitational units.  In reality, rollovers are dynamic events; however, there is a strong relationship between roll stability and occurrences of rollover in accidents.
+
+References
+Notes
+Sources
+Flight Standards Service. Rotorcraft Flying Handbook: FAA Manual H-8083-21. Washington, DC: Flight Standards Service, Federal Aviation Administration, U.S. Dept. of Transportation, 2001. ISBN 1-56027-404-2.
+
+External links
+Helicopter Pilot Loses Control
+Dynamic Rollover at Helicopter Flight Information
+Helicopter Dynamic Rollover
+Dynamic Rollover - Knowledge magazine (US Army)
+Preventing Dynamic Rollover - Flight Safety Foundation

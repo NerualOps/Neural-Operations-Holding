@@ -1,0 +1,26 @@
+Title: Audi/Bentley 90° twin-turbocharged V8 racing engine
+
+The Audi/Bentley 90° twin-turbocharged V8 racing engine is a 3.6-liter and 4.0-liter, twin-turbocharged, four-stroke, 90-degree, V8 racing engine, used in the Audi R8C, Audi R8R, Audi R8 and Bentley Speed 8 Le Mans Prototype race cars, between 1999 and 2005.
+
+Audi R8C/R8R engine
+The R8C and R8R both use 3.6-liter, twin-turbocharged V8 engines, producing between 600–640 hp (447–477 kW), and between 516–561 lb⋅ft (700–761 N⋅m) of torque, while using two 32.4 mm (1.28 in) air restrictors, and pushing 1.67 bar (24.2 psi) of absolute boost pressure. While the R8R has a large number of vents placed on the nose, most of the intakes and air exits on the R8C are placed on the sides.
+The R8R was estimated to boast around 610 hp (450 kW) from its V8 engine, allowing it to hit 335 km/h (208 mph) in 1999 at Le Mans (the original claims were that the car could go 350 km/h (217 mph)).
+
+Audi R8 engine
+The R8 is powered by a 3.6 L Audi V8 with Fuel Stratified Injection (FSI), which is a variation on the concept of gasoline direct injection developed by VW; it maximizes both power and fuel economy at the same time. FSI technology can be found in products available to the public, across all brands in the Volkswagen Group.
+The power supplied by the R8, officially listed at about 610 hp (455 kW) in 2000, 2001, and 2002, 550 hp (410.1 kW) in 2003 and 2004, and 520 hp (388 kW) in 2005, is sent to the rear wheels via a Ricardo six-speed sequential transmission with an electropneumatic paddle shift. Unofficially, the works team Audi R8 for Le Mans (2000, 2001, and 2002) is said to have had around 670 hp (500 kW) instead of the quoted 610 hp. The numbers were quoted at speed, and were due to the car making 50 extra horsepower due to twin ram-air intakes at speeds over 150 mph (240 km/h). Official torque numbers were quoted for this version of the engine at 516 lb⋅ft (700 N⋅m) at 6500 rpm (2004/2005), but the 2002/2003-spec engine produced more torque; with 553 lb⋅ft (750 N⋅m) at 5500 rpm, with boost pressure set at 1.67 bar (24.2 psi) absolute. The equation for horsepower (torque divided by 5252, multiplied by rpm) for these numbers produces a horsepower rating of 638 horsepower (476 kW) at the same 6500 rpm (516/5252*6500=638).
+Restrictor changes for 2003 brought the power down to 550 bhp for anyone still racing with the R8, but the maximum torque hardly changed.
+For 2005, The ACO still felt that the R8 needed to be kept in check, so they reduced the restrictor size on the R8's engine, due to the car not meeting new hybrid regulations, and stipulated the car shall carry ballast weight in an attempt to make the races more competitive. The R8 was restricted even further to only 520 bhp.
+
+Bentley Speed 8/EXP Speed 8 engine
+The engine from the Audi R8, a 3.6-liter V8, with (Honeywell Turbo Technologies) turbocharger, was used as the initial powerplant for the Bentley in 2001. It produced 637 hp (475 kW) and over 479 lb⋅ft (649 N⋅m) of torque, via two 33.1 mm (1.30 in) intake restrictor, with boost pressure limited to 1.87 bar (27.1 psi) by regulations.
+Following its initial year of competition, the Audi-sourced V8 was modified to better suit the EXP Speed 8. This saw the engine expand to 4.0 liters, producing between 600–650 hp (450–480 kW), and 590 lb⋅ft (800 N⋅m) of torque, using two 30.7 mm (1.21 in) intake restrictor plates, with boost pressure still being limited to 1.87 bar (27.1 psi) by regulations. This would ultimately lead to Bentley redesigning the car for 2003, leading to the change of name to simply Speed. Without the intake restrictor plates (completely unrestricted), and with boost pressure set at around 1.9 bar (28 psi), the 4.0-liter engine is reportedly capable of producing up to 860 hp (640 kW), and about 750 lb⋅ft (1,020 N⋅m) of torque.
+
+Applications
+Audi R8C
+Audi R8R
+Audi R8
+Bentley Speed 8
+
+
+== References ==

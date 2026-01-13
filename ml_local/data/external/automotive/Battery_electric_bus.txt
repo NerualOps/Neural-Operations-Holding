@@ -1,0 +1,86 @@
+Title: Battery electric bus
+
+A battery electric bus is an electric bus that is driven by an electric motor and obtains energy from on-board batteries. Many trolleybuses use batteries as an auxiliary or emergency power source.
+Battery electric buses offer the potential for zero-emissions, in addition to much quieter operation and better acceleration compared to traditional buses. They also eliminate infrastructure needed for a constant grid connection and allow routes to be modified without infrastructure changes, in contrast with a trolleybus. They typically recover braking energy to increase efficiency by a regenerative brake. With energy consumption of about 1.2 kW⋅h/km (4.3 MJ/km; 1.9 kW⋅h/mi), the cost of ownership is lower than diesel buses.
+In 2018, the National Renewable Energy Laboratory (NREL) found that total operating costs per mile of an electric bus fleet in the United States in some cases may be less expensive than a diesel bus fleet.
+
+History
+The London Electrobus Company started running the first ever service of battery electric buses between London's Victoria station and Liverpool Street on 15 July 1907. However, the weight and inefficiency of batteries meant that other propulsion technology - such as electric trolleybuses or diesel buses - became commonplace.
+The first battery buses were mostly small, mini- or midi- buses. 
+The improvement of battery technology from around 2010 led to the emergence of the mass-produced battery bus, including heavier units such as 12.2-meter (40 ft) standard buses and articulated buses. 
+China was the first country to introduce modern battery electric buses in large scale. In 2009 Shanghai catenary bus lines began switching to battery buses.
+In September 2010, Chinese automobile company BYD began manufacturing the BYD K9, one of the most popular electric buses
+The first city to heavily invest in electric buses was Shenzhen, China. The city began rolling out electric buses made by BYD in 2011, with the objective of having a fully electric fleet. By 2017, Shenzhen's entire fleet of over 16,300 buses was replaced with electric buses, the largest fleet of electric buses of any city in the world.
+
+According to Bloomberg, "China had about 99 percent of the 385,000 electric buses on the roads worldwide in 2017, accounting for 17 percent of the country's entire fleet." Chinese cities are adding 1,900 electric buses per week.
+As of 2016 battery buses have less range, higher weight, higher procurement costs. The reduced infrastructure for overhead lines is offset by the costs of the infrastructure to recharge the batteries. In addition, the additional weight of batteries in a battery electric bus means that they have a lower passenger capacity than trolleybuses in jurisdictions where there is a legal limit on axle loads on roads. Battery buses are used almost exclusively in urban areas rather than for long-haul transportation. Urban transit features relatively short intervals between charging opportunities. Sufficient recharging can take place within 4 to 5 minutes (250 to 450 kW [340 to 600 hp]) usually by induction or catenary.
+
+Charging
+Different types of e-bus depot charging infrastructure
+Overnight charging for operations that rely on overnight charging, DC-distributed architectures with up to 50 kW charging points allow buses to be fully charged in 8 to 10 hours.
+
+Opportunity charging
+Commonly, metropolitan electric busses are charged on-route with 6-8 minutes of charging at 450 kW for every hour of operation. Opportunity charging is available at bus stops with overhead chargers utilizing the SAE J3105 standard and at terminals at the end of the bus route. Slower, 50kW to 175kW overnight charging at plug-in chargers is utilized too. Sometimes wireless charging pads are utilized, but plug-in stations are more common due to the fact that are faster and more efficient.
+The bus's daily schedule takes into account the need to charge, keeping the overall schedule as close to optimal as possible. Today, there are various software companies that help bus operators manage their electric bus charging schedule. These solutions ensure that buses continue to operate safely, without any unplanned stops and inconvenience to passengers.
+Supercapacitors can be charged rapidly, reducing the time needed to prepare to resume operation.
+The Society of Automotive Engineers has published Recommended Practice SAE J3105 to standardize physical automated connection interfaces for conductive charging systems since 2020. For communication between charger and electric bus the same ISO 15118 protocol is used as for passenger car charging. The only differences are in the charging power, voltage and physical interface.
+Pantographs and underbody collectors can be integrated in bus stops to quicken electric bus recharge, making it possible to use a smaller battery on the bus, which reduces the initial investment and subsequent costs.
+
+Inductive or Conductive charging
+Inductive charging for buses is a form of wireless charging that uses electromagnetic fields to transfer energy from ground-based pads or coils to receivers on the underside of a bus.
+Conductive charging power is supplied through a conductive device (rails or pads) embedded in the road or track surface at the bus or tram stop. When tram or electric bus stops, a current collector shoe automatically lowers and makes contact to charge the on-board battery. In tramway operation, this process takes no longer than 20 seconds – ordinary dwell time - leading to seamless operations.
+
+In-Motion Charging
+In-Motion Charging (IMC) trolleybus system is a sustainable urban transport technology, primarily for trolleybuses, that allows electric vehicles to charge their batteries while moving using electrified infrastructure, such as overhead lines.
+
+Total operating cost per mile
+NREL publishes zero-emission bus evaluation results from various commercial operators. NREL published following total operating cost per mile: with County Connection, for June 2017 through May 2018, for an 8-vehicle diesel bus fleet, the total operating cost per mile was $0.84; for a 4-vehicle electric bus fleet, $1.11; with Long Beach Transit, for 2018, for a 10-vehicle electric bus fleet, $0.85; and with Foothill Transit, for 2018, for a 12-vehicle electric bus fleet, $0.84.
+
+Examples
+Asia
+The largest battery bus fleet is in Shenzhen, China - with over 16,000 buses.
+In 2015 BYD planned to launch the first battery-double-decker bus.
+In Gumi, South Korea in 2013 a road section was modified to allow inductive charging while driving. The technology was to be tested with two electric buses.
+In 2015, BYD aimed to sell 6,000 of its buses worldwide. BYD is the world leader in the sale of electric vehicles.
+In Iran in 2021 the first electrical bus manufactured by Parsan Electrical Bus Manufacturing Company with the brand name of SHETAB.
+
+Europe
+In 2011, bus manufacturer Contrac Cobus Industries from Wiesbaden announced the Cobus 2500e.
+The Munich public transport company began testing battery buses in 2008. Experiments with Ebusco vehicles of were expected to reach a range of 300 km (190 mi) using lithium iron phosphate batteries.
+In autumn 2012, Czech manufacturer SOR supplied a 8-meter-long (26 ft) vehicle has 22 seats, 35 standing places and a range of 160–170 kilometers (99–106 mi) a day, up to 220–260 km (140–160 mi) can be extended. The bus is recharged with a quick charger twice a day for one hour. Its maximum speed is 80 km/h (50 mph).
+Beginning in 2012, the Wiener Linien on bus routes 2A and 3A use electric buses. They are charged to the end user via a pantograph, which is applied to short catenary pieces. These are fed by the tram catenary. The cars have a range of around 150 kilometers (93 mi).
+In May 2013, a battery bus began running between the airport and Palexpo in Geneva, Switzerland. This bus can be partially charged within 15 seconds. At the end of the line the charging process takes three to four minutes. The project cost five million francs.
+In December 2013, BYD Auto electric buses entered service in London on two routes.
+The Regional Transport Ruhr-Lippe GmbH (RLG) (Germany) began operating an electric minibus as a Quartierbus in May 2013. Vehicle range is approximately 120 kilometers (75 mi). Recharging takes about three hours when fully discharged. Recharging consumes over 1.5 hours during the lunch break.
+In 2013 battery buses entered service in the Netherlands.
+In Germany in 2013 battery buses were undergoing tests in Bremen and in Bonn.
+In Braunschweig battery buses entered regular service at the end of 2013. The "Emil" (Electromobility means of inductive load) project uses inductive charging. Both vehicles and charging stations were developed with Bombardier.
+Dresdner Verkehrsbetriebe together with the Fraunhofer Institute for Transportation and Infrastructure Systems began testing battery buses on November 3, 2014. On June 17, 2015, passenger service began on the first route in Saxony. A four-minute stop at the last stop provides sufficient charge, with a high-power charger to preheat the passenger compartment.
+In Bonn test entered regular service in 2013. The range is at least 200 km (120 mi).
+In Pinneberg testing began in 2014.
+In September 2015 four battery buses entered service in Berlin. The Solaris Urbino 12 charge by induction at the last stop.
+In July 2015 the Schleswig-Holstein Rendsburg purchased a Sileo battery bus with a range of 200 km (120 mi) for 450,000 euros. The bus does not charge during operation and can be operated for half a day. The bus is charged from a rooftop photovoltaic system.
+Botosani, Romania planned for public transport to operate fully electrically. at a conversion cost of 20 million euros.
+In 2017, the city council of Schaffhausen (Switzerland) decided to replace all diesel powered buses currently operating within the city with battery electric buses in the near future. As of 2024, 15 battery electric buses operate for VBSH.
+As of 2024, there are around 1,400 battery electric buses in London, with the world's first battery electric double decker bus entering service in 2015.
+As of 2024, there are over 1,700 electric buses operating in Moscow. This is the largest electric bus fleet in Europe ahead of London's fleet of around 1,400 buses.
+
+North America
+In California, battery school buses have been operating since the end of October 2013 because of significantly lower operating costs, are used. In Hamburg Rampini battery buses entered service in 2014 on line 48.
+The California Department of Transportation contracted with Antelope Valley Transit Authority (AVTA) to switch its buses to 85 BYD battery buses with a range of at least 160 miles (260 km). Models include a 40-foot (12.19 m) low-floor transit bus, a 60-foot (18.29 m) low-floor articulated and a 45-foot (13.72 m) commuter bus. Savings were expected to be $46,000 (41,300 euros) per bus per year.
+In 2017, the MTA (New York City, US) started a test fleet of battery electric buses, with five New Flyer Xcelsior XE40 CHARGE buses and five Proterra Catalyst BE40 buses. In 2019, The MTA ordered their first electric articulated buses, 15 New Flyer Xcelsior XE60 CHARGE buses.
+In 2018, Columbia Transportation relegated their older fleet of diesel Nova Bus LFS buses to backup duty and bought six New Flyer Xcelsior XE40 CHARGE buses to replace them.
+Capital Metro, serving Austin, Texas, started conversion of its bus fleet (about 450 vehicles) in 2019. Currently there are 12 buses on the road, composed from New Flyer and Proterra-made fleet.
+
+The Toronto Transit Commission, in Toronto, Ontario, Canada, operates a fleet of over 400 electric buses, making it the largest electric bus operator in Canada. There are 60 buses consisting of 25 New Flyer Xcelsior XE40 CHARGE buses, 25 Proterra Catalyst BE40 buses and 10 BYD Auto K9M buses, all built and delivered in 2019; with additional 340 buses to be built and delivered in 2024-25, composing of 204 Xcelsior XE40 CHARGE NG buses and 136 Nova Bus LFSe+ buses. In addition, Brampton Transit of nearby western suburb of  Brampton runs a fleet of eight electric buses (2 New Flyer, 8 Nova Bus) with ten to be delivered in 2025 along with York Region Transit, a transit operator serving York Region Municipality currently has 14 battery electric buses on the road built by New Flyer (12 buses) and Nova Bus (2 buses). GO Transit, a transit agency serving the Greater Toronto Area suburbs, operated two Alexander Dennis Enviro500 MMC electric buses built in 2020 and were withdrawn in 2024 due to unreliability.
+
+Gallery
+See also
+
+Charging station
+List of electric bus makers and models
+Solar bus
+Trolleybus
+
+
+== References ==

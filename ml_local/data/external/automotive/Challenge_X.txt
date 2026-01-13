@@ -1,0 +1,74 @@
+Title: Challenge X
+
+Challenge X: Crossover to Sustainable Mobility, known more commonly as Challenge X, was a four-year competition series amongst engineering students from across North America. Its purpose was to advance vehicle technology towards a goal of sustainable mobility.
+The headline sponsors of the competition were The U.S. Department of Energy (DOE) and General Motors (GM), and the competition series was managed by Argonne National Laboratories (Argonne). Team evaluation, technical and logistical support is also provided by Argonne. The 2006 – 2007 academic year was the third year of the competition.
+A selection process was opened to all accredited engineering programs in the United States and Canada in 2003. Of those schools who submitted proposals to the competition organizers, 17 were chosen as Challenge X participants.
+The competition ended in 2008, and was replaced with the EcoCAR challenge.
+
+Competition details
+Challenge X is a continuation of the long history of student vehicle competitions sponsored by the DOE since 1987 (Challenge X a). The majority of the competitions involve high level sponsors from both the government and the automotive industry. Challenge X is the latest in these series of competitions. The goal of the competition is to guide students through the engineering design process used at many automotive manufacturers, while developing and exploring various advanced technologies which can be used to reduce energy consumption and vehicle emissions. The vice president for GM's Powertrain Division, Tom Stephens described the competition by saying:This is the first time that a student competition has emphasized the importance of fuel choice in achieving sustainability mobility. Challenge X provides the student teams an opportunity to take an open-minded well-to-wheels approach to all the issues involved in energy efficiency and emissions – including the fuel source, the propulsion system and the vehicle's real world utility and consumer appeal (Foster).
+When applied properly these technologies lead to more sustainable vehicle solutions. As automotive consumers have increasingly purchased large family sized sport utility vehicles over the past decade, the competition vehicle for Challenge X is the Chevrolet Equinox, a GM a mid-size crossover SUV . Student teams are required to maintain the stock vehicle's performance, safety, utility, and consumer acceptability all while attempting to increase its fuel economy and decrease its emissions.
+
+Year One
+During the first year of the competition each team focused on vehicle simulation, computerized powertrain simulations, and the ever-present engineering give and take present in early vehicle design. This intensive modeling of each teams proposed vehicle architecture is designed to guide the teams in making decisions about vehicle hardware and components. For example, students must compare the advantages and disadvantages of many components that are able to perform the same function, and when students find that there is not an existing component available to perform a specified function, they must determine if they have to time and/or resources to develop such a component. At the end of the 2004 – 2005 academic year, the first years competition was held in Milford, Michigan. The focus of the year one competition was the development of an alternative fuel architecture and the support of models to show a reduction in overall petroleum consumption and a decrease in vehicle emissions. Teams were also judged on technical papers and presentations submitted to competition organizers.
+The University of Waterloo from Ontario, Canada received first place (Sharp). The Waterloo team's design is a series fuel cell hybrid that uses a Hydrogenics PEM fuel cell engine with a Cobasys 288 V NiMH battery and two Ballard 67 kW ACI electric drives (Challenge X c). Second place was awarded to the University of Akron from Akron, Ohio (Sharp) with their design of a through-the-road parallel hybrid with a 1.9 L  Volkswagen TDI engine running on biodiesel (B-20), a Siemens 21 kW ACI motor, and a Johnson Controls 165 V battery pack (Challenge X c). Third place was awarded to Ohio State University from Columbus, Ohio (Sharp) with their design, also a through-the-road parallel biodiesel hybrid, utilizing a Panasonic NiMH battery and a 1.9 L Fiat 110 kW CIDI engine (Challenge X c). Fourth place went to Virginia Tech (Sharp). Overall, all 17 teams met the minimum goals for the year one competition and were awarded with the donation of a 2005 Chevrolet Equinox to their team.
+
+Year Two
+The second year of the competition was focused on teams implementing their chosen architecture into their project vehicle. After completing year one, each team was required to continue with their proposed architecture and any major changes to their design, or to the vehicle structure or safety systems had to be approved through a detailed waiver process where the reasons for and ability to make such changes while meeting competition goals are explained to competition organizers. Vehicle integration was the main focus of year two, where teams were required to have a working vehicle by the time of the year end competition. A strong focus was placed on powertrain development and a demonstration of energy use and emissions goals as defined by each team in their year one reports. Each team was also judged extensively on vehicle performance categories such as greenhouse gas impact, total well-to-wheels fuel economy, emissions, towing capacity, acceleration, off-road performance, and consumer acceptability. Furthermore, each team was required to submit a technical paper and perform an oral presentation (Challenge X d).
+The year two competition was hosted at the GM Desert Proving Grounds in Mesa, Arizona. Top honors in the year two competition went to the first place team Virginia Tech from Blacksburg, Virginia (Gurski). Virginia Tech's competition entry, the REVLSE (Renewable Energy Vehicle, the Larsen Special Edition) is a split parallel hybrid using a Ballard Ranger 67 kW ACI rear traction motor, an 8 kW MES belted alternator starter, and a Saab 2.0 LFlex Fuel SI engine running on E85 – an ethanol/gas blend. Virginia Tech also won first place in lowest well-to-wheels petroleum energy usage, with an overall reduction of petroleum consumption of 74 percent over the stock vehicle, best written technical reports, lowest regulated tailpipe emissions, and lowest time braking and handling (Challenge X b). Second place was awarded to the University of Wisconsin–Madison Hybrid Vehicle Team from Madison, Wisconsin (Challenge X b) with their Moovada, a through-the-road parallel biodiesel electric running with the 1.9 L Fiat 110-kilowatt CIDI engine (Challenge X c). Mississippi State University from Starkville, Mississippi came in third place overall (Challenge X b) also with a through-the-road parallel biodiesel electric running with the 1.9 L Fiat 110 kW CIDI engine, and a Ballard Ranger 67 kW ACI rear traction motor (Challenge X c). Fourth place went to Ohio State University (Challenge X b).
+
+Year Three
+Year Three required further refinement of the vehicle with the goal of delivering a “showroom” vehicle that addresses the requirements of consumers.  At the conclusion of years one through three, team vehicles were judged in areas such as towing capacity, acceleration, ride and handling, noise and vibration, greenhouse gas impact, total well-to-wheels fuel economy, and consumer acceptability.
+
+Year Four
+The competition is currently in year four for the 2007–2008 academic year.  The fourth year of the program will give students the opportunity to further implement innovative technologies in their vehicles, such as telematics, that will help meet consumer demands for safety, security and convenience.  The final year will also allow teams to focus on developing and implementing marketing plans for their vehicles to promote the goals of the Challenge X program.  The year end competition will be a road rally.
+
+List of participating universities
+Michigan Technological University - Houghton, Michigan
+Mississippi State University - Starkville, Mississippi
+Ohio State University - Columbus, Ohio
+Pennsylvania State University - State College, Pennsylvania
+Rose-Hulman Institute of Technology - Terre Haute, Indiana
+San Diego State University - San Diego, California
+Texas Tech University - Lubbock, Texas
+University of Akron - Akron, Ohio
+University of California, Davis - Davis, California
+University of Michigan - Dearborn - Dearborn, Michigan. The Ann Arbor campus joined the Dearborn Campus team.
+University of Tennessee - Knoxville, Tennessee
+University of Texas at Austin - Austin, Texas
+University of Tulsa - Tulsa, Oklahoma
+University of Waterloo - Waterloo, Ontario
+University of Wisconsin–Madison - Madison, Wisconsin
+Virginia Tech - Blacksburg, Virginia
+West Virginia University - Morgantown, West Virginia
+
+References
+Challenge X, a. "About Challenge X". Argonne National Laboratories. Archived from the original on December 26, 2003. Retrieved 2006-11-24.
+Challenge X, b. "2006 Competition Results". Argonne National Laboratories. Archived from the original on June 18, 2006. Retrieved 2006-11-24.
+Challenge X, c (2006-01-11). "2006 Challenge X Vehicle Architectures" (PDF). Argonne National Laboratories. Archived from the original on June 18, 2006. Retrieved 2006-11-24.
+Challenge X, d. "Scored Events and Awards" (PDF). Argonne National Laboratories. Archived from the original on June 21, 2006. Retrieved 2006-11-24.
+Foster, Catherine. "'Challenge X' encourages college students to improve SUV technology". Argonne National Laboratories. Retrieved 2006-11-24.
+Gurski, Stephen. "Virginia Tech Takes Top Honors in Second-Year Challenge X Competition". Argonne National Laboratories. Archived from the original on 2006-09-22. Retrieved 2006-11-24.
+Sharp, Randy (2005-07-15). "Challenge X: Year One Results". Argonne National Laboratories. Retrieved 2006-11-24.
+
+External links
+Design tools spur fuel cell development year round
+Student engineers develop and test a hybrid power train: Part 1 - the model
+Student engineers develop and test a hybrid power train: Part 2 - the controller
+Argonne National Laboratories
+Challenge X: Crossover to Sustainable Mobility
+Department of Energy
+General Motors Corporation
+The EcoCAR Challenge, the successor of the Challenge X
+
+Further reading
+CAVS at Mississippi State University
+Mississippi State
+Ohio State
+Rose-Hulman Institute of Technology
+University of Akron
+University of Tennessee
+University of Tulsa
+University of Wisconsin–Madison Hybrid Team
+University of Waterloo
+Virginia Tech

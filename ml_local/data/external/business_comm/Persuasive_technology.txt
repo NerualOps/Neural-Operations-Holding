@@ -1,0 +1,160 @@
+Title: Persuasive technology
+
+Persuasive technology is broadly defined as technology that is designed to change attitudes or behaviors of the users through persuasion and social influence, but not necessarily through coercion. Such technologies are regularly used in sales, diplomacy, politics, religion, military training, public health, and management, and may potentially be used in any area of human-human or human-computer interaction. Most self-identified persuasive technology research focuses on interactive, computational technologies, including desktop computers, Internet services, video games, and mobile devices, but this incorporates and builds on the results, theories, and methods of experimental psychology, rhetoric, and human-computer interaction. The design of persuasive technologies can be seen as a particular case of design with intent.
+
+Taxonomies
+Functional triad
+Persuasive technologies can be categorized by their functional roles. B. J. Fogg proposes the functional triad as a classification of three "basic ways that people view or respond to computing technologies": persuasive technologies can function as tools, media, or social actors – or as more than one at once.
+
+As tools, technologies can increase people's ability to perform a target behavior by making it easier or restructuring it. For example, an installation wizard can influence task completion – including completing tasks not planned by users (such as installation of additional software).
+As media, interactive technologies can use both interactivity and narrative to create persuasive experiences that support rehearsing a behavior, empathizing, or exploring causal relationships. For example, simulations and games instantiate rules and procedures that express a point of view and can shape behavior and persuade; these use procedural rhetoric.
+Technologies can also function as social actors. This "opens the door for computers to apply ... social influence". Interactive technologies can cue social responses, e.g., through their use of language, assumption of established social roles, or physical presence. For example, computers can use embodied conversational agents as part of their interface. Or a helpful or disclosive computer can cause users to mindlessly reciprocate. Fogg notes that "users seem to respond to computers as social actors when computer technologies adopt animate characteristics (physical features, emotions, voice communication), play animate roles (coach, pet, assistant, opponent), or follow social rules or dynamics (greetings, apologies, turn taking)."
+
+Direct interaction v. mediation
+Persuasive technologies can also be categorized by whether they change attitude and behaviors through direct interaction or through a mediating role: do they persuade, for example, through human-computer interaction (HCI) or computer-mediated communication (CMC)? The examples already mentioned are the former, but there are many of the latter. Communication technologies can persuade or amplify the persuasion of others by transforming the social interaction, providing shared feedback on interaction, or restructuring communication processes.
+
+Persuasion design
+Persuasion design is the design of messages by analyzing and evaluating their content, using established psychological research theories and methods. Andrew Chak argues that the most persuasive web sites focus on making users feel comfortable about making decisions and helping them act on those decisions. During the clinical encounter, clinical decision support tools (CDST) are widely applied to improve patients' satisfaction towards medical decision-making shared with the physicians. The comfort that a user feels is generally registered subconsciously.
+
+Persuasion by social motivators
+Previous research has also utilized on social motivators like competition for persuasion. By connecting a user with other users, his/her coworkers, friends and families, a persuasive application can apply social motivators on the user to promote behavior changes. Social media such as Facebook, Twitter also facilitate the development of such systems. It has been demonstrated that social impact can result in greater behavior changes than the case where the user is isolated.
+
+Persuasive strategies
+Halko and Kientz made an extensive search in the literature for persuasive strategies and methods used in the field of psychology to modify health-related behaviors. Their search concluded that there are eight main types of persuasive strategies, which can be grouped into the following four categories, where each category has two complementary approaches.
+
+Instruction style
+Authoritative
+This persuades the technology user through an authoritative agent, for example, a strict personal trainer who instructs the user to perform the task that will meet their goal.
+
+Non-authoritative
+This persuades the user through a neutral agent, for example, a friend who encourages the user to meet their goals. Another example of instruction style is customer reviews; a mix of positive and negative reviews together give a neutral perspective on a product or service.
+
+Social feedback
+Cooperative
+This persuades the user through the notion of cooperating and teamwork, such as allowing the user to team up with friends to complete their goals.
+
+Competitive
+This persuades the user through the notion of competing. For example, users can play against friends or peers and be motivated to achieve their goal by winning the competition.
+
+Motivation type
+Extrinsic
+This persuades the user through external motivators, for example, winning a trophy as a reward for completing a task.
+
+Intrinsic
+This persuades the user through internal motivators, such as the good feeling a user would have for being healthy or for achieving a goal.
+It is worth noting that intrinsic motivators can be subject to the overjustification  effect, which states if intrinsic motivators are associated with a reward and you remove the reward then the intrinsic motivation tends to diminish. This is because depending on how the reward is seen, it can become linked to extrinsic motivations instead of intrinsic motivations. Badges, prizes, and other award systems will increase intrinsic motivation if they are seen as reflecting competence and merit.
+In 1973, Lepper et al. conducted a foundational study that underscored the overjustification effect. Their team brought magic markers to a preschool and created three test groups of children who were intrinsically motivated. The first group were informed that if they used markers they could receive a "Good Player Award." The second group was not incentivized to use the magic markers with a reward, but were given a reward after playing. The third group was given no expectations about awards and received no awards. A week later, all students played with the markers without a reward. The students receiving the "good player" award originally showed half as much interest as when they began the study. Later, other psychologists repeated this experiment only to conclude that rewards create short-term motivation, but undermine intrinsic motivation.
+
+Reinforcement type
+Negative reinforcement
+This persuades the user by removing an unpleasant stimulus. For example, a brown and dying nature scene might turn green and healthy as the user practises more healthy behaviors.
+
+Positive reinforcement
+This persuades the user by adding a positive stimulus. For example, adding flowers, butterflies, and other nice-looking elements to an empty nature scene as a user practises more healthy behaviors.
+
+Logical Fallacies
+More recently, Lieto and Vernero have also shown that arguments reducible to logical fallacies are a class of widely adopted persuasive techniques in both web and mobile technologies. These techniques have also shown their efficacy in large-scale studies about persuasive news recommendations as well as in the field of human-robot interaction. A 2021 report by the RAND Corporation  shows how the use of logical fallacies is one of the rhetorical strategies used by the Russia and its agents to influence the online discourse and spread subversive information in Europe.
+
+Reciprocal equality
+One feature that distinguishes persuasion technology from familiar forms of persuasion is that the individual being persuaded often cannot respond in kind. This is a lack of reciprocal equality. For example, when a conversational agent persuades a user using social influence strategies, the user cannot also use similar strategies on the agent.
+
+Health behavior change
+While persuasive technologies are found in many domains, considerable recent attention has focused on behavior change in health domains. Digital health coaching is the utilization of computers as persuasive technology to augment the personal care delivered to patients, and is used in numerous medical settings.
+Numerous scientific studies show that online health behaviour change interventions can influence users' behaviours. Moreover, the most effective interventions are modelled on health coaching, where users are asked to set goals, educated about the consequences of their behaviour, then encouraged to track their progress toward their goals. Sophisticated systems even adapt to users who relapse by helping them get back on the bandwagon.
+Maintaining behavior change long term is one of the challenges of behavior change interventions. For instance, as reported, for chronic illness treatment regimens non-adherence rate can be as high as 50% to 80%. Common strategies that have been shown by previous research to increase long-term adherence to treatment include extended care, skills training, social support, treatment tailoring, self-monitoring, and multicomponent stages. However, even though these strategies have been demonstrated to be effective, there are also existing barriers to implementation of such programs: limited time, resources, as well as patient factors such as embarrassment of disclosing their health habits.
+To make behavior change strategies more effective, researchers also have been adapting well-known and empirically tested behavior change theories into such practice. The most prominent behavior change theories that have been implemented in various health-related behavior change research has been self-determination theory, theory of planned behavior, social cognitive theory, transtheoretical model, and social ecological model. Each behavior change theory analyses behavior change in different ways and consider different factors to be more or less important. Research has suggested that interventions based on behavior change theories tend to yield better result than interventions that do not employ such theories. The effectiveness of them vary: social cognitive theory proposed by Bandura, which incorporates the well-known construct of self-efficacy, has been the most widely used method in behavior change interventions as well as the most effective in maintaining long-term behavior change.
+Even though the healthcare discipline has produced a plethora of empirical behavior change research, other scientific disciplines are also adapting such theories to induce behavior change. For instance, behavior change theories have also been used in sustainability, such as saving electricity, and lifestyle, such as helping people drinking more water. These research has shown that these theories, already effectively proven useful in healthcare, is equally powerful in other fields to promote behavior change.
+Interestingly, there have been some studies that showed unique insights and that behavior change is a complex chain of events: a study by Chudzynski et al. showed that reinforcement schedule has little effect on maintaining behavior change. A point made in a study by Wemyss et al. is that even though people who have maintained behavior change for short term might revert to baseline, their perception of their behavior change could be different: they still believe they maintained the behavior change even if they factually have not. Therefore, it is possible self-report measures would not always be the most effective way of evaluating the effectiveness of the intervention.
+
+Promote sustainable lifestyles
+Previous work has also shown that people are receptive to change their behaviors for sustainable lifestyles. This result has encouraged researchers to develop persuasive technologies to promote for example, green travels, less waste, etc.
+One common technique is to facilitate people's awareness of benefits for performing eco-friendly behaviors. For example, a review of over twenty studies exploring the effects of feedback on electricity consumption in the home showed that the feedback on the electricity consumption pattern can typically result in a 5–12% saving. Besides the environmental benefits such as CO2 savings, health benefit, cost are also often used to promote eco-friendly behaviors.
+
+Research challenges
+Despite the promising results of existing persuasive technologies, there are three main challenges that remain present.
+
+Technical challenges
+Persuasive technologies developed relies on self-report or automated systems that monitor human behavior using sensors and pattern recognition algorithms. Several studies in the medical field have noted that self-report is subject to bias, recall errors and low adherence rates. The physical world and human behavior are both highly complex and ambiguous. Utilizing sensors and machine learning algorithms to monitor and predict human behavior remains a challenging problem, especially that most of the persuasive technologies require just-in-time intervention.
+
+Difficulty in studying behavior change
+In general, understanding behavioral changes require long-term studies as multiple internal and external factors can influence these changes (such as personality type, age, income, willingness to change and more). For that, it becomes difficult to understand and measure the effect of persuasive technologies.
+Furthermore, meta-analyses of the effectiveness of persuasive technologies have shown that the behavior change evidence collected so far is at least controversial, since it is rarely obtained by Randomized Controlled Trials (RCTs), the "gold standard" in causal inference analysis. In particular, due to relevant practical challenges to perform strict RCTs, most of the above-mentioned empirical trials on lifestyles rely on voluntary, self-selected participants. If such participants were systematically adopting the desired behaviors already before entering the trial, then self-selection biases would occur. Presence of such biases would weaken the behavior change effects found in the trials. Analyses aimed at identifying the presence and extent of self-selection biases in persuasive technology trials are not widespread yet. A study by Cellina et al. on an app-based behavior change trial in the mobility field found evidence of no self-selection biases. However, further evidence needs to be collected in different contexts and under different persuasive technologies in order to generalize (or confute) their findings.
+
+Ethical challenges
+The question of manipulating feelings and desires through persuasive technology remains an open ethical debate. User-centered design guidelines should be developed encouraging ethically and morally responsible designs, and provide a reasonable balance between the pros and cons of persuasive technologies.
+In addition to encouraging ethically and morally responsible designs, Fogg believes education, such as through the journal articles he writes, is a panacea for concerns about the ethical challenges of persuasive computers. Fogg notes two fundamental distinctions regarding the importance of education in engaging with ethics and technology: "First, increased knowledge about persuasive computers allows people more opportunity to adopt such technologies to enhance their own lives, if they choose. Second, knowledge about persuasive computers helps people recognize when technologies are using tactics to persuade them."
+Another ethical challenge for persuasive technology designers is the risk of triggering persuasive backfires, where the technology triggers the bad behavior that it was designed to reduce.
+
+See also
+Other subjects which have some overlap or features in common with persuasive technology include:
+
+Advertising
+Artificial intelligence
+Brainwashing
+Captology
+Coercion
+Collaboration tools (including wikis)
+Design for behaviour change
+Personal coaching
+Personal grooming
+Propaganda
+Psychology
+Rhetoric and oratory skills
+Technological rationality
+T3: Trends, Tips & Tools for Everyday Living
+
+References
+Sources
+Augello, Agnese; Città, Giuseppe; Gentile, Manuel; Lieto, Antonio (2021). "A Storytelling Robot managing Persuasive and Ethical Stances via ACT-R: an Exploratory Study". International Journal of Social Robotics. 10 (10): 40. arXiv:2107.12845.
+Bailenson, Jeremy N.; Beall, Andrew C.; Loomis, Jack; Blascovich, Jim; Turk, Matthew (August 2004). "Transformed Social Interaction: Decoupling Representation from Behavior and Form in Collaborative Virtual Environments". Presence: Teleoperators and Virtual Environments. 13 (4): 428–441. doi:10.1162/1054746041944803. S2CID 6840360.
+Bogost, Ian (2007). Persuasive Games: The Expressive Power of Videogames. MIT Press. ISBN 978-0-262-02614-7.
+Bhushan, Nitin; Steg, Linda; Albers, Casper (November 2018). "Studying the effects of intervention programmes on household energy saving behaviours using graphical causal models". Energy Research & Social Science. 45: 75–80. Bibcode:2018ERSS...45...75B. doi:10.1016/j.erss.2018.07.027. S2CID 70007984.
+Caraban, Ana; Ferreira, Maria José; Gouveia, Rúben; Karapanos, Evangelos (2015). "Social toothbrush". Proceedings of the 2015 ACM International Joint Conference on Pervasive and Ubiquitous Computing and Proceedings of the 2015 ACM International Symposium on Wearable Computers - Ubi Comp '15. pp. 649–653. doi:10.1145/2800835.2809438. ISBN 978-1-4503-3575-1. S2CID 24178634.
+Cellina, Francesca; Vittucci Marzetti, Giuseppe; Gui, Marco (December 2021). "Self-selection and attrition biases in app-based persuasive technologies for mobility behavior change: Evidence from a Swiss case study". Computers in Human Behavior. 125 106970. doi:10.1016/j.chb.2021.106970. hdl:10281/322140.
+Chiu, Meng-Chieh; Chang, Shih-Ping; Chang, Yu-Chen; Chu, Hao-Hua; Chen, Cheryl Chia-Hui; Hsiao, Fei-Hsiu; Ko, Ju-Chun (2009). "Playful bottle". Proceedings of the 11th international conference on Ubiquitous computing. pp. 185–194. doi:10.1145/1620545.1620574. ISBN 978-1-60558-431-7. S2CID 207175275.
+Chudzynski, Joy; Roll, John M.; McPherson, Sterling; Cameron, Jennifer M.; Howell, Donelle N. (13 February 2015). "Reinforcement Schedule Effects on Long-Term Behavior Change". The Psychological Record. 65 (2): 347–353. doi:10.1007/s40732-014-0110-3. PMC 4484864. PMID 26139942.
+Cugelman, Brian; Thelwall, Mike; Dawes, Phil (14 February 2011). "Online Interventions for Social Marketing Health Behavior Change Campaigns: A Meta-Analysis of Psychological Architectures and Adherence Factors". Journal of Medical Internet Research. 13 (1): e17. doi:10.2196/jmir.1367. PMC 3221338. PMID 21320854.
+De Oliveira, Rodrigo; Cherubini, Mauro; Oliver, Nuria (2010). "Movi Pill". Proceedings of the 12th ACM international conference on Ubiquitous computing. pp. 251–260. doi:10.1145/1864349.1864371. ISBN 978-1-60558-843-8. S2CID 75742.
+Dimicco, Joan Morris; Pandolfo, Anna; Bender, Walter (2004). "Influencing group participation with a shared display". Proceedings of the 2004 ACM conference on Computer supported cooperative work - CSCW '04. p. 614. doi:10.1145/1031607.1031713. ISBN 978-1-58113-810-8. S2CID 1241791.
+Elton, Catherine (21 May 2007). "'Laura' makes digital health coaching personal". The Boston Globe. Archived from the original on April 18, 2021.
+Fischer, Corinna (February 2008). "Feedback on household electricity consumption: a tool for saving energy?". Energy Efficiency. 1 (1): 79–104. Bibcode:2008EnEff...1...79F. doi:10.1007/s12053-008-9009-7. S2CID 18804506.
+Dhar, Rhavi; Putnam-Farr, Eleanor (2017). "Sustaining Sustainable Hydration: the Importance of Aligning Information Cues to Motivate Long Term Consumer Behavior Change". ACR North American Advances. NA-45.
+Fogg, B.J.; Nass, Clifford (1997a). "Silicon sycophants: the effects of computers that flatter". International Journal of Human-Computer Studies. 46 (5): 551–561. doi:10.1006/ijhc.1996.0104.
+Fogg, BJ; Nass, Clifford (1997b). "How users reciprocate to computers". CHI '97 extended abstracts on Human factors in computing systems looking to the future - CHI '97. p. 331. doi:10.1145/1120212.1120419. ISBN 978-0-89791-926-5. S2CID 19000516.
+Fogg, BJ (1998). "Persuasive computers: perspectives and research directions". Proceedings of the SIGCHI conference on Human factors in computing systems - CHI '98. pp. 225–232. CiteSeerX 10.1.1.83.7257. doi:10.1145/274644.274677. ISBN 978-0-201-30987-4. S2CID 14818487.
+Fogg, B. J., ed. (2003a). Persuasive Technology: Using Computers to Change What We Think and Do. Morgan Kaufmann. ISBN 978-1-55860-643-2.
+Fogg, B.J. (2003b). "Computers as persuasive tools". Persuasive Technology. Elsevier. pp. 31–59. doi:10.1016/B978-155860643-2/50005-6. ISBN 978-1-55860-643-2.
+Fogg, B.J. (2003c). "Computers as persuasive media". Persuasive Technology. Elsevier. pp. 61–87. doi:10.1016/B978-155860643-2/50006-8. ISBN 978-1-55860-643-2.
+Fogg, B.J. (2003d). "Computers as persuasive social actors". Persuasive Technology. Elsevier. pp. 89–120. doi:10.1016/B978-155860643-2/50007-X. ISBN 978-1-55860-643-2.
+Fogg, B. J.; Eckles, Dean; Blagojevic, Nadja (April 2007). Mobile Persuasion: 20 Perspectives on the Future of Behavior Change. Captology Media. ISBN 978-0-9795025-1-4.
+Froehlich, Jon; Dillahunt, Tawanna; Klasnja, Predrag; Mankoff, Jennifer; Consolvo, Sunny; Harrison, Beverly; Landay, James A. (2009). "Ubi Green". Proceedings of the SIGCHI Conference on Human Factors in Computing Systems. pp. 1043–1052. doi:10.1145/1518701.1518861. ISBN 978-1-60558-246-7. S2CID 10819791.
+Gena, Cristina; Grillo, Pierluigi; Lieto, Antonio; Mattutino, Claudio; Vernero, Fabiana (26 September 2019). "When Personalization Is Not an Option: An In-The-Wild Study on Persuasive News Recommendation". Information. 10 (10): 300. doi:10.3390/info10100300. hdl:2318/1715045.
+Halko, Sajanee; Kientz, Julie A. (2010). "Personality and Persuasive Technology: An Exploratory Study on Health-Promoting Mobile Applications". Persuasive Technology. Lecture Notes in Computer Science. Vol. 6137. pp. 150–161. doi:10.1007/978-3-642-13226-1_16. ISBN 978-3-642-13225-4. S2CID 18628620.
+Hamari, Juho; Koivisto, Jonna; Pakkanen, Tuomas (2014). "Do Persuasive Technologies Persuade? - A Review of Empirical Studies". Persuasive Technology. Lecture Notes in Computer Science. Vol. 8462. pp. 118–136. doi:10.1007/978-3-319-07127-5_11. ISBN 978-3-319-07126-8. S2CID 14101492.
+Ijsselsteijn, Wijnand; De Kort, Yvonne; Midden, Cees; Eggen, Berry; Van Den Hoven, Elise (2006). "Persuasive Technology for Human Well-Being: Setting the Scene". Persuasive Technology. Lecture Notes in Computer Science. Vol. 3962. pp. 1–5. doi:10.1007/11755494_1. ISBN 978-3-540-34291-5. S2CID 35628907.
+Joseph, Rodney P.; Daniel, Casey L.; Thind, Herpreet; Benitez, Tanya J.; Pekmezi, Dori (8 July 2016). "Applying Psychological Theories to Promote Long-Term Maintenance of Health Behaviors". American Journal of Lifestyle Medicine. 10 (6): 356–368. doi:10.1177/1559827614554594. PMC 5313056. PMID 28217036.
+Licklider, J. C. R.; Taylor, R. W. (1968). "The Computer As a Communication Device" (PDF). Science and Technology. 76 (2): 21–38. Archived from the original (PDF) on 5 July 2007.
+Lieto, Antonio; Vernero, Fabiana (2013). "Unveiling the link between logical fallacies and web persuasion". Proceedings of the 5th Annual ACM Web Science Conference on - Web Sci '13. pp. 473–478. arXiv:1304.3940. doi:10.1145/2464464.2508564. ISBN 978-1-4503-1889-1. S2CID 16836693.
+Lieto, Antonio; Vernero, Fabiana (2014). "Influencing the Others' Minds: An Experimental Evaluation of the Use and Efficacy of Fallacious-Reducible Arguments in Web and Mobile Technologies". PsychNology Journal. 12 (3): 87–105.
+Lockton, Dan; Harrison, David; Stanton, Neville A. (May 2010). "The Design with Intent Method: A design tool for influencing user behaviour" (PDF). Applied Ergonomics. 41 (3): 382–392. doi:10.1016/j.apergo.2009.09.001. PMID 19822311. S2CID 6436131.
+Middleton, Kathryn R.; Anton, Stephen D.; Perri, Michal G. (14 June 2013). "Long-Term Adherence to Health Behavior Change". American Journal of Lifestyle Medicine. 7 (6): 395–404. doi:10.1177/1559827613488867. PMC 4988401. PMID 27547170.
+Moon, Youngme (March 2000). "Intimate Exchanges: Using Computers to Elicit Self-Disclosure From Consumers". Journal of Consumer Research. 26 (4): 323–339. doi:10.1086/209566.
+Nass, Clifford; Moon, Youngme (January 2000). "Machines and Mindlessness: Social Responses to Computers". Journal of Social Issues. 56 (1): 81–103. CiteSeerX 10.1.1.87.2456. doi:10.1111/0022-4537.00153. S2CID 15851410.
+Oinas-Kukkonen, Harri; Harjumaa, Marja (2008). "A Systematic Framework for Designing and Evaluating Persuasive Systems". Persuasive Technology. Lecture Notes in Computer Science. Vol. 5033. pp. 164–176. doi:10.1007/978-3-540-68504-3_15. ISBN 978-3-540-68500-5.
+Oinas-Kukkonen, Harri; Hasle, Per; Harjumaa, Marja; Segerståhl, Katarina; Øhrstrøm, Peter, eds. (2008). Persuasive Technology: Third International Conference, PERSUASIVE 2008, Oulu, Finland, June 4-6, 2008, Proceedings. Lecture Notes in Computer Science. Vol. 5033. Springer-Verlag. doi:10.1007/978-3-540-68504-3. ISBN 978-3-540-68500-5.
+Perfetti, Christine (1 March 2003). "Guiding Users with Persuasive Design: An Interview with Andrew Chak". UX Articles by UIE.
+Reeves, Byron; Nass, Clifford (1996). The Media Equation: How People Treat Computers, Television, and New Media like Real People and Places. Cambridge University Press. ISBN 978-1-57586-052-7.
+Spahn, Andreas (December 2012). "And Lead Us (Not) into Persuasion…? Persuasive Technology and the Ethics of Communication". Science and Engineering Ethics. 18 (4): 633–650. doi:10.1007/s11948-011-9278-y. PMC 3513602. PMID 21544700.
+Stibe, Agnis; Cugelman, Brian (2016). "Persuasive Backfiring: When Behavior Change Interventions Trigger Unintended Negative Outcomes". Persuasive Technology. Lecture Notes in Computer Science. Vol. 9638. pp. 65–77. doi:10.1007/978-3-319-31510-2_6. hdl:1721.1/108479. ISBN 978-3-319-31509-6. S2CID 8321492.
+Turkle, Sherry (1984). The second self: computers and the human spirit. Simon and Schuster. ISBN 978-0-671-46848-4. OCLC 895659909.
+Thieme, Anja; Comber, Rob; Miebach, Julia; Weeden, Jack; Kraemer, Nicole; Lawson, Shaun; Olivier, Patrick (2012). "'We've bin watching you'". Proceedings of the SIGCHI Conference on Human Factors in Computing Systems. pp. 2337–2346. doi:10.1145/2207676.2208394. ISBN 978-1-4503-1015-4. S2CID 8776002.
+Wemyss, Devon; Cellina, Francesca; Lobsiger-Kägi, Evelyn; de Luca, Vanessa; Castri, Roberta (January 2019). "Does it last? Long-term impacts of an app-based behavior change intervention on household electricity savings in Switzerland". Energy Research & Social Science. 47: 16–27. Bibcode:2019ERSS...47...16W. doi:10.1016/j.erss.2018.08.018. S2CID 169310480.
+Winograd, Terry (1986). "A language/Action perspective on the design of cooperative work". Proceedings of the 1986 ACM conference on Computer-supported cooperative work - CSCW '86. p. 203. doi:10.1145/637069.637096. ISBN 978-1-4503-7365-4. S2CID 1709034.
+Wixom, Barbara H.; Todd, Peter A. (March 2005). "A Theoretical Integration of User Satisfaction and Technology Acceptance". Information Systems Research. 16 (1): 85–102. doi:10.1287/isre.1050.0042.
+Yang, Ellie F.; Shah, Dhavan V.; Burnside, Elizabeth S.; Little, Terry A.; Garino, Natalie; Campbell, Claire Elise (October 2020). "Framing the Clinical Encounter: Shared Decision-Making, Mammography Screening, and Decision Satisfaction". Journal of Health Communication. 25 (9): 681–691. doi:10.1080/10810730.2020.1838003. PMC 7772277. PMID 33111640.
+Matthews, Miriam; Demus, Alyssa; Treyger, Elina; Posard, Marek N.; Reineger, Hilary; Paul, Christofer (March 2021). "Understanding and Defending Against Russia's Malign and Subversive Information Efforts in Europe" (PDF). Rand Research Report.
+
+External links
+"The Ethical Use of Persuasive Technology". Stanford Behavior Design Lab.
+"Stanford Behavior Wizard".
+"Persuasive Technology Conference – The 12th International Conference on Persuasive Technology".

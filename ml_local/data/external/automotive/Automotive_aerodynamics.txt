@@ -1,0 +1,58 @@
+Title: Automotive aerodynamics
+
+Automotive aerodynamics is the study of the aerodynamics of road vehicles.  Its main goals are reducing drag and wind noise, minimizing noise emission, and preventing undesired lift forces and other causes of aerodynamic instability at high speeds.  Air is also considered a fluid in this case.  For some classes of racing vehicles, it may also be important to produce downforce to improve traction and thus cornering abilities.
+
+History
+The frictional force of aerodynamic drag increases significantly with vehicle speed.  As early as the 1920s engineers began to consider automobile shape in reducing aerodynamic drag at higher speeds. By the 1950s German and British automotive engineers were systematically analyzing the effects of automotive drag for the higher performance vehicles.  By the late 1960s scientists also became aware of the significant increase in sound levels emitted by automobiles at high speed.  These effects were understood to increase the intensity of sound levels for adjacent land uses at a non-linear rate.  Soon highway engineers began to design roadways to consider the speed effects of aerodynamic drag produced sound levels, and automobile manufacturers considered the same factors in vehicle design.
+
+Strategies for reducing drag
+The deletion of parts on a vehicle is an easy way for designers and vehicle owners to reduce parasitic and frontal drag of the vehicle with little cost and effort. Deletion can be as simple as removing an aftermarket part, or part that has been installed on the vehicle after production, or having to modify and remove an OEM part, meaning any part of the vehicle that was originally manufactured on the vehicle. Most production sports cars and high efficiency vehicles come standard with many of these deletions in order to be competitive in the automotive and race market, while others choose to keep these drag-increasing aspects of the vehicle for their visual aspects, or to fit the typical uses of their customer base.
+
+Spoilers
+A rear spoiler usually comes standard in most sports vehicles and resembles the shape of a raised wing in the rear of the vehicle. The main purpose of a rear spoiler in a vehicle's design is to counteract lift, thereby increasing stability at higher speeds. In order to achieve the lowest possible drag, air must flow around the streamlined body of the vehicle without coming into contact with any areas of possible turbulence. A rear spoiler design that stands off the rear deck lid will increase downforce, reducing lift at high speeds while incurring a drag penalty. Flat spoilers, possibly angled slightly downward may reduce turbulence and thereby reduce the coefficient of drag. Some cars now feature automatically adjustable rear spoilers, so at lower speed the effect on drag is reduced when the benefits of reduced lift are not required.
+
+Mirrors
+Side mirrors both increase the frontal area of the vehicle and increase the coefficient of drag since they protrude from the side of the vehicle. In order to decrease the impact that side mirrors have on the drag of the vehicle the side mirrors can be replaced with smaller mirrors or mirrors with a different shape. Several concept cars of the 2010s are replacing mirrors with tiny cameras but this option is not common for production cars because most countries require side mirrors. One of the first production passenger automobiles to swap out mirrors for cameras was the Honda e, and in this case the cameras are claimed by Honda to have decreased aerodynamic drag by "around 90% compared to conventional door mirrors" which contributed to an approximately 3.8% reduction in drag for the entire vehicle. It is estimated that two side mirrors are responsible for 2 to 7% of the total aerodynamic drag of a motor vehicle, and that removing them could improve fuel economy by 1.5–2 miles per US gallon.
+
+Radio antennas
+While they do not have the biggest impact on the drag coefficient due to their small size, radio antennas commonly found protruding from the front of the vehicle can be relocated and changed in design to rid the car of this added drag. The most common replacement for the standard car antenna is the shark fin antenna found in most high efficiency vehicles.
+
+Wheels
+When air flows around the wheel wells it gets disturbed by the rims of the vehicles and forms an area of turbulence around the wheel. In order for the air to flow more smoothly around the wheel well, smooth wheel covers are often applied. Smooth wheel covers are hub caps with no holes in them for air to pass through. This design reduces drag; however, it may cause the brakes to heat up more quickly because the covers prevent airflow around the brake system. As a result, this modification is more commonly seen in high efficiency vehicles rather than sports cars or racing vehicles.
+
+Air curtains
+Air curtains divert air flow from slots in the body and guide it towards the outside edges of the wheel wells.
+
+Partial grille blocks
+The front grille of a vehicle is used to direct air through the radiator. In a streamlined design the air flows around the vehicle rather than through; however, the grille of a vehicle redirects airflow from around the vehicle to through the vehicle, which then increases the drag. In order to reduce this impact a grille block is often used. A grille block covers up a portion of, or the entirety of, the front grille of a vehicle. In most high efficiency models or in vehicles with low drag coefficients, a very small grille will already be built into the vehicle's design, eliminating the need for a grille block. The grille in most production vehicles is generally designed to maximize air flow through the radiator where it exits into the engine compartment. This design can actually create too much airflow into the engine compartment, preventing it from warming up in a timely manner, and in such cases a grille block is used to increase engine performance and reduce vehicle drag simultaneously.
+
+Under trays
+The underside of a vehicle often traps air in various places and adds turbulence around the vehicle. In most racing vehicles this is eliminated by covering the entire underside of the vehicle in what is called an under tray. This tray prevents any air from becoming trapped under the vehicle and reduces drag.
+
+Fender skirts
+Fender skirts are often made as extensions of the body panels of the vehicles and cover the entire wheel wells. Much like smooth wheel covers this modification reduces the drag of the vehicle by preventing any air from becoming trapped in the wheel well and assists in streamlining the body of the vehicle. Fender skirts are more commonly found on the rear wheel wells of a vehicle because the rear tires do not pivot when steering. This is commonly seen in vehicles such as the first generation Honda Insight. Front fender skirts have the same effect on reducing drag as the rear wheel skirts, but must be further offset from the body in order to compensate for the tire sticking out from the body of the vehicle as turns are made.
+
+Boattails and Kammbacks
+A boattail can greatly reduce a vehicle's total drag. Boattails create a teardrop shape that will give the vehicle a more streamlined profile, reducing the occurrence of drag inducing flow separation. A kammback is a truncated boattail. It is created as an extension of the rear of the vehicle, moving the rear backward at a slight angle toward the bumper of the car. This can reduce drag as well but a boattail would reduce the vehicle's drag more. Nonetheless, for practical and style reasons, a kammback is more commonly seen in racing, high efficiency vehicles, and trucking.
+
+Comparison with aircraft aerodynamics
+Automotive aerodynamics differs from aircraft aerodynamics in several ways:
+
+The characteristic shape of a road vehicle is much less streamlined compared to an aircraft.
+The vehicle operates very close to the ground, rather than in free air.
+The operating speeds are lower (and aerodynamic drag varies as the square of speed).
+A ground vehicle has fewer degrees of freedom than an aircraft, and its motion is less affected by aerodynamic forces.
+Passenger and commercial ground vehicles have very specific design constraints such as their intended purpose, high safety standards (requiring, for example, more 'dead' structural space to act as crumple zones), and certain regulations.
+
+Methods of studying aerodynamics
+Automotive aerodynamics is studied using both computer modelling and wind tunnel testing. For the most accurate results from a wind tunnel test, the tunnel is sometimes equipped with a rolling road. This is a movable floor for the working section, which moves at the same speed as the air flow. This prevents a boundary layer from forming on the floor of the working section and affecting the results.
+
+Downforce
+Downforce describes the downward pressure created by the aerodynamic characteristics of a car that allows it to travel faster through a corner by holding the car to the track or road surface. Some elements to increase vehicle downforce will also increase drag.
+It is very important to produce a good downward aerodynamic force because it affects the car's speed and traction.
+
+See also
+References
+External links
+
+One of the first cars to generate downforce - The Prevost analysed in CFD

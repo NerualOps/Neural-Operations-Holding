@@ -1,0 +1,28 @@
+Title: Chassis dynamometer
+
+A chassis dynamometer, informally referred to as a rolling road or a dyno, is a mechanical device that uses one or more fixed roller assemblies to simulate different road conditions within a controlled environment, and is used for a wide variety of vehicle testing and development purposes.
+
+Chassis dynamometer types
+There are many types of chassis dynamometer according to the target application - for example, emissions measurement, miles accumulation chassis dynamometer (MACD), Noise-Vibration-Harshness (NVH or "Acoustic") Application, Electromagnetic Compatibility (EMC) testing, end of line (EOL) tests, performance measurement and tuning. Another basic division is by type of vehicle - motorcycles, cars, trucks, tractors or the size of the roller - mostly 25", 48", 72", but also any other. Modern dynamometers used for development are mostly one roller to the wheel construction, and the vehicle wheel is placed on the top of the roller. Older constructional solutions are two roller per wheel and the vehicle is place between these rollers - this design solution is cheaper and simpler, however, due to the requirements for accuracy and strict limits is no longer used for the development of new vehicles, but only as a test dynamometer at the end of the line or to measure the performance of the engine without dismantling, or performance tuning in "garage" companies.
+
+Basic modes
+Tractive force control/Force constant - in this mode the dynamometer holds set force regardless of speed or other parameters. The specified Force can be distributed evenly between the axles or in different amounts between different axles in the case of multiple axles chassis dynamometers.
+Speed control/Velocity constant - dynamometer holds the set speed regardless of force or other parameters. For example, if a vehicle tries to accelerate in this mode, dynamometer applies opposite force to maintain set constant speed. This mode is used for example in the static power measurement.
+Road load simulation - dynamometer simulates road according to set parameters (according to desired simulation parameters = F0, F1, F2 or ABC parameters, simulated inertia and gradient).
+
+Measured variables on a roller dynamometer
+Directly measured variables are only force on the torque transducer (i.e. loadcell) and revolutions measured on the role encoder dynamometer. All other variables are calculated based on known design (i.e. roller radius and loadcell mounting).
+
+Power measurement on Chassis dynamometer
+Due to friction and mechanical losses in various parts of the power train, the measured power at the wheels is about 15 to 20 percent lower than the power measured directly at the output of engine crankshaft (measuring device with this purpose is called engine testbed).
+
+Road load simulation principle on chassis dynamometer
+Because the vehicle is secured to the chassis dynamometer, it prevents variables such as wind resistance to alter the data set. The chassis dynamometer is designed to add the sum of all the forces that are applied to a vehicle when driven on an actual road course to be simulated through the tires and calculated in the test results.
+Increasing air drag with the speed on the road manifests as increasing braking force of the vehicle wheels. The aim is to make the vehicle on the dynamometer accelerate and decelerate the same way as on a real road.
+First you need to know the parameters of the "behaviour" of the vehicle on a real road.
+In order to get "road parameters", vehicle must be driving on ideal flat road with no wind from any direction, gear set to neutral and time needed to slow down without braking is measured in certain intervals e.g. 100–90 km/h, 90–80 km/h, 80–70 km/h 70–60 km/h etc. Slowing down from higher speed takes shorter time mainly due to air resistance.
+Those parameters are later set in dynamometer workstation, together with vehicle inertia. Vehicle is restrained and so called vehicle adaptation has to be performed.
+During vehicle adaptation dynamometer automatically slowing down from set speed, changing its own "dyno parameters" and trying to get same deceleration in given intervals as on real road. Those parameters are then valid for this vehicle type. Changing of set simulated inertia it is possible to simulate vehicle ability to accelerate if fully loaded, with setting gradient it is possible to simulate force if vehicle going downhill etc. Chassis dynamometers for climatic chamber does exists, where it is possible to change temperature in give range i.e. -40 to +50 °C or altitude chamber where it is possible to check fuel consumption with different temperatures or pressure and to simulate driving on mountain roads.
+
+
+== References ==

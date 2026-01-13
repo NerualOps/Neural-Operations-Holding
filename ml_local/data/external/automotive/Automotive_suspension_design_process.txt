@@ -1,0 +1,89 @@
+Title: Automotive suspension design process
+
+Automotive suspension design is an aspect of automotive engineering, concerned with designing the suspension for cars and trucks.  Suspension design for other vehicles is similar, though the process may not be as well established.
+The process entails 
+
+Selecting appropriate vehicle level targets
+Selecting a system architecture
+Choosing the location of  the 'hard points', or theoretical centres of each ball joint or bushing
+Selecting the rates of the bushings
+Analysing the loads in the suspension
+Designing the spring rates
+Designing shock absorber characteristics
+Designing the structure of each component so that it is strong, stiff, light, and cheap
+Analysing the vehicle dynamics of the resulting design
+Since the 1990s the use of multibody simulation and finite element software has made this series of tasks more straightforward.
+
+Vehicle level targets
+A partial list would include:
+
+Maximum steady state lateral acceleration (in understeer mode)
+Roll stiffness (degrees per g of lateral acceleration)
+Ride frequencies
+Lateral load transfer percentage distribution front to rear
+Roll moment distribution front to rear
+Ride heights at various states of load
+Understeer gradient
+Turning circle
+Ackermann
+Jounce travel
+Rebound travel
+Once the overall vehicle targets have been identified they can be used to set targets for the two suspensions. For instance, the overall understeer target can be broken down into contributions from each end using a Bundorf analysis.
+
+System architecture
+Typically a vehicle designer is operating within a set of constraints. The suspension architecture selected for each end of the vehicle will have to obey those constraints. For both ends of the car this would include the type of spring, location of the spring, and location of the shock absorbers. 
+For the front suspension the following need to be considered
+
+The type of suspension (MacPherson strut or double wishbone suspension)
+Type of steering actuator (rack and pinion or recirculating ball)
+Location of the steering actuator in front of, or behind, the wheel centre
+For the rear suspension there are many more possible suspension types, in practice.
+
+Hardpoints
+The hardpoints control the static settings and the kinematics of the suspension. 
+The static settings are
+
+Toe
+Camber
+Caster
+Roll center height at design load
+Mechanical (or caster) trail
+Anti-dive and anti-squat
+Kingpin Inclination
+Scrub radius
+Spring and shock absorber motion ratios
+The kinematics describe how important characteristics change as the suspension moves, typically in roll or steer. They include
+
+Bump Steer
+Roll Steer
+Tractive Force Steer
+Brake Force Steer
+Camber gain in roll
+Caster gain in roll
+Roll centre height gain
+Ackermann change with steering angle
+Track gain in roll
+The analysis for these parameters can be done graphically, or by CAD, or by the use of kinematics software.
+
+Compliance analysis
+The compliance of the bushings, the body, and other parts modify the behaviour of the suspension. In general it is difficult to improve the kinematics of a suspension using the bushings, but one example where it does work is the toe control bush used in Twist-beam rear suspensions. More generally, modern cars suspensions include a Noise, vibration, and harshness (NVH) bush. This is designed as the main path for the vibrations and forces that cause road noise and impact noise, and is supposed to be tunable without affecting the kinematics too much.
+In racing cars, bushings tend to be made of harder materials for good handling such as brass or delrin.
+In Passenger cars, bushings tend to be made of softer material for added comfort.
+In general physical terms, the mass and mechanical hysteresis (damping effect) of solid parts should be accounted for in a dynamic analysis, as well as their elasticity.
+
+Loads
+Once the basic geometry is established the loads in each suspension part can be estimated. This can be as simple as deciding what a likely maximum load case is at the contact patch, and then drawing a Free body diagram of each part to work out the forces, or as complex as simulating the behaviour of the suspension over a rough road, and calculating the loads caused. Often loads that have been measured on a similar suspension are used instead - this is the most reliable method.
+
+Detailed design of arms
+The loads and geometry are then used to design the arms and spindle. Inevitably some problems will be found in the course of this that force compromises to be made with the basic geometry of the suspension.
+
+References
+Notes
+Sources
+The Automotive Chassis Engineering Principles - J. Reimpell H. Stoll J. W. Betzler.  - ISBN 978-0-7680-0657-5
+Race Car Vehicle Dynamics - William F. Milliken and Douglas L. Milliken.
+Fundamentals of Vehicle Dynamics - Thomas Gillespie.
+Chassis Design - Principles and Analysis - William F. Milliken and Douglas L. Milliken.
+Simulation and direct equations:
+Abramov, S., Mannan, S., & Durieux, O. (2009)'Semi-Active Suspension System Simulation Using SIMULINK'. International Journal
+of Engineering Systems Modelling and Simulation, 1(2/3), 101 - 114     http://collections.crest.ac.uk/232/1/fulltext.pdf

@@ -1,0 +1,145 @@
+Title: Dana 44
+
+The Dana/Spicer Model 44 is an automotive axle manufactured by Dana Holding Corporation and is used extensively among automobile manufacturers and in the automotive aftermarket area as well. The Dana 44 was first manufactured in the 1940s and is still being manufactured today, both front and rear axle variants.  The Dana 44 has been manufactured as a beam axle and independent suspension for both front and rear axle setups. There are also different variations of the Dana 44. Over a dozen automobile manufacturers have made vehicles that have Dana 44 axles, including Jeep which currently manufactures four-wheel drive vehicles that have both front and rear Dana 44 axles.
+
+General specifications
+Ring gear measures 8.5 in (216 mm)
+Ring gear measures 8.9 in (226 mm)
+OEM Inner axle shaft spline counts are 10, 19, 29, 30, 32, 33 and 35
+Pinion shaft diameter: 1.375" (most Dana 44s) 1.625" (JK rear 8.9" Dana 44s)
+Pinion shaft splines and spline diameter: 26/1.12" (most Dana 44s post 1970), 24/1.25" (JK), 10/1.12" (early pre-1970 Dana 44s)
+Gear ratios range from 2.72:1 to 5.89:1
+Carrier break: 2.72:1 – 3.73:1 and 3.92 – 5.89:1. 6.17:1 (Volvo C202)
+On some differentials only the high speed 2.72–3.73 carrier is used for all gear sets up to 5.89 (JK, Nissan or when thick gears are used)
+
+Axle shaft diameter
+1.175" front outer (19 spline)
+1.20" rear  (10 spline)
+1.30" rear (19 spline)
+1.31" front inner (30 spline)
+1.31" rear  (30 spline)
+1.41" rear  (32 spline)
+
+Front Dana 44 solid axle
+The Dana 44 Front axle first saw use in the 1950s and still in use today. Dana 44 Front axles were known for utilizing locking hubs or a center axle disconnect system. However, a permanently locked-in Dana 44 is not uncommon. The Dana 44 has seen use in 1/4-, 1/2-, 3/4-, and 1-ton rated trucks. The Dana 44 was manufactured in kingpin and ball joint variations, as well as closed and open knuckle variations.
+
+Independent front suspension (IFS) Dana 44 axle
+In the 1960s, Jeep used a unique Dana 44 IFS setup, that was short lived. In the 1980s and 1990s, Ford used a form of IFS known as "Twin Traction Beam" (TTB). This Dana 44 had no axle tubes but attached to the driver side traction beam, which also acted as a cover plate, and had "open air" axles which traveled through the beams to the spindles. The axles had u-joints to allow for the independent action of the beams. Individual pivot points for the beams at greater than center made each beam longer than half the overall width crossing in the middle. This allowed for an independent front suspension design. Ford TTB Dana 44 axles all utilized locking hubs. The TTB set-up is based on Ford's highly successful Twin I-beam design on two-wheel-drive pick-up truck models.
+
+Rear Dana 44 solid axle
+Dana 41
+The Dana 41 was the precursor to the Dana 44 and was used from the 1930s to the 1950s. The ring gear on the Dana 41 is nearly one inch smaller than a Dana 44.
+
+Dana 44
+The Dana 44 rear axle first saw use in the 1940s and is still in use today. The Dana 44 has a GAWR up to 3,500 lb (1,600 kg) and is a semi-floating type, having one bearing on the end of the axle shaft which carries the weight of the vehicle on the axle and also allows axle rotation.
+There is an 8.9" diameter Dana 44 ring and pinion that is very different from the standard Dana 44. This ring and pinion is significantly stronger with a better pinion to ring gear tooth contact patch and angle. It was typically used in the back of jeep JKs, Isuzus and Nissan pickups.  This ring and pinion does share some components and can be adapted into an earlier Dana 44 but requires some work, different bearings and spacers.  The benefit is the larger ring gear, better angle cut on the teeth and Dana 60 diameter pinion shaft.
+The Dana Spicer Max momentary output torque FT-lbs
+
+Low pinion Dana 44 30 spline............3460 [ft-lbs]
+High pinion Dana 44 30 spline...........4170 [ft-lbs]
+Low pinion rear 8.9" Dana 44 32 spline..5340 [ft-lbs]
+
+Dana 45
+The Dana 45 was introduced during the 1950s as an upgraded Dana 44 with larger 20 spline axle shafts. Since the Dana 45 is no longer being made you can use the Dana 44 gears in the Dana 45 housing if you use model 53 pinion bearings and plenty of shims.
+
+Independent rear suspension (IRS) Dana 44 axle
+The Dana 44 has seen use in Chevrolet Corvettes and Dodge Vipers. This axle is referred to as a Dana 44 ICA or Dana 44 IRS. All 1980–1982 Chevrolet Corvette C3 and manual transmission equipped 1985–1996 Chevrolet Corvette C4 had this axle. The 2005–06 Pontiac GTO, The Dodge Viper has always used a Dana 44 IRS setup. The majority of Corvette and Viper Dana 44 IRS set ups use a limited slip differential.
+Jaguar first used the Dana 44 in an IRS in 1961 for the Jaguar E-type. It was used through 1997 (Jaguar IRS Article). There are some differences in the Jaguar Dana 44, produced by Birfield (later GKN) subsidiary Salisbury Transmission as the Salisbury 4HU and 15HU. The ring gear in the Salisbury uses slightly larger mounting bolts and the pinion shaft is a different diameter than the common version. Naturally the cast housing is also unique to the IRS model. Standard 8.5" Dana 44 ring and pinion gear can be used in the IRS model through the use of an installation kit which includes special shouldered bolts to mount the standard ring gear to the IRS carrier and a special pinion bearing set to fit the standard pinion shaft to the IRS housing. Most V-12 Jaguar and E-type six-cylinder models used limited slip versions, other models (mainly the XJ6) used a standard differential stock with limited slip as an option. Between 1985 and 1987, Dana produced 30-spline carriers were also briefly used.
+
+Common applications
+Front Axle
+GM
+
+1967-1976 K5(Blazer/Jimmy)/K10/K20 (Passenger side) Some 1977 K5 Blazers came with Dana 44s in the front, others came with a Corporate 10 bolt solid front axle. Dana 44s were also used as front axles in 4x4 converted full size Chevrolet and GMC vans by Pathfinder Equipment Company from 1973 to 1989.
+Dodge
+
+1974–1993 Ramcharger (Passenger side)
+1980–2001 ½ Ton (W150/1500) (Passenger side 1980–1993, Driver side 1994-2001½)
+1988–1995 ¾ Ton (2500 Light Duty) (Passenger side 1988–1993, Driver side 1994-1995½)
+1972–1980 (W200) (Passenger side)
+Ford
+
+1959–1979 ½ Ton (F-100/F-150) (Driver side)
+1980–1996 ½ Ton (F-150, TTB) (Driver side)
+1959–1987 ¾ Ton (F-250 light duty, TTB 1980-1996½) (Driver side)
+1972–1979 Bronco (Driver side)
+International Harvester
+
+1975–1980 Scout II (4X4)
+1974 Travelall (100 4X4)
+1969–73 1200/1210 4X4 Pickup/Travelall (Closed knuckle HD)
+1974–75 200 4X4 Pickup/Travelall (Open knuckle HD)
+Jeep
+
+1967–1973 Jeepster Commando and Commando
+1974–1991 Wagoneer (Passenger side 1974–1979, Driver side 1980–1991)
+1974–1983 SJ
+Late 1986 CJ-7
+2003–2006 TJ Wrangler Rubicon (Front and rear)
+2007-2018 JK Wrangler Rubicon (Front and rear)
+2018-2019 JL Wrangler Rubicon (Front and rear)
+2020 JT Gladiator (Front and rear)
+1987–2001 Venezuelan XJ (Front and rear)
+1996-1998 Jeep Grand Cherokee made on Venezuela
+Rear Axle
+GM
+1967-1968 1/2 Ton Pickups
+Jeep
+
+1948-1975 CJ
+2003–2014 Wrangler Rubicon
+2006–2010 Grand Cherokee SRT8
+2004–2006 Wrangler "LJ" Unlimited
+1997–2006 Wrangler (optional: available starting 7 July 1997)
+2007–2015 Wrangler (optional on 2007, standard '08-present)
+1987–1990 XJ (tow package)
+1987–1990 Wrangler (optional: available in some export markets) Gear Ratios were 3.07:1, 3.54:1, 3.73:1 and 4.10:1
+1987–1992 MJ (Big-Ton/Burly Package/Metric ton)
+1986 CJ-7
+1996–2004 ZJ/WJ Grand Cherokee (aluminum center section, referred to as the 'D44A')o
+1996-1998 Jeep Grand Cherokee made on Venezuela
+International Harvester
+
+1971½–1980 Scout II
+1974 Travelall (100 4X4)
+Isuzu
+
+1998-2002 Rodeo (Dana 44HD with thick cut ring gear and Dana 60 spline(29) and Dana 60 diameter pinion)
+1993–1997 Rodeo (Honda Passport, Holden Frontera)
+1994–1997 Rodeo (Honda Passport)
+Nissan
+
+2004–2007 Titan (32 spline)
+2008–Present Titan (35 spline)
+2005–Present Frontier/Xterra NISMO, Off-Road, Pro-X models, and all manual transmissions.
+Mitsubishi Montero/Pajero
+
+2000–2010 installed in some of the Venezuelan Dakar models.
+Independent Rear Suspension (IRS)
+Corvette
+
+1980–1982 C3
+1985–1996 C4 with manual transmission
+Pontiac
+
+2005–2006 – GTO
+Dodge
+
+1992–2017 Viper
+Jaguar
+
+1961–1975  E-type
+1961–1965 Mark X
+1963–1968 S-type
+1966–1970 420G
+1966–1969 420/Daimler Sovereign
+1968–1992  XJ6
+1968–1992 XJ12
+1975–1996 XJS
+1986–1994 XJ40
+1994–1997 X300
+Studebaker Cars
+1951-1964 Some V8 powered cars had the Dana 44 rear axle when ordered with performance packages or Heavy duty drivetrains.
+
+
+== References ==

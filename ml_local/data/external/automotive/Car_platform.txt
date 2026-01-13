@@ -1,0 +1,102 @@
+Title: Car platform
+
+A car platform is a shared set of common design, engineering, and production efforts, as well as major components, over a number of outwardly distinct models and even types of cars, often from different, but somewhat related, marques. It is practiced in the automotive industry to reduce the costs associated with the development of products by basing those products on a smaller number of platforms. This further allows companies to create distinct models from a design perspective on similar underpinnings. A car platform is not to be confused with a platform chassis, although such a chassis can be part of an automobile's design platform, as noted below.
+
+Definition and benefits
+A basic definition of a platform in cars, from a technical point of view, includes underbody and suspensions (with axles) — where the underbody is made of the front floor, rear floor, engine compartment, and frame (reinforcement of underbody). Key mechanical components that define an automobile platform include:
+
+The floorpan, which serves as a foundation for the chassis and other structural and mechanical components
+Front and rear axles and the distance between them - wheelbase
+Steering mechanism and type of power steering
+Type of front and rear suspensions
+Placement and choice of engine and other powertrain components
+Platform sharing is a product development method where different products and the brand attached share the same components. The purpose with platform sharing is to reduce the cost and have a more efficient product development process. The companies gain on reduced procurement costs by taking advantage of the commonality of the components. However, this also limits their ability to differentiate the products and imposes a risk of losing the tangible uniqueness of the product. The companies have to make a trade-off between reducing their development costs and the degree of differentiation of the products.
+
+Characteristics of a joint platform
+Platform sharing is a practice commonly employed by various brands within a corporate group. The fundamental components of a shared platform typically include the chassis and the drive unit. The extent to which different automobile or motorcycle models utilize the same components can vary, leading to different degrees of structural equality and platform similarity:
+
+Structural equality: In the context of structural equality, the differences between vehicles are minimal. Only the brand logo, front fairing, fuel tank, and, where applicable, headlights and rear lights, are distinct. Vehicles with structural equality are often produced on the same assembly line.
+Same platform: When vehicles share the same platform, different fairings attach to the same fixation points, allowing for the easy interchange of components such as the fork, wing, engine, and transmission.
+The remaining vehicle parts are categorised into "head" parts and system parts:
+
+Head Parts: These include components like the bodywork or fuel tank, which can vary significantly between models.
+System Parts: Also known as Carry Over Parts (COP), these are common parts that are replicated and adapted to different models. Examples include wheels or chassis components that are identical across different models, with only minor variations like model symbols.
+Platform sharing facilitates the efficient production and development of vehicles by leveraging common components across different models, thereby reducing costs and enhancing operational efficiency.
+
+Platform sharing among brands
+One of the first car companies to use this product development approach was General Motors in 1908. General Motors used a single chassis for certain class of model across most of its brands like Chevrolet, Buick, Pontiac and Oldsmobile. Later, Chrysler Corporation would do the same for Plymouth, DeSoto and Dodge cars. Ford followed the same principle for Ford and Mercury in US markets.
+The chassis unit was common with many shared mechanical components while the exterior styling and interior trims were designed according to its individual brand and category.
+
+Multiple body variants
+In recent years for monocoque chassis, platform-sharing combined with advanced and flexible-manufacturing technology enabled automakers to sharply reduce product development and changeover times, while modular design and assembly allow building a greater variety of vehicles from one basic set of engineered components. Pictured below is the Nissan MS platform, where designs including 5-door hatchback, sedan, compact SUV and minivan were built on a common floor panel and many shared functional assemblies such as engine, transmission and chassis components.
+
+Many vendors refer to this as product or vehicle architecture. The concept of product architecture is the scheme by which the function of a product is allocated to physical components.
+The use of a platform strategy provides several benefits:
+
+Greater flexibility across plants (the possibility of transferring production from one plant to another due to standardization)
+Cost reduction through using resources on a global scale
+Increased utilization of plants (higher productivity due to the reduction in the number of differences)
+Reduction of the number of platforms as a result of their localization on a worldwide basis
+The car platform strategy has become important in new product development and in the innovation process. The finished products have to be responsive to market needs and to demonstrate distinctiveness while – at the same time – they must be developed and produced at low cost. Adopting such a strategy affects the development process and also has an important impact on an automaker's organizational structure. A platform strategy also offers advantages for the globalization process of automobile firms.
+Because automakers spend the majority of time and money on the development of platforms, platform sharing affords manufacturers the ability to cut costs on research and development by spreading it over several product lines. Manufacturers are then able to offer products at a lower cost to consumers. Additionally, economies of scale are increased, as is return on investment.
+
+Examples
+Early examples
+Originally, a "platform" was a literally shared chassis from a previously-engineered vehicle, as in the case for the Citroën 2CV platform chassis used by the Citroën Ami and Citroën Dyane, as well as the Volkswagen Beetle frame under the Volkswagen Karmann Ghia. These two manufacturers made different category of vehicles under using the same chassis design at different years though the primary vehicle was still in production.
+In the United States, platform sharing has been a common practice since the 1960s. This was when GM used the same platform in the development of the Pontiac LeMans, the Buick Skylark, the Chevrolet Chevelle, and the Oldsmobile Cutlass.
+In the 1980s, Chrysler's K-cars all wore a badge with the letter "K" to indicate their shared platform. In later stages, the "K" platform was extended in wheelbase, as well as use for several of the Corporation's different models. In the same decade, Fiat and Saab jointly developed cars using the Type Four platform to compete with the German-dominated European executive car segment.
+General Motors used similar strategies with its "J" platform that debuted in mid-1981 in four of GM's divisions. Subsequently, GM introduced its "A" bodies for the same four divisions using the same tread width/wheelbase of the "X" body platform, but with larger bodywork to make the cars seem larger, and with larger trunk compartments. They were popular through the 1980s, primarily. Even Cadillac started offering a "J" body model called the Cimarron, a much gussied-up version of the other four brands' platform siblings.
+A similar strategy applied to what is known as the N-J-L platform, arguably the most prolific of GM's efforts on one platform. Once more, GM's four lower-level divisions all offered various models on this platform throughout the 1980s and into the 1990s.
+The 1988 Fiat Tipo was one of the first European cars utilizing a modular platform, also used for the Fiat Tempra.
+
+Recent years
+Japanese carmakers have followed the platform sharing practice with Honda's Acura line, Nissan's Infiniti brand, and Toyota's Lexus marque, as the entry-level luxury models are based on their mainstream lineup. For example, the Lexus ES is essentially an upgraded and rebadged Toyota Camry. After Daimler-Benz merged with Chrysler, Chrysler engineers used several M-B platforms for new models including the Crossfire which was based on the M-B SLK roadster. Other models that share platforms are the European Ford Focus, Mazda 3, and the Volvo S40.
+
+Differences between shared models typically involve styling, including headlights, tail lights, and front and rear fascias. Examples also involve differing engines and drivetrains. In some cases such as the Lexus ES that is a Toyota Camry, "same car, same blueprints, same skeleton off the same assembly line in the same factory", but the Lexus is marketed with premium coffee in the dealership's showroom and reduced greens fees at Pebble Beach Golf Links as part of the higher-priced badge.
+Platform sharing may be less noticeable now; however, it is still very apparent. Vehicle architectures primarily consist of "under the skin" components, and shared platforms can show up in unusual places, like the Nissan FM platform-mates Nissan 350Z marketed as a sports car and Infiniti FX positioned as a SUV. The Volkswagen A platform-mates such as the sports-oriented Audi TT and the economy-focused Volkswagen Golf also share much of their mechanical components but are visually entirely different. Both the Volkswagen Group and Toyota have had much success building many well-differentiated vehicles from many marques, from the same platforms. One of the least conspicuous recent examples is the Chevy Trailblazer and Chevy SSR; both use the GMT-360 platform.
+
+Advantages
+Easier inventory management/smaller number of parts
+Platform sharing allows for fewer parts for different models of vehicles and therefore the task of inventorying those parts is greatly reduced.
+Lower development costs
+Platform sharing allows manufacturers to cover many different market segments when a platform sharing strategy is implemented. This is exemplified by Ford in the case of the Ford Explorer, Mercury Mountaineer, and Lincoln Aviator. They are essentially the same vehicles, but they are targeted as being in the mass-market, near luxury, and luxury vehicles segments.
+Increased quality and innovation
+Platform sharing allows manufacturers to design parts with fewer variation. A byproduct of this is increased quality, which results in lower defect rates.
+Global standardization
+Platform sharing allows manufacturers to design flexible platforms that can be tailored to a country's specific needs without compromising quality. It also allows for manufacturing standardization and improved logistics.
+Greater product variety
+Platform sharing allows manufacturers to build/design differentiated products faster and cheaper. This is possible because the development and cost of the original platform have already been paid for.
+
+Disadvantages
+Badge engineering
+Manufacturers that practice platform sharing have the ability to create several models based on the same design but with different names. This leads to the public looking over certain models and cannibalized sales from competing automakers with essentially similar products. This was prevalent among U.S. domestic manufactures from the 1970s onward, e.g., the Chevrolet Trailblazer, GMC Envoy, Buick Rainier, Saab 9-7X, Oldsmobile Bravada, and Isuzu Ascender.
+Incompatible changes to platforms
+The two elements of platforms are constant and non-constant. If the non-constant elements are not designed to be easily integrated into the constant elements of the platform, extensive and expensive changes will have to be made in order to make the elements compatible again. Failure to do so negates the purpose of platform sharing in that it increases costs as opposed to reducing them.
+Product dilution
+Platform sharing has the ability to be used in too many different models. However, in the minds of the consumers, the products may be too similar and more expensive products may be perceived to be cheaper. For example, the perceived value of a "luxury" brand may be not as desirable if it is too similar to a mass-market version of the same platform. Conversely, platform sharing may increase the price of the economic models. Examples of luxury vehicles that suffered from being based on economy platforms include the Cadillac Cimarron, the Chrysler TC by Maserati (similar to the K-platform, though it was actually built on a different and unique Q-platform), the Maybach 57 and 62 and the Jaguar X-Type.
+Risk concentration/higher recall rate
+The propensity for a higher number of recall is greatly increased with platform sharing. If a defect is found in one model and that model shares its platform with nine other models, the recall would be magnified by ten thus costing the manufacturer more time and money to fix. An example of problems spreading across platforms and numerous versions of models are the 2009–11 Toyota vehicle recalls.
+
+Top hat
+In automotive design, the top hat is one or more vehicle upper body structures that can share a common platform. The upper body could vary from a crossover to a sedan or coupe thereby creating economies of scale and product differentiation.
+
+See also
+Modular vehicle
+List of Ford platforms
+List of GM platforms
+List of Hyundai-Kia platforms
+List of Mazda platforms
+List of Mitsubishi platforms
+List of Nissan platforms
+List of Stellantis platforms
+List of Toyota platforms
+List of Volkswagen Group platforms
+
+References
+External links
+EE Times
+Safe Car Guide Archived 2011-07-15 at the Wayback Machine
+California government
+Motor Authority
+The Truth about Cars
+Motor Trend

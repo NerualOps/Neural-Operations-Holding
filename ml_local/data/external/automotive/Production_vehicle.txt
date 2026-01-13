@@ -1,0 +1,72 @@
+Title: Production vehicle
+
+Production vehicles or production cars are mass-produced models of automobiles offered for sale to the public and can be legally driven on public roads. Legislation and other industrial rules define the production vehicle within particular countries or uses. There is no single fixed global definition of the term.
+
+Origin
+The earliest use of the term production car being applied to motor cars, found to date, was in a June 1914 American advertisement for a Regal motor car. The phrase was a shortened form of mass-produced or quantity-produced car. The phrase was also used in terms of the car to be made in production, as opposed to the prototype.
+
+At that time, production cars referred to less expensive vehicles, such as the Ford Model T, made in relatively large numbers on production lines instead of the more exclusive coach-built models. Now, the term has broadened to include hand-assembled vehicles and those made on production or assembly line. The main criterion is that there are a number of the same models with the same specifications.
+There is no fixed definition of the number of vehicles or the amount of modification allowed outside of motorsports or national regulations or laws that determine what is or is not a production vehicle. For example, Guinness recognized a modified two-seat Jaguar XK120 as the world's fastest production car in 1949.
+
+Definitions
+Guinness Book of Records
+In 2010, the Guinness Book of Records awarded the record for the "Fastest production car" to the Bugatti Veyron Super Sport. In 2013, their decision was appealed because the Bugatti was modified with its speed limiter turned off, a circumstance already known in 2010. Guinness, which had listed speeds by British cars with modified limiters as production car records in the 1990s, upheld the appeal and initiated a review of their production car definition. The investigation concluded that turning off the limiter was not a fundamental modification. Guinness reinstated the Bugatti record. Guinness also reported some sources that at least 50 identical vehicles are needed to constitute a production car. Nevertheless, several models with less than fifteen units produced were certified for production car records. In February 2014, Road & Track wrote that Guinness required 30 identical vehicles.
+
+Motorsports
+FIA definitions
+There have been numerous disputes over what constituted production and modified cars when used in motorsports. Even under Fédération Internationale de l'Automobile (FIA), the exact definition of what was (or was not) a production car was unclear and controversial, which led to rules written in 1955. Although the term is defined for particular types of vehicles, and that a certain number of a model must be produced to qualify as "production", it is another matter to enforce the rules. For example, the 1968 FIA rules state that "production" for sports cars need to have at least 25 identical cars produced within 12-months and they were meant for regular sales to individual purchasers, Group B race series, a minimum of 200 cars were required for homologation, Group A, a minimum of 2,500 identical models have to be built in 12 consecutive months However, FIA rules tend to allow a degree of modification from the original.
+
+Utah Salt Flats Racing Association
+Another example is the Utah Salt Flats Racing Association, which is concerned solely with the speed of a vehicle. The Association uses its definition of a production vehicle. The Association allows quite a high level of modification over the original. In 2006 a Pontiac TransAm of John Rains Racing was classified as being the fastest production model (Bonneville D/PS class) with a top speed in excess of 297 mph (478 km/h). Road tests of the same type of car available from the production line were incapable of anything like this speed and Popular Mechanics referred to the car as production based, which was probably a more accurate description. A similar racing association is the Dry Lakes Racers Australia which holds evenets on Lake Gairdner in South Australia. It also has a Production Car category with its own set of definitions.
+
+Stock car
+A stock car, in the original sense of the term, is an automobile that has not been modified from its original factory configuration. Later the term stock car came to mean any production-based automobile used in racing. This term is used to differentiate such a car from a "race car", a special, custom-built car designed only for racing purposes.
+The actual degree to which the cars conform to standard model specs has changed over the years and varies from country to country. Today most American stock cars may superficially resemble standard American family sedans, but are in fact purpose-built racing machines built to a strict set of regulations governing the car design ensuring that the chassis, suspension, engine, etc. are architecturally identical on all vehicles. For example, the NASCAR Sprint Cup series now requires fuel injection. The closest European equivalent to stock car racing is probably touring car racing. In the UK and New Zealand there is a racing formula called stock cars but the cars are markedly different from any road car one might see. In Australia there was a formula that was similar to NASCAR called AUSCAR, but it has been ended, and a form of touring cars has taken its place (this is known locally as sSpercars, featuring the Bathurst 1000 and Adelaide 500).
+
+Land speed records
+The FIA Land Speed Records Commission has regulations governing series-production cars attempting land speed records under its 2014 Appendix D - Regulations for Land Speed Record Attempts. Series-production cars fall under rule D2.3.2 and state that they must be: 
+
+Category B: Series-production Automobiles in production at the time of the application for the Record Attempt and either homologated by the FIA, or for which an application for homologation has been made to the FIA or recognised by the ASN of the country in which they are manufactured for National Records.
+
+The high level of modification allowed under these FIA's rules would tend to indicate that the cars are production based, rather than straight from an assembly line. For example, Category B Group III had a Dodge Dakota with a top speed of 217.395 mph. Forums citing the Dakota's top speed indicate a standard production Dakota R/T would only reach about 125 mph.
+Production cars under the Southern California Timing Association (SCTA) rules refers purely to the body class. Beyond that the cars are extensively modified.
+
+Legislation
+Various countries have laws that define production vehicles. For example, in the United States Briggs Cunningham's business was classified as a hobby by tax officials because he did not manufacture enough of each model for the Cunningham automobile to be considered a production vehicle, but rather the IRS classified them as high-performance prototype automobiles built as racecars. Legislative definitions tend to revolve around issues of safety or revenue (taxation).
+
+Modified cars
+Not all performance specialists are officially recognised and their cars are not usually referred to as production vehicles. The primary means of identifying a cars manufacturer since the mid 1980s has been the vehicle identification or VIN. The first three digits are the manufacturer or WMI identifier. If the performance specialist is the manufacturer then its WMI identifier will be in the VIN. An example would be vehicles made or modified by tuning and manufacturing company RUF, which specialises in Porsche based vehicles. In general, if the RUF vehicle is a RUF modified Porsche then the WMI will be Porsche's (WP0), but if it is built by RUF then its WMI will be RUF's (W09).
+
+Limited production cars
+These are usually vehicles where the production run is restricted to a specific number of vehicles. An example of this is the 1957 Rambler Rebel, a limited-production car where only 1,500 were produced.
+
+Statistics
+Motor vehicle production statistics are available for countries worldwide, by country, make, and model. Production statistics by country and by model, as far as announced, are available for each make as well.
+
+From concept car to production model
+Pre-production cars come after prototypes or development mules, which themselves may be preceded by concept cars. Pre-production vehicles are followed by production vehicles in the mass production for distribution through car dealerships. For example the Bugatti Chiron in which Andy Wallace achieved a maximum of 490.48 km/h (304.77 mph) on 2 August 2019 was described by Bugatti a "near production ready prototype".
+
+See also
+Wikipedia
+Three lists within Wikipedia and the discussions on their talk pages illustrate the difficulty in defining what a production car is. These are:
+
+List of automotive superlatives
+List of fastest production cars by acceleration
+Production car speed record
+In the first two lists a production car is described as:
+
+constructed principally for retail sale to consumers, for their personal use, and to transport people on public roads (no commercial or industrial vehicles are eligible);
+had 25 or more instances made by the original vehicle manufacturer, and offered for commercial sale to the public in new condition (kit cars and cars modified by either professional tuners or individuals are not eligible); and
+street-legal in their intended markets, and capable of passing any official tests or inspections required to be granted this status.
+The third list used the same description until April 2018. It was changed to the following after a vote based on suggestions by a Koenigsegg employee : 
+
+constructed principally for retail sale to consumers, for their personal use, to transport people on public roads (no commercial or industrial vehicles are eligible)
+available for commercial sale to the public in the same specification as the vehicle used to achieve the record
+manufactured in the record-claiming specification by a manufacturer whose WMI number is shown on the VIN, including vehicles that are modified by either professional tuners or others that result in a VIN with a WMI number in their name (for example, if a Porsche-based car is remanufactured by RUF and has RUF's WMI W09, it is eligible; but if it has Porsche's WMI, WP0, it is not eligible)
+pre-1981 vehicles must be made by the original vehicle manufacturer and not modified by either professional tuners or individuals
+street-legal in its intended markets, having fulfilled the homologation tests or inspections required under either a) United States of America, b) European Union law, or (c) Japan to be granted this status
+sold in more than one national market.
+The talk pages for all these lists continue to have ongoing discussions about the definitions.
+
+
+== References ==

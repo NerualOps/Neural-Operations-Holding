@@ -1,0 +1,29 @@
+Title: OSVehicle Tabby
+
+Tabby is an open source platform for vehicles by OSVehicle. The project is released under Creative Commons BY-SA license and the CAD files can be downloaded from the official website, last release was in May 2015. The chassis can be assembled in less than 45 minutes and is able to carry two to four passengers.
+
+History
+OSVehicle was founded by Macedonian Francisco Liu, who former cooperated with Cagiva, Husqvarna und Giorgetto Giugiaro.  Liu developed the framework of the car together with Italian mechanical engineer Ampelio Macchi who had been 51 times world champion as a motorbike racer.
+10 different models were assembled live for the first time on 10 October 2013 at the Italian car fair Maker Faire di Roma to demonstrate the various possible applications.
+The first model "Urban Taddy" designed by the official OSVehicle design-partner Marco Borge was presented on 5. November 2013 at the motorbike faire EICMA.
+OSVehicle was rebranded on its 4th anniversary 2014 to Open Motors.
+To meet higher requirements the platform was redesigned as Tabby EVO in 2015.
+
+Design
+The Tabby is primarily a platform with an engine, suspension, steering and brakes. An internal combustion engine, hybrid engine or electric motor could be installed as the rear engine. Depending on requirements, it has 2, 3 or 4 wheels and 2 or 4 seats.
+"Anyone can build their own customised vehicle, designers, the automotive industry, but also amateurs and enthusiasts" is how Liu described the philosophy of his car kit.
+With the open source software FreeCAD, anyone with basic technical knowledge should - so the claim of the developers - be able to build their own car. All they need to do is assemble the components delivered by post according to the construction plan downloaded from the website.
+Prices in 2014 ranged from 1990 euros for the two-seater platform to 2,990 euros for the four-seater. The 4 kW electric motor cost 1,520 euros, the battery pack 698 euros, a pair of seats 80 euros and four 15-inch aluminum wheels 338 euros.
+
+See also
+Open-source hardware
+Open design
+Open-source car
+OScar
+
+References
+External links
+Official website
+Official video channel's channel on Vimeo
+Official photo channel
+OSVehicle on eLinux

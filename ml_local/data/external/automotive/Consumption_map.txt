@@ -1,0 +1,28 @@
+Title: Consumption map
+
+A consumption map or efficiency map is a chart that displays the brake-specific fuel consumption of an internal combustion engine at a given rotational speed and mean effective pressure, in grams per kilowatt-hour (g/kWh).
+The map contains each possible condition combining rotational speed and mean effective pressure. The contour lines show brake-specific fuel consumption, indicating the areas of the speed/load regime where an engine is more or less efficient.
+A typical rotation power output, P (linear to 
+  
+    
+      
+        
+          p
+          
+            e
+          
+        
+        ⋅
+        ω
+      
+    
+    {\displaystyle p_{e}\cdot \omega }
+  
+), is reached on multiple locations on the map that differ in the amount of fuel consumption. Automatic transmissions are therefore designed to keep the engine at the speed with the lowest possible fuel consumption for a given power output under standard driving conditions.
+Overall thermal efficiency can depend on the fuel used; diesel and gasoline engines can reach up to 210 g/kWh and about 40% efficiency. Natural gas can yield an overall efficiency of about 200 g/kWh. Average fuel consumption values are 160–180 g/kWh for slower two-stroke diesel cargo ship engines using fuel oil, reaching up to 55% efficiency at 300 rpm; 195–210 g/kWh for turbodiesel passenger cars; 195–225 g/kWh for trucks; and 250–350 g/kWh for naturally aspirated Otto cycle gasoline passenger cars.
+
+Literature
+(German) Richard van Basshuysen: Handbuch Verbrennungsmotor, Fred Schäfer; 3. Auflage; 2005; Vieweg Verlag
+
+
+== References ==

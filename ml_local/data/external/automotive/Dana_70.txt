@@ -1,0 +1,49 @@
+Title: Dana 70
+
+The Dana/Spicer Model 70 is an automotive axle manufactured by Dana Holding Corporation and has been used in OEM heavy duty applications by Chevrolet, Dodge, and Ford. It can be identified by its straight axle tubes, 10 bolt asymmetrical cover, and a "70" cast in to the housing, which is visually similar to the Dana 60. The majority of the Dana 70s are rear axles, however Dana 70 front axles do exist. Both front and rear axle variations were first offered in 1957. The Dana 70 is generally regarded to have more strength than a Dana 60 but not as much as a Dana 80. Gross axle weight ratings are often lowered by the vehicle manufacturer for safety and tire reasons.
+
+General specifications
+The ring gear measures 10.5 inches (270 mm)
+3.5 in (89 mm) diameter axle tube
+Inner axle shaft spline counts are 23, 32, and 35
+Pinion shaft diameter: 1.75 in (44 mm)
+Pinion shaft splines: 10 and 29
+Gear ratios: 3.07:1 - 7.17:1
+Axle Shaft diameter
+1.41 in (36 mm) Front (35 Spline)
+1.50 in (38 mm) Rear  (35 Spline)
+Axle spline diameter
+1.50 in (38 mm) Front (35 Spline)
+1.50 in (38 mm) Rear  (35 Spline)
+1480 Universal Joint (Front axle)
+All basically the same in the cheaper Dana 60
+
+Front axle
+In general, Dana 70 front axles are uncommon, due to attributes that the Dana 60 front axle can match. The main advantage a Dana 70 front axle has over a Dana 60 front axle is better gross axle weight ratings.
+
+Dodge and IHC Dana 70 front axles
+The first Dana 70 front axle was used in 1958 by Dodge in the W300, in both 4.88 and 5.87 ratios. International started using Dana 70 front axles in the late 1960s. Both companies used Dana 70 front axles until the mid-1970s (Dodge W300 pickup up until 1978, discontinued in 1979). All of these Dana 70 front axles were closed knuckle, with king pins and had a GAWR of 6000 lbs. Like the rear Dana 70 axles, the Dana 70 front axle started out with 23 spline axle shafts and then went to 35 spline axle shafts. While these axles were being manufactured, Dana offered a "Power-Lok" limited slip differential for some of these axles.
+
+GM Dana Super 70 front axles
+GM began making 4x4 Chevrolet Kodiaks and GMC Topkicks that utilize a Dana 70 front axle for the 2005-2009 models. These Dana 70 axles had open knuckles and ball joints. The Dana 70 axle only came with 5.13:1, 4.88,5.31 gear ratios and had a GAWR of these axles were rated at 7-9klbs as seen on 5500 door stickers. They differ greatly from previous Dana 70 front axles, some of the major differences being the use of 1550 Universal Joints and being a high pinion, reverse cut axle.  these axles were in gm, Chevrolet and Navistar international on 4200 and terrestar cabs, and still used in today on gmc/Chevrolet/international 4500,5500 trucks. Dana Super 60 since Ford kept it active in its trucks.
+Ford uses Marmon, Meritor, and Eaton/Dana/spicer Powered front axles on f650/f750 trucks.
+
+Rear axle
+All Dana 70 rear axles are full floating and typically have a gross axle rating of 7,500 lb (3,400 kg). The Dana 70 rear axle was first used in the Dodge W300 in 1958. The Dana 70 started out using 10 spline pinions and 23 spline axle shafts. The later, more current, Dana 70 axles use 29 spline pinions and 32 or 35 spline axle shafts. Dana offered two different limited slip differentials with the Dana 70, the "Powr-Lok" and the "Trac-Lok."
+
+Dana Super 70
+The Dana Super 70 rear differential has become a staple axle for GM and Ford in the dual rear wheel chassis cab vans since 1999.  The ring gear is larger at 10.75 inches and features 37 spline axle shafts.  Only 2 OEM gear ratios are offered: 4.10 gears and 4.56 gears.
+
+Dana 70HD
+In the 1970s the Dana 70HD was offered. The axle tubes were increased to 4 inches (100 mm) diameter and carrier bearings were larger and thicker, the axle shafts were 35 spline only. These upgrades gave the Dana 70HD a gross axle rating of 10,000 lb (4,500 kg). The Dana 70 front drive axles used in the Chevrolet Kodiaks and GMC Topkicks also had these features.  This axle was standard for the Big Three (automobile manufacturers) dual rear wheel trucks until 1985, when Ford started using the Sterling 10.25 rear axle. However Ford still kept the Dana 70HD an option until the Dana 80 was made available. The axle was available or optional for the Big Three until 1994 when Dodge used the Dana 80 for its dual rear wheel trucks instead. The Dana 70HD is still seen in commercial applications today. In the UK the 70HD Dana axles were license built by Salisbury Engineering in an early 10/23 spline version with a 4.3 tonnes (9,500 lb) rating for the Ford A-series truck with a European 6 × 205 mm (8.1 in) DIN standard hub bolt pattern.
+
+Dana 70U/Dana 70B
+In the 1980s the Dana 70U or Dana 70B was offered. GM, Ford and Dodge all used this axle.    This axle had a smaller pinion bearing and mostly have 32 spline axle shafts.   The Dana 70U and Dana 70B both have gross axle weight ratings of 7,500 lb (3,400 kg).  The 2nd generation Dodge Ram trucks consistently feature this axle in the 2500 trucks with the Diesel or V10 and automatic transmission. This axle was designed for single rear wheel applications.
+
+Pinion Offsets
+There are three pinion offsets for the Dana 70 rear axle. 1⁄2, 5⁄8 and 31⁄32 inch (13, 16 and 25 mm) offset. The first Dana 70 axles had a 1⁄2-inch (13 mm) pinion offset and were found in Dana 70HD's as well. The drawback with the 1/2-inch offset was that a 4.10:1 gear ratio was the highest gear set possible. In the 1970s the 1/2-inch offset was phased out for a 5⁄8-inch (16 mm) offset that allowed for higher gearing. The 5/8 offset was used in all the major variations of the Dana 70 and is still being used today. A 31⁄32-inch (25 mm) offset was used for a short time in the late 1980s to the early 1990s to allow even higher gears than the 5/8 offset could offer. Only the Dana 70-3HD used the 31/32-inch offset.
+
+References
+
+
+== External links ==

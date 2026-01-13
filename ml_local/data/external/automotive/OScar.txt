@@ -1,0 +1,19 @@
+Title: OScar
+
+OScar was the first attempt to design an open-source car as open source hardware. The aim of the project is mainly to produce blueprints, using essentially open-source CAD. The project commenced in 1999, founded by Markus Merz with Tiago do Vale as design director, and launched its 0.2 release in 2006, but no further progress has been made.
+
+Goal and challenges
+The goal of the project is not to produce a sophisticated car, but rather a simple and functional basic one, which answer people's basic transportation needs. A long-term goal is also to introduce standardization in parts manufacturing (very much in the open-source way) to use economies of scale. This is a radical change from the car industry's current practices and business model, where every manufacturer has their own standards. This monopoly on brand-specific parts often constitutes an important part of the manufacturers' revenues.
+Among the challenges this car will have to overcome, before reaching the manufacturing phase, are to conduct crash tests and also to abide by very strict security legislation and pollution norms in the car industry. This has led to proposals for low-carbon alternative propulsion OScars (hybrid, hydrogen vehicle, and electric versions).
+
+See also
+Local Motors
+Riversimple Urban Car
+Open-source hardware
+Open design
+
+References
+External links
+
+Official website 
+Video on Vimeo

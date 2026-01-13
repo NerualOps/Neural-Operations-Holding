@@ -1,0 +1,21 @@
+Title: NamX HUV
+
+The NamX HUV (for Hydrogen Utility Vehicle) is a hydrogen-powered coupe SUV from the French-Moroccan  startup company NamX. It was designed by French designer Thomas de Lussac, and Italian car design firm Pininfarina.
+
+Overview
+The NamX HUV was presented for the first time on May 11, 2022 in Italy and in October at the 2022 Paris Motor Show. It is the result of four years of development and collaboration between the Italian coachbuilder Pininfarina and NamX (which stands for New Automotive and Mobility Exploration).
+
+Features
+The HUV offers interchangeable hydrogen tanks. Six interchangeable hydrogen tanks are added to the main tank and provide a range of 800 kilometres (500 mi). This system makes it easy to exchange the six removable tanks in a station without refueling the main tank, service stations for hydrogen being rare.
+The main tank stores 5 kg of hydrogen at 700 bars (10,000 psi), and each hydrogen bottle stores 0.5 kg of hydrogen, for a total storage of 8 kg.
+
+Powertrain v1
+In its original conception, NamX created an SUV that used a fuel cell to generate electricity from hydrogen powering the electric motor(s). In the rear-wheel drive version, it has a 300 hp (220 kW) motor while the all-wheel drive version has two motors for a combined power of 550 hp (410 kW).
+
+Powertrain v2
+In December 2023, NamX announced that they would update the HUV design to use a hydrogen internal combustion engine manufactured by Solution F.
+This combustion engine emits less than 1g of CO2 per 100 km (mainly through engine oil combustion residue). The engine uses dihydrogen (H2 or pure molecular hydrogen) as a fuel. Solution F claims that 1 kg of H2 has the energy equivalence of 3 kg gasoline (4 liters).
+
+References
+External links
+Official website

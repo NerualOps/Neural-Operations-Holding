@@ -1,0 +1,69 @@
+Title: Dana 35
+
+The Dana/Spicer Model 35 is an automotive axle. It has been manufactured by Dana Holding Corporation since 1985 when American Motors (AMC) sold its axle tooling equipment to Dana. The axle was named AMC-15 when it was first made in 1962. Dana upgraded the axle, and added IFS and Twin Traction Beam front axle variations.
+
+Specifications
+The Dana 35 (as well as the AMC-15) is used in many vehicles. The most common applications are as a rear axle in the Jeep Cherokee, Jeep Wrangler, and Jeep Comanche and as a front axle in the Ford Explorer and Ford Ranger. It is "reliable in day-to-day street use, but notoriously the opposite when worked hard."
+As the AMC-15 it was used in many AMC cars, most commonly with four and six cylinder engines.
+
+Ring Gear: 7.5 inches (191 mm)
+OEM Inner axle shaft spline count: 27
+Pinion shaft splines: 26
+Rear axle ratios: 2.21:1 to 4.88:1
+TTB axle ratios: 3.07:1 to 4.88:1
+IFS axle ratios: 3.08:1 to 5:13:1
+Carrier break: 2.21 - 3.31:1 and 3.55 - 4.88:1
+Gear Ratios for the Jeep YJ were 3.07:1, 3.54:1, 3.73:1 and 4.10:1
+Axle Shaft diameter: 1.09 inches (28 mm) (30 Spline)
+Ring and Pinion gear sets for Jeep Dana 35 rear applications can be used in Ford Ranger IFS (Dana 35) front axles. http://www.4wheelparts.com lists the Spicer gear sets for both versions of this axle as the same part number.
+
+Independent front suspension (IFS) axle
+Throughout the 1990s Ford used the Dana 35 as a front axle in both TTB and IFS variations. These units follow Ford's tradition of using high pinion, reverse cut units. Dodge used this front axle for a few years in Dakotas and Durangos.
+
+GAWR up to 2900 lbs depending on variation and set up.
+
+Rear solid axle
+The Dana 35 is used extensively in Jeeps. This axle had a GAWR up to 2700 lbs.
+
+Gear ratios
+Many gear ratios were offered over the axle's lifetime:
+
+DANA 35c
+Dana 35c is a newer version of Dana35. C stands for a Custom as the axle was delivered to the end user without axle brackets. The axle uses a C clip, which holds the axle shafts in the carrier. A centre pin locks the shafts in.
+Gear Ratio:
+3.55 || 11:39
+-
+4.11 || 9:37
+-
+
+Common Applications
+Front Axle
+The front axle version appeared in:
+
+Dodge
+1997-2000 Dakota
+1997-2000 Durango
+Ford
+
+1989.5-1990 Bronco II TTB
+1991-1994 Explorer TTB
+1995-2005 Explorer IFS
+1990-1997 Ranger TTB
+1998-2012 Ranger IFS
+
+Rear Axle
+The rear axle version appeared in:
+
+Jeep
+1984-1997 Jeep Wagoneer
+1984-2001 Jeep Cherokee
+1993-2004 Jeep Grand Cherokee
+1986-1992 Jeep Comanche
+1987-1995 Jeep YJ Wrangler Note: there was no 96 model.
+1997-2006 Jeep TJ Wrangler *option Dana 44 rear and Rubicon's had Dana 44's
+2007 only some early Jeep JK 2 door Wranglers had Dana 35 non c-clip axles.
+2001-2007 Jeep Liberty
+Dodge Ram Van
+
+
+== References ==

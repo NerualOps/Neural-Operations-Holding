@@ -1,0 +1,94 @@
+Title: Customer data platform
+
+A Customer Data Platform (CDP) is a software system that aggregates and organizes customer data from various touchpoints to build a unified customer profile. This unified data is then made available to other systems for marketing, customer service, and customer experience initiatives. Industry analysts, such as Gartner, define the evolution of the category as moving from basic data collection to including advanced analytics and, in some cases, artificial intelligence capabilities.
+
+Features
+Common features of customer data platforms include:
+
+Data ingestion from diverse sources.
+Customer profile unification to create a single view of each individual.
+Data governance, including management of data availability, usability, and security.
+Data activation enables organizations to transfer data into downstream tools. 
+Cross-channel data connectivity allows data to be linked across devices and channels.
+Artificial intelligence (AI) capabilities, such as identity resolution, campaign optimization, decisioning, and automation.
+
+Types of Customer Data Platforms
+CDPs can generally be categorized into several types:
+
+Traditional CDPs are all-in-one solutions designed to unify customer data from multiple sources within a single platform. 
+Composable CDPs use an architectural approach in which customer profiles are built and maintained within an organization’s existing enterprise data warehouse.
+Infrastructure CDPs function similarly to data management platforms, supporting upstream data operations such as event collection and identity resolution.
+Hybrid CDPs combine elements of both traditional and composable architectures.
+Marketing clouds are collections of cloud-based marketing tools, such as Salesforce Marketing Cloud and Adobe Marketing Cloud.
+
+Data collection
+CDPs are designed to collect data from a wide range of sources, both online and offline, and in various formats, and convert that information into a standardized form. 
+Typical categories of data that a CDP can process include:
+
+Identity data: name, phone number, email address, social media profiles, and demographic information.
+Descriptive data: occupation, lifestyle, family status, hobbies, and interests. 
+Behavioral data: browsing activity, website and app interactions, purchase history, shopping cart abandonment, banner clicks, and service sign-ups.
+Engagement data: email opens and clicks, social media interactions (likes and shares), call-to-action responses, and downloads.
+Transactional data: purchase records, order history, average order value, loyalty program participation, subscriptions, and refunds. 
+Qualitative data: customer opinions, motivations, survey feedback, support interactions, reviews, and attitudes toward the brand.
+
+Identity resolution
+Identity resolution is a core capability of a CDP. It creates a single, persistent customer profile by identifying and linking data associated with the same individual across various identifiers, such as email addresses, device IDs, and cookies.
+Identity resolution typically relies on two main methods:
+
+Deterministic matching, which uses explicitly defined identifiers or attributes (for example, matching an email address or customer ID across systems).
+Probabilistic matching, which applies statistical inference and likelihood-based algorithms to connect data points using behavioral patterns, demographic information, and contextual signals. 
+Some CDPs use hybrid approaches, combining deterministic and probabilistic methods.
+
+Audience management
+Audience management within a CDP involves collecting, organizing, and analyzing customer data for marketing and analytics purposes.  It allows organizations to segment customers based on profile attributes, behaviors, and interests, which can be used to define segments for marketing campaigns. Many CDPs include no-code interfaces for building and managing audiences, allowing teams to manage data collection, segmentation, and orchestration through native integrations.
+
+Segmentation techniques
+Customer data platforms use several techniques to segment audiences, including:
+
+Rule-based segmentation, which applies explicit filters or conditions (for example, “purchased in the last 30 days” or “visited a product page more than three times”).
+Behavioral and event-based segmentation, which groups users according to their actions, activity sequences, or the recency of their engagement.
+Predictive and AI-driven segmentation, which uses machine learning models to identify high-value customers, assess churn risk, or predict purchase intent.
+Real-time segmentation, which continuously updates audience membership as new data becomes available from online or offline interactions.
+
+Data activation
+Data activation refers to the process of making customer data usable by business teams within the tools they rely on daily, for use in downstream business systems. Once audience segments are created within the CDP, they are sent to external systems, such as advertising platforms, CRM tools, email service providers, and analytics dashboards.
+
+Mechanism
+Data activation typically occurs through integrations or connectors between the CDP and destination systems. These integrations can operate in two primary ways:
+
+Batch-based: Data is exported on a scheduled basis, such as daily or hourly syncs.
+Real-time: Data flows continuously, updating customer attributes and triggering actions within seconds.
+
+AI capabilities
+Artificial intelligence (AI) features in CDPs are used to automate data processing and derive insights.
+Vendors and analysts have identified several applications of AI within these platforms:
+
+Predictive analytics: Machine learning models are used to forecast metrics such as customer lifetime value and churn risk.
+Decisioning: Some implementations utilize techniques to determine the "next best action" for a customer.
+Generative AI: Following the rise of Large Language Models (LLMs), some CDP vendors have integrated generative AI to assist in creating marketing content based on customer data.
+Data quality: AI is frequently applied to the data cleaning process, identifying duplicate records or anomalies during ingestion.
+
+CDPs use cases
+CDPs are used for data-driven marketing, analytics, and customer experience management. Unified data structures within CDPs support the creation of persistent customer profiles, activation of audiences, and a wide range of applications across various industries and business functions.
+
+Personalization and customer experience:  CDPs support real-time personalization by delivering tailored messages, offers, and recommendations across channels such as email, web, mobile, and advertising. By leveraging unified profiles and behavioral data, organizations can integrate data across the customer journey.
+Lifecycle marketing and retention: Marketers use CDPs to analyze customer journeys and deliver targeted experiences. Data-driven triggers, such as inactivity, product usage, or recent purchases, allow teams to send communications intended to support retention and customer lifetime value.
+Advertising and media optimization: CDPs can synchronize customer data with advertising platforms to create lookalike audiences, manage suppression lists, and reduce redundant retargeting.
+Analytics and measurement: Centralized customer data provides a unified environment for analytics and performance measurement. This allows for attribution, cost analysis, and reporting on return on investment (ROI).
+Omnichannel orchestration: With complete customer data and activation capabilities, CDPs support automated processes and personalized engagement. Every customer interaction, regardless of channel, is centralized to support the brand experience.
+Customer support and service enablement: Integration with CRM and helpdesk tools allows support teams to access a view of each customer’s interactions and preferences. This context is used by agents to deliver service and recommendations.
+
+CDP vs DMP
+A data management platform (DMP) is a data onboarding system that provides access to large, anonymous third-party datasets to enrich or target new audiences. In contrast, a CDP collects, stores, models, and activates first-party customer data.
+Main differences between a customer data platform (CDP) vs. data management platform (DMP)
+
+History of the CDP industry
+In the 1990s and 2000s, customer data was typically managed through Customer Relationship Management (CRM) systems. As digital engagement grew, data became resident in separate silos, including email, web analytics, and e-commerce systems.
+In April 2013, marketing technology analyst David Raab coined the term "Customer Data Platform." Raab noted that marketers needed a system that could gather data from all sources and create a persistent, unified customer view, which existing CRMs and data warehouses were not optimized to do at the time.
+Interest in the category increased following 2016. ndustry observers attributed this growth to several factors, including the need for personalization and privacy regulations (such as GDPR) that complicated the use of third-party data. Companies such as Segment (acquired by Twilio) and Tealium are often cited as early examples of the category. 
+Around 2020, a variation of the technology known as the "Composable CDP" began to emerge. Proponents of this architecture, such as Hightouch, argue that customer data should remain in an organization's existing cloud data warehouse rather than being copied into a separate packaged software. his approach utilizes "Reverse ETL" to activate data directly from warehouses.
+Recent developments in the sector focus on the integration of artificial intelligence, with some vendors marketing "Agentic AI" to automate decision-making processes within the platform.
+
+
+== References ==

@@ -1,0 +1,43 @@
+Title: Mercedes-Benz BlueZERO
+
+The Mercedes-Benz BlueZERO is a 2010 Mercedes concept alternative fuel vehicle which can be built to use one of three alternative fuels: electric, hybrid electric/internal combustion, and hydrogen. It was first introduced at the January 11–25 2009 Detroit Auto Show. A single vehicle architecture accommodates three models with different electric power-train configurations, each fully developed and ready for testing. The electric drive system gives each model the same acceleration and top speed, accelerating from 0 to 100 km/h (62.5 mph) in under 11 seconds, and with top speed electronically limited to 150 km/h (93 mph) for optimal range and energy efficiency. Peak torque is 320 N⋅m (236 lb⋅ft) and, as with all EVs, is available from zero rpm.
+The BlueZERO Concept serves as a stand-alone vehicle and was a launching pad for future Mercedes-Benz hybrid vehicles. The car had a second generation, and also had a slightly larger sister model which was called the B-class.
+
+Design
+The technology is uniform across all three BlueZERO variants. The front has a radiator grille with central star. The front apron is closed as cooling air intakes are not required, improving aerodynamics. The 20-inch wheels were aerodynamically optimized, and low-friction tires reduce rolling resistance. It has been said that Mercedes took a page from the BMW styling handbook with its "bionic look". 
+
+The compact rear end of the Concept BlueZERO has curved tail lights with transparent lenses that produce red light tapering towards the sides, for a lightly diffused effect. The front LED headlamps are similar, with a plexiglas edge to produce C-shaped daytime driving lights.
+Translucent rather than opaque surfaces display the normally concealed technology. The light-grey tailgate is made from lightweight yet robust polycarbonate that shows the aluminium structure that makes up the rigidifying frame. The transparent tailgate provides a view of the vehicle interior, which has a sandwich-floor platform providing a fully usable luggage compartment and passenger area with no obstruction from technical components.
+
+Architecture
+The BlueZERO concept is based on a sandwich-floor architecture on all variants, with all drive components on the sandwich floor. This makes for a low center of mass, and leaves ample trunk and interior space. All major power-train components are located between the axles.
+Design and vehicle dimensions are identical on all variants: 13.8 ft (4.2 m) long, a payload of 1,000 lb (454 kg) and a luggage compartment of over 17.6 cubic feet.
+
+Variants
+BlueZERO F-Cell is the fuel cell version. The F-cell would contain a fuel cell and most likely use a hydrogen fuel source, allowing the vehicle to attain a 248 mi (399 km) range. This variant is suitable for regions with advanced plans for hydrogen fuel availability, as in California, Germany and France.
+
+Battery electric vehicles
+BlueZERO E-Cell is the battery electric vehicle, with 35 kWh battery capacity, a compact electric motor producing 100 kW (134 hp) (continuous output of 70 kW (94 hp)) produced in 2010. This all-electric version has a range of 124 mi (200 km) on a single charge.
+ 
+BlueZERO E-Cell Plus is a series plug-in hybrid vehicle (extended range electric vehicle), that includes an optional-use gasoline engine primarily used as a generator for the on-board electric motor, with a 372 mi (599 km) range on a single tank of fuel and 62 mi (100 km) electric-only range. The Cell Plus has a 20 kW rapid-charging option, providing a 31 mi (50 km) cruising range in about 30 minutes. To achieve full charge, a little over an hour is needed.
+Both battery versions use cooled lithium-ion batteries manufactured by Li-Tec that fully charge in two hours.
+
+Color options
+The BlueZERO E-Cell is painted in ALU-BEAM Yellow, the BlueZERO F-Cell has ALU-BEAM Green paintwork, and the BlueZERO E-Cell Plus is ALU-BEAM Orange.
+
+History
+The BlueZERO was a joint venture partnership project between Daimler and Evonik Industries, using Evonik Industries battery and hybrid ideas. Mercedes expanded upon the BlueZERO project with an updated F-Cell roadster called the B-Class in 2008-2009. Original plans called for a hydrogen fuel cell model.
+
+Mercedes-Benz B-Class Electric Drive sales started worldwide in 2014, using a lithium-ion battery pack from Tesla Motors.
+
+Environmental impact
+The Mercedes-Benz BlueZERO has a very small carbon footprint with lower emissions and greater fuel economy than its internal combustion engine vehicle counterparts, like other hybrid vehicles. It uses its electric motor and fuel cell to optimize peak power or fuel economy depending on the mode the car is set on. The batteries can recharge in stop-and-go traffic due to the on-board engine-generator in the F-Cell model. Electric vehicles obviously do not use energy when stopped.
+
+See also
+Efficient energy use
+List of hybrid vehicles
+List of modern production plug-in electric vehicles
+Mercedes-Benz B-Class Electric Drive
+
+
+== References ==

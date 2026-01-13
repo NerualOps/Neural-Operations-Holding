@@ -1,0 +1,51 @@
+Title: Automotive hemming
+
+Hemming is a technology used in the automotive industry to join inner and outer closure panels together (hoods, doors, tailgates, etc.). It is the process of bending/folding the flange of the outer panel over the inner one. The accuracy of the operation significantly affects the appearance of the car’s outer surfaces and is therefore a critical factor in the final quality of a finished vehicle.
+
+Hemming processes
+Press hemming
+Hemming presses are widely used in automotive manufacturing for the hemming of sheet-metal body components. The process uses traditional hydraulically operated ‘stamping presses’ to hem closure parts, and, being the last forming process in stamping, it largely determines the external quality of such automotive parts as doors, hoods, and trunk lids.
+
+Hemming press features and benefits
+Die storage systems
+Fully automatic die-changing systems with parameters that change with each die
+Pressing capacity typically 60 to 180 tons
+Large panel-size capacity
+More than one part can be produced on the same line
+Electric hemmers do not need hydraulic oil, are quiet and eco-friendly
+
+Hemming press limitations
+Restricted to flat, uncomplicated panel profiles
+High cost
+
+Tabletop hemming
+Tabletop hemming machines are utilized for the manufacture of medium to high production volumes, with the ability to achieve cycle times as low as 15 seconds.
+
+Table top features and benefits
+Optimum panel quality is guaranteed through the hemming principle of the closed-ring
+
+Tabletop limitations
+Dedicated to one panel
+Relatively high cost
+Cost lower than press hem, but higher than robot roller hem
+
+Robot (roller hemming)
+Robot hemming is utilized for the manufacture of Low to medium-production volumes. It uses a standard industrial robot integrated with a roller hemming head to provide a flexible method for forming closures. The flange of the outer panel is bent over the inner panel in progressive steps, by means of a roller-hemming head.
+One advantage of this process is that it can use the robot-controlled hemming head to hem several different components within a single cell. Another is that minor changes or fluctuations in panel-hemming conditions can be quickly and cost-effectively accommodated. If equipped with a tool-changing system, the robot could serve a variety of additional functions within the same assembly cell, such as operating dispensing equipment for adhesives and sealants or carrying out panel manipulations, using a gripper unit.
+
+Robot hemming features and benefits
+The ideal solution for all volume production demands is via multiple robots and split operations
+Overall quality is better than press or tabletop with MBE hemming technologies implemented
+Flexibility:
+Robots can hem various panel shapes that press and tabletop can't achieve due to flange attack angles and physical accessibility
+Can perform panel shape changes via quick program changes, while saving the original programs for future recall
+Can perform other tasks by changing the hemming tool with another tool such as a dispensing nozzle
+Low cost, simple, and quiet in operation when used with standard industrial robot
+Reduced mechanical effort for tryout
+
+See also
+Hemming and seaming
+Sheet metal bending
+
+
+== References ==

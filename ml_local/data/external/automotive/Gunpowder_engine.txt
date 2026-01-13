@@ -1,0 +1,48 @@
+Title: Gunpowder engine
+
+A gunpowder engine, also known as an explosion engine or Huygens' engine, is a type of internal combustion engine using gunpowder as its fuel. The concept was first explored during the 17th century, most notably by famous Dutch polymath Christiaan Huygens. George Cayley also experimented with the design in the early 19th century as an aircraft engine, and claims to have made models that worked for a short time. There is also a persistent claim that conventional carboretted gasoline engine can be run on gunpowder, but no examples of a successful conversion can be documented.
+
+Earliest mentions
+The gunpowder engine is based on many previous ideas and scientific discoveries, developed by multiple people independently.
+Early devices just aimed at lifting and/or holding weight (usually to study and demonstrate the physics), while engines aim at doing work continuously (usually with the intention of doing something useful).
+
+Vacuum devices to lift/hold weight
+Leonardo da Vinci described in 1508 a device to "lift heavy weight with fire" using a cannon barrel and gunpowder.
+Galileo Galilei made thorough experiments about lifting weight using vacuum.
+Otto von Guericke researched vacuum practically, but used pumps to create the vacuum.
+Robert Hooke did hide a phrase that translates to The ‘vacuum’ left by fire lifts a weight. in his 1676 book Description of Helioscopes and Other Instruments.
+
+Early engines
+The earliest references to a gunpowder engine appear to be those of Samuel Morland in 1661. This consists solely of a letter of patent written by King Charles the Second that was received at Whitehall on 11 December 1661. No other information about this "engine" remains, but the description involves the use of vacuum and powder to draw water.
+The next known reference is by Jean de Hautefeuille in 1678, suggested as a solution to the problem of raising water from the Seine to supply Versailles. He presented two ideas, one using the vacuum like Morland's idea, and a second that used a U-shaped tube with water in one side and air in the other. When the gunpowder was lit in the air-filled side, the rise in pressure would drive the water up the other side.
+Like early steam engine designs, these engines used the air or vacuum created by gunpowder to directly lift the water. There were no mechanical parts in the manner of modern engines, which translate the power in the gas pressure into any needed mechanical form.
+
+Huygens and Papin
+In 1671, Denis Papin was given a job at the Academy of the Royal Library in Paris, where he worked under the Curator of Experiments, Christiaan Huygens. Huygens set Papin to the task of carrying out a research effort on air and vacuum, at that time a matter of widespread international study. As part of the experiments, Papin measured the force of a small amount of gunpowder lit in small iron and copper vessels. Papin published an account of all of these experiments in 1674 in New experiments on the vacuum, with a description of the machines used for making them.
+Papin moved to London shortly after publication, and from then on was more involved in the development of steam. Although his developments pointed the way towards the early steam engine, Papin himself became more interested in the latent heat of steam and developed the "steam digester", the first pressure cooker. He also conceived of a number of devices using air pressure as a working fluid, include a series of fountains, pumps, and similar devices.
+In spite of there being no further examples of particle work on the part of Papin, he did carry on a continued correspondence with Gottfried Wilhelm Leibniz on this and other topics. Leibniz tried to interest Papin in further development throughout, at one point noting "Yet I would well counsel [you], Monsieur, to undertake more considerable things which would force everyone to give their approbation and would truly change the state of things. The two items of binding together the pneumatic machine and gunpowder and applying the force of fire to vehicles would truly be of this nature". Papin replied that he had constructed a small model of a paddle-wheel boat, but the type of engine is not stated.
+
+Huygens' engine
+Huygens, however, became interested in the mechanical power of the vacuum, and the possibility of using gunpowder to produce one. In 1678 he outlined a gunpowder engine consisting of a vertical tube containing a piston. Gunpowder was inserted into the tube and lit through a small hole at the base, like a cannon. The expanding gasses would drive the piston up the tube until it reached a point near the top. Here, the piston uncovered holes in the tube that allowed any remaining hot gasses to escape. The weight of the piston and the vacuum formed by the cooling gasses in the now-closed cylinder drew the piston back into the tube, lifting a test mass to provide power.
+According to sources, a single example of this sort of engine was built in 1678 or 79 using a cannon as the cylinder. The cylinder was held down to a base where the gunpowder sat, making it a breech loading design. The gasses escaped via two leather tubes attached at the top of the barrel. When the piston reached them the gasses blew the tubes open, and when the pressure fell, gravity pulled the leather down causing the tubes droop to the side of the cylinder, sealing the holes.
+Huygens presented a paper on his invention in 1680, A New Motive Power by Means of Gunpowder and Air. By 1682, the device had successfully shown that a dram (1/16th of an ounce) of gunpowder, in a cylinder seven or eight feet high and fifteen or eighteen inches in diameter, could raise seven or eight boys (or about 1,100 pounds) into the air, who held the end of the rope. However, there is considerable debate in modern sources as to whether or not the engine could have been built. Sealing the piston within the cylinder proved to be a very difficult problem in modern recreations.
+From that point, few mentions of early gunpowder engines are found. The use of steam, especially after the introduction of the atmospheric engine in 1712, captured all further development effort.
+
+Cayley
+As part of his investigations of powered flight, George Cayley was concerned about the low power-to-weight ratio of steam engines, complaining that "the steam engine has hither proved too weighty and cumbrous for most purposes of locomotion." He took up development of a new engine design starting in 1807, and quickly settled on a gunpowder engines as the preferred solution, noting "Being in want of a simple & light first mover on a small scale for the purpose of some preparatory experiments on aerial navigation, I constructed one in which the force of gunpowder & the heat evolved by its explosion, acting upon a quantity of common air, was employed."
+His notebooks show a design of considerable improvement over those of Huygens and similar. In Cayley's design, two cylinders were arranged one over the other, the lower acting as a combustion chamber, and the upper containing a piston. A small charge of gunpowder was introduced into the bottom of the lower cylinder and lit by a hot rod heated by candles. The expanded gasses pushed the piston up, and this energy was captured in a large bow, in effect, drawing the bow back as if readying to fire an arrow. The bowstring pushed the piston rod back down as the gasses escaped and cooled, completing the cycle.
+In a later version, Cayley attempted to solve the problem of continual cycling. In this version, the combustion chamber was removed to a separate cylinder placed to the side of the power cylinder. Gunpowder was stored in the upper portion of this chamber, and small amounts were metered out to fall into the combustion area below. The hot gasses were then piped out of the combustion area into the power cylinder. This consisted of two pistons on a common piston rod, with the gasses flowing into alternate sides of the cylinder to form a double-acting engine.
+In a letter, Cayley stated that he had constructed one of these designs (although which is not mentioned), but also stated that it did not work very well. Over time he designed several flying machines using the engine, but no larger working model appears to have been attempted.
+
+Paine and others
+Thomas Paine introduced an entirely new type of engine design, one that bore more resemblance to a water wheel than a conventional engine. In Paine's engine, a series of cup-like combustion chambers were arranged around a wheel. As the wheel turned, each cup received a small amount of gunpowder from a central container and was then lit.
+The literature contains numerous other mentions of gunpowder engines, but it does not appear any were used operationally.
+
+In modern engines
+The idea that a conventional gasoline engine can be run on gunpowder is a persistent topic of discussion. It was taken up by MythBusters on Episode 63, and after a number of attempts it was considered "busted".
+
+References
+Citations
+
+
+=== Bibliography ===

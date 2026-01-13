@@ -1,0 +1,40 @@
+Title: 7 post shaker
+
+The 7 post shaker is a piece of test equipment used to perform technical analysis on race cars.  By applying shaking forces the shaker can emulate banking loads, lateral load transfer, longitudinal weight transfer and ride height sensitive downforce to emulate specific racetracks.
+
+Uses
+The 7 post shaker is used for many vehicles in different driving conditions. Earlier versions were the 5 post shaker and the 4 post shaker.  The 4 post shaker is commonly used by vehicle manufacturers to investigate squeaks and rattles. This technology was first used in Formula 1 in the late 1990s, and is now also used by other series such as NASCAR and the Indy Racing League. NASCAR teams with 7 post rigs include Hendrick Motorsports, Richard Childress Racing, Chip Ganassi Racing, Furniture Row Racing, and Roush Fenway Racing. The car driven by Jeff Gordon is shown on a 7 post rig in this video.
+Vehicle designers use the results of the testing on the 7 post shaker to adjust spring rates, shock valving and steering ratio to best suit conditions of a specific emulated track.
+Manufacturers do not normally use a 7 post rig for road cars because these vehicles are not normally subject to the same aerodynamic effects as a race car operating at high speeds. However, German suspension company KW suspensions is one of the few companies to make use of a 7 post rig for the development of their road suspension components.
+
+Operation
+The 7 post shaker places forces on a vehicle and records the forces that the vehicle puts back into the system.  The 7 post applies lift, downforce, road irregularity forces and load transfer due to braking, acceleration and cornering.  The vehicle suspension and drivetrain components respond to these forces, chassis and suspension frequency oscillations (under 30 Hz), and tire, engine, transmission and drive axle vibrations at higher frequencies.  The forces applied are calculated from a model of the racetrack, the weight of the car and driver, tire pressure, engine RPM, and driveline RPM.  The forces that the testing engineers want are placed on the car through the use of four main hydraulic actuators capable of generating 25 kilonewtons (5,600 lbf) of force with a maximum velocity in excess of 1 metre per second (3.3 ft/s) that act on the tires.  While the actuators are capable of producing frequencies as high as 500 Hz, this is not necessary as the elasticity of the rubber and air in the tires will absorb most inputs above 50 Hz.  The remaining three posts are known as aeroloader actuators, and are responsible for the sprung mass of the vehicle. The forces that these three actuators represent are inertial loads that come from entering a curve or aerodynamic loading and unloading in the form of downforce or lift from a wing. These forces are small on road cars where speeds are not normally greater than 140 kilometres per hour (90 mph), but are significant on a race car where speeds can exceed 300 kilometres per hour (190 mph).
+The very basic parameters that need to be initialized are the vertical input forces to the vehicle from the road surface.  The drivers and engineers want to look at how the car reacts to specific tracks, as the car will respond differently at the tri oval at Talladega Superspeedway where speeds can approach 320 kilometres per hour (200 mph) than Bristol Motor Speedway where the corners are banked 24 to 30 degrees.  This data is extremely hard to collect and assemble as the road surface is highly irregular.  Once a racetrack is loaded into the testing computer, the vehicle can be loaded onto the 7 post, in the absence of actual track data swept-sine waves can be used.  Further variables are eliminated by using ballast for the weight of the driver and the weight of the fuel in the tank.  The test lab temperature is highly regulated to standard temperature of 21 °C (70 °F).  Once the unit is started transducers in the form of accelerometers and strain gauges, convert the mechanical movement of the vehicle into an electrical signal.  This signal is sent to a processor which converts and amplifies the signal, and sends it on to the computer.
+Also of particular interest to the engineer is the force between the tire and the road.  This is of interest to the car designer because it reflects the grip that the tire has on the road surface.  This is more difficult to test because the sampling frequency has to be at least five times as high as the highest frequency.  In this case the incoming frequency is 100 Hz, so the sampling frequency must be at least 500 Hz.
+In vibration analysis, as in all engineering problems, the output data must be looked at in a methodical way.  When testing on the 7 post shaker, all variables are inter-related and can be analyzed while the effects of the actual installation can be quantified.  The damping force curve can be extracted from the data to understand how installation stiffness and other variables affect the damping force.  Some seemingly unimportant trends need to be verified so the engineers can be sure that the trend will not continue or that the trend is expected.
+The analysis path in this case is:
+
+Input - The road or race track
+Unsprung mass - Weight not felt by the springs
+Tires - Act as dampers to the input forces
+Wheels - Add weight
+Brakes - Add weight
+Springs - Respond directly to the input forces
+Sprung mass - The rest of the vehicle, in particular:
+Shocks - Dampen input forces appreciably
+Frame/Rollcage - Distributes input forces over the entire vehicle
+Driver - Directly fatigued by vibration, body roll, and steering wheel feedback
+
+See also
+4-poster
+Automobile handling
+Automotive suspension design
+Nyquist rate
+Roll center
+Scrub radius
+Shock absorber
+Suspension (vehicle)
+Unsprung mass
+
+
+== References ==

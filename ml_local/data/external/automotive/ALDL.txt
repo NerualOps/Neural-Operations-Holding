@@ -1,0 +1,35 @@
+Title: ALDL
+
+Assembly Line Diagnostic Link, Assembly Line Data Link, or ALDL is a proprietary on-board diagnostics system developed by General Motors before the standardization of OBD-2. It was previously called Assembly Line Communications Link or ALCL. The two terms are used interchangeably.
+The ALDL communications link was originally developed at the General Motors Emissions Control Systems Project Center located at GM's Milford, Michigan Proving ground. The center was responsible for coordinating all divisional and staff design, testing and development activities of the emission control system for GM USA passenger vehicles designed to meet the requirements of the 1981 clean air act.
+Project Center Chief Engineer Harry H. Lyon explains:
+
+Basically, the ECS project center is a common watering hole for all (GM) divisional and corporate staff activities. For example, we had representation from eight component divisions, AC Spark Plug, Delco Electronics, Delco Products, Delco Remy, Diesel Equipment, Packard Electric, Rochester Products, and
+Saginaw Steering Gear. The five car divisions, the body and assembly divisions, seven corporate staffs, and the patent section were also represented. This allows us to pool our knowledge and avoid costly and timely duplication, while at the same time it provides us with a centralized avenue to corporate management. More specifically, the center has responsibility for coordinating such projects as engineering specifications for both hardware and software.
+In addition to monitoring the engine process, it is equipped to periodically read its own pulse and communicate the presence of any problems. It is able to do this by flashing a check engine light on the car's instrument panel and storing the information about a malfunction in its memory. When taken to a service center, the ECM uses this
+same light to "talk" to the mechanic through a flashing code that indicates where the problem is. On Cadillacs, the proper code is digitally displayed. To ensure high quality in the Computer Command Control system, it will be given a final check at the end of the assembly line. Here the completely assembled vehicle will be tested by connecting the computer to a test computer. This will significantly improve GM's ability to catch anything wrong with the system or the car's engine.
+
+A specification was written for the data link and provided to the service community by the project center service engineers in 1981 (XDE-5024B).
+This system was only vaguely standardized and suffered from the fact that specifications for the communications link varied from one model to the next. ALDL was largely used by manufacturers for diagnostics at their dealerships and official maintenance facilities.  The connector is usually located under the dash on the driver's side of left-hand drive (LHD) vehicles, though this location was not standardized.
+For the assembly plant test system computer that was connected to this vehicle connector and known by the same name, see the article IBM Series/1.  In the late 1980s the system was migrated to the ADTS system (ALDL Development and Test System) which utilized an industrialized IBM PC with custom interface hardware.
+
+Diagnostic connector
+There were at least four different connectors used with ALDL.  General Motors implemented both a 5-pin connector and a 12-pin connector, with the 12 pin connector (Packard/Delco/Delphi part number 12020043) being used in the vast majority of GM cars.  Lotus implemented a 10-pin connector.  The pins are given letter designations in the following layouts (as seen from the front of the vehicle connector):
+
+12-pin ALDL connector pinout
+
+10-pin ALDL connector pinout
+
+5-pin ALDL connector pinout
+
+Note the difference in pin ordering between the connectors and the fact that the letter I is not used.  Unfortunately, the definition of which signals were present on each pin varied between vehicle models.  There were generally only three pins used for basic ALDL —ground, battery voltage, and a single line for data—, although other pins were often used for additional vehicle-specific diagnostic information and control interfaces.  No battery voltage is present in the 12 pin ALDL connector.
+
+Data stream
+The earliest implementations of ALDL were unidirectional and transmitted serial data at 160 baud using PWM.  Some 160 baud models constantly transmitted sensor data on startup, while others started transmitting data when placed in diagnostic mode with a resistor connected to the ALDL port.
+Later versions were bidirectional and operated at a much faster (but incredibly slow compared to today's standards) rate of 8192 baud.  Implementations using the 8192 baud rate were primarily request-driven, meaning that the main diagnostic data was not transmitted until a request was made.  Some idle data transmission of trivial parameters, however, existed in many vehicles.  Bidirectional communication also allowed many other functions to be performed via ALDL, such as actuator tests, parameter overrides, and in some cases even reprogramming of the ECU itself.  Multiple devices could be placed on the ALDL data line for primitive networking and communication.  Many later 8192 baud vehicles, for example, had airbag control, ABS, and even climate control units sending data on the same serial bus.
+In both versions, ALDL data is sent in a format unique to the model of ECU in the vehicle with little standardization between models, so a proper definition of the data is required to interpret it.  Most professional scan tools require a large database of vehicle definitions.
+The signaling of ALDL is similar to the RS-232 serial data standard; differing in the voltages used to denote logical one (usually 0 V DC) and logical zero (either +5 V DC or +12 V DC), and that unlike RS-232, both transmit and receive functions are on the same conductor. Schematics are available on the internet for devices that can be used to convert the ALDL voltages to those of the RS-232 standard, allowing the raw data to be read with a computer having a serial port and the proper software.
+Multiple scanner software programs are available.  94-95 6.5 Turbo Diesel scanner software is also available   Direct USB to ALDL cables and even Bluetooth modules are available.
+
+
+== References ==

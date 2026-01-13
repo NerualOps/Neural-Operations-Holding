@@ -1,0 +1,58 @@
+Title: Automotive paint
+
+Automotive paint is paint used on automobiles for both protective and decorative purposes. Water-based acrylic polyurethane enamel paint is currently the most widely used paint for reasons including reducing paint's environmental impact.
+Modern automobile paint is applied in several layers, with a total thickness of around 100 μm (0.1mm). Paint application requires preparation and primer steps to ensure proper application. A basecoat is applied after the primer paint is applied. Following this, a clearcoat of paint may be applied that forms a glossy and transparent coating. The clearcoat layer must be able to withstand UV light.
+
+History
+In the early days of the automobile industry, paint was applied manually and dried for weeks at room temperature because it was a single component paint that dried by solvent evaporation. As mass production of cars made the process untenable, paint began to be dried in ovens. Nowadays, two-component (catalyzed) paint is usually applied by robotic arms and cures in just a few hours either at room temperature or in heated booths.
+Until several decades ago lead, chromium, and other heavy metals were used in automotive paint. Environmental laws have prohibited this, which has resulted in a move to water-based paints. Up to 85% of Lacquer paint can evaporate into the air, polluting the atmosphere. Enamel paint is better for the environment and replaced lacquer paint in the late 20th century. Water-based acrylic polyurethane enamels are now almost universally used as the basecoat with a clearcoat.
+
+Processes and coatings
+Preparation
+High-pressure water spray jets are directed to the body. Without proper pretreatment, premature failure of the finish system can almost be guaranteed. A phosphate coat is necessary to protect the body against corrosion effects and prepares the surface for the E-Coat.
+The body is dipped into the Electro-Coat Paint Operation (ELPO/E-Coat), then a high voltage is applied. The body works as a cathode and the paint as an anode sticking on the body surface. It is an eco-friendly painting process. In E-Coat, also called CED paint, use is approximately 99.9% and provides superior salt spray resistance compared to other painting processes.
+
+Primer
+The primer is the first coat to be applied. The primer serves several purposes.
+
+It serves as a leveler, which is important since the cab often has marks and other forms of surface defect after being manufactured in the body shop. A smoother surface is created by leveling out these defects and therefore a better final product.
+It protects the vehicle from corrosion, heat differences, bumps, stone-chips, UV-light, etc.
+It improves ease of application by making it easier for paints to stick to the surface.  Using a primer, a more varied range of paints can be used.
+
+Base coat
+The base coat is applied after the primer coat. This coat contains the visual properties of color and effects, and is usually the one referred to as the paint. Base coat used in automotive applications is commonly divided into three categories: solid, metallic, and pearlescent pigments.
+
+Solid paints have no sparkle effects except the color. This is the easiest type of paint to apply, and the most common type of paint for heavy transportation vehicles, construction equipment and aircraft. It is also widely used on cars, trucks, and motorcycles. Clear coat was not used on solid colors until the early 1990s.
+Metallic paints contain aluminium flakes to create a sparkling and grainy effect, generally referred to as a metallic look. This paint is harder to manage than solid paints because of the extra dimensions to consider.  Metallic and pearlescent paints must be applied evenly to ensure a consistent looking finish without light and dark spots which are often called "mottling". Metallic basecoats are formulated so that the aluminium flake is parallel to the substrate. This maximises the "flop". This is the difference in the brightness between looking perpendicularly at the paint and that at an acute angle. The "flop" is maximised if the basecoat increases in viscosity shortly after application so that the aluminium flake which is in a random orientation after spraying is locked into this position while there is still much solvent (or water) in the coating. Subsequent evaporation of the solvent (or water), leads to a reduction in the film thickness of the drying coating, causing the aluminium flake to be dragged into an orientation parallel to the substrate. This orientation then needs to be unaffected by the application of the clear coat solvents. The formulation of the clear coat needs to be carefully chosen so that it will not "re-dissolve" the basecoat and thus affect the orientation of the metallic flake but will still exhibit enough adhesion between the coatings so as to avoid delamination of the clear coat. A similar mode of action occurs with pearlescent pigmented basecoats.
+Pearlescent paints contain special iridescent pigments commonly referred to as "pearls". Pearl pigments impart a colored sparkle to the finish which works to create depth of color.  Pearlescent paints can be two stage in nature (pearl base color + clear) or 3 stage in nature (basecoat + pearl mid-coat + clear-coat).
+
+Clearcoat
+Usually sprayed on top of a colored basecoat, clearcoat is a glossy and transparent coating that forms the final interface with the environment. For this reason, clearcoat must be durable enough to resist abrasion and chemically stable enough to withstand UV light. Clearcoat can be either solvent or water-borne.
+One part and two part formulations are often referred to as "1K" and "2K" respectively. Car manufacturer (OEM) clear coats applied to the metal bodies of cars are normally 1K systems since they can be heated to around 140 °C to effect cure. The clear coats applied to the plastic components like the bumpers and wing mirrors however are 2K systems since they can normally only accept temperatures up to about 90 °C. These 2K systems are normally applied "off line" with the coated plastic parts fixed to the painted metallic body. Owing to the difference in formulation of the 1K and 2K systems and the fact they are coated in different locations they have a different effect on the "redissolving" of the metallic base coat. This is most easily seen in the light metallic paints like the silver and light blue or green shades where the "flop" difference is most marked.
+
+Terminology
+The terminology for automotive paints has been driven by the progression of technologies and by the desire to both distinguish new technologies and relate to previous technologies for the same purpose.  Modern car paints are nearly always an acrylic polyurethane "enamel" with a pigmented basecoat and a clear topcoat.  It may be described as "acrylic", "acrylic enamel", "urethane", etc. and the clearcoat in particular may be described as a lacquer.  True lacquers and acrylic lacquers are obsolete, and plain acrylic enamels have largely been superseded by better-performing paints. True enamel is not an automotive paint.  The term is common for any tough glossy paint but its use in the automotive industry is often restricted to older paints before the introduction of polyurethane hardeners.
+
+Chemistry
+Modern car paint is typically made from acrylic-polyurethane hybrid dispersions, which are a combination of two different plastics. They were developed during the 1970's and 80's as a water-soluble replacement for enamel paints, following health concerns over their high VOC content. Acrylic is less expensive and can hold more pigment, but has poor scratch resistance, whereas polyurethanes are harder but more costly. Combining both types gives a material which can contain a lot of color and be hard-wearing. Simply mixing the materials is not sufficient, as this give heterogeneous coating with separate acrylic and polyurethane domains. Instead, the starting chemicals for each plastic (monomers) are combined and partially polymerized to give an interpenetrating polymer network. Within this the polymer-chains are not chemically bonded to one another, but instead become entangled and interwoven and as they form. This is possible because they polymerize in different ways, which are incompatible with each other. Polyurethane is formed by step growth polymerization involving polycondensation, whereas acrylic is formed by chain growth polymerization featuring free radicals. The resulting product is homogeneous and tough, with superior properties to the individual plastics.
+
+Types and form
+Innovations are taking place in paint industry as well. These days, automotive paints come in liquid form, spray form, and powder forms:-
+
+Liquid: Usually polyurethane paints. Compressor is needed to apply.
+Spray: This is as same as perfume in spray bottle. Made for DIYer.
+Powder or additive: Paints in powder form applied after mixing in paint thinner.
+Types of automotive paints
+
+Removable: These kinds of paints are made for giving custom appearance to vehicle.
+Non-removable: Made for touch-ups and painting vehicle.
+
+See also
+Fordite, automotive paint which has been layered and dried over time
+
+References
+
+Automotives Paints and Coatings, Streitberger & Dössel, 2008
+Hans-Joachim Streitberger; Karl-Friedrich Dossel (31 March 2008). Automotive Paints and Coatings. John Wiley & Sons. ISBN 978-3-527-30971-9.
+Universal Motorcars (24 April 2020). Automotive body Paints and repair. Universal Motorcars.
+Paint Materials and Processes from an Automotive OEM Perspective

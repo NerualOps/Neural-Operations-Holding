@@ -1,0 +1,31 @@
+Title: Parry People Movers
+
+Parry People Movers Ltd. (PPM) was a small British manufacturer of lightweight railcars that use flywheel energy storage for traction, allowing electric systems to operate without overhead wires or third rails. The company built one prototype and two production vehicles, the British Rail Class 139. It also designed concepts for trams and other rail technology using alternative fuels such as gas and hydrogen, but was not successful in finding further buyers among transport operators.
+PPM was founded and directed by John Parry, who died 17 February 2023, and the company was liquidated later that year.
+
+Current usage
+Central Trains, then-owner of the West Midlands franchise, began operating a single PPM50 (Class 999) unit on the Stourbridge line on Sundays in 2006, with a Class 153 diesel multiple unit (DMU) providing a weekday service. In June 2009, under London Midland, the Class 153 was replaced by two PPM60 units, classified as Class 139 (with one as a spare), providing a 10-minute frequency service in both directions. Although the capacity of the unit (60 passengers) is less than the DMU, overall capacity is increased due to the greater frequency, up from four to six trains per hour. The trains were transferred to West Midlands Trains, operating under the West Midlands Railway brand, when the West Midlands franchise was refreshed in 2017.
+From 24 January 2011, Go! Cooperative planned a trial service between Alton and Medstead and Four Marks on the Mid-Hants Railway using the Class 999 unit. This was abandoned after a series of mechanical and electrical failures and due to the unit proving to be unsuitable for the long and steep gradients on the line. The unit was being reconfigured to address the problems with a redesigned chassis and conversion from LPG to diesel power and the trial was planned to be repeated.
+In January 2012, proposals emerged for new bigger PPMs to be used on the South Staffordshire Line between Stourbridge Junction and Brierley Hill, providing passenger services on the line for the first time since the Beeching Axe, but this did not proceed.
+
+Earlier trials
+Early testing of the concept took place in Weymouth in the mid-1990s, followed by trials on the Severn Valley Railway in March and April 2002 with a PPM50 unit that operated between Kidderminster and Bewdley. The Parry flywheel storage technology was tested on the Stourbridge Town Branch Line in the West Midlands in 2006. Since Central Trains had no Sunday service on the branch, the initiative was brought to test a PPM50 model at that time, with a view to replacing the Class 153 single-car DMU that previously worked the Branch with a unit with much lower operating costs. The trial lasted for a year.
+PPMs were demonstrated on narrow gauge railways (Welshpool and Llanfair Light Railway, Ffestiniog Railway, and Welsh Highland Railway).
+
+Technology
+PPMs utilise a rotating flywheel as a store of kinetic energy which is then used to power the vehicle. A typical PPM flywheel is made from steel laminates, approximately 1 m (39 in) in diameter and 500 kg (1,100 lb) in mass, designed to rotate at a maximum speed of 2,500 rpm. The flywheel is mounted horizontally at the centre of the unit,  beneath the seating area. The flywheel is driven by an internal combustion engine or an electric motor. The flywheel is connected to the rail wheels via a hydrostatic variable transmission system. The wheels are driven without conversion into electricity as many other railcars utilising flywheel energy storage do.
+The flywheel allows the direct capture of brake energy (when slowing down or descending gradients) and its reuse for acceleration (called regenerative braking). When the vehicle brakes, the hydrostatic transmission feeds the energy back into the flywheel. Since the short-term power demand for acceleration is provided by the energy stored in the flywheel, there is no need for a large engine. A variety of small engine types can be used including LPG, diesel or electric traction.
+On a route with stations a short distance apart it is theoretically possible to use the unit as a tram without any engine or overhead electrification at all. Instead, the flywheel could be re-energised at each station, storing enough power to carry it on to the next.
+
+Fleet
+In April 2019, PPM announced plans to upgrade the original Class 999 PPM50 prototype with a diesel power unit and to seek approval for its entry into passenger service as 'No 139000'. In February 2020, the refurbished vehicle was moved to the Severn Valley Railway for testing. It was subsequently stored after the flywheel was damaged, and in July 2024 it was moved to the Very Light Rail National Innovation Centre at Dudley.
+
+See also
+Coventry Very Light Rail
+
+References
+External links
+
+"Parry People Movers Official website". Archived from the original on 26 May 2022.
+"First Notice of compulsory strike-off from Companies Register - Parry People Movers".
+"Revolutionary tram notches up 500,000 passengers". Stourbridge News. 31 August 2010. Retrieved 2 May 2023.

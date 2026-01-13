@@ -1,0 +1,80 @@
+Title: Bi-fuel vehicle
+
+Bi-fuel vehicles are vehicles with multifuel engines capable of running on two fuels. The two fuels are stored in separate tanks and the engine runs on one fuel at a time. On internal combustion engines, a bi-fuel engine typically burns gasoline and a volatile alternate fuel such as natural gas (CNG), LPG, or hydrogen. Bi-fuel vehicles switch between gasoline and the other fuel, manually or automatically. A related concept is the dual-fuel vehicle which must burn both fuels in combination. Diesel engines converted to use gaseous fuels fall into this class due to the different ignition system.
+The most common technology and alternate fuel available in the market for bi-fuel gasoline cars is autogas (LPG), followed by natural gas (CNG), and it is used mainly in Europe. Poland, the Netherlands, and the Baltic states have many cars running with LPG. Italy currently has the largest number of CNG vehicles, followed by Sweden. They are also used in South America, where these vehicles are mainly used as taxicabs in main cities of Brazil and Argentina. Normally, standard gasoline vehicles are retrofitted in specialized shops, which install the gas cylinder in the trunk and the LPG or CNG injection system and electronics. The conversion is possible because the gases can use the spark ignition of a gasoline engine.
+
+Diesel conversions
+A Diesel engine is a compression-ignition engine and does not have a spark plug. To operate a diesel engine with an alternate combustible fuel source such as natural gas, a dual-fuel system is used with natural gas as the main fuel while diesel fuel is used for the ignition of the gas/air mixture inside the cylinder. In other words, a portion of diesel is injected at the end of the compression stroke, thereby maintaining the original diesel operation principle. (Running gas-only is possible but requires more extensive modification.)
+Dual-fuel operation in this case means the engine uses two fuels (gas and diesel) at the same time, as opposed to bi-fuel, which would mean the engine could have the option of using either fuel separately.
+There usually two type of conversions – low-speed (below 1000 RPM) and high-speed (between 1200 and 1800 RPM).
+
+Low- and middle-speed conversion
+Gas is injected into the cylinder inlet manifold by individual gas electromagnetic valves installed as close to the intake valves as feasible. The valves are separately timed and controlled by the injection control unit. This system interrupts the gas supply to the cylinder during the long overlap period of the intake and exhaust valves both being open (typical for slow-speed and medium-speed engines – within the valve overlap, cylinder scavenging is performed). This avoids substantial gas losses and prevents dangerous gas flow to the exhaust manifold.
+
+This conversion is for low-speed engines up to 1000 RPM.
+The system converts industrial diesel engine to bi-fuel operation by substitution of 70–90% natural gas for diesel or HFO.
+Gas is injected directly before intake valve by high-speed electromagnetic injector, one or two injectors per cylinder.
+
+High-speed conversion
+Gas is mixed with air by a common mixer installed before any turbocharger(s). Gas flow is controlled by a throttle valve, which is electronically operated by the special control system according to the required engine output and speed. In order to avoid knocking of the engine, a knocking detector/controller is installed, thus enabling engine operation at the most efficient gas/diesel ratio.
+
+Suitable for all high-speed engines, 1200–1800 RPM
+The system converts industrial diesel engine to bi-fuel operation by substitution of 50–80% natural gas for diesel.
+Gas and air are blended after the air filter and before the turbocharger by a central mixer.
+
+Conversion features and benefits
+Benefits relating to conversion to bi-fuel vehicles include savings on operation costs, little to no engine modification of the existing vehicle and non-derated output power. Other benefits also include emissions reduction (due to different C/H atom ratio) and fuel flexibility.
+
+Gas types used
+The preferred method for diesel generators to be converted to dual fuel would be to use piped natural gas due to the volume of gas required based on the operating cycle of the engine. It is less common to use compressed natural gas (CNG) or liquefied natural gas (LNG) for bi-fuel operations, due to logistics of fuel delivery frequency and amount of fuel required to maintain operations. Natural Gas is preferred  for generator sets conversions, because the engine does not lose the output power.
+In recent years biogas is being used. The biogas composition and calorific value must be known in order to evaluate if the particular biogas type is suitable. Calorific value may be an issue as biogas is derived from different sources and there is low calorific value in many cases. You can imagine you have to inject sufficient volume of gas into the cylinder to substitute diesel oil (or, better to say, substitute energy delivered by diesel oil). If the calorific value (energy) of the biogas was very low, there is a need to inject really big volume of biogas into the cylinder, which might be technically impossible. Additionally, the composition of the biogas has to lean towards ignitable gases and be filtered as much as possible of non-combustible compounds such as carbon dioxide.
+Associated gas is the last type of gas which is commonly used for bi-fuel conversions of generator sets. Associated gas is a natural gas found in association with oil, either dissolved in the oil or as a cap of free gas above the oil. It means it has almost the same quality as CNG or LNG.
+
+Diesel:gas ratio
+It depends on the technical state of the engine, especially of the injection system. The typical diesel:gas ratio is 40:60 for high-speed engines. If the operating output of the engine is constant and between 70–80% of nominal output, than it is possible to reach up to 30:70 ratio. If the operating output is lower (for example half of the nominal output) or if there are variations, the rate is about 45:55 (more diesel fuel is used). For low-speed conversions it is possible to reach a diesel:gas ratio as low as 10:90. Generally, it is not possible to guarantee an exact diesel:gas ratio without a test being done after conversion.
+
+Vehicles
+Aftermarket bi-fuel and even tri-fuel conversions are also available.
+
+Factory bi-fuel passenger cars
+Fiat Punto
+Fiat Siena Tetrafuel, with a gasoline flex-fuel engine and natural gas (CNG).
+Holden Commodore dual-fuel (LPG/petrol)
+Fiat Multipla 1.6 BiPower (CNG/petrol) and 1.6 BluPower (CNG)
+Chevrolet Cavalier
+Dacia Duster BiFuel
+Dacia Logan BiFuel
+Dacia Sandero BiFuel
+Ford Contour
+Ford Falcon (Australia)
+Mazda RX-8 Hydrogen RE
+Mazda Premacy Hydrogen RE Hybrid
+Chevrolet SPARK Bifuel
+Volkswagen Polo BiFuel (LPG/petrol)
+Volkswagen Golf BiFuel (LPG/petrol)
+Mazda 2 BiFuel (LPG/Petrol)
+Mercedes-Benz E200-NGT BiFuel (CNG/Petrol)
+Audi A3 g-tron
+Audi A4 g-tron
+Lada Vesta CNG (CNG/Petrol).
+
+Factory bi-fuel pickups
+Chevrolet Silverado
+Ford F-150, F250
+
+See also
+Alternative fuel vehicle
+Flexible-fuel vehicle (FFV or dual-fuel vehicle)
+Hydrogen internal combustion engine vehicle
+Multifuel
+
+References
+External links
+"Conversion of a Cummins QSK60".
+"Conversion of Diesel Engine to Natural Gas".
+"Dual Fuel System Manufacturer".}
+"Gen-set with Bifuel - ComAp Application". Archived from the original on 2013-12-18. Retrieved 2013-12-12.
+"Bi-fuel Power" (PDF). Retrieved 2007-12-12.
+"Conversions of Engines to Dual Fuel". Archived from the original on 2007-12-29. Retrieved 2007-12-12.
+"Dual Fuel Conversion Kits". Archived from the original on 23 October 2009. Retrieved 2009-09-21.
+"Bi-fuel Minivan Taxi Conversions".

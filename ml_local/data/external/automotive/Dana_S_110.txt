@@ -1,0 +1,35 @@
+Title: Dana S 110
+
+The Dana/Spicer Model S110 is an automotive axle manufactured by the Dana Holding Corporation and the Eaton Corporation.  Eaton manufactures the differential and Dana manufactures the rest of the axle.   The S110 model follows a newer nomenclature for Dana axles.   The "S" meaning: single rear axle.  The first "1" representing gear reduction type, the second representing the head assembly series and the last "0" representing the design level.
+The Dana S110 is used in Class 4 and Class 5 applications.  Dodge, Ford and General Motors use this axle as well as various other companies.  The Dana S110 is a full floating, drop-out axle.  Dana S110 axles are a step up in overall strength compared to the Dana 80.  Ford started using this axle in 2005 model F-450 and F-550 trucks.  Replacing the Dana 80 in some class 4 trucks, and the Dana S 135 in the rest of the trucks.  Dodge started using the Dana S110 in their 2008 model 4500 and 5500 trucks.   Although this axle is designed for medium-duty, commercial-trucks, Ford did put the S110 in 2008-2010 & 2015-2016 F-450 Pick up trucks.  The Dana S110 has a GAWR up to 14,706 lbs  
+but is frequently, de-rated by vehicle manufacturer for safety and tire reasons.  This axle is not used in 1 Ton trucks (Class 3).
+
+General Specifications
+Ring gear measures 12.25" or 311mm.
+Axle shaft spline count: 34 Spline
+
+Ratios
+OEM ratios range from 3.07:1 to 6.50:1
+
+Common Applications
+2005-2009 GM 4500 (mixed with Dana 135s)
+2005-2009 GM 5500 (mixed with Dana 135s)
+2003-2016 Ford F-450 (2004s mixed with Dana 80s)
+1999-2004 Ford F-550 (Mostly Dana 135, Dana 110s get mixed in later)
+2005-2016 Ford F-550
+2008-2021 Dodge 4500
+2008-2021 Dodge 5500
+2008-2010 & 2015-2016 F-450 Pick up trucks (Model year 2011 - 2014 Ford F-450 pick up trucks, Class 3, use the Dana 80 axle)
+Various other heavy duty commercial applications
+
+e-S9000r
+The "Spicer Electrified eS9000r e-Axle" is a hybrid, electrified version of the Dana 110/Dana 111/Dana 135 axles. It will not see action in (Class 3) trucks, making this a hybrid axle for medium-duty trucks only. Since the hybrid axle is based on axles that have been used in many trucks, for many years, it is also referred to as a drop-in axle. The Dana Holding Corporation acknowledges the movement towards electrification among its competitors and has spent 300 million dollars on electrodynamic investments.
+
+e-S9000r general specifications
+317 hp (236 kW)
+815 pounds (370 kg)
+
+References
+
+
+== External links ==

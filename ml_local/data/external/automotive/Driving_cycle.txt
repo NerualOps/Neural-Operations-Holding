@@ -1,0 +1,78 @@
+Title: Driving cycle
+
+A driving cycle is a series of data points representing the speed of a vehicle versus time.
+Driving cycles are produced by different countries and organizations to assess the performance of vehicles in various ways, for example, fuel consumption, electric vehicle autonomy and polluting emissions.
+Fuel consumption and emission tests are performed on chassis dynamometers.  Tailpipe emissions are collected and measured to indicate the performance of the vehicle.
+Another use for driving cycles is in vehicle simulations. For example, they are used in propulsion system simulations to predict performance of internal combustion engines, transmissions, electric drive systems, batteries, fuel cell systems, and similar components.
+Some driving cycles are derived theoretically, as in the European Union, whereas others are direct measurements of a representative driving pattern.
+There are two types of driving cycles: 
+
+Transient driving cycles involve many changes, representing the constant speed changes typical of on-road driving.
+Modal driving cycles involve protracted periods at constant speeds.
+The American FTP-75, and the unofficial European Hyzem driving cycles are transient, whereas the Japanese 10-15 Mode and JC08 cycles are modal cycles. 
+Some highly stylized modal driving cycles such as the European NEDC were designed to fit a particular requirement, but bear little relation to real world driving patterns. On the contrary, the current Worldwide harmonized Light vehicles Test Procedure (WLTP) strives to mimic real world driving behavior. The most common driving cycles are the WLTP, NEDC, SORDS and the FTP-75, the latter corresponding to urban driving conditions solely.
+Driving cycle design is the core technology for these standard cycles. Optimization and Markov chains are employed to design a driving cycle.
+Drive cycle recognition applies to Hybrid Electric Vehicle.
+
+History
+1960s
+At the end of the 1960s, increased use of automobile vehicles led to the first regulations on limiting emissions.  They first showed up in Germany and then in France, which led to the common Directive 70/220/EEC in March 1970:
+
+On 18 October 1968 was published, a 14 October 1968 regulation amended the Straßenverkehrs-Zulassungs-Ordnung in Germany with provisions on measures to be taken against air pollution by positive-ignition engines of motor vehicles, to enter into force on 1 October 1970;
+On 17 May 1969 was published in the Journal officiel a 31 March 1969 regulation on the "Composition of exhaust gases emitted from petrol engines of motor vehicles", applicable from 1971 or 1972.
+This led to a risk to have different national regulation in different member states of the European Economic Community (EEC). To avoid this and to protect the common market, all member states adopts the same requirements, either in addition to or in place of their existing rules, in order to allow the EEC-type approval procedure, defined by Council Directive in 1970.
+
+1970s
+On 1 August 1970, United Nations Regulation No. 15. was registered by the United Nations Economic Commission for Europe (UN-ECE), for vehicles equipped with a positive-ignition engine or with a compression-ignition engine with regard to the emission of gaseous pollutants by the engine—a method of measuring the power of positive-ignition engines and a method of measuring the fuel consumption of vehicles. This UN-ECE regulation number 15 had three kind of tests performed with octane 99:
+
+Operating cycle used for TYPE-I TEST, up to 50 km/h speed in third gear and up to 1.04 meter per second squared acceleration
+TYPE-II TEST: Carbon-monoxide emission test at idling speed
+TYPE-III TEST: Verifying emissions of crank-case gases
+In 1978, an Energy Tax Act mandated new testing in order to determine the rate of the guzzler tax that applies for the sales of new cars. This testing, the EPA Federal Test Procedure, commonly known as FTP-75 for the city driving cycle, is a series of tests defined by the US Environmental Protection Agency (EPA) to measure tailpipe emissions and fuel economy of passenger cars (excluding light trucks and heavy-duty vehicles).
+In 1983, in the European Union, directive 83/351/EEC amended directive 70/220/EEC against air pollution by gases from positive-ignition engines of motor vehicles, in conformity with ECE Regulation No. 15/04.
+
+1980s, NEDC
+In the 1980s, the old NEDC as European homologation lab-bench procedure was established to simulate urban driving condition of a passenger car.
+In 1988, in the EEC, Directive 88/76/EEC, change law to rules more stringent than ECE Regulation 15/04.
+
+1990s
+In 1992 the NEDC was updated to include also a non-urban path (characterized by medium to high speeds). In 1997 the CO2 emission figure have been added, too.
+The structure of the NEDC is characterized by an average speed of 34 km/h, the accelerations are smooth, stops are few and prolonged and top speed is 120 km/h.
+In 1996, in the USA, the EPA revised the vehicle certification test, to introduce new driving conditions including aggressive driving behavior, high acceleration rates or air conditioners' operation:
+The new test introduces:
+
+speeds of 80 mph (129 km/h) instead of 57 mph (92 km/h).
+control of emissions during aggressive accelerations
+effect of air conditioners on nitrogen oxide
+
+2000s
+In 2007, the EPA added three new Supplemental Federal Test Procedure (SFTP) tests that combine the current city and highway cycles to reflect real world fuel economy more accurately,. Estimates are available for vehicles back to the 1985 model year.
+In 2008, the US procedure has been updated and includes four tests: city driving (the FTP-75 proper), highway driving (HWFET), aggressive driving (SFTP US06), and optional air conditioning test (SFTP SC03).
+
+2010s
+Nowadays, the NEDC cycle has become outdated, since it is not representative of the modern driving styles, since nowadays the distances and road variety a mean car has to face have changed.
+From 1 September 2019 all the light duty vehicles that are to be registered in the EU countries (but also in Switzerland, Norway, Iceland and Turkey) must comply with the WLTP standards, part of the Global regulations:  In the European Union, including UK, the WLTP replaces the NEDC.
+
+2020s, CATC
+On 2019-10-18, the China automotive test cycles (CATC) are released (GB/T 38146). CATC are concluded from a research covering over 17 vehicle models, 2.5 million data inputs, 700 thousand car owners and 31 provinces in China. On 2020-05-01 CATC are into effect.
+
+Data Collection
+Data collection from the test road is the most important activity. Test road (e.g. city, highway, etc.) measured data are the inputs to the 'Drive Cycle' preparation activity.
+The procedure involves instrumentation of the test vehicle to collect information while driving on the test road. There are two major types of data to be collected, Driver Behavior data and Vehicle versus Road data. The Vehicle versus Road data are used to prepare the road drive cycle and the Driver Behavior data to prepare the Driver model. For example, to calculate a vehicle's fuel consumption either in computer simulation or in chassis dynamo-meter which is going to be launched in India, it must run on an Indian road with an Indian Driver. Indian Drive Cycle with a European driver model does not give a fair comparison of the on road trials.
+
+Driving Cycle Design
+The "Drive-cycle" basically is the representative of the road. Drive cycles are used to reduce the expense of on road tests, time of test and fatigue of the test engineer. The whole idea is to bring the road to the test lab (a chassis dynamo-meter) or to the computer simulation.
+Two kinds of drive cycle can be made. One is DISTANCE DEPENDENT (SPEED versus DISTANCE versus ALTITUDE) and the other one is TIME DEPENDENT (SPEED VS TIME VS GEAR SHIFT). The DISTANCE DEPENDENT is the actual replica of the test road whereas TIME DEPENDENT is the compressed version of the actual time taken to conduct the test on road. Examples of TIME DEPENDENT drive cycles are European NEDC cycle, FTP-75. TIME DEPENDENT drive cycles are used specifically for chassis dynamo meter testing because in a short time the results can be availed and repeated tests can be done easily.
+
+Driving Cycle Recognition
+Based on the type of application drive cycles are made. Drive cycle for passenger cars are different from commercial vehicle.
+
+Driving Cycle Prediction
+This is a technique for prediction of future driving cycles and patterns for different types of vehicle applications. These cycles are used as an important input in designing and evaluating future power train systems and vehicle concepts. As of today, obsolete drive cycles are used during the design phase and due to this the changes in traffic conditions and infrastructure which has occurred during the last decade are not taken into account. Therefore, the need for new drive cycles representing today or the next few decades is great. This technique can predict future drive cycle by integrating available measurement data, high-fidelity traffic simulators and traffic models for heavy vehicles. Desirably, traffic simulation models are automatically generated and used to collect predicted drive cycles.
+
+References
+External links
+Fleet DNA: Clearinghouse of Commercial Fleet Vehicle Drive Cycle Data (National Renewable Energy Laboratory)
+US EPA Dynamometer Drive Schedules - Examples of driving cycles and downloadable data sets, including UDDS, FTP75, HWFET, US06, and others.
+Wheels: road load energy demand calculator - Online tool to calculate vehicle road load over a driving cycle
+DieselNet - Introduction to various standard driving cycles

@@ -1,0 +1,64 @@
+Title: Free-piston linear generator
+
+The free-piston linear generator (FPLG) uses chemical energy from fuel to drive magnets through a stator and converts this linear motion into electric energy. Because of its versatility, low weight and high efficiency, it can be used in a wide range of applications, although it is of special interest to the mobility industry as range extenders for electric vehicles.
+
+Description
+The free-piston engine linear generators can be divided in 3 subsystems:
+
+One (or more) reaction section with a single or two opposite pistons
+One (or more) linear electric generator, which is composed of a static part (the stator) and a moving part (the magnets) connected to the connection rod.
+One (or more) return unit to push the piston back due to the lack of a crankshaft (typically a gas spring or an opposed reaction section)
+The FPLG has many potential advantages compared to traditional electric generator powered by an internal combustion engine. One of the main advantages of the FPLG comes from the absence of crankshaft. It leads to a smaller and lighter generator with fewer parts. This also allows a variable compression and expansion ratios, which makes it possible to operate with different kinds of fuel.
+The linear generator also allows the control of the resistance force, and therefore a better control of the piston's movement and of the reaction. The total efficiency (including mechanical and generator) of free-piston linear generators can be significantly higher than conventional internal combustion engines and comparable to fuel cells.
+
+Development
+The first patents of free-piston linear generators date from around 1940, however in the last decades, especially after the development of rare-earth magnets and power electronics, many different research groups have been working in this field.
+These include:
+
+Libertine LPE, UK.
+West Virginia University (WVU), USA.
+Chalmers University of Technology, Sweden.
+Electric Generator, Pontus Ostenberg, USA - 1943
+Free Piston Engine, Van Blarigan, Sandia National Laboratory, USA - Since 1995
+Aquarius Engines, Israel.
+Free-Piston Engine Project, Newcastle University, UK - Since 1999
+Shanghai Jiaotong University, China.
+Free-Piston Linear Generator, German Aerospace Center (DLR), Germany - since 2002
+Free Piston Power Pack (FP3), Pempek Systems, Australia - 2003
+Free Piston Energy Converter, KTH Electrical Engineering, Sweden - 2006
+Linear Combustion Engine, Czech technical university  - 2004
+Internal Combustion Linear Generator Integrated Power System, Xu Nanjing, China - 2010
+micromer ag (Switzerland) - 2012 
+Free-piston engine linear generator, Toyota, Japan - 2014
+Although there is a variety of names and abbreviations for the technology, the terms "Free-piston linear generator" and "FPLG" particularly refer to the project at German Aerospace Center.
+
+Operation
+The free-piston linear generator generally consists of three subsystems: combustion chamber, linear generator and return unit (normally a gas spring), which are coupled through a connecting rod.
+In the combustion chamber, a mixture of fuel and air is ignited, increasing the pressure and forcing the moving parts (connection rod, linear generator and pistons) in the direction of the gas spring. The gas spring is compressed, and, while the piston is near the bottom dead center (BDC), fresh air and fuel are injected into the combustion chamber, expelling the exhaust gases.
+The gas spring pushes the moving parts assembly back to the top dead center (TDC), compressing the mixture of air and fuel that was injected and the cycle repeats. This works in a similar manner to the two-stroke engine, however it is not the only possible configuration.
+The linear generator can generate a force opposed to the motion, not only during expansion but also during compression. The magnitude and the force profile affect the piston movement, as well as the overall efficiency.
+
+Variations
+The FPLG has been conceived in many different configurations, but for most applications, particularly for the automotive industry, focus has been on two opposed pistons in the same cylinder with one combustion chamber with a gas spring at the end of each cylinder. This balances out the forces in order to reduce vibration and noise. In the simplest case, a second unit is just a mirror of the first, with no functional connection to the first. Alternatively, a single combustion chamber or gas spring can be used, allowing for a more compact design and easier synchronization between the pistons.
+The gas spring and combustion chamber can be placed on the ends of the connection rods, or they can share the same piston, using opposite sides in order to reduce space.
+The linear generator itself has also many different configurations and forms. It can be designed as round tube, a cylinder or even flat plate in order to reduce the center of gravity, and/or improve the heat dissipation.
+The free-piston linear generator's great versatility comes from the absence of a crankshaft, removing a great pumping loss, giving the engine a further degree of freedom. The combustion can be two-stroke engine or four-stroke engine. However, a four-stroke requires a much higher intermediate storage of energy, the rotational inertia of the crankshaft, to propel the piston through the four strokes. With the absence of a crankshaft, a gas spring would need to power the piston through the intake, compression, and exhaust strokes. Hence the reason why most of the current research focuses on the two-strokes cycle.
+Several variations are possible for combustion:
+
+Spark ignition (Otto)
+Compression ignition (Diesel)
+Homogeneous charge compression ignition (HCCI)
+
+The DLR research
+The Institute of Vehicle Concepts of the German Aerospace Center is currently developing a FPLG (or Freikolbenlineargenerator - FKLG) since 2002, and has published several papers about this subject.
+During the first few years of research, the theoretical background along with the 3 subsystems were developed separately. In 2013, the first entire system was built and operated successfully.
+The German center is currently into its 2nd version of the entire system, on which two opposed cylinders will be used in order to reduce vibration and noise, making it viable for the automotive industry.
+
+See also
+Free-piston engine
+Advanced Stirling radioisotope generator
+
+References
+External links
+FPLG project from the DLR
+(in English) A history of free piston linear alternator developments

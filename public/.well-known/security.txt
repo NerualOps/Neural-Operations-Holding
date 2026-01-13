@@ -1,0 +1,9 @@
+Contact: mailto:neuralops@neuralops.biz
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://neuralops.biz/.well-known/security.txt
+
+# Security Policy for Neural Operations
+# For security issues, please contact: neuralops@neuralops.biz
+# We take security seriously and will respond to reports within 48 hours.
+

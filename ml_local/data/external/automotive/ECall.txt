@@ -1,0 +1,42 @@
+Title: ECall
+
+eCall (an abbreviation of "emergency call") is an initiative by the European Union, intended to bring rapid assistance to motorists involved in a collision anywhere within the European Union. The aim is for all new cars to incorporate a system that automatically contacts the emergency services in the event of a serious accident, sending location and sensor information (Telemetry). eCall was made mandatory in all new cars approved for manufacture within the European Union as of April 2018.
+
+History
+The concept of eCall was presented in 1999 by European civil servant Luc Tytgat, during the launch of the European Commission's Galileo project. One year earlier, 170 experts met in Brussels, invited by the Commission, to analyse the European dependence on the American GPS system, but also to gather civilian applications propositions.
+In 2001, the project was first presented as a European calling system, in the context of the German youth science competition Jugend forscht. In 2007, the project was postponed. In 2011, the project was pushed again by the European Commission. In the summer of 2013, the project was adopted and was scheduled to be completed by 1 October 2015.
+On 6 September 2013, trade associations operating in the automotive after market (like AIRC, CLEPA, FIA, FIGEAFA) welcomed the European Commission's eCall initiative and fully support the Europe-wide mandatory introduction of eCall by 2015 in all new type-approved cars and light commercial vehicles. AIRC (Association des Reparateurs en Carrosserie) General Secretary Karel Bukholczer said that eCall represents an important initiative to reduce fatalities and the severity of injuries on Europe's roads.
+Slovenia introduced eCall in December 2015. Italy deployed a pilot program in selected regions in May 2017, and Sweden adopted eCall in October 2017.
+Since 2018, eCall is part of an UNECE effort to standardize the devices with the UNECE Regulation 144 related to accident emergency call components (AECC), accident emergency call devices (AECD), and accident emergency call systems (AECS).
+The deployment of eCall devices was made mandatory in all new cars sold in the European Union on 1 April 2018. IP-based emergency services mechanisms are introduced to support the next generation of the pan-European in-vehicle emergency call service in May 2017.
+The de jure ITU-T Recommendation identifies requirements of an internet of things (IoT)-based automotive emergency response system (AERS), i.e. eCall, for factory preinstalled and aftermarket devices in March 2018. The ITU-T Recommendation identifies minimum set of data structure for automotive emergency response system: ITU-T Y.4467, and minimum set of data transfer protocol for automotive emergency response system: ITU-T Y.4468 in January 2020.
+In November 2020, new vehicles in United Arab Emirates started to have the eCall systems.
+
+Concept
+The eCall initiative aims to deploy a device installed in all vehicles that will automatically dial 112 in the event of a serious road accident, and wirelessly send airbag deployment and impact sensor information, as well as GPS or Galileo coordinates to local emergency agencies. A manual call button is also provided. eCall builds on E112. According to some estimates, eCall could reduce emergency response times by 40 percent in urban areas and by 50 percent in rural areas.
+Many companies are involved with telematics technology to use in different aspects of eCall including in-vehicle systems, wireless data delivery, and public safety answering point systems. Standardization of communication protocols and human language issues are some of the obstacles.  Prototypes have been successfully tested with GPRS and in-band signalling over cellular networks. At the same time proprietary eCall solutions that rely on SMS exist already today from car makers such as BMW, PSA and Volvo Cars.
+The project is also supported by the European Automobile Manufacturers Association (ACEA), an interest group of European car, bus, and truck manufacturers, and ERTICO. Many of the stakeholder companies involved with telematics technology have membership in ERTICO or ACEA.
+
+Privacy concerns
+As with all schemes to add mandatory wireless transceivers to cars, there are privacy concerns to be addressed. Depending on the final implementation of the system, it may be possible for the system to become activated without an actual crash taking place. Also, the occupants of the car have no control over the remote activation of the microphone, making a car susceptible to eavesdropping.
+
+Similar initiatives
+In Russia, a fully interoperable system called ERA-GLONASS is being deployed, with the aim to require an eCall terminal and a GPS/GLONASS receiver in new vehicles by 2015–2017.
+In North America, a similar service is available from GM via their OnStar service, and by Ford with "Sync with Emergency Assistance".
+
+Essential patents
+As of 2023, Avanci maintains a portfolio of intellectual property required to meet legally required eCall functionality in automobiles at a cost of $3/vehicle for licensing.
+
+See also
+Automatic vehicle location
+Enhanced 911
+Event data recorder
+Fleet telematics system
+GPS tracking unit
+Intelligent transportation system
+Telematic control unit
+Telemetry
+
+References
+External links
+Official website

@@ -1,0 +1,12 @@
+Title: Laser ignition
+
+Laser ignition is an alternative method for igniting mixtures of fuel and oxidiser. The phase of the mixture can be gaseous or liquid. The method is based on laser ignition devices that produce short but powerful flashes regardless of the pressure in the combustion chamber. Usually, high voltage spark plugs are good enough for automotive use, as the typical compression ratio of an Otto cycle internal combustion engine is around 10:1 and in some rare cases reach 14:1. However, fuels such as natural gas or methanol can withstand high compression without autoignition. This allows higher compression ratios, because it is economically reasonable, as the fuel efficiency of such engines is high. Using high compression ratio and high pressure requires special spark plugs that are expensive and their electrodes still wear out. Thus, even expensive laser ignition systems could be economical, because they would last longer.
+
+Further applications of laser ignition in space propulsion
+Laser ignition is considered as a potential ignition system for non-hypergolic liquid rocket engines, reaction control systems and firearms which need an ignition system. Conventional ignition technologies like torch igniters are more complex in sequencing and need additional components like propellant feed lines and valves. Therefore, they are heavy compared to a laser ignition system. Pyrotechnical devices allow only one ignition per unit and imply increased launch pad precautions as they are made of explosives.
+
+See also
+Electronic firing
+
+
+== References ==

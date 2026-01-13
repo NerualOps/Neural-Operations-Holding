@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Edit Profile - Neural Operations | Manage Your Account Settings</title>
+    <meta name="title" content="Edit Profile - Neural Operations | Manage Your Account Settings">
+    <meta name="description" content="Edit your Neural Operations profile settings. Update your account information, preferences, and manage your AI-powered business solution access.">
+    <meta name="keywords" content="Neural Operations profile, edit account, user settings, profile management">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="author" content="Neural Operations & Holdings LLC">
+    <link rel="canonical" href="https://neuralops.biz/edit_profile">
+    
+    <!-- WebPage Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Edit Profile - Neural Operations",
+      "description": "Manage your account settings",
+      "url": "https://neuralops.biz/edit_profile",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Neural Operations",
+        "url": "https://neuralops.biz"
+      }
+    }
+    </script>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://neuralops.biz/edit_profile">
+    <meta property="og:title" content="Edit Profile - Neural Operations">
+    <meta property="og:description" content="Manage your account settings">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://neuralops.biz/edit_profile">
+    <meta property="twitter:title" content="Edit Profile - Neural Operations">
+    <meta property="twitter:description" content="Manage your account settings">
+    
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Performance: Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    
+    <!-- Async Font Loading -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
+    
+    <style>
+        /* Professional Design System - Ignition Precision */
+        :root {
+            --flame-core: #F97316;
+            --flame-highlight: #FF8A3D;
+            --flame-deep: #C2410C;
+            --near-black: #0F0F0F;
+            --soft-white: #FAFAFA;
+            --ash-neutral: #A1A1AA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--near-black);
+            color: var(--soft-white);
+            overflow-x: hidden;
+            padding-top: 100px;
+            padding-bottom: 2rem;
+            min-height: 100vh;
+        }
+
+        /* Top Right Profile Bubble */
+        .top-right-profile {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .profile-bubble {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--soft-white);
+            text-transform: uppercase;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            background: var(--flame-core);
+        }
+
+        .profile-bubble:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            background: var(--near-black);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--ash-neutral);
+            border-radius: 12px;
+            padding: 0.5rem;
+            min-width: 200px;
+            display: none;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        }
+
+        .profile-dropdown.active {
+            display: block;
+        }
+
+        .profile-dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--soft-white);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .profile-dropdown-item:hover {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--soft-white);
+        }
+
+        .profile-dropdown-item.logout {
+            color: #ff3b30;
+        }
+
+        .profile-dropdown-item.logout:hover {
+            background: rgba(255, 59, 48, 0.2);
+        }
+
+        /* Navigation Styles - Matching epsilon.html */
+        .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; transition: left 0.35s ease; display: flex; align-items: center; gap: 0.5rem; }
+        .top-nav-button { padding: 0.6rem 1.2rem; background: rgba(15, 15, 15, 0.6); backdrop-filter: blur(10px); border: 1px solid var(--ash-neutral); border-radius: 6px; color: var(--soft-white); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: all 0.12s ease-out; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05); display: inline-block; width: auto; }
+        .top-nav-button:hover { 
+            border-color: var(--flame-core); 
+            color: var(--flame-core);
+            background: rgba(249, 115, 22, 0.08);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px); 
+            background: rgba(249, 115, 22, 0.05);
+        }
+        .top-right-auth { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 1999; display: none; gap: 0.75rem; transition: right 0.35s ease; }
+
+        /* Profile Container */
+        .profile-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .profile-card {
+            background: rgba(15, 15, 15, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 15px rgba(249, 115, 22, 0.12);
+            transition: all 0.12s ease-out;
+        }
+
+        .profile-card:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 20px rgba(249, 115, 22, 0.12);
+        }
+
+        .profile-card h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--soft-white);
+            letter-spacing: 0.02em;
+        }
+
+        .profile-card p {
+            color: var(--ash-neutral);
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .avatar-uploader {
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(15, 15, 15, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 15px rgba(249, 115, 22, 0.12);
+        }
+
+        .avatar-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 15, 15, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.75rem;
+            font-weight: 700;
+            color: var(--flame-core);
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 15px rgba(249, 115, 22, 0.12);
+        }
+
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .upload-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            background: rgba(15, 15, 15, 0.5);
+            color: var(--soft-white);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            padding: 0.7rem 1.4rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.12s ease-out;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 15px rgba(249, 115, 22, 0.12);
+        }
+
+        .upload-btn:hover {
+            background: rgba(249, 115, 22, 0.1);
+            border-color: var(--flame-core);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 20px rgba(249, 115, 22, 0.12);
+        }
+
+        .upload-btn input {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .remove-btn {
+            background: rgba(15, 15, 15, 0.5);
+            color: var(--soft-white);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            padding: 0.7rem 1.4rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.12s ease-out;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 15px rgba(249, 115, 22, 0.12);
+        }
+
+        .remove-btn:hover {
+            background: rgba(249, 115, 22, 0.1);
+            border-color: var(--flame-core);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 20px rgba(249, 115, 22, 0.12);
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+            color: var(--soft-white);
+            letter-spacing: 0.02em;
+        }
+
+        .form-group input {
+            width: 100%;
+            background: rgba(15, 15, 15, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            color: var(--soft-white);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.12s ease-out;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 15px rgba(249, 115, 22, 0.12);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--flame-core);
+            background: rgba(15, 15, 15, 0.6);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2), 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 20px rgba(249, 115, 22, 0.12);
+        }
+
+        .form-group input[readonly] {
+            color: var(--ash-neutral);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .form-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .primary-btn {
+            background: var(--flame-core);
+            color: var(--near-black);
+            border: none;
+            border-radius: 6px;
+            padding: 1rem 2.25rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.12s ease-out;
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3), 0 2px 6px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.02em;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4), 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 20px rgba(249, 115, 22, 0.12);
+        }
+
+        .primary-btn:active {
+            transform: translateY(0);
+        }
+
+        .status-message {
+            font-size: 0.95rem;
+            color: var(--ash-neutral);
+            padding: 0.5rem 0;
+            font-weight: 500;
+            transition: all 0.12s ease-out;
+        }
+
+        .status-message.success {
+            color: var(--flame-core);
+        }
+
+        .status-message.error {
+            color: #ff3b30;
+        }
+
+        .profile-meta {
+            display: grid;
+            gap: 1.5rem;
+            height: fit-content;
+        }
+
+        .meta-card {
+            background: rgba(15, 15, 15, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 15px rgba(249, 115, 22, 0.12);
+            transition: all 0.12s ease-out;
+        }
+
+        .meta-card:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 20px rgba(249, 115, 22, 0.12);
+        }
+
+        .meta-card h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.95);
+            letter-spacing: 0;
+        }
+
+        .meta-card p {
+            color: var(--ash-neutral);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+        }
+
+        .epsilon-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(15, 15, 15, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--flame-core);
+            padding: 0.6rem 1.1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 15px rgba(249, 115, 22, 0.12);
+        }
+
+        @media (max-width: 1024px) {
+            body {
+                padding-top: 90px;
+                padding-bottom: 90px;
+            }
+
+            .profile-container {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+                gap: 2rem;
+            }
+
+            .profile-card {
+                padding: 2rem;
+            }
+
+            .avatar-uploader {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .avatar-actions {
+                width: 100%;
+                align-items: stretch;
+            }
+        }
+
+        /* Site Footer */
+        .site-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 15, 25, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0.75rem 2rem;
+            z-index: 100;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-left {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.8rem;
+        }
+
+        .footer-left p {
+            margin: 0;
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.12s ease-out;
+        }
+
+        .footer-link:hover {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .footer-divider {
+            color: rgba(255, 255, 255, 0.3);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            line-height: 1;
+        }
+
+        @media (max-width: 768px) {
+            .site-footer {
+                padding: 0.5rem 1rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .footer-links {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-left-nav">
+        <a href="/"><img src="/logo.png" alt="NeuralOps Logo" style="height: 2rem; width: auto; margin-right: 0.5rem; vertical-align: middle;"></a>
+        <a href="/" class="top-nav-button">← Home</a>
+    </div>
+    
+    <div class="top-right-auth" id="topRightAuth">
+        <a href="/login" class="top-nav-button">Sign In</a>
+        <a href="/register" class="top-nav-button">Register</a>
+        </div>
+        
+    <div class="top-right-profile">
+        <div class="profile-bubble" id="profileBubble"><span id="profileInitials">U</span></div>
+        <div class="profile-dropdown" id="profileDropdown">
+            <div id="profileName" style="padding: 0.75rem 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 600; border-bottom: 1px solid rgba(255, 255, 255, 0.1);"></div>
+            <a href="/" class="profile-dropdown-item">Home</a>
+            <a href="/epsilon" class="profile-dropdown-item">Epsilon AI</a>
+            <a href="/about" class="profile-dropdown-item">About Us</a>
+            <a href="/contact" class="profile-dropdown-item">Contact Us</a>
+            <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 0.5rem 0;"></div>
+            <a href="/edit_profile" class="profile-dropdown-item">Edit Profile</a>
+            <a href="/owner" class="profile-dropdown-item" id="ownerLink" style="display: none;">Owner Dashboard</a>
+            <a href="#" class="profile-dropdown-item logout" id="profileLogout">Logout</a>
+        </div>
+    </div>
+
+    <main class="profile-container">
+        <section class="profile-card">
+            <h1>Edit Profile</h1>
+            <p>Update your account details, refresh your identity, and personalize your Epsilon AI experience.</p>
+
+            <div class="avatar-uploader">
+                <div class="avatar-preview" id="avatarPreview">
+                    <span id="avatarInitials">N</span>
+                </div>
+                <div class="avatar-actions">
+                    <label class="upload-btn">
+                        Upload Photo
+                        <input type="file" id="avatarInput" accept="image/*">
+                    </label>
+                    <button type="button" class="remove-btn" id="removeAvatarBtn">Remove Photo</button>
+                </div>
+            </div>
+
+            <form id="profileForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" name="email" readonly>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="primary-btn">Save changes</button>
+                    <span class="status-message" id="statusMessage"></span>
+                </div>
+            </form>
+        </section>
+
+        <aside class="profile-meta">
+            <div class="meta-card">
+                <h2>Epsilon AI Configuration</h2>
+                <p>Your account is connected to the current Epsilon AI intelligence stack.</p>
+                <div class="epsilon-badge" id="epsilonVersionBadge">Epsilon AI Core v1.0</div>
+            </div>
+        </aside>
+    </main>
+
+  <footer class="site-footer">
+      <div class="footer-content">
+          <div class="footer-left">
+              <p>&copy; 2025 Neural Op's is a division of Neural Operations & Holdings LLC. All rights reserved.</p>
+          </div>
+          <div class="footer-right">
+              <div class="footer-links">
+                  <a href="/about">About Us</a>
+                  <span class="footer-divider">•</span>
+                  <a href="/contact">Contact</a>
+                  <span class="footer-divider">•</span>
+                  <a href="/privacy">Privacy</a>
+                  <span class="footer-divider">•</span>
+                  <a href="/terms">Terms of Service</a>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+    <script>
+        let avatarDataUrl = '';
+
+        // Profile dropdown toggle - matching epsilon.html
+        var profileBubble = document.getElementById('profileBubble');
+        var profileDropdown = document.getElementById('profileDropdown');
+        if (profileBubble) profileBubble.onclick = function() { if (profileDropdown) profileDropdown.classList.toggle('active'); };
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (profileBubble && profileDropdown && !profileBubble.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+
+        async function ensureCsrfToken() {
+            let token = localStorage.getItem('csrfToken');
+            if (token) {
+                return token;
+            }
+
+            try {
+                const response = await fetch('/api/csrf-token', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data?.token) {
+                        localStorage.setItem('csrfToken', data.token);
+                        return data.token;
+                    }
+                }
+            } catch (error) {
+                console.warn('Unable to retrieve CSRF token:', error.message || error);
+            }
+
+            return localStorage.getItem('csrfToken') || '';
+        }
+
+        function getStoredUser() {
+            try {
+                const raw = localStorage.getItem('epsilon_user');
+                // Safety check: validate localStorage data
+                if (!raw || typeof raw !== 'string' || raw.length > 10000) {
+                    return null;
+                }
+                const parsed = JSON.parse(raw);
+                // Safety check: validate parsed user object
+                if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+                    return null;
+                }
+                return parsed;
+            } catch (err) {
+                console.warn('Unable to parse stored user:', err);
+                return null;
+            }
+        }
+
+        function computeInitials(source) {
+            // Safety check: validate input
+            if (!source || typeof source !== 'string') return 'U';
+            // Safety check: DoS protection - limit length
+            if (source.length > 100) {
+                source = source.substring(0, 100);
+            }
+            const tokens = source.trim().split(/\s+/).filter(Boolean);
+            if (!tokens.length) return source.charAt(0).toUpperCase();
+            return tokens.slice(0, 2).map(part => part.charAt(0)).join('').toUpperCase();
+        }
+
+        function updateProfileBubble(user) {
+            const bubble = document.getElementById('profileBubble');
+            const initials = document.getElementById('profileInitials');
+            const name = document.getElementById('profileName');
+            const ownerLink = document.getElementById('ownerLink');
+            
+            if (user && user.email) {
+                // Safety check: validate user data
+                if (typeof user.email !== 'string' || user.email.length > 255) {
+                    return;
+                }
+                
+                if (ownerLink) {
+                    // Use profileData role if available (most up-to-date), otherwise use user.role
+                    const currentRole = (profileData && profileData.role) ? profileData.role : (user.role || 'client');
+                    if (currentRole === 'owner') {
+                        ownerLink.style.display = 'block';
+                    } else {
+                        ownerLink.style.display = 'none';
+                    }
+                }
+                const displayName = (user.name || user.full_name || '').trim() || user.email.split('@')[0];
+                // Safety check: validate displayName length
+                if (displayName.length > 100) {
+                    return;
+                }
+                initials.textContent = computeInitials(displayName || user.email);
+                if (name) name.textContent = displayName || user.email;
+            }
+        }
+
+        // Initialize profile bubble - matching epsilon.html
+        window.initProfileBubble = async function() {
+            var userStr = localStorage.getItem('epsilon_user');
+            var profileBubble = document.getElementById('profileBubble');
+            var topRightProfile = document.querySelector('.top-right-profile');
+            var topRightAuth = document.getElementById('topRightAuth');
+            
+            // If no user, hide profile bubble and show auth buttons
+            if (!userStr) {
+                if (topRightProfile) {
+                    topRightProfile.style.display = 'none';
+                }
+                if (topRightAuth) {
+                    topRightAuth.style.display = 'flex';
+                    topRightAuth.style.visibility = 'visible';
+                    topRightAuth.style.opacity = '1';
+                    topRightAuth.style.pointerEvents = 'auto';
+                    topRightAuth.style.zIndex = '1000';
+                }
+                return;
+            }
+            
+            var user = JSON.parse(userStr);
+            var profileData = null;
+            
+            // Refresh user role and avatar from server
+            try {
+                const response = await fetch('/api/profile/me', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    profileData = result.profile;
+                    if (profileData && profileData.role) {
+                        user.role = profileData.role;
+                        localStorage.setItem('epsilon_user', JSON.stringify(user));
+                    }
+                    if (profileData && profileData.avatar_url) {
+                        user.avatar = profileData.avatar_url;
+                        user.avatar_url = profileData.avatar_url;
+                        localStorage.setItem('epsilon_user', JSON.stringify(user));
+                    }
+                }
+            } catch (error) {
+                // Non-critical - continue with existing data
+            }
+            
+            var profileInitials = document.getElementById('profileInitials');
+            var profileName = document.getElementById('profileName');
+            var ownerLink = document.getElementById('ownerLink');
+            
+            // Use name if available, otherwise use email
+            var displayName = (user.name || user.full_name || user.email.split('@')[0]);
+            var initial = displayName.charAt(0).toUpperCase();
+            var colors = ['#F97316', '#FF8A3D', '#EA580C', '#C2410C', '#F97316', '#FF8A3D', '#EA580C'];
+            var randomColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Get avatar from profile if available
+            var avatarUrl = null;
+            if (profileData && profileData.avatar_url) {
+                avatarUrl = profileData.avatar_url;
+            } else if (user.avatar || user.avatar_url) {
+                avatarUrl = user.avatar || user.avatar_url;
+            }
+            
+            // Show profile bubble and hide auth buttons
+            if (topRightProfile) {
+                topRightProfile.style.display = 'flex';
+                topRightProfile.style.visibility = 'visible';
+                topRightProfile.style.opacity = '1';
+                topRightProfile.style.pointerEvents = 'auto';
+                topRightProfile.style.zIndex = '2001';
+            }
+            if (topRightAuth) {
+                topRightAuth.style.display = 'none';
+                topRightAuth.style.visibility = 'hidden';
+                topRightAuth.style.opacity = '0';
+                topRightAuth.style.pointerEvents = 'none';
+                topRightAuth.style.zIndex = '-1';
+            }
+            
+            if (profileBubble) {
+                profileBubble.style.display = 'flex';
+                profileBubble.style.visibility = 'visible';
+                profileBubble.style.opacity = '1';
+                profileBubble.style.pointerEvents = 'auto';
+                if (avatarUrl && avatarUrl.startsWith('data:image/')) {
+                    profileBubble.style.backgroundImage = 'url(' + avatarUrl + ')';
+                    profileBubble.style.backgroundSize = 'cover';
+                    profileBubble.style.backgroundPosition = 'center';
+                    profileBubble.style.backgroundColor = '';
+                    profileBubble.style.backgroundRepeat = 'no-repeat';
+                    if (profileInitials) {
+                        profileInitials.style.display = 'none';
+                        profileInitials.style.visibility = 'hidden';
+                    }
+                } else {
+                    profileBubble.style.backgroundImage = 'none';
+                    profileBubble.style.backgroundColor = randomColor;
+                    profileBubble.style.background = randomColor;
+                    if (profileInitials) {
+                        profileInitials.style.display = 'flex';
+                        profileInitials.style.visibility = 'visible';
+                        profileInitials.textContent = initial;
+                    }
+                }
+            }
+            
+            if (profileInitials) {
+                if (avatarUrl && avatarUrl.startsWith('data:image/')) {
+                    profileInitials.style.display = 'none';
+                    profileInitials.style.visibility = 'hidden';
+                } else {
+                    profileInitials.style.display = 'flex';
+                    profileInitials.style.visibility = 'visible';
+                    profileInitials.textContent = initial;
+                }
+            }
+            
+            if (profileName) {
+                profileName.textContent = displayName;
+            }
+            
+            if (ownerLink) {
+                // Use profileData role if available (most up-to-date), otherwise use user.role
+                const currentRole = (profileData && profileData.role) ? profileData.role : (user.role || 'client');
+                if (currentRole === 'owner') {
+                    ownerLink.style.display = 'block';
+                } else {
+                    ownerLink.style.display = 'none';
+                }
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = getStoredUser();
+            updateProfileBubble(user);
+
+            // Logout handler - matching epsilon.html (simplified)
+            const logoutBtn = document.getElementById('profileLogout');
+            if (logoutBtn) {
+                logoutBtn.onclick = function(e) { e.preventDefault(); localStorage.removeItem('epsilon_user'); window.location.reload(); };
+            }
+
+            loadProfile();
+            bindFormEvents();
+            
+            // Also initialize using epsilon.html method
+            setTimeout(function() {
+                window.initProfileBubble();
+            }, 100);
+            
+            setTimeout(function() {
+                window.initProfileBubble();
+            }, 1000);
+        });
+
+        async function loadProfile() {
+            try {
+                await ensureCsrfToken();
+                const response = await fetch('/api/profile/me', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load profile');
+                }
+
+                const result = await response.json();
+                const profile = result.profile || {};
+
+                // Safety check: validate profile data
+                const fullName = (typeof profile.full_name === 'string' && profile.full_name.length <= 120) 
+                    ? profile.full_name 
+                    : '';
+                const email = (typeof profile.email === 'string' && profile.email.length <= 255) 
+                    ? profile.email 
+                    : '';
+
+                document.getElementById('fullName').value = fullName;
+                document.getElementById('email').value = email;
+
+                const initials = (fullName || email || 'N')
+                    .split(' ')
+                    .map(part => part.charAt(0))
+                    .join('')
+                    .substring(0, 2)
+                    .toUpperCase();
+
+                // Safety check: validate avatar_url length
+                const avatarUrl = (typeof profile.avatar_url === 'string' && profile.avatar_url.length <= 5000) 
+                    ? profile.avatar_url 
+                    : '';
+                updateAvatarPreview(avatarUrl, initials);
+                avatarDataUrl = avatarUrl;
+
+                if (result.epsilonVersion) {
+                    const versionBadge = document.getElementById('epsilonVersionBadge');
+                    if (versionBadge && typeof result.epsilonVersion === 'string' && result.epsilonVersion.length <= 50) {
+                        versionBadge.textContent = result.epsilonVersion;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                const statusMessage = document.getElementById('statusMessage');
+                statusMessage.textContent = 'Could not load profile details.';
+                statusMessage.classList.add('error');
+            }
+        }
+
+        function updateAvatarPreview(imageUrl, fallbackInitials) {
+            const preview = document.getElementById('avatarPreview');
+            if (!preview) return;
+            
+            // Safety check: validate inputs
+            const safeImageUrl = (typeof imageUrl === 'string' && imageUrl.length <= 5000) ? imageUrl : '';
+            const safeInitials = (typeof fallbackInitials === 'string' && fallbackInitials.length <= 10) 
+                ? fallbackInitials 
+                : 'N';
+            
+            preview.innerHTML = '';
+
+            if (safeImageUrl) {
+                const image = document.createElement('img');
+                image.src = safeImageUrl;
+                image.alt = 'Profile avatar';
+                preview.appendChild(image);
+            } else {
+                const initials = document.createElement('span');
+                initials.textContent = safeInitials;
+                preview.appendChild(initials);
+            }
+        }
+
+        function bindFormEvents() {
+            const avatarInput = document.getElementById('avatarInput');
+            const removeAvatarBtn = document.getElementById('removeAvatarBtn');
+            const profileForm = document.getElementById('profileForm');
+
+            avatarInput.addEventListener('change', handleAvatarUpload);
+            removeAvatarBtn.addEventListener('click', () => {
+                avatarDataUrl = '';
+                const nameValue = document.getElementById('fullName').value;
+                const emailValue = document.getElementById('email').value;
+                const initialsSource = nameValue || emailValue;
+                const initials = (initialsSource || 'N').split(' ').map(part => part.charAt(0)).join('').substring(0, 2).toUpperCase();
+                updateAvatarPreview('', initials);
+            });
+
+            profileForm.addEventListener('submit', handleProfileSubmit);
+        }
+
+        function handleAvatarUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Safety check: validate file type
+            if (!file.type || !file.type.startsWith('image/')) {
+                showStatus('Please select a valid image file.', true);
+                return;
+            }
+
+            // Safety check: DoS protection - file size limit
+            if (file.size > 1.5 * 1024 * 1024) {
+                showStatus('Image is too large. Please choose an image under 1.5MB.', true);
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (loadEvent) => {
+                const result = loadEvent.target.result;
+                // Safety check: DoS protection - base64 data URL length limit (1.5MB file = ~2MB base64)
+                if (typeof result === 'string' && result.length > 2 * 1024 * 1024) {
+                    showStatus('Image data is too large. Please choose a smaller image.', true);
+                    return;
+                }
+                avatarDataUrl = result;
+                updateAvatarPreview(avatarDataUrl);
+            };
+            reader.onerror = () => {
+                showStatus('Error reading image file.', true);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function handleProfileSubmit(event) {
+            event.preventDefault();
+            const statusMessage = document.getElementById('statusMessage');
+            if (!statusMessage) return;
+            
+            statusMessage.textContent = 'Saving changes...';
+            statusMessage.className = 'status-message';
+
+            // Safety check: validate and sanitize inputs
+            const fullNameInput = document.getElementById('fullName');
+            if (!fullNameInput) return;
+            
+            const fullName = (typeof fullNameInput.value === 'string') 
+                ? fullNameInput.value.trim().substring(0, 120) 
+                : '';
+            
+            // Safety check: DoS protection - limit avatar data URL size
+            const avatar = (typeof avatarDataUrl === 'string' && avatarDataUrl.length <= 2 * 1024 * 1024) 
+                ? avatarDataUrl 
+                : '';
+
+            const payload = {
+                full_name: fullName,
+                avatar: avatar
+            };
+
+            try {
+                // Get CSRF token - try multiple sources
+                let csrfToken = await ensureCsrfToken();
+                
+                // If no token from localStorage, try to get from cookie via API
+                if (!csrfToken) {
+                    try {
+                        const tokenResponse = await fetch('/api/csrf-token', {
+                            method: 'GET',
+                            credentials: 'include'
+                        });
+                        if (tokenResponse.ok) {
+                            const tokenData = await tokenResponse.json();
+                            csrfToken = tokenData?.token || '';
+                            if (csrfToken) {
+                                localStorage.setItem('csrfToken', csrfToken);
+                            }
+                        }
+                    } catch (tokenError) {
+                        console.warn('Could not fetch CSRF token:', tokenError);
+                    }
+                }
+
+                const response = await fetch('/api/profile/me', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken || '' // Send empty string if no token rather than blocking
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error || 'Profile update failed');
+                }
+
+                const result = await response.json();
+                const newName = result.profile?.full_name || payload.full_name;
+                const newAvatar = result.profile?.avatar_url || avatarDataUrl;
+                const initialsSource = newName || document.getElementById('email').value;
+                const initials = (initialsSource || 'N').split(' ').map(part => part.charAt(0)).join('').substring(0, 2).toUpperCase();
+
+                updateAvatarPreview(newAvatar, initials);
+                try {
+                    const storedUser = localStorage.getItem('epsilon_user');
+                    if (storedUser) {
+                        // Safety check: validate localStorage data
+                        if (typeof storedUser === 'string' && storedUser.length <= 10000) {
+                            const parsed = JSON.parse(storedUser);
+                            // Safety check: validate parsed object
+                            if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+                                parsed.name = (typeof newName === 'string' && newName.length <= 120) 
+                                    ? newName 
+                                    : parsed.name;
+                                if (newAvatar && typeof newAvatar === 'string' && newAvatar.length <= 2 * 1024 * 1024) {
+                                    parsed.avatar = newAvatar;
+                                }
+                                localStorage.setItem('epsilon_user', JSON.stringify(parsed));
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Could not update stored user profile:', e.message);
+                }
+                showStatus('Profile updated successfully.', false);
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                showStatus(error.message || 'Could not update profile.', true);
+            }
+        }
+
+        function showStatus(message, isError) {
+            const statusMessage = document.getElementById('statusMessage');
+            if (!statusMessage) return;
+            // Safety check: validate message
+            const safeMessage = (typeof message === 'string' && message.length <= 500) 
+                ? message 
+                : 'An error occurred.';
+            statusMessage.textContent = safeMessage;
+            statusMessage.className = 'status-message ' + (isError ? 'error' : 'success');
+        }
+    </script>
+</body>
+</html>
+
+.

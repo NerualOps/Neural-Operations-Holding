@@ -1,0 +1,40 @@
+Title: Long-bolt engine
+
+A long-bolt or through-bolt engine is an internal combustion piston engine where, following usual practice, the cylinder head is held down by bolts or studs. Conventionally the cylinder head is bolted to the cylinder block and the crankshaft main bearings are in turn bolted to the crankcase by separate bolts. In the long-bolt engine however, a single set of long bolts is used, spanning from the cylinder head right through to the crankshaft bearing caps.
+
+Origins
+Aircraft
+The long-bolt design began with aircraft engines, particularly those that combined high power and lightweight construction of aluminium alloy. These early engines used long studs from the crankcase to the cylinder heads. As most at this time used monobloc heads only one bolt would anyway be needed to join the two pieces, but a long fastener the full height of the cylinder was used so as to place the tension forces into the stud, rather than stressing and possibly distorting the cylinder walls. Curtiss and air-cooled Renault engines even used an X-shaped cap above the outside of the cylinder head, with the studs bolted though that so as to distribute the forces evenly across the head. As forces were still transmitted between these studs and the main bearings by the walls of the crankcase, these early engines are not however considered as long-bolt engines.
+The final developments of the aircraft piston engine were the horizontally opposed H-engines such as the Rolls-Royce Eagle and the Napier Sabre. These compact engines were tightly packed and, unlike the previous V engines, there was no access to the crankshaft or its bearings once the two halves of the crankcase were assembled. Accordingly long through-studs were used, passing right through the engine from one side to the other. On the Sabre, some of these studs were short and served only to clamp the crankcase halves together. The others passed between cylinder heads on each side. The entire tensile force across the engine was taken on these studs, with no tension being placed on the crankcase.
+
+Diesel engines
+Owing to their high compression ratios and their high bmep, diesel engines place a high tensile stress on their cylinder block. Light alloy cylinder blocks have their usual weight advantages, but these must also withstand the high forces. Some designs, such as the US Hercules, achieve this by using long through bolts. In the Hercules design these are long studs with a nut at both top and bottom; they are prevented from rotating by an eccentric collar in the middle.
+
+Cars
+In the early 1980s, Fiat invested heavily in robot automation throughout its factories, to both improve product quality and to reduce labour costs. The new Fully Integrated Robotised Engine was developed as part of this, to replace the previous range of small Fiat engines. Although taking the opportunity to update performance and emissions from Fiat's venerable 903cc pushrod engine, the primary goal of this new design was for easy assembly by robots. Key to this was the 'layer cake' construction of the new engine, held together by its long through bolts.
+The FIRE engine has been regarded as a success, having produced efficient and reliable engines from 769 cc with growth into 1368 cc and 16 valve versions. The 1242 cc 16 valve 'Super FIRE' also used a ladder frame main bearing carrier, giving a crankcase and block more rigid than any comparable engine in its class. One drawback to the FIRE engine was a perception by mechanics servicing them that it was now difficult to perform a top-end overhaul without also requiring the bottom end to be dismantled, with re-assembly and re-torquing in strict sequence.
+In the late 1980s, Rover were aware that they needed to adopt innovative and reliable new techniques if they were to survive as a car maker and, like Fiat, to throw off their previous problems of poor build quality. One result was the K engine, to be built by Rover's partner Powertrain Ltd. This used a ladder main bearing in all models, giving an extremely rigid block that would later permit a very high redline speed in applications such as the MGF, Lotus Elise and for racing. Unlike the FIRE though, and despite the large numbers sold that served reliably for many years, this engine was tarred with Rover's past flaws and gained a reputation as unreliable. The flaws that gave rise to this reputation were caused by only some components used in only some models: particularly the head gasket and wet liners. Regarding these problems with particular component versions as indicative of poor overall engine design was undeserved. Equally, none of these problems are inherent with the techniques of wet liners or through-bolting.
+
+Advantages
+For modern car manufacture, the long-bolt engine offers several advantages:
+
+Simpler assembly, with fewer components, fewer fasteners to tighten, and fewer intermediate assembly steps.
+Tensile forces are taken on the studs, not the cylinder block or crankcase. In particular, the force is a pure tension, rather than a twisting force owing to any offset between the bearing cap and cylinder wall bolt. This permits the block and crankcase to be made lighter and less stiff, whilst still reducing the amount of deflection and twist exhibited in service.
+When a ladder-frame main bearing cap is used, the crankcase assembly becomes considerably stiffer.
+These advantages are primarily for the initial production of engines, particularly when this is a robot-based assembly. Secondary advantages may also be gained of improved service life.
+
+Disadvantages
+There is less, if any, advantage for ongoing servicing during the life of the car. Some aspects have clear disadvantages, particularly when previous simple servicing operations are made more complicated. This is acceptable because of the greatly increased intervals between major servicing for modern cars. Many cars today will go for their entire lifetimes of over 100 thousand miles without having their engine removed or dismantled.
+Specific disadvantages are:
+
+The torque schedule for re-assembling the long studs may require both ends to be dismantled before a complete re-assembly from scratch. A usually simple task of removing the top-end for attention to the valves may now require the bottom-end to be dismantled as well, often requiring the whole engine to be removed.
+Short-cut re-torquing practices that avoid dismantling both ends may be less reliable than an engine assembled, as intended.
+
+Example engines
+Rover K engine
+Fiat FIRE (Fully Integrated Robotised Engine)
+Founded in 1983, Northern Engineering (Sheffield) Ltd
+Mercury Verado outboard motor
+
+
+== References ==

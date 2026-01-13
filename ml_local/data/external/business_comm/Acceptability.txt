@@ -1,0 +1,41 @@
+Title: Acceptability
+
+Acceptability is the characteristic of a thing being subject to acceptance for some purpose. A thing is acceptable if it is sufficient to serve the purpose for which it is provided, even if it is far less usable for this purpose than the ideal example. A thing is unacceptable (or has the characteristic of unacceptability) if it deviates so far from the ideal that it is no longer sufficient to serve the desired purpose, or if it goes against that purpose.
+Acceptability is an amorphous concept, being both highly subjective and circumstantial; a thing may be acceptable to one evaluator and unacceptable to another, or unacceptable for one purpose but acceptable for another. Furthermore, acceptability is not necessarily a logical or consistent exercise. A thing may be sufficient to serve a particular purpose but in the subjective view of the decision maker be unacceptable for that purpose. Philosopher Alex Michalos writes that "[t]he concept of acceptability is as ambiguous and troublesome as probability, confirmation, belief, justice, etc.", and assigns two potential meanings to the term with respect to the possible acceptability of hypotheses. Acceptability is a fundamental concept in numerous fields, including economics, medicine, linguistics, and biometrics.
+
+Acceptable risk and acceptable loss
+Concepts of acceptability that have been widely studied include acceptable risk in situations affecting human health, and acceptable loss in particularly dire situations. The idea of not increasing lifetime risk by more than one in a million has become commonplace in public health discourse and policy. It is a heuristic measure. It provides a numerical basis for establishing a negligible increase in risk. Comparable concepts include an acceptable level of violence, or an acceptable daily intake of hazardous substances.
+Environmental decision making allows some discretion for deeming individual risks potentially "acceptable" if there is a less than one in ten thousand chance of increased lifetime risk.  Low risk criteria such as these provide some protection for a case where individuals may be exposed to multiple chemicals e.g. pollutants, food additives or other chemicals. In practice, a true zero-risk is possible only with the suppression of the risk-causing activity.
+Stringent requirements of 1 in a million may not be technologically feasible or may be so prohibitively expensive as to render the risk-causing activity unsustainable, resulting in the optimal degree of intervention being a balance between risks vs. benefit. For example, emissions from hospital incinerators result in a certain number of deaths per year. However, this risk must be balanced against the alternatives.  There are public health risks, as well as economic costs, associated with all options. The risk associated with no incineration is potential spread of infectious diseases, or even no hospitals. Further investigation identifies options such as separating noninfectious from infectious wastes, or air pollution controls on a medical incinerator.
+
+Acceptable variance
+Acceptable variance is the range of variance in any direction from the ideal value that remains acceptable. In project management, variance can be defined as "the difference between what is planned and what is actually achieved". Degrees of variance "can be classified into negative variance, zero variance, acceptable variance, and unacceptable variance". In software testing, for example, "[g]enerally 0-5% is considered as acceptable variance" from an ideal value.
+Acceptance testing is a practice used in chemical and engineering fields, intended to check ahead of time whether or not a thing will be acceptable.
+
+Logic and argumentation
+From a logical perspective, a thing can be said to be acceptable if it has no characteristics that make it unacceptable. Various logic formulations of this principle have been developed, for example, that "a theory Δ is acceptable if for any wff α, Δ does not prove both α and ¬α", and that "the acceptability of a proposition P in a system S depends on its coherence with the propositions in S". Notably, Dov Gabbay, et al., have observed that something that is logically acceptable may not be subjectively acceptable to a given individual, and vice versa:
+
+Humans may not tolerate certain theories (finding them unacceptable) even though these may be logically consistent. The human notion is more that of acceptability rather than consistency. ... To a human, resolving inconsistencies or regaining acceptability is not necessarily done by immediately 'restoring' consistency and/or acceptability but by supplying rules telling one how to act when the inconsistency or unacceptability arisis.
+"The main approaches which have been developed for reasoning within an argumentation system rely on the idea of differentiating arguments with a notion of acceptability". Two models of acceptability have been developed for this purpose, one in which "[a]n acceptability level is assigned to a given argument depending on the existence of direct defeaters, or defeaters", and another in which "[a]cceptability with respect to a rational agent relies upon a notion of defense", with the complete set of arguments that a rational agent may accept being required to defend itself against any defeater. Hungarian mathematician Imre Lakatos developed a concept of acceptability "taken as a measure of the approximation to the truth". This concept was criticized in its applicability to philosophy as requiring that better theories first be eliminated.
+Despite such efforts to formulate parameters, acceptability "is a subjective construct that varies between users and in time". Philosopher James B. Freeman defines acceptability as a "ternary relation between a statement, a person, and a point in time", distinguishing this view of acceptability from one according to which it is a property of statements only. Philosopher David M. Godden, discussing when propositions may be acceptable to interlocutors in argument, characterizes the consensus among philosophers as follows: "[c]ommon knowledge generally provides good grounds for the acceptability of a claim, whereas popular opinion does not."
+
+Negotiation
+Acceptability is a key premise of negotiation, wherein opposing sides each begin from a point of seeking their ideal solution, and compromise until they reach a solution that both sides find acceptable:
+
+When a proposal or counter-proposal is received by an agent, it has to decide whether it is acceptable. If it is, the agent can agree to it; if not, and alternative that is acceptable to the receiving agent needs to be generated. Acceptability is determined by searching the hierarchy. If the proposal is a specification of at least one acceptable goal, the proposal is acceptable. If it is the specification of at least one unacceptable goal, the proposal is clearly unacceptable.
+Where an unacceptable proposal has been made, "a counterproposal is generated if there are any acceptable ones that have had already been explored". Since the acceptability of proposition to a participant in a negotiation is only known to that participant, the participant may act as though a proposal that is actually acceptable to them is not, in order to obtain a more favorable proposal.
+
+See also
+Acceptable daily intake
+Acceptable level of violence
+Acceptable quality limit
+Acceptable use policy
+
+References
+Sources
+Freeman, James B. (2005). Acceptable Premises: An Epistemic Approach to an Informal Logic Problem. Cambridge University Press. ISBN 0-511-08212-6. OCLC 57572612.
+
+Further reading
+Fishman, Joshua A. (1977). Acceptability in Language. New York: Mouton Publishers. ISBN 9027976236.
+Douglas, Mary (1985). Risk and Acceptability. London: Routledge. doi:10.4324/9780203708781. ISBN 0415291143.
+Douglas, Mary (2003). Risk Acceptability According to the Social Sciences. New York: Routledge Publishers. ISBN 978-0-87154-211-3.

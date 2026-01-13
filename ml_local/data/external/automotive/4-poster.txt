@@ -1,0 +1,9 @@
+Title: 4-poster
+
+A 4-poster or four poster is an automotive test system specifically designed for the testing of vehicles. These test systems consist of 4 hydraulic actuators on top of which the wheels of the vehicle are placed. Movements of the actuators simulate the road surface and forces exerted by the road on the wheels. The movements of the system are tightly controlled by a digital test controller. During the research phase of a vehicle, a 4-poster system is used to test newly designed suspension systems and their durability. In production, 4-poster systems are typically used to test every vehicle at the end of the production line on squeak and rattle, which is a check to make sure the vehicle doesn't have any loose parts. Multiple kinds of tests are possible: sine test (sweep in frequency), simple wave form on each actuator, open loop test (driven by an external tension signal). There is also a particular testing method called ICS control, which allows to reproduce on a car an actual service environment, starting from those data coming from the outdoor acquisition sessions.
+
+See also
+7 post shaker
+
+
+== References ==

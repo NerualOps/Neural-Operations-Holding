@@ -1,0 +1,16 @@
+Title: Automotive Electronics Council
+
+The Automotive Electronics Council (AEC) is an organization originally established in the 1990s by Chrysler, Ford, and GM for the purpose of establishing common part-qualification and quality-system standards.
+The AEC Component Technical Committee is the standardization body for establishing standards for reliable, high quality electronic components. Components meeting these specifications are suitable for use in the harsh automotive environment without additional component-level qualification testing. The technical documents developed by the AEC Component Technical Committee are available at the AEC web site.
+Most commonly referenced AEC documents are:
+
+AEC-Q100  "Failure Mechanism Based Stress Test Qualification For Integrated Circuits"
+AEC-Q101  "Failure Mechanism Based Stress Test Qualification For Discrete Semiconductors"
+AEC-Q200  "Stress Test Qualification For Passive Components"
+
+See also
+VW 80808 (Elektronische Bauteile und Baugruppen in Elektro- und Elektronikteilen in Kraftfahrzeugen bis 3,5 Tonnen)
+
+References
+External links
+Automotive Electronics Council

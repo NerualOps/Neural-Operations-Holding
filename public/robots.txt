@@ -1,0 +1,42 @@
+User-agent: *
+# Allow all public pages
+Allow: /
+Allow: /epsilon
+Allow: /about
+Allow: /contact
+Allow: /privacy
+Allow: /copyright
+Allow: /terms
+
+# Block private/admin areas (these have noindex tags in HTML)
+Disallow: /api/
+Disallow: /obfuscated/
+Disallow: /core/
+Disallow: /.netlify/
+Disallow: /owner
+Disallow: /edit_profile
+Disallow: /login
+Disallow: /register
+Allow: /client
+
+# Allow Googlebot specifically for better indexing
+User-agent: Googlebot
+Allow: /
+Allow: /epsilon
+Allow: /about
+Allow: /contact
+Allow: /privacy
+Allow: /copyright
+Allow: /terms
+Disallow: /api/
+Disallow: /obfuscated/
+Disallow: /core/
+Disallow: /owner
+Disallow: /edit_profile
+Disallow: /login
+Disallow: /register
+Allow: /client
+
+# Sitemap location
+Sitemap: https://neuralops.biz/sitemap.xml
+

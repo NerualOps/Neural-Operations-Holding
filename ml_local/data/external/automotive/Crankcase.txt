@@ -1,0 +1,36 @@
+Title: Crankcase
+
+A crankcase is the housing in a piston engine that surrounds the crankshaft. In most modern engines, the crankcase is integrated into the engine block. 
+Two-stroke engines typically use a crankcase-compression design, resulting in the fuel/air mixture passing through the crankcase before entering the cylinder(s). This design of the engine does not include an oil sump in the crankcase.
+Four-stroke engines typically have an oil sump at the bottom of the crankcase and the majority of the engine's oil is held within the crankcase. The fuel/air mixture does not pass through the crankcase, though a small amount of exhaust gasses often enter as "blow-by" from the combustion chamber, particularly in engines with worn rings.
+The crankcase often forms the upper half of the main bearing journals (with the bearing caps forming the other half), although in some engines the crankcase completely surrounds the main bearing journals.
+An open-crank engine has no crankcase. This design was used in early engines and remains in use in some large marine diesel engines.
+
+Two-stroke engines
+Crankcase-compression
+Many two-stroke engines use a crankcase-compression design, where a partial vacuum draws the fuel/air mixture into the engine as the piston moves upwards. Then as the piston travels downward, the inlet port is uncovered and the compressed fuel/air mixture is pushed from the crankcase into the combustion chamber. 
+Crankcase-compression designs are often used in small petrol (gasoline) engines for motorcycles, generator sets and garden equipment. This design has also been used in some small diesel engines, however it is less common.
+Both sides of the piston are used as working surfaces: the upper side is the power piston, the lower side acts as a pump. Therefore an inlet valve is not required. Unlike other types of engines, there is no supply of oil to the crankcase, because it handles the fuel/air mixture. Instead, two-stroke oil is mixed with the fuel used by the engine and burned in the combustion chamber.
+
+Lubricating crankcase
+Large two-stroke engines do not use crankcase compression, but instead a separate scavenge blower or supercharger to draw the fuel/air mixture into the compression chamber. Therefore the crankcases are similar to a four-stroke engine in that they are solely used for lubrication purposes.
+
+Four-stroke engines
+Most four-stroke engines use a crankcase that contains the engine's lubricating oil, as either a wet sump system or the less common dry sump system. Unlike a two-stroke (crankcase-compression) engine, the crankcase in a four-stroke engine is not used for the fuel/air mixture.
+
+Oil circulation
+Engine oil is recirculated around a four-stroke engine (rather than burning it as happens in a two-stroke engine) and much of this occurs within the crankcase. Oil is stored either at the bottom of the crankcase (in a wet sump engine) or in a separate reservoir (in a dry sump system). From here the oil is pressurized by an oil pump (and usually passes through an oil filter) before it is squirted into the crankshaft and connecting rod bearings and onto the cylinder walls, and eventually drips off into the bottom of the crankcase.
+Even in a wet sump system, the crankshaft has minimal contact with the sump oil.  Otherwise, the high-speed rotation of the crankshaft would cause the oil to froth, making it difficult for the oil pump to move the oil, which can starve the engine of lubrication. Oil from the sump may splash onto the crankshaft due to g-forces or bumpy roads, which is referred to as windage.
+
+Ventilation of combustion gasses
+Although the piston rings are intended to seal the combustion chamber from the crankcase, it is normal for some combustion gases to escape around the piston rings and enter the crankcase. This phenomenon is known as blow-by. If these gases accumulated within the crankcase, it would cause unwanted pressurisation of the crankcase, contamination of the oil and rust from condensation. To prevent this, modern engines use a crankcase ventilation system to expel the combustion gases from the crankcase. In most cases, the gases are passed through to the intake manifold.
+
+Open-crank engines
+Early engines were of the "open-crank" style, that is, there was no enclosed crankcase. The crankshaft and associated parts were open to the environment. That made for a messy environment, because oil spray from the moving parts was not contained. Another disadvantage was that dirt and dust could get into moving engine parts, causing excessive wear and possible malfunction of the engine. Frequent cleaning of the engine was required to keep it in normal working order.
+Some two-stroke diesel engines, such as the large slow-speed engines used in ships, have the crankcase as a separate space from the cylinders, or as an open crank. The spaces between the crosshead piston and the crankshaft, may be largely open for maintenance access.
+
+See also
+Tunnel crankcase
+
+
+== References ==

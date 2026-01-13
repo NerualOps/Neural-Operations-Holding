@@ -1,0 +1,56 @@
+Title: Automotive head-up display
+
+An automotive head-up display, also known as an automotive heads-up display or auto-HUD, is a transparent display that presents data in an automobile without requiring a driver to look away from their usual viewpoint. The origin of the name stems from a pilot being able to view information with the head positioned "up" and looking forward, instead of angled down looking at lower instruments. At this time, there are three different approaches to OEM HUDs in automobiles. The first is to treat the back of the windshield in such a way that an image projected onto it will reflect to the driver. The second is to have a small combiner that is separate from the windshield. Combiners can be retracted. The third is to laminate a transparent display in between layers of the windshield glass.
+
+Timeline
+1988: Nissan was the first manufacturer to offer a HUD in the JDM market with the 1988 Nissan Silvia S13.
+1988: General Motors began using head-up displays. Their first HUD units were installed on Oldsmobile Cutlass Supreme Indy Pace Cars and replicas. Optional HUD units were subsequently offered on the Cutlass Supreme and Pontiac Grand Prix before being more widely available.
+1989–1994: Nissan offered a head-up display in the Nissan 240SX.
+1991: Toyota, for the Japanese market only, released a HUD system for the Toyota Crown Majesta.
+1998: The first High Content Reconfigurable display appeared on the Chevrolet Corvette (C5). (1999 Model Year)
+1999: Cadillac DTS with night-vision via Head-up Display. (Model Year 2000)
+2003: Cadillac introduced a HUD system for the Cadillac XLR.
+2003: BMW was involved in large developments for automotive HUD systems for the 2003 E60 5 Series.
+2012: Pioneer Corporation introduced a navigation system that projects a HUD in place of the driver's visor that presents animations of conditions ahead, a form of augmented reality (AR).
+These displays are becoming increasingly available in production cars, and usually offer speedometer, tachometer, and navigation system displays.
+Night vision information is also displayed via HUD on certain General Motors, Honda, Toyota and Lexus vehicles. Other manufactures such as Audi, BMW, Citroën, Nissan, Mazda, Kia, Mercedes and Volvo currently offer some form of HUD system.
+Motorcycle helmet HUDs are also commercially available.
+Add-on HUD systems also exist, projecting the display onto a glass combiner mounted on the windshield. These systems have been marketed to police agencies for use with in-vehicle computers.
+
+Eyes-on-the-Road-Benefit
+The Eyes-on-the-Road-Benefit (ERB), also known as the Head-Up-Display-Advantage, is the term given to the purported advantages provided to motorists when driving using a head-up display (HUD). This can also be referred to as a heads-up-device or heads-up design, as compared to traditional dashboard designs, which are referred to as Head-Down-Design (HDD). The benefit of Eyes-on-the-Road systems stems from increased situational awareness and elimination of the need to look away from the road whilst driving, thereby increasing reaction time to external hazards, such as pedestrians. There is some evidence to suggest that the scope of the ERB is limited to low cognitive load situations in which the driving task is not particularly complex.
+
+Aetiology
+Research into the ERB primarily utilizes virtual reality driving simulators to mimic real life driving scenarios while eliminating situational variability. In order to examine HUDs and HDDs, studies often compare hazard reaction time, situational awareness, and quality of driving (such as speed consistency) using both systems. The extent of the ERB on different demographics, particularly those of age and experience level, are of particular interest. The interaction between work-load and the influence of ERB are also frequently examined for research.
+
+Exogenous saccadic gaze
+Saccadic gaze is the perceptual mechanism through which the eye is inadvertently drawn to external stimulus without the individual's conscious action. An involuntary gaze is most easily drawn by movement or distinct changes in illumination in an individual's visual field. These external stimuli can be beneficial in such situations as the movement of a pedestrian about to walk out onto the road, in turn allowing the driver to take evasive action. Exogenous cues can also be irrelevant, and often dangerous, leading to distraction from goal behaviours, such as the flashing of a cellphone taking one's eyes off the road. By superimposing vital driving information onto the horizon in a driver's direct line of sight, HUDS allow important exogenous cues, like the movements of other vehicles to draw the gaze of a driver whilst they monitor vital vehicle feedback such as speed or revolution count. It is theorized that this can facilitate faster reaction times to hazards and improve situational awareness.  A collaborative project between Faurecia Groupe and Indian Institute of Science developed an eye gaze and finger controlled head up display for cars that can also automatically estimate drivers’ cognitive load and distraction.
+
+Ideal visual field
+The ideal visual field is the area in which stimuli are most accurately, rapidly, and efficiently processed by the eye. In humans, this field is thought to be within 20 degrees above or below the vertical meridian of an individual's gaze and 60 degrees either side of the horizontal meridian. If an object is beyond these boundaries it will require eye movement to bring the stimuli out of periphery. By including feedback instruments in the primary field of vision, HUDs allow for the horizon and all associated stimuli to stay in the primary field vision where the information may still be processed and acknowledged by a motorist.
+
+Manifestation
+Reaction time
+Reaction time, and more specifically delayed reaction, is widely cited as a key contributor to vehicular accidents. Reaction time in relation to the ERB is defined as the time it takes for a motorist to react to an external hazard or stimuli and then carry out the appropriate reaction, or evasive maneuver such as braking when a vehicle in front stops. The feedback offered by a HUD is projected onto the windshield of a vehicle with the aim of integrating outside stimuli and the instrumental feedback; thus removing the need to remove a driver's eyes from the road. Studies of reaction time to hazards in HUD vs HDD designs have found that the average reaction times for HUD are faster. This trend appears to continue across demographics, including both categories of experience level and age.
+
+Speed maintenance and driving quality
+Speed maintenance is the extent to which a driver maintains a speed and adjusts their speed to suit traffic laws and environmental conditions. The use of HUDs appears to produce better speed maintenance in drivers under experimental conditions when compared to HDDs. It is theorized that this is because having the speedometer at the eye level of the vehicle operator allows for continuous monitoring of the vehicle's speed. HUD use also appears to increase general driving quality, including staying within road markings, and increased smoothness of driving and navigation abilities. Drivers’ capacity to focus on external cues, such as road texture, road demarcations and street signs is increased by using a seamless interface where focus on the road isn't interrupted to assess speed and other information.
+
+Limitations
+Work load
+The influence of ERB on drivers is not universal. There is evidence that as the complexity of driving tasks increases, the benefits of using a HUD are decreased, and in some circumstances, they are no longer statistically significant. The ERB is diminished, for example, when individuals are driving cognitively demanding vehicles, such as industrial vehicles, or when they are asked to multitask while driving. One study has shown that when placed in a cognitively demanding condition, individuals shift their focus from the road alone to focus on other tasks such as shifting gears or talking to others. Subsequently, a driver's ability to process HUD feedback requires diversion of attention, much akin to that which occurs whilst using a HDD.
+
+Placement
+There are limitations for where a HUD can be placed or projected in a vehicle before it begins to diminish the ERB and becomes more of a distraction. HUDs can be constructed so that the instrumental feedback appears to be projected out into the horizon, rather than displayed directly on the windshield. In test situations, a projected HUD which appears near the nose of the vehicle is said to result in the most rapid response times and best situational awareness on the part of the driver, as well as facilitating better driving quality. For in-glass laminated HUD, the display glass part is integrated in the windshield while the electronics shall be placed and hidden inside the vehicle body. The information is displayed directly on the windshield.
+
+See also
+Augmented reality – Form of 3D computer interaction merging the real world with virtual objects
+B-pillar – Vertical or near vertical support of a car's window area or greenhouse
+Overtaking – Vehicle-passing maneuver
+Smartwatch – Wearable computer in the form of a watch
+
+References
+External links
+
+Virtual widescreen
+Jaguar is making ghost cars real Archived 16 December 2014 at the Wayback Machine

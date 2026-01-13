@@ -1,0 +1,11 @@
+Title: Chrysler Patriot
+
+The Chrysler Patriot was a turbine-electric hybrid sports-prototype racing car utilizing flywheel energy storage, built by Reynard Motorsport and SatCon Technology Corporation for Chrysler in 1993 as a concept car but with the express intent of winning the Le Mans 24 Hour Race.
+
+Information
+The traction engine was a four-pole, three-phase, 525-volt AC induction motor, weighing 143 pounds (65 kg), with a maximum speed of 24,000 rpm; it had an aluminum housing, was lubricated by oil, and had an 8:1 motor to final drive ratio. Electrical power was supplied by a water-cooled, three-phase  alternator which was built into a two-stage gas turbine, fueled with liquified natural gas, running at 50,000 rpm at low speed and 100,000 rpm at high speed, weighing 186 pounds. Additional energy for acceleration was  provided by  a 147-pound SatCon composite flywheel housed in a vacuum chamber running at 58,000 rpm, coupled to the drive train via three-phase permanent magnets in a Halbach array. In 1995 SatCon and Chrysler were awarded the Discover Award for innovation in automotive engineering for the Patriot design.
+The Patriot as first designed was different in many details from the final design, which had numerous compromises, according to its creator, Chrysler engineer Ian Sharp, who wrote that similar designs appear to be under consideration for Formula One racing in 2012.
+Although introduced with much fanfare as a great leap forward in alternative energy storage and efficiency, press releases regarding the Patriot faded away. It was later revealed that serious problems with the mechanical integrity of the flywheel could not be overcome, and protection from a shattering flywheel would exact too much of a weight penalty.
+
+
+== References ==

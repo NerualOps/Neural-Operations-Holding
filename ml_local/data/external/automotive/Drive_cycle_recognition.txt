@@ -1,0 +1,4 @@
+Title: Drive cycle recognition
+
+Drive Cycle Recognition (abbr. DCR) is an advanced vehicle control strategy that uses past driving information, as well as a library of representative drive cycles to extrapolate future vehicle control parameters. For example, the vehicle computer can identify past driving history as one particular representative cycle (say, FTP-75) and use known information from FTP-75 to improve vehicle performance. This type of control strategy is most useful for hybrid vehicles where the control strategy has a much greater effect on vehicle performance than with a regular internal combustion engine driven vehicle.
+Identification techniques can be as simple as numerical error calculations (such as Mean squared error) or as complex as a self-organizing competitive neural network.

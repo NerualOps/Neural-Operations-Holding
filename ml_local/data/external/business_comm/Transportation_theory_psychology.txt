@@ -1,0 +1,84 @@
+Title: Transportation theory (psychology)
+
+Narrative transportation theory, proposed by Green and Brock suggests that people become immersed in a story when they experience focused attention, emotional engagement, mental imagery, and a detachment from reality while reading. In this state, individuals tend to remember the story content better, adopt beliefs and attitudes more aligned with the narrative, and engage less critically with its content.
+Van Laer, de Ruyter, Visconti, and Wetzels further elaborate that narrative transportation occurs when a reader feels as if they have entered the story's world, driven by empathy for the characters and imagination of the plot. Braddock and Dillard found in their meta-analysis that familiarity with the story's content and alignment with its beliefs can modify the strength of the reader's attitudes, intentions, and beliefs after exposure.
+Narrative transportation is not often referred to as a theory. In most peer-reviewed papers, it is referred to as a model. Green & Brock, Laer et al. among others all refer to this as a model. However, it does follow both Popper's  and Bunge's  criteria that it is falsifiable, it does have a formal structure, it has predictable power. More definitive research on mechanisms, moderators, and mediators will be useful in strengthening the predictable nature of this theory. This is an area for future research to lay out an argument for this to be more formally referred to as a theory.
+
+Defining the field
+Before the concept of narrative transportation was established, research focused primarily on narrative persuasion. Narrative transportation is now understood as the process that enables narrative persuasion. The key distinction between the two is that narrative transportation occurs when a person becomes so immersed in a story that they feel as if they are truly experiencing it. Building on these ideas, Slater and Rouner developed a visual model to illustrate the key components of narrative persuasion.
+Deighton, Romer, and McQueen introduced the concept of narrative transportation, suggesting that stories draw readers into the action, causing them to lose themselves in the narrative.  Gerrig was the first to formally define narrative transportation within the context of novels. Using travel as a metaphor for reading, he described it as a state in which the reader—referred to as the traveler—becomes detached from their original reality due to deep engagement with the story. Green and Brock later expanded on this idea, describing it as the experience of being carried away by a narrative. Abbott further argued that narrative is more persuasive than simple cause-and-effect reasoning.
+
+Relevant features
+Most research on narrative transportation follows the original definition of the construct but has been developed to include several features. It was largely studied with written stories but has been developed to include video in recent years by Williams et al. Scholars in the field tend to reaffirm the relevance of these features.
+
+Focused attention – receivers become so focused on the story they do not think about distractions in their environment.
+Emotional Engagement – there is a strong emotional response to the story with empathy for the characters.
+Mental Imagery – receivers have a mental image of the story in their heads or try and predict what might happen in the future of      the story.
+Cognitive Detachment from Reality – receivers are in transportation, they feel like they are really in the story and not in their real-world environment.
+Belief and Attitude Shift – as a result of narrative transportation can influence receivers' beliefs, attitudes and behaviors, aligning them with the story's content.
+Reduced Counterarguing – when exposed to the narrative, the receiver is less likely to challenge the story's content.
+Long-term Efficacy – receiver is impacted and after the story ends, affecting long term behavior and attitude change.
+Operationalizing Narrative Transportation
+Green and Brock created a 15-item scale to measure narrative transportation, evaluating the extent to which individuals became immersed in a story. Appel et al. later refined this scale into a 6-item version, which includes two cognitive, one general, one emotional, and two imaginative questions. Both versions were tested using a written narrative.
+Williams et al.  developed the Video Transportation Scale (VTS) by adapting Green and Brock's 15-item transportation scale for video-based narratives. They removed references to written text and condensed the scale to five questions. These studies focused on using narrative transportation in health-related contexts to influence behavior.
+Moderators
+Moderators are factors that affect the strength of absorption into the narration. Moderators can be affected by the audience viewing the story as well as well as the story itself. There is quite a bit of uncertainty with moderators. Dahlstrom found that depending on the strength of the story it can overcome any moderators.
+Audience:
+
+World view – pro-environmental
+Prior knowledge and experience
+Attitudes and beliefs
+Empathy
+Political ideology
+Religiosity
+Story:
+
+Fiction vs nonfiction
+First-person vs third-person
+Characters are well-developed
+Intent of character
+Personally relevant stories
+Stories that stay engaging
+Mediators
+A mediator is a variable that explains how or why transportation led to the persuasion. Several studies have outlined various mediators. There is not an overwhelming amount of consensus in the research.
+
+Placement of persuasive information in the story
+Identification with characters
+Parasocial relationships
+Level of Transportation
+Emotional engagement with the story
+Maintaining attention
+Reduced Counterarguing
+Cognitive Elaboration
+
+Sleeper effect
+Narrative transportation seems to be more unintentionally affective than intentionally cognitive in nature. This way of processing leads to potentially increasing and long-lasting persuasive effects. Appel and Richter use the term "Sleeper effect" to describe this paradoxical property of narrative transportation over time, which consists of a more pronounced change in attitudes and intentions and a greater certainty that these attitudes and intentions are correct.
+Plausible explanations for the sleeper effect are twofold. 
+
+According to poststructural research, language's articulation in narrative format is capable not only of mirroring reality but also of constructing it. As such, stories could cause profound and durable persuasion of the transported story receiver as a result of his or her progressive internalization. When stories transport story receivers, not only do they present a narrative world but, by reframing the story receiver's language, they also durably change the world to which the story receiver returns after the transportation experience.
+Research demonstrates that people analyze and retain stories differently from other information formats. For example, Deighton et al. show that analytical advertisements stimulate cognitive responses whereas narrative advertisements are more likely to stimulate affective responses.
+Following this line of reasoning, Van Laer et al. define narrative persuasion as
+
+the effect of narrative transportation, which manifests itself in story receivers' affective and cognitive responses, beliefs, attitudes, and intentions from being swept away by a story and transported into a narrative world that modifies their perception of their world of origin.
+
+The conceptual distinction between analytical persuasion and narrative persuasion and the theoretical framework of sound interpretation of narrative persuasion both ground the extended transportation-imagery model (ETIM).
+
+Similar constructs
+Narrative transportation is a form of experiential response to narratives and thus is similar to other constructs, such as absorption, narrative involvement, identification, optimal experience or flow, and immersion. Yet several subtle, critical differences exist. Absorption refers to a personality trait or general tendency to be immersed in life experiences; transportation  is an engrossing temporary experience. Flow is a more general construct (i.e., people can experience flow in a variety of activities), whereas transportation specifically entails empathy and mental imagery, which do not occur in flow experiences.  Phillips and McQuarrie demonstrate that immersion is primarily an experiential response to aesthetic and visual elements of images, whereas narrative transportation relies on a story with plot and characters, features that are not present in immersion. Identification emphasizes the involvement with story characters, while narrative transportation is concerned with the involvement with the narrative as a whole.
+
+Rival models
+Before 2000, persuasion research was largely dominated by dual-process models, particularly the elaboration likelihood model (ELM) and the heuristic-systematic model. These models aim to explain why individuals accept or reject message claims. According to them, people evaluate a claim's validity either through careful analysis of the arguments presented or by relying on superficial cues, such as an expert's presence.
+Whether a receiver critically examines a message depends on their ability and motivation to process it systematically. Key variables in these models include empathy, familiarity, involvement, and the nature and number of thoughts the message generates. When these variables are mostly positive, attitudes and intentions tend to be more favorable; when negative, attitudes and intentions are more resistant or opposing. These variables are also relevant in narrative persuasion.
+The key distinction between ELM and narrative transportation lies in how the message is processed. In ELM, receivers engage with the information logically, whereas in narrative transportation, they process it emotionally.
+
+Differences between analytical and narrative persuasion
+Analytical persuasion and narrative persuasion differ depending on the role of involvement. In analytical persuasion, involvement depends on the extent to which the message has personally relevant consequences for a receiver's money, time, or other resources. If these consequences are sufficiently severe, receivers evaluate the arguments carefully and generate thoughts related to the arguments. Yet, as Slater notes, even though severe consequences for stories are relatively rare, "viewers or readers of an entertainment narrative typically appear to be far more engrossed in the message." This type of involvement, or narrative transportation, is arguably the crucial determinant of narrative persuasion.
+Though the dual-process models provide a valid description of analytical persuasion, they do not encompass narrative persuasion. Analytical persuasion refers to attitudes and intentions developed from processing messages that are overtly persuasive, such as most lessons in science books, news reports, and speeches. However, narrative persuasion refers to attitudes and intentions developed from processing narrative messages that are not overtly persuasive, such as novels, movies, or video games. Addressing the strength and duration of the persuasive effects of processing stories, narrative transportation is a mental state that produces enduring persuasive effects without careful evaluation of arguments. Transported story receivers are engrossed in a story in a way that neither is inherently critical nor involves great scrutiny.
+
+See also
+Media psychology
+Narrativity
+Storytelling
+
+
+== References ==

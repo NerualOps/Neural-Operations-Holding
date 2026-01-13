@@ -1,0 +1,29 @@
+Title: Lead generation
+
+In marketing, lead generation () refers to the process of attracting and capturing consumer interest in a product or service. A lead is the contact information and, in some cases, demographic information of a customer who is interested in a specific product or service.
+Leads may come from various sources or activities, for example, digitally via the Internet, through personal referrals, through telephone calls either by the company or telemarketers, through advertisements, and events.
+Lead generation is often paired with lead management to move leads through the purchase funnel. This combination of activities is known as pipeline marketing, which is usually divided into separate marketing and sales pipelines.
+
+Lead scoring
+Lead scoring involves a quantitative method of assigning a numerical score to a lead. This helps the company determine whether a contact is valid for their pipeline and allows them to prioritize leads and allocate resources accordingly. The introduction of marketing automation has made lead scoring easier to implement.
+The score assigned to each lead is assigned based on their level of interest, fit with the company's target market, and likelihood of becoming a paying customer. It is not static and can change based on the demographic or behavioral criteria set by the company. Ways to audit your lead generation program include reviewing your ICP, checking data hygiene, and reviewing your tech stack integration.
+
+Regulation
+In February 2024, the Consumer Financial Protection Bureau (CFPB) issued guidance targeting the manipulation of comparison-shopping tools for financial products due to kickbacks. This manipulation impacts lead generation, steering consumers towards certain products not because of their merits but due to hidden financial incentives. The guidance highlights how such practices may breach federal consumer protection laws, emphasizing the need for unbiased, transparent comparison tools in the financial sector and offering the concept of a federal comparison shopping site as an alternative.
+The Southwest Public Policy Institute’s Swipe Right report underscores the risks of excessive regulation on lead generation models. The study found that comparison-shopping tools like Credit Karma and NerdWallet empower consumers with faster access to credit, especially for those excluded by traditional banks, while warning that federal overreach could diminish consumer choice and innovation. These findings highlight the broader role of lead generation across industries: even Uber has argued in federal court that it is not a taxi company but a “lead generation” platform connecting drivers and riders, much like eBay or Etsy connects buyers and sellers. Taken together, these examples illustrate that lead generation is not limited to marketing finance products but represents a foundational model of the digital economy, one that regulators must approach carefully to avoid undermining consumer benefits and market efficiency.
+
+See also
+Direct marketing – Model of communicating discounts and other sales offers
+Direct selling – Business model
+Lead management – Methodologies, systems, and practices designed to generate new potential business clientele
+Personal selling – Marketing tactic
+Sales – Activities related to the exchange of goods
+Customer experience
+Outbound marketing
+B2B marketing – Marketing practicePages displaying short descriptions of redirect targets
+
+References
+Further reading
+Lead Generation for the Complex Sale by Brian J. Carroll (ISBN 0-07-145897-2)
+Marketing Management by Philip Kotler (ISBN 0-13-033629-7)
+Marketing for Dummies (ISBN 978-1118880807)

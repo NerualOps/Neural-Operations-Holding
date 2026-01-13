@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: neuralops-dashboard
+    env: node
+    buildCommand: npm install && npm run render-postbuild && python3 -m pip install --upgrade pip setuptools wheel && cd services/python-services && python3 -m pip install --break-system-packages --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu && python3 -m pip install --break-system-packages --no-cache-dir -r requirements-production.txt && echo "Python dependencies installed successfully"
+    startCommand: npm run render-start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        fromService:
+          type: web
+          name: neuralops-dashboard
+          property: port
+    healthCheckPath: /
+    autoDeploy: true
+

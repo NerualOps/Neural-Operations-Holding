@@ -1,0 +1,67 @@
+Title: Breakover angle
+
+Breakover angle or rampover angle is the maximum possible supplementary angle (usually expressed in degrees) that a vehicle, with at least one forward wheel and one rear wheel, can drive over without the apex of that angle touching any point of the vehicle other than the wheels. This definition is contingent upon the wheels being in continuous contact with the supporting surface(s). Breakover angle differs from ground clearance, which is the shortest distance between the ground and lowest point on the vehicle.
+
+Relevance
+Breakover angle is a relevant performance metric in many common vehicle scenarios, including:
+
+Off-roading.
+Loading a vehicle onto a higher surface with a ramp.
+Going over raised railroad crossings.
+Going over speed bumps
+Going over linkspans and ferry slips
+If a vehicle drives over a breakover angle larger than what it is capable of clearing, the vehicle will contact the apex of the angle, which will quite likely prevent the vehicle from continuing any further in its direction of travel, possibly even completely immobilizing the vehicle.
+
+Calculation
+Assuming no tire deflection, and assuming an ideal breakover angle scenario (two flat surfaces coming to a point, a vehicle with the lowest point of the chassis located at its midsection, etc.), an approximation for the breakover angle of a vehicle can be calculated as follows:
+
+  
+    
+      
+        
+          
+            breakover angle
+          
+          
+            a
+            p
+            p
+            r
+            o
+            x
+            i
+            m
+            a
+            t
+            e
+          
+        
+        =
+        2
+        ⋅
+        arctan
+        ⁡
+        
+          (
+          
+            
+              
+                2
+                ⋅
+                
+                  ground clearance
+                
+              
+              wheelbase
+            
+          
+          )
+        
+      
+    
+    {\displaystyle {\text{breakover angle}}_{approximate}=2\cdot \arctan \left({\frac {2\cdot {\text{ground clearance}}}{\text{wheelbase}}}\right)}
+
+See also
+References
+External links
+HowStuffWorks: The Physics of Off-Roading.

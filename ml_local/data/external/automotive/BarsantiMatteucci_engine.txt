@@ -1,0 +1,16 @@
+Title: Barsanti–Matteucci engine
+
+The Barsanti-Matteucci engine was the first invented internal combustion engine using the free-piston principle in an atmospheric two cycle engine. In late 1851 or early 1852 Eugenio Barsanti, a professor of mathematics, and Felice Matteucci, an engineer and expert in mechanics and hydraulics, joined forces on a project to exploit the explosion and expansion of a gaseous mix of hydrogen and atmospheric air to transform part of the energy of such explosions into mechanical energy.
+
+Origin
+The idea originated almost ten years earlier with Barsanti when, as a young man, he was teaching at St. Michael's College in Volterra, Italy. An engineer from Milan Italy, Luigi de Cristoforis, described in a paper published in the acts of the Lombard Royal Institute of Science, Literature and Art, a pneumatic machine (later built and shown to work) that ran on naphtha and an air mixture, and which constituted the first liquid fuel engine.
+
+Prototypes
+During the twelve years of collaboration between Barsanti and Matteucci several prototypes of internal combustion engines were realized. It was the first real internal combustion engine, constituted in its simplest realization by a vertical cylinder in which an explosion of a mixture of air and hydrogen or an illuminating gas shot a piston upwards thereby creating a vacuum in the space underneath. When the piston returned to its original position, due to the action of the atmospheric pressure, it turned a toothed rod connected to a sprocket wheel and transmitted movement to the driving shaft.
+
+Patents
+Numerous patents were obtained by the two inventors: the 1857 English and Piedmont patents, the 1861 Piedmont patent of Barsanti, Matteucci and Babacci which was then used as a base to construct the engine of the Escher Wyss company of Zurich and put on exhibit during the first National Expo of Florence in 1861, and the 1861 English patent.
+
+References
+External links
+History of the Barsanti-Matteucci engine

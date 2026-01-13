@@ -1,0 +1,29 @@
+Title: Airless tire
+
+Airless tires, non-pneumatic tires (NPT), or flat-free tires are tires that are not supported by air pressure. They can be used on small vehicles such as ride-on lawn mowers and motorized golf carts. They also are used on heavy equipment required to operate on sites where risk of tire punctures is high. Tires composed of closed-cell polyurethane foam are also made for bicycles and wheelchairs.
+
+Advantages & disadvantages
+The main advantages of airless tires is that they do not go flat and need to be replaced less frequently. Heavy equipment outfitted with airless tires will be able to carry more weight and engage in more rugged activities.
+Airless tires generally have higher rolling resistance and provide somewhat less suspension than similarly shaped and sized pneumatic tires. Other problems for airless heavy equipment tires include dissipating the heat buildup that occurs when they are driven. Airless tires are often filled with compressed polymers (plastic) rather than air, or can be a solid molded product.
+Airless tires are attractive to cyclists, as bicycle tires are much more vulnerable to punctures than motor vehicle tires. 
+The drawbacks to airless tires depend on the use. Heavy equipment operators who use machinery with solid tires may become fatigued. Any airless tire will be heavier than the rubber tire it is meant to replace.
+However, airless tires are not popular with hardcore off-roaders, as those vehicles often need to travel long distances at highway speeds. At speeds above 80 km/h, they can be unstable, causing severe vibrations (and passenger discomfort), and therefore potential for drivers to lose vehicle control.
+Installation of airless tires depends on the use. Heavy equipment will need special equipment to mount, but an airless bicycle tire can be mounted with little effort. Solid airless lawnmower tires come pre-installed on the wheel, allowing quick installation.
+
+Examples
+Many bicycle-sharing systems use these tires to reduce maintenance.
+In 1938, J. V. Martin in the United States invented a safety tire with hoops of hickory encased in rubber and fitted with criss cross spokes of ribbed rubber. It could drive over 100 mm (4 inches) blocks when tested in a springless test car.
+In 2005, Michelin started developing an integrated tire and wheel combination, the "Tweel" (derived from "tire" and "wheel," which are combined into one new, fused part), which operates entirely without air. Michelin claims its "Tweel" has load carrying, shock absorbing, and handling characteristics that compare favorably to conventional pneumatic tires. However, the tire has a lot of vibration when driving over 80 km/h (50 mph). Therefore the tire is only available for golf carts, ATV's and skid steer vehicles. In 2019 however Michelin and GM announced their goal of making a new airless tire for passenger vehicles available in 2024.
+The automotive engineering group of the mechanical engineering department at Clemson University is developing a low energy loss airless tire with Michelin through the NIST ATP project.
+Resilient Technologies and the University of Wisconsin–Madison's Polymer Engineering Center are creating a "non-pneumatic tire", which is  a round polymeric honeycomb wrapped with a thick, black tread. The initial version of the tire is for the Humvee and is expected to be available in 2012. It is also the first group to make a commercially available mass-produced airless tire after its acquisition by Polaris, albeit only as coupled with their vehicle. The tire trademark is "Terrainarmor".
+Bridgestone is developing the Bridgestone Air-Free Concept Tire, which can hold 150 kg (330 lb) per tire.
+The Energy return wheel (ERW) has the outer edge of the tire connected to the inner rim by a system of springs. The springs can have their tension changed to vary the handling characteristics.
+Hankook is developing the iFlex airless tire.
+However, many tire manufacturing companies are yet to start making airless tire due to different limitations. Major companies like Goodyear say its airless tires won't be road-ready until 2030.
+
+See also
+Run-flat tire
+Tweel
+
+
+== References ==

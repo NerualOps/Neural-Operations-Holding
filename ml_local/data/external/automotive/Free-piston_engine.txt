@@ -1,0 +1,78 @@
+Title: Free-piston engine
+
+A free-piston engine is a linear, 'crankless' internal combustion engine, in which the piston motion is not controlled by a crankshaft but determined by the interaction of forces from the combustion chamber gases, a rebound device (e.g., a piston in a closed cylinder) and a load device (e.g. a gas compressor or a linear alternator).
+The purpose of all such piston engines is to generate power. In the free-piston engine, this power is not delivered to a crankshaft but is instead extracted through either exhaust gas pressure driving a turbine, through driving a linear load such as an air compressor for pneumatic power, or by incorporating a linear alternator directly into the pistons to produce electrical power.
+The basic configuration of free-piston engines is commonly known as single piston, dual piston or opposed pistons, referring to the number of combustion cylinders. The free-piston engine is usually restricted to the two-stroke operating principle, since a power stroke is required every fore-and-aft cycle. However, a split cycle four-stroke version has been patented, GB2480461 (A) published  2011-11-23.
+
+First generation
+The modern free-piston engine was proposed by R.P. Pescara and the original application was a single piston air compressor. Pescara set up the Bureau Technique Pescara to develop free-piston engines and Robert Huber was technical director of the Bureau from 1924 to 1962.
+The engine concept was a topic of much interest in the period 1930–1960, and a number of commercially available units were developed. These first generation free-piston engines were without exception opposed piston engines, in which the two pistons were mechanically linked to ensure symmetric motion. The free-piston engines provided some advantages over conventional technology, including compactness and a vibration-free design.
+
+Air compressors
+The first successful application of the free-piston engine concept was as air compressors. In these engines, air compressor cylinders were coupled to the moving pistons, often in a multi-stage configuration. Some of these engines utilised the air remaining in the compressor cylinders to return the piston, thereby eliminating the need for a rebound device.
+Free-piston air compressors were in use among others by the German Navy, and had the advantages of high efficiency, compactness and low noise and vibration.
+
+Gas generators
+After the success of the free-piston air compressor, a number of industrial research groups started the development of free-piston gas generators. In these engines there is no load device coupled to the engine itself, but the power is extracted from an exhaust turbine.  The turbine's rotary motion can thus drive a pump, propeller, generator, or other device.
+In this arrangement, the only load for the engine is supercharging the inlet air, albeit in theory some of this air could be diverted for use as a compressed-air source if desired.  Such a modification would enable the free-piston engine, when used in conjunction with the aforementioned exhaust-driven turbine, to provide both motive power (from the output shaft of the turbine) in addition to compressed air on demand.
+A number of free-piston gas generators were developed, and such units were in widespread use in large-scale applications such as stationary and marine powerplants.  Attempts were made to use free-piston gas generators for vehicle propulsion (e.g. in gas turbine locomotives) but without success.
+
+Modern applications
+Modern applications of the free-piston engine concept include hydraulic engines, aimed for off-highway vehicles, and free-piston engine generators, aimed for use with hybrid electric vehicles.
+
+Hydraulic
+These engines are commonly of the single piston type, with the hydraulic cylinder acting as both load and rebound device using a hydraulic control system. This gives the unit high operational flexibility. Excellent part load performance has been reported.
+
+Generators
+Free-piston linear generators that eliminate a heavy crankshaft with electrical coils in the piston and cylinder walls are being investigated by multiple research groups for use in hybrid electric vehicles as range extenders. The first free piston generator was patented in 1934. Examples include the Stelzer engine and the Free Piston Power Pack  manufactured by Pempek Systems [1] based on a German patent.  A single piston Free-piston linear generator was demonstrated in 2013 at the German Aerospace Center (Deutsches Zentrum für Luft- und Raumfahrt; DLR).
+These engines are mainly of the dual piston type, giving a compact unit with high power-to-weight ratio. A challenge with this design is to find an electric motor with sufficiently low weight. Control challenges in the form of high cycle-to-cycle variations were reported for dual piston engines.
+In June 2014 Toyota announced a prototype Free Piston Engine Linear Generator (FPEG). As the piston is forced downward during its power stroke it passes through windings in the cylinder to generate a burst of three-phase AC electricity. The piston generates electricity on both strokes, reducing piston dead losses. The generator operates on a two-stroke cycle, using hydraulically activated exhaust poppet valves, gasoline direct injection and electronically operated valves. The engine is easily modified to operate under various fuels including hydrogen, natural gas, ethanol, gasoline and diesel. A two-cylinder FPEG is inherently balanced.
+Toyota claims a thermal-efficiency rating of 42% in continuous use, greatly exceeding today's average of 25-30%. Toyota demonstrated a 24 inch long by 2.5 inch in diameter unit producing 15 hp (greater than 11 kW).
+
+Features
+The operational characteristics of free-piston engines differ from those of conventional, crankshaft engines. The main difference is due to the piston motion not being restricted by a crankshaft in the free-piston engine, leading to the potentially valuable feature of variable compression ratio. This does, however, also present a control challenge, since the position of the dead centres must be accurately controlled in order to ensure fuel ignition and efficient combustion, and to avoid excessive in-cylinder pressures or, worse, the piston hitting the cylinder head. The free-piston engine has a number of unique features, some give it potential advantages and some represent challenges that must be overcome for the free-piston engine to be a realistic alternative to conventional technology.
+As the piston motion between the endpoints is not mechanically restricted by a crank mechanism, the free-piston engine has the valuable feature of variable compression ratio, which may provide extensive operation optimization, higher part load efficiency and possible multi-fuel operation. These are enhanced by variable fuel injection timing and valve timing through proper control methods.
+Variable stroke length is achieved by a proper frequency control scheme such as PPM (Pulse Pause Modulation) control [1], in which piston motion is paused at BDC using a controllable hydraulic cylinder as rebound device. The frequency can therefore be controlled by applying a pause between the time the piston reaches BDC and the release of compression energy for the next stroke.
+Since there are fewer moving parts, the frictional losses and manufacturing cost are reduced. The simple and compact design thus requires less maintenance and this increases lifetime.
+The purely linear motion leads to very low side loads on the piston, hence lesser lubrication requirements for the piston.
+The combustion process of free piston engine is well suited for Homogeneous Charge Compression Ignition (HCCI) mode, in which the premixed charge is compressed and self-ignited, resulting in very rapid combustion, along with lower requirements for accurate ignition timing control. Also, high efficiencies are obtained due to nearly constant volume combustion and the possibility to burn lean mixtures to reduce gas temperatures and thereby some types of emissions.
+By running multiple engines in parallel, vibrations due to balancing issues may be reduced, but this requires accurate control of engine speed. Another possibility is to apply counterweights, which results in more complex design, increased engine size and weight and additional friction losses.
+Lacking a kinetic energy storage device, like a flywheel in conventional engines, free-piston engines are more susceptible to shutdown caused by minute variations in the timing or pressure of the engine cycle. Precise control of the speed and timing is required as, if the engine fails to build up sufficient compression or if other factors influence the injection/ignition and combustion, the engine may misfire or stop.
+
+Advantages
+Potential advantages of the free-piston concept include:
+
+Simple design with few moving parts, giving a compact engine with low maintenance costs and reduced frictional losses.
+The operational flexibility through the variable compression ratio allows operation optimisation for all operating conditions and multi-fuel operation. The free-piston engine is further well suited for homogeneous charge compression ignition (HCCI) operation.
+High piston speed around top dead centre (TDC) and a fast power stroke expansion enhances fuel-air mixing and reduces the time available for heat transfer losses and the formation of temperature-dependent emissions such as nitrogen oxides (NOx).
+
+Challenges
+The main challenge for the free-piston engine is engine control, which can only be said to be fully solved for single piston hydraulic free-piston engines. Issues such as the influence of cycle-to-cycle variations in the combustion process and engine performance during transient operation in dual piston engines are topics that need further investigation. Crankshaft engines can connect traditional accessories such as alternator, oil pump, fuel pump, cooling system, starter etc.
+Rotational movement to spin conventional automobile engine accessories such as alternators, air conditioner compressors, power steering pumps, and anti-pollution devices could be captured from a turbine situated in the exhaust stream.
+
+Opposing piston engine
+Most free piston engines are of the opposed piston type with a single central combustion chamber. A variation is the opposing piston engine which has two separate combustion chambers. An example is the Stelzer engine.
+
+Recent developments
+In the 21st century, research continues into free-piston engines and patents have been published in many countries. In the UK, Newcastle University is undertaking research into free-piston engines.
+A new kind of the free-piston engine, a Free-piston linear generator is being developed by the German aerospace center.
+In addition to these prototypes, researchers at West Virginia University in the US, are working on the development of a single cylinder free-piston engine prototype with mechanical springs at an operating frequency of 90 Hz.
+
+See also
+Pulse tube refrigerator: Similar free-piston devices used for refrigeration
+The Braun Linear Engine: https://en.wikipedia.org/wiki/Free-piston_engine
+The Braun Linear Engine: https://www.sae.org/publications/technical-papers/content/730185/
+The Braun Linear Engine: https://ppubs.uspto.gov/api/pdf/downloadPdf/3610214?requestToken=eyJzdWIiOiJjYmU0MTIyZS04YmE4LTQxMGItYmE0ZC05NjcwZjhlOTdmYjAiLCJ2ZXIiOiI2MDJkYmVlOS02ZWRiLTQ2ZjgtYWJjYS0zODc2MTljNmEwMDEiLCJleHAiOjB9
+Fuel Injector for Gaseous Fuel (Thomas Braun): https://patentimages.storage.googleapis.com/2e/bc/b8/78460b986316e8/US5269280.pdf
+
+References
+Sources
+Mikalsen R., Roskilly A.P. A review of free-piston engine history and applications. Applied Thermal Engineering, Volume 27, Issues 14-15, Pages 2339-2352, 2007. [2].
+
+External links
+DLR researchers unveil a new kind of range extender for electric cars
+Extensive homepage about Free Piston Engines
+Innas BV
+Newcastle University
+Vanderbilt University Free Piston Engine Compressor Archived 2010-12-23 at the Wayback Machine
+"Engine of Tomorrow - Goes to Work Today." Popular Science, September 1957, pp. 138–141/294, detailed article/cutaway drawing on free-piston diesel engines.

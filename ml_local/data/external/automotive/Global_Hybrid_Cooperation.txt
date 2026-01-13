@@ -1,0 +1,119 @@
+Title: Global Hybrid Cooperation
+
+Global Hybrid Cooperation, formerly Advanced Hybrid System 2 (AHS2), is a set of hybrid vehicle technologies jointly developed by General Motors, Daimler, and Chrysler LLC, with BMW joining in 2005. It uses 2 or 3 planetary gearsets in an automatic transmission: one on the internal combustion engine (ICE) side (input split) paired with a second (output split), forming the compound split, and possibly one third additional planetary gearset to multiply the number of fixed gear ratios (up to 4). General Motors has stopped using the "AHS2" name as of 2006, preferring to call it simply a two-mode hybrid system.
+This technology was named as "Technology of the Year" for 2007 by Automobile magazine.
+
+History
+The dual-mode hybrid concept, as described in 1994, was developed to optimize vehicle efficiency by switching between parallel and series hybrid operation, taking advantage of series operation in stop-and-go traffic to minimize engine speed variance, and parallel operation at highway speeds to use efficient mechanical transmission. On September 30, 1993, the United States Department of Energy signed a contract with General Motors to develop and demonstrate hybrid electric powertrains for light duty vehicles. AHS-2 was derived from a dual-mode hybrid system developed earlier by Allison Transmission, then a division of GM, for transit buses. The Allison system first had been announced for buses in 2003.
+
+Partnership formed
+The GM/DaimlerChrysler partnership was announced on December 13, 2004, with Dieter Zetsche of DaimlerChrysler joining Rick Wagoner of GM on stage with a prototype. Negotiations had begun earlier in October, after engineering managers at both companies discovered they were independently working on similar dual-mode hybrid concepts while participating on the same conference panel. The agreement was not signed until the following August, however. GM was reportedly responsible for development of rear- and four-wheel drive truck and front wheel drive car systems while DaimlerChrysler was focused on a rear wheel drive luxury car application. It was announced on September 7, 2005, that BMW would also join the alliance, likely using then-archrival DaimlerChrysler's rear wheel drive system.
+The three companies formed an organization called Global Hybrid Cooperation with engineering and management centered at the GM, DaimlerChrysler and BMW Hybrid Development Center in Troy, Michigan. In 2006, an article published by Autoweek stated the three automakers planned to spend US$1 billion collectively to develop the front- and rear-wheel drive hybrid transmissions.
+
+Vehicles introduced
+The two-mode hybrid system was introduced to the light-duty vehicle market as a drivetrain option for the 2008 model year Chevrolet Tahoe and GMC Yukon, with an observed improvement in fuel economy of 27–58% compared to a conventionally-powered equivalent. GM introduced the hybrid option for 2009 model year Chevrolet Silverado, GMC Sierra, and Cadillac Escalade. The largest improvement was in the EPA city rating. The dual-mode hybrid equipment added approximately 350 lb (160 kg), but this increase was offset completely by lighter seats, wheels, and 12-volt battery; aluminum engine and body components; and eliminating the starter motor. It was equipped with a 6.0L LFA and LZ1 V-8 engines featuring Active Fuel Management, which was larger than the standard 5.3L LY5 base engine.
+The GM products were followed by a hybrid Dodge Durango and related Chrysler Aspen for the 2009 model year in late 2008; the 5.7L HEMI V-8 engine on these was equipped with a stop-start system to improve fuel economy. BMW and Mercedes introduced the X6 ActiveHybrid and ML450 Hybrid, respectively, in 2009, but these were discontinued in 2011.
+
+Dissolution
+Earlier, on March 1, 2007, BMW and DaimlerChrysler announced that they were entering a separate partnership to develop a mild hybrid module for rear wheel drive premium cars. They planned to roll out the new system within the next three years on BMW and Mercedes-Benz vehicles. GM did not participate in the new partnership, and did not announce plans to develop a similar hybrid RWD system for cars.
+In 2009 Mercedes released the S400 mild hybrid, using a lithium ion battery. It was reported in July 2009 that after the upcoming introductions of two-mode hybrid models of the BMW X6 (marketed globally) and the Mercedes-Benz M class (only in the United States), the two-mode hybrid joint venture would be dissolved. Daimler indicated that it wants to avoid investing in aftersales and service for a vehicle which will only be produced in small quantities, and will instead concentrate on modular hybrid building blocks with scalable lithium-ion batteries, based on the hybrid drive developed for the S-class and 7 Series sedans by the joint venture with BMW and auto supplier Continental AG.
+By 2014, the two-mode hybrid drivetrain was no longer offered on any light-duty vehicles.
+
+Technology
+Components
+The dual-mode hybrid drive unit includes two AC motor–generators (MG-A and MG-B, each are three-phase permanent magnet machines with 82 kW (110 hp) peak output), three interconnected planetary gear sets (P1, P2, and P3), four selectively engaging friction clutches (C1, C2, C3, and C4), and two oil pumps.
+This hybrid drive unit is coupled to the engine, taking the place of a conventional transmission. The engine crankshaft is coupled to the drive unit using a clutch and a torque damper (TD), replacing the torque converter used in most automatic transmissions. The entire drive unit is comparable in size and shape to an Allison 1000 transmission. A 300 volt battery pack is used to store energy for the two motor–generators.
+
+Overview
+General Motors has designated the drive unit as the 2ML70; for BMW and DaimlerChrysler vehicles, it is the GM-Allison AHS-2. The technology is known as a "two-mode" hybrid system because the transmission / drive unit can transfer either electrical power, mechanical power, or a blend of both to the wheels, operating both as a series hybrid, using the internal combustion engine solely to generate electrical power, or as a parallel hybrid, using the electrical motor(s) to augment the mechanical power from the engine. The two modes of operation are:
+
+ Input-split mode — C1 engaged; the rotational speed of the 2nd motor (MG-B) is always proportional to the output shaft, while the 1st motor (MG-A) is not proportional to the input shaft. The 2nd electric motor direct drive the output, and it is possible to drive the vehicle without combustion engine. The power flow is split only at the input, that is why it is called Input-split. At low speeds, the vehicle can move with either the electric motor/generators, the internal combustion engine, or both, making it a so-called full hybrid. All accessories will still remain functioning on electric power, and the engine can restart instantly if needed. In this mode, one of the motor/generators (MG-A) acts as a generator, while the other operates as a motor (MG-B). This mode is operational for the two continuously variable ranges (input split and compound split) of the transmission.
+ Compound-split mode — C1 disengaged, C2 engaged; the rotational speed of the 2nd motor (MG-B) is not proportional to the output shaft, like the 1st motor (MG-A) is not proportional to the input shaft. The power flow is split at the input and at the output, that is why it is called Compound-split. It is impossible to drive the vehicle without combustion engine. This mode begins at the point where one of the motor/generators reaches zero speed; at this point some clutches within the system engage while others disengage to alter the physical configuration of the transmission, and the velocity is Vshift. Immediately after the shift, both electric machines operate as motors and the first gear ratio is employed. At a given velocity above Vshift, the second gear ratio is employed, and MG-B begins to operate as a generator, while also slowing down its angular speed.
+This system amplifies the output of the electric motors similarly to the way in which a conventional transmission amplifies the torque of an internal combustion engine. It also, when required, permits transfer of more of the engine's torque to the wheels, making the transmission more efficient even without the electric motors in use. Although the transmission mechanically has only four conventional gear ratios, the electric motors allow it to function as a continuously variable transmission. This variable ratio functions in addition to the torque multiplication of the planetary gears.
+
+How it works
+Mode I ("input-split") is intended for the range of speeds commonly encountered during urban driving, while Mode II ("compound-split") is intended for the higher range of speeds encountered during highway travel. Within these modes, there are four possible fixed gear ratios, two in each mode, in which one additional clutch is engaged.
+The lowest fixed gear ratio, which is in Mode I, synchronizes both motor–generators, allowing the vehicle to use these as motors to augment mechanical power for stronger acceleration, or as generators for regenerative braking. The second fixed gear ratio, also in Mode I, allows the motor–generators to freewheel which reduces losses at higher speeds and improves overall efficiency.
+Similarly, the third fixed gear ratio, which is in Mode II, synchronizes both motor–generators to allow electric motor boost or regenerative braking, and the fourth fixed gear ratio, also in Mode II, allows both motor–generators to freewheel for improved efficiency, relying solely on mechanical power transmission to move the vehicle.
+Generally, the vehicle will start from rest in Mode I; as speeds increase, the transmission will transition to the first fixed gear ratio, shift back to Mode I, then transition to the second fixed gear ratio before entering Mode II.
+In Mode II, unlike Mode I, there are no defined speed setpoints to enter or leave the third or fourth fixed gear ratios, but the third fixed gear ratio is intended for changing speeds (accelerating to pass or slowing), using inputs from the throttle position, while the fourth fixed gear ratio serves the same purpose as an overdrive ratio, for improved efficiency at high speeds.
+When reversing, the vehicle remains in Mode I, using one of the motor–generators for traction.
+
+Operation of the Allison Transmission (AHS-2), or Two-Mode Hybrid, from the Global Hybrid Cooperation. This transmission is mounted on the BMW X6 ActiveHybrid and the Mercedes-Benz ML450 BlueHybrid.
+
+Per the patent, the planetary gearsets P1 and P2 are compounded, with MG-A driving (or being driven by) the sun gear of P1, which is coupled to the ring gear of P2, and the carriers for the planet gears in P1 and P2 are coupled. Similarly, MG-B drives (or is driven by) the sun gear of P2, which is coupled to the sun gear of P3 via a hollow shaft.
+
+Comparison with other hybrid systems
+Toyota's Hybrid Synergy Drive may appear similar in that it also combines the power from an ICE and a pair of electric motor–generators; however in its current form, Toyota uses only one planetary gearset providing only single mode functionality (i.e. input split only) using a series/parallel architecture.
+Honda's Integrated Motor Assist uses a traditional ICE and transmission where the flywheel is replaced with an electric motor: it is a simple parallel architecture, requiring the addition of a mechanical continuously variable transmission (CVT), i.e. not electrically variable.
+
+Applications
+Buses
+The two-mode hybrid drive system manufactured by Allison Transmission was first used in New Flyer transit buses which entered revenue service in 2004; in testing at the National Renewable Energy Laboratory, measured fuel economy improved from 1.46–3.03 mpg‑US (161–78 l/100 km) for conventional diesel bus to 2.56–3.98 mpg‑US (91.9–59.1 l/100 km) with the hybrid drive unit in an equivalent bus over the same operating cycles, representing an improvement of 30.3 – 74.7%.
+By 2008, Allison had delivered 1,000 hybrid powertrains. Many transit operators since then have received buses with the Allison hybrid system, including:
+
+King County, Washington King County Metro (361 New Flyer buses announced from 2002 to present) The first DE60LF, serial 24129
+Albuquerque, New Mexico ABQ RIDE (112 New Flyer buses announced from December 21, 2004, to present)
+Indianapolis, Indiana IndyGo (two buses announced January 24, 2005)
+Yosemite National Park National Park Service (18 Gillig buses announced April 25, 2005)
+Kelowna and Victoria, British Columbia (6 New Flyer buses announced May 5, 2005)
+Shreveport, Louisiana SporTran (one bus announced June 9, 2005)
+Charlotte, North Carolina Charlotte Area Transit System (2 buses announced June 9, 2005)
+Springfield, Massachusetts Pioneer Valley Transit Authority (one bus announced October 14, 2005)
+Aspen, Colorado Roaring Fork Transportation Authority (seven buses announced December 9, 2005)
+Consortium (led by San Joaquin RTD) of 10 transit agencies in California and Nevada (157 Gillig buses announced March 20, 2006).
+Note: ABQ RIDE of Albuquerque, New Mexico was formerly a member of this consortium, but instead chose to order New Flyer buses on their own instead.
+Madison, Wisconsin Madison Metro (5 Gillig buses announced September 11, 2007, with 10 more planned for purchase in the next few years)
+In 2020, Allison introduced its second generation two-mode hybrid drive units, branded eGen Flex, upgrading the existing H 40 EP and H 50 EP drive units with a disconnect clutch, allowing the engine to shut off completely, and adding a second line branded eGen Flex Max, which offers fully-electric propulsion with a lithium-titanate battery chemistry.
+
+RWD/4WD Truck/SUV
+The longitudinal system for light trucks from General Motors will be manufactured at Baltimore Transmission by GM's PowerTrain division. The nickel-metal hydride batteries will be manufactured by Panasonic EV of Japan.
+The system was introduced for the 2008 model year in the full-sized Chevrolet Tahoe and GMC Yukon SUVs as a specific 2-Mode Hybrid model. Rear wheel drive and four wheel drive light duty trucks using the 2-mode hybrid system include:
+
+GMC Graphyte Hybrid SUV concept (shown at the 2005 NAIAS)
+GMT900-based trucks and SUVs:
+2008-2013 Chevrolet Tahoe Hybrid
+2008-2013 GMC Yukon Hybrid
+2009-2013 Cadillac Escalade Hybrid
+2009-2013 Chevrolet Silverado Hybrid
+2009-2013 GMC Sierra Hybrid
+2009 Dodge Durango Hybrid
+2009 Chrysler Aspen Hybrid
+2010-2011 BMW X6 ActiveHybrid
+2010-2011 Mercedes ML 450 hybrid
+
+FWD
+Front wheel drive car system
+Opel Astra Diesel hybrid concept (shown at the 2005 NAIAS)
+Saab 9-3 BioPower Hybrid Concept (shown at the 2006 British International Motorshow)
+2010 Saturn Vue 2-Mode Plug-in Hybrid SUV, 45% improvement over Mild hybrid version according to GM (originally intended for the 2009 MY, it was delayed and ultimately cancelled due to the demise of Saturn as a GM division, never entered production)
+2011 undisclosed GM product (possibly a new Buick "crossover" utility or Cadillac AWD sedan)
+
+See also
+BAS Hybrid (GM mild hybrid)
+GM Voltec powertrain
+Hybrid car
+List of hybrid vehicles
+
+References
+Bibliography
+David Talbot. "Gas-Guzzling Hybrids". Technology Review (April 2005).
+"Chevrolet Tahoe with Two-Mode Full Hybrid Exploits Fuel Savings, SUV Driving Pleasure and Performance". General Motors press release. Archived from the original on 2007-08-14. Retrieved January 9, 2006.
+"Global Alliance for Hybrid Drive Development: Cooperation between BMW, DaimlerChrysler and GM". General Motors press release. Archived from the original on 2007-08-14. Retrieved September 9, 2005.
+Grewe, T. M., B. M. Conlon, and A. G. Holmes. "Defining the General Motors 2-Mode Hybrid Transmission" (PDF). SAE Technical Paper Series (SAE 2007–01–0273).{{cite journal}}:  CS1 maint: multiple names: authors list (link)
+Kim, N., Carlson, R., Jehlik, F., and A. Rousseau (2009). "Tahoe HEV Model Development in PSAT". SAE Technical Paper Series. 1 (SAE 2009–01–1307). doi:10.4271/2009-01-1307.{{cite journal}}:  CS1 maint: multiple names: authors list (link)
+
+Patents
+US Patent 5558588A, Michael R. Schmidt, "Two-Mode, Input-Split, Parallel Hybrid Transmission", published September 24, 1996,  assigned to General Motors Corporation 
+US Patent 5571058A, Michael R. Schmidt, "Four-mode, input-split, paralell [sic], hybrid transmission", published November 5, 1996,  assigned to General Motors Corporation 
+US Patent 5931757A, Michael R. Schmidt, "Two-Mode, Compound-Split, Electro-mechanical Vehicular Transmission", published August 3, 1999,  assigned to General Motors Corporation 
+US Patent 6358173B1, Donald Klemen & Michael R. Schmidt, "Two-mode, compound-split, electro-mechanical vehicular transmission having significantly reduced vibrations", published March 19, 2002,  assigned to General Motors Corporation 
+US Patent 6478705B1, Alan G. Holmes & Michael R. Schmidt, "Hybrid Electric Powertrain Including a Two-Mode Electrically Variable Transmission", published November 12, 2002,  assigned to General Motors Corporation 
+US Patent 6527658B2, Alan G. Holmes; Donald Klemen & Michael R. Schmidt, "Two-mode, compound-split, electro-mechanical vehicular transmission having significantly reduced vibrations", published March 4, 2003,  assigned to General Motors Corporation 
+US Patent 6945894B2, Alan G. Holmes, "Two Range Electrically Variable Power Transmission", published September 20, 2005,  assigned to General Motors Corporation 
+US Patent 6953409B2, Michael R. Schmidt; Donald Klemen & Larry T. Nitz et al., "Two-mode, compound-split, hybrid electro-mechanical transmission having four fixed ratios", published June 23, 2005,  assigned to GM Global Technology Operations LLC and FCA US LLC
+
+External links
+Dual-Mode Hybrid Simulation | MATLAB Archived 2016-05-01 at the Wayback Machine
+Comparative Assessment of Hybrid Vehicle Power Split Transmissions
+Electrically variable transmission having two planetary gear sets with one fixed interconnection, US Patent Application 2006/0111213 A1

@@ -1,0 +1,41 @@
+Title: Dana 80
+
+The Dana/Spicer Model 80 is an automotive axle manufactured by Dana Holding Corporation and has been used in OEM heavy duty applications by Chevrolet, Dodge, and Ford. It can be identified by its straight axle tubes, 10 bolt asymmetrical cover, and an "80" cast into the housing. Dana 80's are made as full floating, rear axles only and are a step up in overall strength compared to the Dana 70.   1988 Ford was the first company to use the Dana 80. The Dana 80 has a GAWR up to 11,000 pounds (5,000 kg), however it is common practice among manufacturers to derate Dana 80's. Gross axle weight ratings are lowered by the vehicle manufacturer for safety and tire reasons. The OEM Limited slip differential originally was a "Power Lok" until 1998 when the "Trac Lok" phased it out. Trac Loks were a US$350.00 option with Ford Super Duty trucks.  The Dana 80 Trac Lok is unique being it is a 4 pinion unit, unlike other Dana Trac Lok units with 2 pinions. This was the only rear axle available for the 2nd generation Dodge Ram 3500 trucks.
+
+General specifications
+Ring gear measures 11.25 inches (286 mm).
+4" diameter axle tube.
+Inner axle shaft spline counts are 35 and 37.
+Pinion shaft diameter: 2.0 inches (51 mm)
+Pinion shaft splines: 37
+Axle Shaft diameter
+35 Spline: 1.50 inches (38 mm)
+37 Spline: 1.58 inches (40 mm)
+Gear ratios: 3.23, 3.31, 3.54, 3.73, 4.10, 4.11, 4.30, 4.63, 4.88, 5.13, 5.38 & 6:17 (Only DBL Design has the 6:17)
+Brakes measure 13.39" for 2011 F-350 DRW trucks.
+Brakes measure 15.35" for 2011 F-450 trucks (13,050 GVW).
+
+Usage
+Class 3 trucks have been common users of the Dana 80 since it was first manufactured in 1988.  Dodge used the axle selectively in class 2 trucks from 1994 to 2002.  Ford has made use of the axle in class 4 trucks until 2005 when the Dana S 110 was phased in.
+
+Common applications
+Dodge
+
+1994-2002 3500
+1994-2002 2500 equipped with manual transmissions and Diesel or V10 engines
+Ford
+
+1988-1998 F-350 DRW (Select chassis cabs and pick ups)
+1999-2016 F-350 DRW
+1988-2004 F-450
+2011-2014 F-450 (13,050 GVW)
+GM
+
+1991-2002 C3500 HD
+Various heavy duty commercial applications
+Source:
+
+References
+External links
+Specifications Archived 2009-03-17 at the Wayback Machine
+Parts categories

@@ -1,0 +1,23 @@
+Title: Cognitive response model
+
+The cognitive response model of persuasion locates the most direct cause of persuasion in the self-talk of the persuasion target, rather than the content of the message.
+Anthony Greenwald first proposed the theory in 1968.
+The cognitive response model shows that learning our cognitive responses to persuasion provides a basis for understanding the persisting effects of communication. Greenwald’s theory states that we remember our cognitive responses better than actual information presented to us. Simply put, we are better at remembering our thoughts about an argument during the argument, rather than the actual argument itself.
+
+Responses
+Two types of cognitive responses exist: direct and indirect. Direct responses are relevant to the material being presented and can increase persuasion. For example, when presented with the fact, “ 9 out of 10 college students drink alcohol”, and your cognitive response is, “ Yeah, I would say most of the people at my school are drinkers”, you would be having a direct response. Indirect responses have nothing to do with the material at hand and do not increase persuasive effects. If presented with the same fact, “ 9 out of 10 college students drink alcohol", and your cognitive response is, “I wonder what I am doing this weekend”, you would have an indirect response.
+
+Research
+Research supporting the model shows that persuasion is powerfully affected by the amount of self-talk that occurs in response to a message. The degree to which the self-talk supports the message and the confidence that recipients express in the validity of that self-talk further support the cognitive response model.
+
+Implications for persuasion
+The cognitive response model suggests that effective messages should take into account factors that are likely to enhance positive cognitive responses to the receivers.
+Counterarguments, in contrast, are negative cognitive responses that prohibit persuasion. Factors that reduce counterarguments include communicator expertise and insufficient time and ability to formulate counterarguments. Such tactics are often used in interrogations.
+
+See also
+Internal monologue
+Social psychology
+
+References
+External links
+Cognitive Response Theory

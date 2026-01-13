@@ -1,0 +1,57 @@
+Title: Cruise control
+
+Cruise control (also known as speed control, cruise command, autocruise, or tempomat) is a system that automatically controls the speed of an automobile. The system is a servomechanism that takes over the car's throttle to maintain a steady speed set by the driver.
+
+History
+Speed control existed in early automobiles such as the Wilson-Pilcher in the early 1900s. They had a lever on the steering column that could be used to set the speed to be maintained by the engine. In 1908, the Peerless included a governor to keep the speed of the engine through an extra throttle lever on the steering wheel. Peerless successfully used a flyball governor. They advertised their system as being able to "maintain speed whether uphill or down." 
+A governor was used by James Watt and Matthew Boulton in 1788 to control steam engines, but the use of governors dates at least back to the 17th century. On an engine, the governor uses centrifugal force to adjust the throttle position to adapt the engine's speed to different loads (e.g., when going up a hill).
+Modern cruise control (also known as a speedostat or tempomat) was invented in 1948 by the blind inventor and mechanical engineer Ralph Teetor. He came up with the idea due to being frustrated by his driver's habit of speeding up and slowing down as he talked. 
+A more significant factor in developing cruise control was the 35 mph (56 km/h) speed limit imposed in the United States during World War II to reduce gasoline use and tire wear. A mechanism controlled by the driver provided resistance to further pressure on the accelerator pedal when the vehicle reached the desired speed. Teetor's idea of a dashboard speed selector with a mechanism connected to the driveshaft and a device able to push against the gas pedal was patented in 1950. He added a speed lock capability that maintained the car's speed until the driver tapped the brake pedal or turned off the system.
+A 1955 U.S. patent for a "constant speed regulator" was filed in 1950 by M-Sgt Frank J. Riley. He conceived the device while driving on the Pennsylvania Turnpike and installed his invention in his car in 1948. 
+Another inventor named Harold Exline, working independently of Riley, also invented a type of cruise control that he first installed on his car and friends' cars. Exline filed a U.S. patent for a "vacuum powered throttle control with electrically controlled air valve" in 1951, which was granted in 1956. Despite these patents, Riley, Exline, and subsequent patent holders were not able to collect royalties for any cruise control inventions.
+The first car with Teetor's "speedostat" system was the 1958 Chrysler Imperial (called "auto-pilot"), using a speed control dial on the dashboard. This system calculated ground speed from the rotating speedometer cable and used a bi-directional screw-drive electric motor to vary the throttle position as needed. Cadillac soon renamed and marketed the device as "cruise control." 
+In 1965, American Motors Corporation (AMC) introduced a low-priced automatic speed control for its large-sized cars with automatic transmissions. The AMC "cruise command" unit was actuated through a push-button on the dashboard once the car's desired speed was reached. The throttle position was automatically adjusted by a vacuum control that opened and closed the throttle based on input from the speedometer cable rather than through an adjustable control on the dashboard. The unit would shut off anytime the brakes were applied.
+Daniel Aaron Wisner invented an "automotive electronic cruise control" in 1968 as an engineer for RCA's Industrial and Automation Systems Division in Plymouth, Michigan. His invention is described in two patents filed that year (US patents 3570622 and 3511329), with the second introducing digital memory, and was the first electronic device that controlled a car.
+Due to the 1973 oil crisis and rising fuel prices, the device became more popular in the U.S. "Cruise control can save gas by avoiding surges that expel fuel" while driving at steady speeds. In 1974, AMC, GM, and Chrysler priced the option at $60 to $70, while Ford charged $103.
+In the late 1980s, an integrated circuit for Wisner's design for electronic cruise control was finally commercially developed by Motorola as the MC14460 Automotive Speed Control Processor in CMOS. The advantage of electronic speed control over its mechanical predecessor was that it could be integrated with electronic accident avoidance and engine management systems.
+
+Operation
+The driver must manually bring the vehicle up to speed and use a button to set the cruise control to the current speed, except in the case of adaptive cruise control.
+The cruise control takes its speed signal from a rotating driveshaft, speedometer cable, wheel speed sensor from the engine's RPM, or internal speed pulses produced electronically by the vehicle. Most systems do not allow the use of the cruise control below a certain speed - typically around 25 or 30 mph (40 or 48 km/h). The vehicle will maintain the desired speed by pulling the throttle cable with a solenoid, a vacuum-driven servomechanism, or by using the electronic systems built into the vehicle (fully electronic) if it uses a 'drive-by-wire' system.
+All cruise control systems must have the capability to be turned off explicitly and automatically when the driver depresses the brake pedal and often also the clutch. Cruise control systems frequently include a memory feature to resume the set speed after braking and a coast feature to reduce the set speed without braking. When the cruise control is engaged, the throttle can still accelerate the car, but once the pedal is released, it will slow down the vehicle until it reaches the previously set speed.
+On the latest vehicles fitted with electronic throttle control, cruise control can be integrated into the vehicle's engine management system. Modern "adaptive" systems include the ability to automatically reduce speed when the distance to a car in front, or the speed limit, decreases. 
+The cruise control systems of some vehicles incorporate a "speed limiter" function, which will not allow the vehicle to accelerate beyond a preset maximum; this can usually be overridden by fully depressing the accelerator pedal. Most systems will prevent the vehicle from increasing engine speed to accelerate beyond the chosen speed. However, they will not apply the brakes in the event of over-speeding downhill, nor stop the car from going faster than the selected speed even with the engine just idling.
+Cruise control is less flexible on vehicles with a manual transmission because depressing the clutch pedal and shifting gears usually disengages the cruise control. The "resume" feature has to be used each time after selecting the new gear and releasing the clutch. Therefore, cruise control is most beneficial at motorway/highway speeds when top gear is used virtually all the time. The speed limiter function, however, does not have this problem.  On many newer vehicles with a manual transmission, cruise control will only momentarily disengage when the clutch is pressed, and resume after shifting gears and releasing it.
+
+Advantages and disadvantages
+Some advantages of cruise control include:
+
+It is helpful for long drives along highways and sparsely populated roads by reducing driver fatigue and improving comfort by allowing positioning changes more safely.
+Some drivers use it to avoid speeding, particularly those who may subconsciously increase speed during a long highway journey.
+Increased fuel efficiency
+However, when misused, cruise control can lead to accidents due to several factors, such as:
+
+hazardous weather conditions. The U.S. state of Michigan warns against using cruise control if the road has ice or snow, while the Canadian province of British Columbia recommends not using cruise control on wet roads. In some older cars, if they skid with cruise control enabled, the vehicle will keep accelerating, increasing the chance of losing control. If the vehicle is sliding on ice, the driver should not brake or accelerate, but just let the vehicle slow down on its own.
+speeding around curves that require slowing down
+rough or loose terrain that could negatively affect the cruise control controls
+Encourages drivers to pay less attention to driving, increasing the risk of an accident
+Risk of sudden unintended acceleration and possible accidents. Drivers with feet at rest lose spatial perception and may hit the accelerator instead of the brake pedal in a sudden emergency.
+
+Adaptive cruise control
+Some modern vehicles have Adaptive Cruise Control systems, a general term meaning improved cruise control. Dynamic set speed systems use the GPS position of speed limit signs from a database. Many systems also incorporate cameras, lasers, and millimeter-wave radar equipment to determine how close a vehicle is to others or other objects on the roadway.
+The technologies can be set to maintain a distance from vehicles in front of the car; the system will automatically slow down based on the vehicles in front or continue to keep the set speed. Some systems cannot detect completely stationary cars or pedestrians, so the driver must always pay attention. Automatic braking systems use either a single or a combination of sensors (radar, lidar, and camera) to allow the vehicle to keep pace with the car it is following, slow when closing in on the vehicle in front, and accelerate to the preset speed when traffic allows. Some systems also feature forward collision warning systems, which warn the driver if a vehicle in front—given the speed of both vehicles—gets too close within the preset headway or braking distance. 
+A vehicle with adaptive cruise control is considered an Level 1 autonomous car, as defined by SAE International.
+
+See also
+Proportional–integral–derivative controller (PID), a fundamental control concept used in car cruise control
+Lane centering
+
+References
+External links
+
+Ulsoy, A. Galip; Peng, Huei; Çakmakci, Melih (2012). Automotive Control Systems. Cambridge University Press. pp. 213–224. ISBN 9781107010116.
+Cruise control block diagram
+Overview of intelligent vehicle safety systems
+Intelligent Transport Systems
+Preventive safety applications and technologies
+Cruise Control as Auto-Pilot at Snopes.com (was: "Cruise [Un]Control: Driver sets the cruise control on his vehicle, then slips into the backseat for a nap")

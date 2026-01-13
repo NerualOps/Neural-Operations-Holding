@@ -1,0 +1,70 @@
+Title: Best alternative to a negotiated agreement
+
+In negotiation theory, the best alternative to a negotiated agreement (BATNA) is the most favorable and independent course of action a party can take if negotiations fail, aligning with their interests in the absence of a deal or an agreement. BATNA serves as an evaluative standard and a driving force behind effective negotiation strategy. A party should also consider the impact of the worst alternative to a negotiated agreement (WATNA), and care must be taken to ensure that deals are accurately valued. This includes consideration of factors such as the value of ongoing relationships, the time value of money, and the likelihood that the other party will fulfill their commitments.
+A BATNA can take many forms, such as seeking mediation, transitioning to a different negotiating partner, initiating a strike, or forming strategic alliances. These alternatives are often challenging to evaluate without strong relational insight, as they are frequently based on personal or group interests, stability concerns, or other qualitative factors rather than easily measurable or quantifiable criteria. In many cases, understanding the other party’s BATNA is essential to assessing their negotiation power.
+However, parties may act in bad faith to test or distort assumptions and manipulate perceptions of the other party’s true interests. For example, if it is believed that an early delivery date is highly important to the negotiating partner, one might deliberately propose a later delivery date. If the late date is firmly rejected, it would suggest that the desired delivery date is likely to be of significant importance.
+
+History
+BATNA was developed by negotiation researchers Roger Fisher and William Ury of the Harvard Program on Negotiation (PON), in their series of books on principled negotiation that started with Getting to YES (1981), equivalent to the game theory concept of a disagreement point from bargaining problems pioneered by Nobel Laureate John Forbes Nash decades earlier. A Nash Equilibrium is reached among a group of players when no player can benefit from changing strategies if every other player sticks to their current strategy. For example, Amy and Phil are in Nash Equilibrium if Amy is making the best decision she can while taking into account Phil's decision, and if Phil is making the best decision he can while taking into account Amy's decision. Likewise, a group of players are in Nash Equilibrium if each one is making the best decision that he or she can while taking into account the decisions of others.
+
+Overview
+The BATNA is often seen by negotiators not as a safety net, but rather as a point of leverage in negotiations. Although a negotiator's alternative options should, in theory, be straightforward to evaluate, the effort to understand which alternative represents a party's BATNA is often not invested. Options need to be actual and actionable to be of value, however, without the investment of time, options will frequently be included that fail on one of these criteria. Most managers overestimate their BATNA whilst simultaneously investing too little time into researching their real options. This can result in poor or faulty decision making and negotiation outcomes. Negotiators also need to be aware of the other negotiator's BATNA and to identify how it compares to what they are offering.
+Some people may adopt aggressive, coercive, threatening and/or deceptive techniques. This is known as a hard negotiation style; a theoretical example of this is adversarial approach style negotiation. Others may employ a soft style, which is friendly, trusting, compromising, and conflict avoiding. According to Fisher and Ury, when hard negotiators meet soft negotiators, the hard negotiators usually win their position, but at the cost of potentially damaging the long-term relationship between the parties.
+Attractive alternatives are needed to develop a strong BATNA. In the book Getting to YES: Negotiating Agreement Without Giving In, the authors give three suggestions for how to accomplish this:
+
+Creating a list of actions one might take if no agreement is reached
+Converting some of the more promising ideas and transforming them into tangible and partial alternatives
+Selecting the alternative that sounds best
+In negotiations involving different cultures, all parties need to account for cultural cognitive behaviours and should not let judgments and biases affect the negotiation. The individual should be separate from the objective.
+The purpose here, as Philip Gulliver mentions, is for negotiation parties to be aware.
+Preparation at all levels, including prejudice-free thoughts, emotion-free behaviour, bias-free behaviour are helpful according to Morris and Gelfand.
+
+BATNA-based tactics and order of negotiations
+Because of the importance of the BATNA for negotiation success, several tactics focus on weakening the opponent's BATNA. This may be achieved e.g. by striving for exclusive negotiations, delaying or accelerating the ongoing negotiations, or limiting the negotiation partner to technical systems. If a negotiator is faced with such tactics it is his/her task to examine the possible consequences for their own BATNA and to prevent or counteract any deterioration of the own party's BATNA.
+The BATNA can also influence the order in which negotiations are taken up with potential contracting partners. A sequential approach is favourable. In a sequential approach, one starts negotiations with the less favoured partners and continues negotiations with the preferred option afterward. This way, there is the BATNA of a contract with the less favoured partner.
+
+Difference between BATNA and reservation value
+A BATNA represents one party's best option if negotiations fail, whereas a reservation price represents the worst deal they are willing to accept. When purchasing a bike, for example, the BATNA may represent the option of shopping at another dealer. Depending on the cost of finding other dealers, the reservation value would represent the highest price you are willing to pay.
+
+Process to develop the best alternative to a negotiated agreement
+First, all possible alternatives to the current negotiation are listed out, i.e. the options if the negotiations fail
+The worth of each alternative is determined
+The party selects the option that provides the most value to it. This is its best alternative to a negotiated agreement
+Calculations are performed for the lowest-valued deal acceptable after determining the BATNA
+
+Types of BATNA
+There are three types of BATNA:
+
+Walk-away BATNA
+Interactive BATNA
+Third-party BATNA
+
+Walk-away BATNA
+If the seller does not want to drop the asking price to less than an alternative option, the buyer will walk away and buy the other alternative. Professional negotiators and researchers alike regard BATNA, or “walk away” outcome as the primary source of relative power for a negotiator. However, relying on alternatives can be risky. A party's relative power in a negotiation is their ability to use resources to influence the circumstances of another, and the role of a BATNA in this regard can range from significant to non-existent.
+
+Interactive BATNA
+Interactive BATNAs are sought when one or more parties in a negotiation are not cooperating with the other parties. There are many types of interactive BATNAs, but the three primary ones are:
+
+Economic: For example, a newspaper forgetting to replace an inappropriate ad in one issue resulting in 50% of their subscribers unsubscribing and them losing half of their ad revenue. In this case, the unsubscribers would be the non-cooperative party.
+Political: For example, a political party filibustering a piece of legislation another party is trying to pass. In this case, the party filibustering would be the non-cooperative one.
+Social: For example, a group of protestors not succumbing to the police's attempts at displacement. In this case, the protestors would be the non-cooperative party.
+
+Third-party BATNA
+Third-party BATNAs are sought when two parties in a negotiation are unable to come to a common conclusion on their own or the dispute between them is endless. So, a third party is required in the form of either:
+
+Mediation: A neutral third party is brought in to help the disputing parties resolve the dispute on their own. Mediation does not resolve the dispute, they just facilitate it.
+Arbitration: A neutral third party is brought in to arbitrate or resolve the negotiation through a BATNA. Unlike mediation, they resolve the issue.
+Litigation: When the negotiation takes a turn for the worse, an authoritative third party intervenes in the form of law and the issue is resolved in court with both parties having to comply with the court's decision.
+
+In popular use
+With tongue-in-cheek, American speculative fiction writer Neal Stephenson places the invention of BATNA in 17th century by putting the following words in his novel The Confusion: "“I learnt it from English traders in Surat,” said the befuddled Surendranath, “It stands for Best Alternative To a Negotiated Agreement.”" Another character of the novel responds: “To have a BATNA is good and wise, as Surendranath has pointed out. But the Negotiated Agreement is much better than this Best Alternative.”
+
+See also
+Conflict resolution
+Getting to Yes
+Opportunity cost
+Zone of possible agreement
+Vicente Blanco Gaspar
+
+
+== References ==

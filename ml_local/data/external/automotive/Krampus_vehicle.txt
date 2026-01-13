@@ -1,0 +1,11 @@
+Title: Krampus (vehicle)
+
+Krampus is a Lithuanian-made, hybrid, off-road prototype vehicle. It was developed by the company Ostara. The vehicle is powered by two electric motors. The battery consists of 540 lithium-phosphate cells, producing 576V. Battery is recharged either by an on-board charger (22 kW) or a diesel generator, mounted in front of vehicle.
+Development of Krampus started with an idea to provide quiet transportation for military operations. The car is able to silently approach mission area (while also emitting minimum thermal signature) and flee it, while using only electric drive. When operating regularly, a diesel generator can be used to power the car and recharge the battery. Electric range varies from 50 to 200 km (depending on surface and speed). Fuel tank provides extra 600 km.
+Krampus interior is sized accordingly to fit military personnel with combat gear. It also has racing-type seats with seatbelts. Cargo can be put or strapped in rear cargo area. Car is fitted with infrared lights, tow hooks.
+Car was developed and manufactured in Lithuania. During 2022, wheel-mounted reduction gear was added, giving extra 1.9 ratio and higher clearance (36 cm). Krampus is a test platform for remote control system, capable of controlling vehicle up to 1 km range at non-line-of-sight conditions.
+As of 2023, new production version of Krampus (Mk2) is under development. It will have higher performance in terms of both power and electric range - 56 kWh battery and 160 kW drivetrain on each axle.
+
+References
+External links
+Official website

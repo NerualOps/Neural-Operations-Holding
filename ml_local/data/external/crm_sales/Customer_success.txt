@@ -1,0 +1,100 @@
+Title: Customer success
+
+Customer success is a business methodology and organizational function focused on ensuring customers achieve their desired outcomes while using a company's products or services. The discipline emerged in the early 2000s alongside the growth of software as a service (SaaS) and subscription-based business models, where ongoing customer satisfaction directly impacts recurring revenue.
+Unlike traditional customer service, which typically responds to customer issues reactively, customer success takes a proactive approach to ensure customers realize value from their investments. The methodology encompasses strategic planning, relationship management, and data-driven interventions designed to reduce customer churn, increase customer lifetime value, and drive expansion revenue.
+Customer success has evolved from a support function to a strategic business discipline, with dedicated teams, specialized technology platforms, and established career paths. Research indicates that companies with mature customer success programs achieve 12% higher revenue growth and 19% higher gross margins compared to those without formal customer success initiatives.
+
+Definition and core principles
+Customer success is defined as the business methodology that ensures customers achieve their desired outcomes while using a company's products or services. The approach is built on several core principles:
+Proactive engagement: Customer success teams identify potential issues and opportunities before they impact the customer relationship. This contrasts with reactive customer service models that address problems after they occur.
+Outcome-focused approach: Rather than focusing solely on product usage, customer success emphasizes helping customers achieve their business objectives. This alignment creates stronger customer relationships and increases the likelihood of contract renewals and expansions.
+Data-driven decision making: Customer success relies heavily on customer data, usage analytics, and health scoring to identify at-risk accounts and expansion opportunities. This quantitative approach enables scalable customer management across large customer bases.
+
+History and evolution
+Origins in software industry
+The customer success discipline emerged in the early 2000s as software as a service (SaaS) companies recognized fundamental differences between traditional software sales and subscription-based models. In traditional enterprise software, customers paid large upfront license fees regardless of actual usage or satisfaction. The SaaS model's recurring revenue structure created a direct correlation between customer satisfaction and business success.
+Early pioneers including Salesforce, Workday, and ServiceNow developed customer success functions to address the unique challenges of subscription businesses. These companies recognized that acquiring customers was only the first step; ensuring ongoing value realization became critical for sustainable growth.
+
+Expansion beyond SaaS
+By 2010, customer success methodologies began expanding beyond technology companies. Traditional industries including financial services, healthcare, and manufacturing adopted customer success principles to improve customer retention and drive growth in competitive markets.
+The 2020s saw further evolution with the integration of artificial intelligence and machine learning technologies, enabling more sophisticated customer health monitoring and predictive analytics. Companies began using these tools to identify expansion opportunities and prevent churn at scale.
+
+Customer success frameworks
+Engagement models
+Customer success organizations typically employ three primary engagement models based on customer value and complexity:
+High-touch model: Assigned customer success managers provide personalized, one-to-one support for high-value enterprise clients. This model involves regular strategic business reviews, executive relationship management, and custom success planning.
+Low-touch model: Automated and digital-first approaches serve smaller customers through self-service resources, automated communications, and scalable programs. This model relies heavily on product-led growth strategies and in-app guidance.
+Hybrid model: Combines elements of both high-touch and low-touch approaches, typically segmenting customers by value, complexity, or strategic importance. This model optimizes resource allocation while maintaining appropriate service levels across customer segments.
+
+Customer journey mapping
+Successful customer success programs map distinct phases of the customer lifecycle:
+Onboarding: Initial product setup, training, and early value realization. Research shows that customers who achieve early success are 5x more likely to become long-term advocates.
+Adoption: Expanding product usage and feature adoption across the customer organization. This phase focuses on driving deeper engagement and demonstrating continued value.
+Expansion: Identifying opportunities for account growth through additional products, services, or user licenses. Customer success teams typically own or significantly influence expansion revenue targets.
+Advocacy: Converting satisfied customers into references, case studies, and referral sources. Customer advocates provide social proof and reduce customer acquisition costs.
+
+Roles and organizational structure
+Customer success manager
+The customer success manager (CSM) serves as the primary customer advocate within the vendor organization. CSMs are responsible for understanding customer business objectives, monitoring product usage and satisfaction, and coordinating internal resources to ensure customer success.
+Key responsibilities include:
+
+Developing customer success plans aligned with business objectives
+Conducting regular business reviews and strategic planning sessions
+Identifying and mitigating risks that could lead to customer churn
+Recognizing expansion opportunities and coordinating with sales teams
+Serving as the voice of the customer within the organization
+
+Customer success leadership
+Customer success leadership roles have evolved to include strategic positions such as Chief Customer Officer (CCO), Vice President of Customer Success, and Director of Customer Experience. These roles are responsible for developing customer success strategy, managing organizational resources, and demonstrating measurable business impact.
+Customer success leaders typically report to executive leadership and are accountable for metrics including customer retention rates, expansion revenue, and customer lifetime value. The role requires cross-functional collaboration with sales, marketing, product development, and support teams.
+
+Metrics and measurement
+Key performance indicators
+Customer success organizations rely on several key metrics to measure effectiveness and business impact:
+Customer health score: Composite metric combining product usage, support ticket volume, payment history, and engagement levels. Health scores enable proactive intervention for at-risk accounts.
+Net promoter score (NPS): Measures customer loyalty and likelihood to recommend the product or service. NPS serves as a leading indicator of customer satisfaction and potential churn.
+Customer satisfaction score (CSAT): Measures short-term customer satisfaction with specific interactions or experiences. CSAT provides immediate feedback on customer success program effectiveness.
+Gross revenue retention (GRR): Measures the percentage of recurring revenue retained from existing customers, excluding expansion revenue. GRR indicates the effectiveness of churn prevention efforts.
+Net revenue retention (NRR): Measures the percentage of recurring revenue retained from existing customers, including expansion revenue. NRR above 100% indicates net customer growth.
+Time to value (TTV): is a key customer success metric, measuring the interval from onboarding to the first realization of value by the customer. Faster TTV correlates with improved client satisfaction and retention
+
+Technology and tools
+Customer success platforms
+Specialized customer success platforms have emerged to support scalable customer management. These platforms integrate customer data from multiple sources to provide comprehensive customer views and enable automated interventions.
+Leading platforms include capabilities for:
+
+Customer health monitoring and predictive analytics
+Automated customer communication and outreach
+Success plan development and tracking
+Integration with customer relationship management and support systems
+Reporting and analytics for customer success metrics
+
+Data integration and analytics
+Modern customer success relies heavily on data integration across customer touchpoints. Organizations combine product usage data, support interactions, financial information, and external data sources to create comprehensive customer profiles.
+Machine learning and artificial intelligence technologies enable predictive customer success, identifying at-risk accounts and expansion opportunities before they become apparent through traditional metrics.
+
+Industry impact
+Business outcomes
+Companies with mature customer success programs demonstrate superior financial performance across multiple metrics. Research indicates that organizations with dedicated customer success teams achieve:
+
+12% higher revenue growth rates
+19% higher gross margins
+15% higher customer retention rates
+25% higher customer lifetime value
+
+Market evolution
+The customer success industry has experienced significant growth, with the global customer success software market projected to reach $1.2 billion by 2025. This growth reflects increasing recognition of customer success as a strategic business discipline rather than a support function.
+Professional organizations such as the Customer Success Association and Customer Success Network have emerged to support practitioners with training, certification, and best practice sharing. These organizations have established customer success as a recognized professional discipline with defined career paths and competency frameworks.
+
+See also
+Customer relationship management
+Customer service
+Software as a service
+Customer experience
+Churn rate
+Customer lifetime value
+
+References
+External links
+Customer Success Association
+Customer Success Network

@@ -1,0 +1,23 @@
+Title: Axle track
+
+In automobiles (and other wheeled vehicles which have two wheels on an axle), the axle track is the distance between the hub flanges on an axle. Wheel track, track width or simply track refers to the distance between the centerline of two wheels on the same axle. In the case of an axle with dual wheels, the centerline of the dual wheel assembly is used for the wheel track specification. Axle and wheel track are commonly measured in millimetres or inches.
+
+Common usage
+Despite their distinct definitions, axle track, (not to be frequently and incorrectly used interchangeably as wheel track and track width), normally refers to the distance between the centerline of the wheels. For a vehicle with two axles, the term can be expressed as front track and rear track. For a vehicle with more than two axles, the axles are normally numbered for reference.
+
+Offset wheel track
+In vehicles with offset wheels, wheel track is distinct from axle track because the centreline of the wheel is not flush with the hub flange. If wheels of a different offset are fitted, the wheel track changes but the axle track does not.
+
+Railroad context
+In the railroad industry, the term "axle track" is not used; the same concept is called "flange gauge" or "wheel gauge". It is measured on a wheelset of a railroad car or tram from one wheel flange reference line to the reference line of the other wheel. It must be compatible with the "track gauge" – the distance between the facing edges of the running rails – of the network it runs on. The maximum and minimum limits to the differences between the two gauges are usually 111⁄32" and 3⁄8" (9–35 mm).
+
+Model railroads
+Model railway elements such as track, rolling stock and locomotives are categorised by their wheel or track gauge. An HO scale or OO gauge model locomotive, for example, has a wheel gauge of 16.5mm.
+
+See also
+Track gauge – determines the distance between the reference lines of the rails
+Wheelbase – the distance between the front and rear axles
+Wheelset
+
+
+== References ==

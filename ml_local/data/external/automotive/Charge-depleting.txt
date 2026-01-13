@@ -1,0 +1,15 @@
+Title: Charge-depleting
+
+Charge-depleting or EV mode refers to an operation mode of an electric vehicle's powertrain that is chiefly dependent on the energy storage from the on-board battery pack. Battery electric vehicles operate solely in charge-depleting mode, and most plug-in hybrids operate in this mode at startup and switch to charge-sustaining mode after the battery has reached its minimum state of charge (SOC) threshold, exhausting the vehicle's all-electric range (AER). Although there is no technically mandated minimum all-electric range, future state and/or federal legislation may address this for policy purposes.
+Another charge-depleting strategy is called blended mode, in which the engine supplements the battery during medium to heavy loads. Although this strategy does not include a purely all-electric mode, early NREL (National Renewable Energy Laboratory) simulations indicate that similar fuel savings as compared to conventional plug-in hybrid battery discharge and charge strategies. One advantage of a blended mode is that it may afford the vehicle designer the opportunity to use a smaller and less costly battery pack and traction motor.
+
+References
+External links
+Battery Lifetime Analysis and Simulation Tools Suite, National Renewable Energy Laboratory
+Enova Hybrid Drive Installed in First Production Hybrid School Buses
+AQMD Plug-in Hybrid Vehicle Technical Forum: Li-Ion Technically Ready, Manufacturing a Big Barrier
+Enova Offering its Hybrid Drive Systems for OEM or Retrofit Applications with Plug-In Option
+Plug-ins Progress
+Enova Systems Confirms Recent Awards Will Utilize Its Unique
+Mechanical Configurations of Hybrid Electric Vehicles Archived 2007-06-25 at the Wayback Machine
+Charge Sustaining and Charge Non-Sustaining Hybrids

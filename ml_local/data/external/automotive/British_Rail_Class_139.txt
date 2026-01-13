@@ -1,0 +1,36 @@
+Title: British Rail Class 139
+
+British Rail Class 139 is the TOPS classification for PPM60 model lightweight railcars built by Parry People Movers, for use on the British rail network. The class were originally built in 2008 for operation on the Stourbridge Town branch line following an extensive trial with a prototype registered as a Class 999 unit.
+The first newly constructed Class 139 was shown on 28 June 2008 at the Tyseley Locomotive Works Open Day. The full fleet of two units entered public service on the branch line in June 2009.
+
+Technology
+The Class 139 units are typical of the Parry People Movers concept, in that they utilise flywheel energy storage to recapture and supply the motive force for moving the vehicle. The flywheel captures the vehicle's kinetic energy when the brakes are used, and re-uses the energy for acceleration. This eliminates the need for a large diesel engine. The small onboard engine (fuelled by LPG) is used to initially bring the flywheel up to speed, to add speed to the flywheel after the vehicle is started in motion, and to provide power for the onboard systems.
+
+Usage
+The concept of using the lightweight railcar dates from 2006, when a year-long pilot scheme began on the Stourbridge Town branch line on Sundays, using a PPM50 unit constructed in 2002 and numbered as 999 900 under TOPS. The success of this trial led to the provision of regular services using the technology in the franchise plans for the new West Midlands franchise. Following the award of the franchise to London Midland, it placed an order for two PPM60 units with Parry People Movers, through Porterbrook leasing, with the service itself operated by Pre Metro Operations.
+These two units are 139 001 and 139 002, composed of vehicle numbers 39001 and 39002 in the British carriage and wagon numbering and classification system. The vehicles are mechanically similar to 999 900, but are approximately 0.9 m (2 ft 11 in) longer. They were intended to start operating on the Stourbridge Town branch in 2008. In January 2009 it was confirmed that 139001 was still undergoing testing at Chasewater Railway and 139002 was still not completed.
+Despite the difficulties in the commissioning of the two Class 139 units, London Midland consistently outlined its faith that they would be ready to enter service. In March 2009, it was announced that the first unit had received its passenger certification from Network Rail, allowing it to carry passengers. London Midland said it would begin a phased entry into service, starting with weekend operation in April, leading up to a full service by the timetable change in May 2009. Until then, London Midland temporarily returned a Class 153 to operating the branch service. 
+139 002 officially entered service on 29 March 2009 as part of the type's phased entry. This unit had previously worked in full service, including all-day on Monday 11 May 2009 and previously had worked all morning services during February/March 2009. In May 2009, the first unit, 139 001, was finally delivered to Stourbridge, with 999 900 removed at the same time. Test unit 999 900 had been on the branch line between 2005–2009. At the point of introduction, they displaced a single Class 153 DMU that was previously allocated to the branch line. By December 2009, the 200,000th passenger had been carried by the railcars.
+In 2010, a trial service was planned between the Mid-Hants Railway, a heritage line in Hampshire, and Go-Op, a planned open access operator, which would see the former 999 900 restored to its original designation as Parry Car No. 12, operate peak time trains between Medstead and Four Marks and Alton, intended to connect with South West Trains services to London in the morning and from London in the evening. Problems with the vehicle during testing meant that this project was postponed. As a consequence, the vehicle, since purchased by Lightweight Community Transport, underwent a major rebuild to bring it up to Class 139 standard, and was renumbered as 139 000, then later 139 012.
+
+Other interest and proposals
+One pre-qualified franchise bidder in the 2012 round included the procurement of Class 139s in its franchise bid, however, it was not successful.
+Parry People Movers used London Midland's operation of the Class 139 to promote the concept for other lines that are short and essentially separate from the main railway network as a means of reintroducing rail travel to areas that have seen it curtailed. PPM proposed a variation of the PPM60, to be known as PPM220, to bid for the contract to build a small fleet of experimental tram-trains for use on the Penistone Line, and for the new generation DMUs intended as part of the government's rolling stock plan. This would have been an articulated unit, with a pair of PPM60 variants at either end, capable of accommodating up to 220 passengers and travel at up to 60 miles per hour (100 km/h) on railways or 50 miles per hour (80 km/h) on tramways. The Penistone trial however was cancelled before a bidder was selected. With Lightweight Community Transport, Parry People Movers developed concepts for a four–axle bogie vehicle with a more powerful diesel engine and greater passenger capacity, intending to market it as the flagship product for use on branch lines. These proposals were unsuccessful in finding buyers, and PPM ceased operating following the death of its founder and director in 2023.
+
+Fleet details
+Named unit
+Two units have received a name:
+139002: George The Station Cat
+139001: The Stourbridge Lion
+
+References
+Further reading
+Marsden, Colin J. (2011). Traction Recognition (2nd ed.). Ian Allan Publishing. pp. 100–101. ISBN 978-0-7110-3494-5. OCLC 751525080. OL 26823660M. Wikidata Q112224327.
+"Parry People Mover for Stourbridge!". RAIL. No. 346. EMAP Apex Publications. 16–29 December 1998. p. 12. ISSN 0953-4563. OCLC 49953699.
+
+External links
+
+Parry People Movers
+Stourbridge Line User Group
+London Midland
+Ford Power Products DSG423 engine details

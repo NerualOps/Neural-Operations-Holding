@@ -1,0 +1,76 @@
+Title: All-electric range
+
+All-electric range (AER) is the maximum driving range of an electric vehicle using only power from its on-board battery pack to traverse a given driving cycle. In the case of a Battery electric vehicle (BEV), it means the maximum range per recharge, typically between 240 and 640 km (150 to 400 mi). For a plug-in hybrid electric vehicle (PHEV), it means the maximum range in charge-depleting mode, typically between 30 and 65 km (20 to 40 mi). PHEVs can travel considerably further in charge-sustaining mode which utilizes both fuel combustion and the on-board battery pack like a conventional hybrid electric vehicle (HEV).
+Calculating AER is made more complicated in PHEVs because of variations in drivetrain design.  A vehicle like the Fisker Karma that uses a serial hybrid design has a clear AER.  Similarly a vehicle like the Chevrolet Volt which has a parallel design disengages the internal combustion engine (ICE) from the drivetrain while in electric mode and has a clear AER. However blend-mode PHEVs which use the ICE and electric motor in series do not have a clear AER because they use both gasoline and electricity at the same time. This motor design uses only the battery to power the drivetrain and uses the internal combustion engine to generate electricity for the battery. Equivalent AER is the AER of vehicles following this architecture.  One example of this calculation can be found in Argonne National Labs report titled "TEST PROCEDURES AND BENCHMARKING Blended-Type and EV-Capable Plug-In Hybrid Electric Vehicles."
+This procedure uses the formula below to calculate an equivalent AER for vehicles that operate in blended mode:
+
+  
+    
+      
+        
+          
+            AER
+          
+          
+            Equivalent
+          
+        
+        =
+        
+          (
+          
+            1
+            −
+            
+              
+                
+                  G
+                  P
+                  
+                    M
+                    
+                      C
+                      D
+                    
+                  
+                
+                
+                  G
+                  P
+                  
+                    M
+                    
+                      C
+                      S
+                    
+                  
+                
+              
+            
+          
+          )
+        
+        
+          d
+          
+            C
+            D
+          
+        
+      
+    
+    {\displaystyle {\text{AER}}_{\text{Equivalent}}=\left(1-{\frac {GPM_{CD}}{GPM_{CS}}}\right)d^{CD}}
+  
+
+Where GPMCD designates efficiency in charge-depleting mode, and GPMCS charge-sustaining mode as designated and dCD is distance in charge depleting mode.
+A plug-in hybrid's all-electric range is designated by PHEV-(miles) or PHEV-(kilometers) km representing the distance the vehicle can travel on battery power alone. For example, a PHEV-20 can travel 20 miles without using its internal combustion engine, or about 32 kilometers, so it may also be designated as PHEV32km.
+The all-electric range for BEVs has steadily increased in the last decade. In model year 2010 BEVs, the average AER is 127 km (78.9 mi), while in model year 2021 BEVs the average AER is 349 km (216.9 mi). In model year 2021 BEVs, the median driving range was 60% of the median range of internal combustion engine (ICE) cars, a gap which will continue to narrow as more long-range BEVs are produced.
+The All-electric range has also increased for PHEVs over the past decade, increasing from an average PHEV range of 33 km (20.5 mi) in model year 2012 to 62 km (38.5 mi) in model year 2021.
+
+See also
+Worldwide Harmonised Light Vehicles Test Procedure (WLTP)
+United States Environmental Protection Agency (EPA)
+New European Driving Cycle (NEDC)
+
+
+== References ==

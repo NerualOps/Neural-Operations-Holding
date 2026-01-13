@@ -1,0 +1,18 @@
+Title: Back-up beeper
+
+A back-up beeper, also known as back-up alarm or vehicle motion alarm, is a device intended to warn passers-by of a vehicle moving in reverse. Some models produce pure tone beeps at about 1000 Hz and 97-112 decibels. 
+Matsusaburo Yamaguchi of Yamaguchi Electric Company, Japan, invented the back-up beeper which was first manufactured as model BA1 in 1963.
+In the U.S., the back-up beeper was first manufactured by Ed Peterson who sold the system to Boise engineering firm Morrison Knudsen in 1967. As of 1999, the company marketed the Bac-A-Larm and sold about one million of the backup alarms annually, more than other suppliers. 
+ISO 6165 describes "audible travel alarms", and ISO 9533 describes how to measure the performance of the alarms.
+
+Criticism
+Back-up beepers have been criticized by the public and in scientific literature. Beepers are at or near the top of lists of complaints to government road builders about road construction noise. Beepers cause alarm fatigue by constantly sounding when a risk is not necessarily present to those who can hear it: this cry wolf effect can result in desensitization as people tend to disregard ever-present alarm sounds, diminishing their effectiveness and potentially increasing risk. The typical 1000 Hz pure tone beeps at 97-112 decibels exceed the long-term hearing loss threshold of 70 decibels. The loud beepers can be heard 200 feet or more away, much farther than necessary to alert an individual in danger.
+Brains do not adapt to the repetitive and persistent sound of back-up beepers, but have evolved to process natural sounds that dissipate. The sound is perceived as irritating or painful, which breaks concentration.
+In some countries, back-up warning systems using blasts of white noise have become more common. White noise is more audible than monotone beeping over background noise, and one can more easily ascertain the distance and direction of the sound.
+
+Regulations in the United States
+Back-up beepers or an observer are required by OSHA for earth-moving vehicles with an obstructed view to the rear and no one on the ground to help guide the driver. OSHA regulation 29 CFR Part 1926.601(b)(4) requires "a reverse signal alarm audible above surrounding noise level", but only when the motor vehicle has "an obstructed view to the rear". The determination of the noise level is left to the employer.
+NHTSA requires electric vehicle warning sounds to alert pedestrians in electric and hybrid vehicles manufactured after 2018, for both forward and reverse travel at low speeds.
+
+
+== References ==

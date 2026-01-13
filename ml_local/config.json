@@ -1,0 +1,17 @@
+{
+  "vocab_size": 50257,
+  "n_layers": 12,
+  "n_heads": 12,
+  "d_model": 768,
+  "d_ff": 3072,
+  "max_seq_len": 128,
+  "dropout": 0.1,
+  "use_rope": true,
+  "use_alibi": false,
+  "attention_type": "standard",
+  "activation": "gelu",
+  "learning_rate": 5e-7,
+  "weight_decay": 0.01,
+  "warmup_steps": 1000,
+  "max_grad_norm": 1.0
+}

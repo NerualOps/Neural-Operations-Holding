@@ -1,0 +1,18 @@
+Title: Circle of forces
+
+The circle of forces, traction circle, friction circle, or friction ellipse is a useful way to think about the dynamic interaction between a vehicle's tire and the road surface. The diagram below shows the tire from above, so that the road surface lies in the xy-plane. The vehicle to which the tire is attached is moving in the positive y direction.
+In this example, the vehicle would be cornering to the right (i.e. the positive x direction points to the center of the corner). Note that the plane of rotation of the tire is at an angle to the actual direction that the tire is moving (the positive y direction). Put differently, rather than being allowed to  simply "roll" in the direction that it is "pointing" (in this case, rightwards from the positive y direction), the tire instead must "slip" in a different direction from that which it is pointing in order to maintain its "forward" motion in the positive y direction. This difference between the direction the tire "points" (its plane of rotation) and the tire's actual direction of travel is the slip angle.
+A tire can generate horizontal force where it meets the road surface by the mechanism of slip. That force is represented in the diagram by the vector F. Note that in this example, F is perpendicular to the plane of the tire. That is because the tire is rolling freely, with no torque applied to it by the vehicle's brakes or drive train. However, that is not always the case.
+The magnitude of F is limited by the dashed circle, but it can be any combination of the components Fx and Fy that does not extend beyond the dashed circle. (For a real-world tire, the circle is likely to be closer to an ellipse, with the y axis slightly longer than the x axis.)
+In the example, the tire is generating a component of force in the x direction (Fx) which, when transferred to the vehicle's chassis via the suspension system in combination with similar forces from the other tires, will cause the vehicle to turn to the right. Note that there is also a small component of force in the negative y direction (Fy). This represents drag that will, if not countered by some other force, cause the vehicle to decelerate. Drag of this kind is an unavoidable consequence of the mechanism of slip, by which the tire generates lateral force.
+The diameter of the circle of forces, and therefore the maximum horizontal force that the tire can generate, depends upon many factors, including the design of the tire and its condition (age and temperature, for example), the qualities of the road surface, and the vertical load on the tire.
+
+See also
+Cornering force
+Racetrack (game)
+Skidpad
+Slip (vehicle dynamics)
+Vehicle dynamics
+
+
+== References ==

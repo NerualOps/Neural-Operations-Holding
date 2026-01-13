@@ -1,0 +1,31 @@
+Title: Automotive trim level
+
+Trim levels are used by manufacturers to identify a vehicle's level of equipment or special features. The equipment and features fitted to a particular vehicle also depend on any options packages or individual options that the car was ordered with.
+
+Usage
+For a given car model, the trim level denotes which equipment and features are included as standard. A car buyer may add to this standard equipment with trim packages or individual options. The trim level with the least equipment/features is referred to as the "base model," and the trim level with the most equipment/features is referred to as "highest specification" or colloquially as "fully loaded." Differences between trim levels typically consist of interior equipment (e.g., leather seats and reversing cameras) and cosmetic changes; however, a trim level can sometimes include mechanical changes such as different engines, suspension, or all-wheel-drive systems.
+Some car brands use a different car model for what could be instead considered a trim level; therefore, the distinction between a model and trim level can vary between brands. For example, Volkswagen could choose to market the Golf GTi either as a standalone model, or as a trim level within the Golf model.
+Base level trim is sometimes nicknamed 'poverty spec', as it omits more expensive options found on other trim levels.
+Manufacturers sometimes offer "delete options," with which several standard items of equipment from a certain trim level may be deleted, typically for free or with a credit. Sometimes, the delete option costs extra: for example, in the 1980s, German luxury car buyers began to pay manufacturers extra not to have the badges indicating the type of engine to be installed. Debadging went on to gain popularity across the market, both as a form of reverse snobbery while also allowing buyers to obscure lower-spec models or trim.
+
+Naming systems
+Trim levels are often designated by a pair of letters; for example, DX, LX, LS, EX, GL, SE, or GT. They can also be designated an alphanumeric code (e.g., Z28, XR5, GT3), or using a word (e.g., Executive, Ambition or Deluxe). Many of the letter combinations have their origins in named trim levels, with DX and DL meaning "Deluxe," GL "Grand Luxe," SE "Special Edition," GT "Gran Turismo," and so on. 
+In North America, long-running designations for high-performance trim levels include Chevrolet's "SS" (first introduced on the 1961 Impala) and Ford's "GT" (first used on the 1965 Mustang). General Motors also uses alphanumeric coding to denote handling packages installed on performance vehicles, such as "Z28" on the Camaro, the Buick GS, or the Oldsmobile 442, and currently uses the designation "Z71" on the Suburban and Tahoe (for Silverado/Sierra trucks, it is a package, though it was a separate trim from 2004–2005 and 2014–2018).
+Some manufacturers have consistently used the same word for the highest trim level on several models. For example, Nissan used the word "Brougham" as the highest trim level on both the Cedric and Gloria. The "Brougham" designation as a trim level originated in the North American (U.S.) market; it was originally a body style.
+
+Options packages
+Manufacturers sometimes sell bundles of options as an options package, usually at a discounted price compared with buying each option individually.
+Common options packages currently include:
+
+Trim/appearance package: May include special paint colors, upgraded interior trim pieces (often made from aluminum, chrome or timber), and exterior decals. In past decades, appearance packages have also included two-tone paint, pin striping, bumpers painted the same color as the vehicle body, and vinyl roof covers.
+Sports/performance package: May include engine upgrades, handling upgrades (see below), a more aggressive front spoiler, a rear wing, upgraded brakes, and a limited slip differential. In an SUV or light truck, a sports package may consist of racks or tiedowns for transport of off-road recreational vehicles and other equipment.
+Towing package: May include a heavy-duty radiator, larger cooling fans, extra transmission cooling provisions, and upgraded axle ratio.
+Safety package: May include seat belt pre-tensioners, additional air bags, collision avoidance system (AEB), electronic stability control, and adaptive headlights.
+Handling package: May include stiffer springs, stiffer shock absorbers, stiffer anti-roll bars, larger/lightweight wheels, and higher grip tires.
+Navigation package: Satellite navigation, often with turn-by-turn instructions.
+
+See also
+Car model
+
+
+== References ==

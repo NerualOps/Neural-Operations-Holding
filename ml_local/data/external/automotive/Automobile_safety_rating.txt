@@ -1,0 +1,31 @@
+Title: Automobile safety rating
+
+An automobile safety rating is a grade given by a testing organisation to a motor vehicle indicating the safety of occupants in the event of a motor vehicle crash, like with the New Car Assessment Program.
+
+Australia
+In Australia, vehicle safety ratings are provided by ANCAP whose procedures are similar to Euro NCAP.
+ANCAP took in 1999 some part of Euro NCAP procedures.
+In 2018, ANCAP adopted the Euro NCAP protocols, with the scoring tweaked to the local conditions.
+
+Europe
+In Europe, vehicle safety ratings are provided by Euro NCAP.
+Euro NCAP provides motoring consumers with a realistic and independent assessment of the safety performance of some of the most popular cars sold in Europe.
+Established in 1997 and now backed by seven European governments, the European Commission and motoring and consumer organisations in every EU country, Euro NCAP has rapidly become a catalyst for encouraging significant safety improvements to new car design.
+
+Global
+In the world, there are nine New Car Assessment Programs.
+Eight out of the nine test programs makes their vehicle safety ratings with a count of stars included in the range (1 to 5 stars). 
+One test program, IIHS, makes a four level rating: Good, Acceptable, Marginal and Poor.
+The differences between those various test programs include the range of tests and test configurations, the final rating computation, and the specification of models available in different markets.
+
+Latin America
+Since 2010, Latin NCAP has been rating new cars for Latin America and the Caribbean with procedures similar to the ones used by Euro NCAP.
+Latin NCAP results cannot be compared to Euro NCAP results:
+Euro NCAP has 5 ratings: Frontal off-set, side, pole, whiplash and pedestrian tests, while Latin NCAP has 2: frontal off-set crash test and side impact test. Latin NCAP 2020-2022 is similar to Euro NCAP 2014.
+The frontal crash test of Latin NCAP is similar to the frontal crash test of Euro NCAP.
+
+United States
+In the U.S., an NCAP which provides vehicle safety ratings is run by the National Highway Traffic Safety Administration.
+
+
+== References ==
