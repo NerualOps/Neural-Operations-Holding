@@ -114,10 +114,10 @@ def load_model():
                 gc.collect()
                 torch.cuda.empty_cache()
         
-        # CRITICAL: Clear ALL Hugging Face cache to free disk space and prevent retry loops
+        # Clear Hugging Face cache in home directory (but keep MODEL_DIR cache for faster re-downloads)
         hub_dir = Path.home() / ".cache" / "huggingface"
         if hub_dir.exists():
-            print(f"[INFERENCE SERVICE] Clearing ALL Hugging Face cache to free disk space...", flush=True)
+            print(f"[INFERENCE SERVICE] Clearing Hugging Face cache in home directory to free disk space...", flush=True)
             import shutil
             try:
                 # Get size before deletion
@@ -126,14 +126,17 @@ def load_model():
                 print(f"[INFERENCE SERVICE] Cleared {cache_size:.2f} GB of Hugging Face cache", flush=True)
             except Exception as e:
                 print(f"[INFERENCE SERVICE] Warning: Could not clear cache: {e}", flush=True)
-                # Try to clear just the hub directory
-                hub_hub_dir = hub_dir / "hub"
-                if hub_hub_dir.exists():
-                    try:
-                        shutil.rmtree(hub_hub_dir)
-                        print(f"[INFERENCE SERVICE] Cleared hub directory", flush=True)
-                    except:
-                        pass
+        
+        # Also remove .cache folder from MODEL_DIR if it exists (created by snapshot_download)
+        model_cache_dir = Path(MODEL_DIR) / ".cache"
+        if model_cache_dir.exists():
+            print(f"[INFERENCE SERVICE] Removing .cache folder from model directory...", flush=True)
+            import shutil
+            try:
+                shutil.rmtree(model_cache_dir)
+                print(f"[INFERENCE SERVICE] Removed .cache folder from {MODEL_DIR}", flush=True)
+            except Exception as e:
+                print(f"[INFERENCE SERVICE] Warning: Could not remove model cache: {e}", flush=True)
         
         # Acquire lock to prevent concurrent downloads
         with FileLock(lock_path, timeout=60 * 60):  # 1 hour timeout
