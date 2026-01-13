@@ -114,39 +114,26 @@ def load_model():
                 gc.collect()
                 torch.cuda.empty_cache()
         
-        # CRITICAL: Clear Hugging Face cache completely to prevent retry loops
-        # The cache can have incomplete files that cause snapshot_download to retry endlessly
-        hub_dir = Path.home() / ".cache" / "huggingface" / "hub"
+        # CRITICAL: Clear ALL Hugging Face cache to free disk space and prevent retry loops
+        hub_dir = Path.home() / ".cache" / "huggingface"
         if hub_dir.exists():
-            # Find the specific model cache directory
-            model_cache_pattern = f"models--{MODEL_ID.replace('/', '--')}"
-            model_cache_dir = hub_dir / model_cache_pattern
-            if model_cache_dir.exists():
-                print(f"[INFERENCE SERVICE] Clearing Hugging Face cache for {MODEL_ID} to prevent retry loops...", flush=True)
-                import shutil
-                try:
-                    shutil.rmtree(model_cache_dir)
-                    print(f"[INFERENCE SERVICE] Cleared cache directory: {model_cache_dir}", flush=True)
-                except Exception as e:
-                    print(f"[INFERENCE SERVICE] Warning: Could not clear cache: {e}", flush=True)
-            
-            # Also clean any incomplete/lock files in the entire cache
-            incomplete_count = 0
-            for p in hub_dir.glob("**/*.incomplete"):
-                try:
-                    p.unlink()
-                    incomplete_count += 1
-                except:
-                    pass
-            lock_count = 0
-            for p in hub_dir.glob("**/*.lock"):
-                try:
-                    p.unlink()
-                    lock_count += 1
-                except:
-                    pass
-            if incomplete_count > 0 or lock_count > 0:
-                print(f"[INFERENCE SERVICE] Cleaned {incomplete_count} incomplete files and {lock_count} lock files", flush=True)
+            print(f"[INFERENCE SERVICE] Clearing ALL Hugging Face cache to free disk space...", flush=True)
+            import shutil
+            try:
+                # Get size before deletion
+                cache_size = sum(f.stat().st_size for f in hub_dir.rglob('*') if f.is_file()) / (1024**3)
+                shutil.rmtree(hub_dir)
+                print(f"[INFERENCE SERVICE] Cleared {cache_size:.2f} GB of Hugging Face cache", flush=True)
+            except Exception as e:
+                print(f"[INFERENCE SERVICE] Warning: Could not clear cache: {e}", flush=True)
+                # Try to clear just the hub directory
+                hub_hub_dir = hub_dir / "hub"
+                if hub_hub_dir.exists():
+                    try:
+                        shutil.rmtree(hub_hub_dir)
+                        print(f"[INFERENCE SERVICE] Cleared hub directory", flush=True)
+                    except:
+                        pass
         
         # Acquire lock to prevent concurrent downloads
         with FileLock(lock_path, timeout=60 * 60):  # 1 hour timeout
