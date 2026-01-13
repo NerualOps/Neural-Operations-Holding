@@ -12,10 +12,14 @@ On the pod configuration screen:
 2. **Expose HTTP Port**: `8005`
 3. **Environment Variables** (add these):
    ```
-   SUPABASE_URL=your_supabase_url
-   SUPABASE_SERVICE_KEY=your_supabase_service_key
    PORT=8005
    ```
+   **Optional** (only if you want to use Supabase for model storage):
+   ```
+   SUPABASE_URL=your_supabase_url
+   SUPABASE_SERVICE_KEY=your_supabase_service_key
+   ```
+   **Note**: If Supabase credentials are not set, the model will download directly from Hugging Face automatically (recommended - faster and simpler).
 4. **SSH Terminal Access**: ✅ Enable
 5. **Container Disk**: 80GB (you have this)
 6. Click **Deploy Pod**
@@ -78,7 +82,7 @@ python -m uvicorn inference_service:app --host 0.0.0.0 --port 8005
 ```
 
 Service will:
-- Download model from Supabase (first time, ~5-10 min)
+- Download model from Hugging Face automatically (first time, ~10-15 min for 40GB)
 - Load model into GPU memory
 - Start serving on port 8005
 
@@ -118,8 +122,10 @@ Done! Your model is now running on RunPod GPU.
 - Use `screen` (Step 7) to keep it running
 
 **Model not loading?**
-- Check Supabase credentials in environment variables
-- Check pod logs in RunPod console
+- Model downloads from Hugging Face automatically - first download takes 10-15 minutes
+- Check pod logs in RunPod console for download progress
+- Ensure you have enough disk space (80GB recommended)
+- If using Supabase, check credentials are correct
 
 **Can't connect from Render?**
 - Verify public URL is correct
