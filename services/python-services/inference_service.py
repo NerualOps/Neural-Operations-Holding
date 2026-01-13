@@ -61,13 +61,21 @@ def load_model():
         # Load model - simple GPU loading with float16
         print(f"[INFERENCE SERVICE] Loading model on GPU (this may take a while)...", flush=True)
         
+        # Clear GPU cache before loading to avoid fragmentation
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+            torch.cuda.synchronize()
+        
         model = AutoModelForCausalLM.from_pretrained(
             MODEL_ID,
             torch_dtype=torch.float16,  # Use float16 for 44GB GPU
             device_map="auto",  # Automatically place on GPU
             trust_remote_code=True,
             low_cpu_mem_usage=True,
-            cache_dir=MODEL_DIR
+            cache_dir=MODEL_DIR,
+            # Disable quantization to avoid MXFP4 dequantization memory issues
+            load_in_8bit=False,
+            load_in_4bit=False
         )
         
         # Create pipeline
