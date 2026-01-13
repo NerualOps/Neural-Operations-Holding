@@ -68,14 +68,11 @@ def load_model():
         
         model = AutoModelForCausalLM.from_pretrained(
             MODEL_ID,
-            torch_dtype=torch.float16,  # Use float16 for 44GB GPU
-            device_map="auto",  # Automatically place on GPU
+            torch_dtype=torch.float16,
+            device_map="auto",
             trust_remote_code=True,
             low_cpu_mem_usage=True,
-            cache_dir=MODEL_DIR,
-            # Disable quantization to avoid MXFP4 dequantization memory issues
-            load_in_8bit=False,
-            load_in_4bit=False
+            cache_dir=MODEL_DIR
         )
         
         # Create pipeline
