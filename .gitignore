@@ -1,0 +1,114 @@
+# Node modules
+node_modules/
+
+# Build artifacts
+epsilon-chunk-*.js
+nova-chunk-*.js  # Kept for backward compatibility with legacy build artifacts
+manifest.json
+*.map
+obfuscated/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# ML Training (local only)
+ml_local/runs/
+ml_local/exports/
+ml_local/data/processed/
+ml_local/data/raw/
+ml_local/data/token_bins/
+ml_local/pretrained_models/*.pt
+ml_local/pretrained_models/*.zip
+ml_local/pretrained_models/fixed/
+
+# Model artifacts (downloaded on boot, not in repo)
+services/python-services/models/
+ml_local/.venv/
+ml_local/pretrained_models/*.pt
+ml_local/pretrained_models/*.zip
+ml_local/pretrained_models/*.safetensors
+ml_local/pretrained_models/*.bin
+
+# Downloaded model files (too large for git)
+services/python-services/models/**/*
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+
+# Environment variables (NEVER COMMIT THESE!)
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+*.env
+
+# Secrets and API keys
+secrets/
+*.key
+*.pem
+id_rsa
+id_ed25519
+*.pub
+!*.pub.example
+
+# IDE
+.vscode/
+.idea/
+.cursor/
+*.swp
+*.swo
+*~
+
+# Cursor logs
+.cursor/debug.log
+.cursor/*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Backup files
+*-backup-*.html
+*.bak
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Deployment guides (optional - remove if you want to keep them)
+# RENDER_SETUP_CHECKLIST.md
+# RUNPOD_DEPLOY.md
+
+# Large data files
+*.zip
+!requirements*.txt
+*.tar.gz
+*.tar
+
+# Local development files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+

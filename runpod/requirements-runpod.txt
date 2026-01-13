@@ -1,0 +1,24 @@
+# Epsilon AI Inference Service Requirements for RunPod
+# Created by Neural Operations & Holdings LLC
+
+# Web framework
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+
+# ML/AI libraries
+torch>=2.1.0
+transformers>=4.35.0
+accelerate>=0.24.0
+bitsandbytes>=0.41.0  # For quantization support
+
+# Utilities
+python-dotenv>=1.0.0
+psutil>=5.9.0
+pydantic>=2.0.0
+
+# Supabase for model bootstrap
+supabase>=2.0.0
+
+# HTTP client
+httpx>=0.24.0
+
