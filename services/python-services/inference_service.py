@@ -3,9 +3,9 @@ Epsilon AI Inference Service
 Uses the Epsilon AI model with Harmony response format
 Created by Neural Operations & Holdings LLC
 """
-# CRITICAL: Disable hf_transfer BEFORE any imports to prevent download loops
+# Note: hf_transfer is deprecated, huggingface_hub now uses hf_xet by default for faster downloads
+# We don't need to disable anything - let it use the default (hf_xet if available)
 import os
-os.environ['HF_HUB_ENABLE_HF_TRANSFER'] = '0'
 
 # #region agent log
 import json
@@ -164,6 +164,7 @@ def load_model():
                         local_dir=MODEL_DIR,
                         local_dir_use_symlinks=False,
                         max_workers=1,
+                        ignore_patterns=[".cache/**"],  # Ignore cache folder
                     )
                     print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
             else:
@@ -173,6 +174,7 @@ def load_model():
                     local_dir=MODEL_DIR,
                     local_dir_use_symlinks=False,
                     max_workers=1,  # Single worker to prevent concurrent downloads
+                    ignore_patterns=[".cache/**"],  # Ignore cache folder
                 )
                 print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
         
