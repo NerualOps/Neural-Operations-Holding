@@ -58,7 +58,8 @@ def load_model():
         tokenizer = AutoTokenizer.from_pretrained(
             MODEL_ID,
             trust_remote_code=True,
-            cache_dir=MODEL_DIR
+            cache_dir=MODEL_DIR,
+            resume_download=False  # Don't resume - prevents loops from corrupted partial downloads
         )
         
         # Load model - simple GPU loading (keep original to match RunPod deployment)
@@ -76,7 +77,8 @@ def load_model():
             device_map="auto",
             trust_remote_code=True,
             low_cpu_mem_usage=True,
-            cache_dir=MODEL_DIR
+            cache_dir=MODEL_DIR,
+            resume_download=False  # Don't resume - prevents loops from corrupted partial downloads
         )
         
         # Create pipeline
