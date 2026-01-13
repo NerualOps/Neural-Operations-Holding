@@ -1025,6 +1025,15 @@
         window.messageStartTime = Date.now();
         var loadingId = window.addMessage('assistant', 'Thinking...');
         
+        // Start timer to show elapsed time
+        window.loadingTimer = setInterval(function() {
+            if (window.messageStartTime) {
+                var elapsed = Math.floor((Date.now() - window.messageStartTime) / 1000);
+                var timeText = elapsed < 60 ? elapsed + 's' : Math.floor(elapsed / 60) + 'm ' + (elapsed % 60) + 's';
+                window.updateMessage(loadingId, 'Thinking... (' + timeText + ')');
+            }
+        }, 1000); // Update every second
+        
         try {
             var response;
             var sessionId = window.currentSessionId;
@@ -1061,6 +1070,11 @@
                 if (data.sessionId) window.currentSessionId = data.sessionId;
             }
             
+            // Stop timer and remove loading message
+            if (window.loadingTimer) {
+                clearInterval(window.loadingTimer);
+                window.loadingTimer = null;
+            }
             window.removeMessage(loadingId);
             
             var conversationId = null;
@@ -1106,6 +1120,11 @@
                 window.loadChatHistory();
             }, 500);
         } catch (error) {
+            // Stop timer and remove loading message
+            if (window.loadingTimer) {
+                clearInterval(window.loadingTimer);
+                window.loadingTimer = null;
+            }
             window.removeMessage(loadingId);
             var errorMessage = error.message || 'Failed to generate response. The AI model may not be trained yet or the service is unavailable.';
             window.addMessage('assistant', 'Error: ' + errorMessage);
