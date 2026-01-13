@@ -10,13 +10,17 @@ os.environ['HF_HUB_ENABLE_HF_TRANSFER'] = '0'
 # #region agent log
 import json
 from pathlib import Path as PathLib
-_log_path = PathLib(__file__).parent.parent.parent / '.cursor' / 'debug.log'
+_log_dir = PathLib(__file__).parent / '.cursor'
+_log_dir.mkdir(exist_ok=True)
+_log_path = _log_dir / 'debug.log'
 def _log(loc, msg, data, hyp):
     try:
         with open(_log_path, 'a') as f:
             f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":hyp,"location":loc,"message":msg,"data":data,"timestamp":int(__import__('time').time()*1000)}) + '\n')
-    except: pass
-_log("inference_service.py:8", "env var set", {"HF_HUB_ENABLE_HF_TRANSFER":os.environ.get('HF_HUB_ENABLE_HF_TRANSFER'),"has_hf_transfer":__import__('pkgutil').find_loader('hf_transfer') is not None}, "A")
+            f.flush()
+    except Exception as e:
+        print(f"[DEBUG LOG ERROR] {e}", flush=True)
+_log("inference_service.py:8", "env var set", {"HF_HUB_ENABLE_HF_TRANSFER":os.environ.get('HF_HUB_ENABLE_HF_TRANSFER'),"has_hf_transfer":__import__('pkgutil').find_loader('hf_transfer') is not None,"log_path":str(_log_path)}, "A")
 # #endregion
 
 from pathlib import Path
@@ -58,12 +62,16 @@ def load_model():
     
     # #region agent log
     import json
-    log_path = Path(__file__).parent.parent.parent / '.cursor' / 'debug.log'
+    log_dir = Path(__file__).parent / '.cursor'
+    log_dir.mkdir(exist_ok=True)
+    log_path = log_dir / 'debug.log'
     def log_debug(location, message, data, hypothesis_id):
         try:
             with open(log_path, 'a') as f:
                 f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":hypothesis_id,"location":location,"message":message,"data":data,"timestamp":int(__import__('time').time()*1000)}) + '\n')
-        except: pass
+                f.flush()
+        except Exception as e:
+            print(f"[DEBUG LOG ERROR] {e}", flush=True)
     # #endregion
     
     print(f"[INFERENCE SERVICE] Loading Epsilon AI model: {MODEL_ID}", flush=True)
