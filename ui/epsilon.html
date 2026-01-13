@@ -1189,6 +1189,16 @@
         return msgId;
     };
     
+    window.updateMessage = function(msgId, newText) {
+        var msgElement = document.getElementById(msgId);
+        if (msgElement) {
+            var messageText = msgElement.querySelector('.message-text');
+            if (messageText) {
+                messageText.textContent = newText;
+            }
+        }
+    };
+    
     window.removeMessage = function(msgId) {
         var msg = document.getElementById(msgId);
         if (msg) msg.remove();
