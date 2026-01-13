@@ -12,6 +12,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
+# Disable hf_transfer to prevent download loops (use standard download method)
+os.environ['HF_HUB_ENABLE_HF_TRANSFER'] = '0'
+
 app = FastAPI(title="Epsilon AI Inference Service")
 
 # CORS
