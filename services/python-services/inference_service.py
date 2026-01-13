@@ -223,7 +223,7 @@ def load_model():
             "text-generation",
             model=model,
             tokenizer=tokenizer,
-            torch_dtype=torch.float16,
+            dtype=torch.float16,  # Use dtype instead of deprecated torch_dtype
             device_map="auto",
         )
         
