@@ -420,10 +420,21 @@ app.use(helmet({
         "'self'", 
         "'unsafe-inline'",
         "'unsafe-eval'",
+        "'unsafe-hashes'",
         "blob:", 
         "https://cdnjs.cloudflare.com",
         "https://cdn.jsdelivr.net",
-        "https://unpkg.com"
+        "https://unpkg.com",
+        "https://www.googletagmanager.com",
+        "https://www.google-analytics.com"
+      ],
+      scriptSrcElem: [
+        "'self'",
+        "'unsafe-inline'",
+        "'unsafe-hashes'",
+        "blob:",
+        "https://www.googletagmanager.com",
+        "https://www.google-analytics.com"
       ],
       scriptSrcAttr: ["'unsafe-inline'", "'unsafe-hashes'"],
       styleSrc: [
@@ -448,7 +459,9 @@ app.use(helmet({
         "https://fonts.gstatic.com",
         process.env.SUPABASE_URL, 
         "https://*.supabase.co",
-        "https://uvvfuxdrqbrnhdlrkrsb.supabase.co"
+        "https://uvvfuxdrqbrnhdlrkrsb.supabase.co",
+        "https://www.google-analytics.com",
+        "https://www.googletagmanager.com"
       ],
       fontSrc: [
         "'self'", 
@@ -3578,11 +3591,27 @@ app.use('/.netlify/functions/analytics', apiLimiter, netlifyToExpress(analyticsH
 // Public analytics tracking endpoint (no auth required - for cookie consent tracking)
 app.post('/api/analytics/track', apiLimiter, async (req, res) => {
   try {
-    const body = req.body || {};
+    // Handle empty or malformed body gracefully
+    let body = req.body;
+    if (!body || typeof body !== 'object') {
+      try {
+        // Try to parse if it's a string
+        if (typeof req.body === 'string') {
+          body = JSON.parse(req.body);
+        } else {
+          body = {};
+        }
+      } catch (e) {
+        body = {};
+      }
+    }
+    
     const { event, data, timestamp, userAgent, language, screen, viewport } = body;
     
+    // Validate event name - return success but don't process if invalid
     if (!event || typeof event !== 'string' || event.trim() === '') {
-      return res.status(400).json({ success: false, error: 'Event name is required' });
+      // Return success to prevent client errors, but don't process
+      return res.json({ success: false, error: 'Event name is required' });
     }
     
     const clientIP = getClientIP(req);
