@@ -5,24 +5,7 @@ Created by Neural Operations & Holdings LLC
 """
 import os
 
-# CRITICAL: Set CUDA memory allocation config BEFORE any torch imports
-# This must be set before PyTorch initializes CUDA to prevent fragmentation
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True'
-
-# #region agent log
-import json
-from pathlib import Path as PathLib
-_log_dir = PathLib(__file__).parent / '.cursor'
-_log_dir.mkdir(exist_ok=True)
-_log_path = _log_dir / 'debug.log'
-def _log(loc, msg, data, hyp):
-    try:
-        with open(_log_path, 'a') as f:
-            f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":hyp,"location":loc,"message":msg,"data":data,"timestamp":int(__import__('time').time()*1000)}) + '\n')
-            f.flush()
-    except Exception as e:
-        print(f"[DEBUG LOG ERROR] {e}", flush=True)
-# #endregion
 
 from pathlib import Path
 from typing import Optional, List
@@ -183,18 +166,16 @@ def load_model():
                 )
                 print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
         
-        # 2) Load tokenizer/model FROM LOCAL PATH ONLY (no remote downloads)
         print(f"[INFERENCE SERVICE] Loading tokenizer from local path: {local_path}", flush=True)
         tokenizer = AutoTokenizer.from_pretrained(
             local_path,
             trust_remote_code=True,
-            local_files_only=True  # CRITICAL: Only use local files, no remote downloads
+            local_files_only=True
         )
         
-        # Load model - simple GPU loading
         print(f"[INFERENCE SERVICE] Loading model on GPU from local path: {local_path}", flush=True)
         
-        # CRITICAL: Clear any existing model from memory first
+        # Clear any existing model from memory first
         global model, pipe
         if model is not None:
             print(f"[INFERENCE SERVICE] Clearing existing model from memory...", flush=True)
@@ -212,15 +193,13 @@ def load_model():
             torch.cuda.ipc_collect()
             torch.cuda.empty_cache()
             
-            # Check memory before loading
             allocated = torch.cuda.memory_allocated(0) / (1024**3)
             reserved = torch.cuda.memory_reserved(0) / (1024**3)
             total = torch.cuda.get_device_properties(0).total_memory / (1024**3)
             free = total - reserved
             print(f"[INFERENCE SERVICE] GPU memory before load - Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Free: {free:.2f} GB, Total: {total:.2f} GB", flush=True)
             
-            # If there's not enough free memory, try to clear more aggressively
-            if free < 1.0:  # Less than 1GB free
+            if free < 1.0:
                 print(f"[INFERENCE SERVICE] Warning: Low free memory ({free:.2f} GB), attempting aggressive cleanup...", flush=True)
                 gc.collect()
                 torch.cuda.empty_cache()
@@ -229,24 +208,22 @@ def load_model():
                 free = total - (torch.cuda.memory_reserved(0) / (1024**3))
                 print(f"[INFERENCE SERVICE] After cleanup - Free: {free:.2f} GB", flush=True)
         
-        # Load model with reduced memory limit to prevent OOM (GPU has 44.45GB total)
         model = AutoModelForCausalLM.from_pretrained(
             local_path,
             torch_dtype=torch.float16,
             device_map="auto",
             trust_remote_code=True,
             low_cpu_mem_usage=True,
-            local_files_only=True,  # CRITICAL: Only use local files, no remote downloads
-            max_memory={0: "42GB"}  # Reduced to 42GB to leave headroom and prevent OOM
+            local_files_only=True,
+            max_memory={0: "42GB"}
         )
         
-        # Create pipeline
         print(f"[INFERENCE SERVICE] Creating pipeline...", flush=True)
         pipe = pipeline(
             "text-generation",
             model=model,
             tokenizer=tokenizer,
-            dtype=torch.float16,  # Use dtype instead of deprecated torch_dtype
+            dtype=torch.float16,
             device_map="auto",
         )
         
