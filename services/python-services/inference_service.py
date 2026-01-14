@@ -66,7 +66,7 @@ def load_model():
     try:
         # Check disk space before downloading
         import shutil
-        disk_usage = shutil.disk_usage(MODEL_DIR if Path(MODEL_DIR).exists() else Path(__file__).parent)
+        disk_usage = shutil.disk_usage(MODEL_DIR if MODEL_DIR.exists() else Path(__file__).parent)
         free_gb = disk_usage.free / (1024**3)
         print(f"[INFERENCE SERVICE] Available disk space: {free_gb:.2f} GB", flush=True)
         if free_gb < 50:
@@ -158,7 +158,7 @@ def load_model():
                 print(f"[INFERENCE SERVICE] Downloading model snapshot to local directory (this may take 10-15 minutes)...", flush=True)
                 local_path = snapshot_download(
                     repo_id=MODEL_ID,
-                    local_dir=MODEL_DIR,
+                    local_dir=str(MODEL_DIR),
                     local_dir_use_symlinks=False,
                     max_workers=1,  # Single worker to prevent concurrent downloads
                     ignore_patterns=[".cache/**"],  # Ignore cache folder
