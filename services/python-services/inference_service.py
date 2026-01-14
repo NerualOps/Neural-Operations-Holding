@@ -316,9 +316,16 @@ async def generate(request: GenerateRequest):
         raise HTTPException(status_code=503, detail="Model not loaded. Check /health endpoint.")
     
     try:
-        # Use direct prompt format - no system instruction to avoid triggering analysis
-        # The model should respond directly without thinking about instructions
-        formatted_prompt = request.prompt
+        # Simple identity instruction - just state who it is, nothing else
+        # Use chat template if available for proper formatting
+        if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
+            messages = [
+                {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC."},
+                {"role": "user", "content": request.prompt}
+            ]
+            formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        else:
+            formatted_prompt = f"Epsilon AI: {request.prompt}\n\nResponse:"
         try:
             stop_token_ids = []
             if request.stop and len(request.stop) > 0:
@@ -330,9 +337,9 @@ async def generate(request: GenerateRequest):
             outputs = pipe(
                 formatted_prompt,
                 max_new_tokens=min(request.max_new_tokens, 512),
-                temperature=0.7,
+                temperature=0.6,
                 top_p=0.9,
-                repetition_penalty=1.2,
+                repetition_penalty=1.15,
                 do_sample=True,
                 return_full_text=False,
                 pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id,
