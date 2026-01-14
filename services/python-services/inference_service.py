@@ -349,6 +349,7 @@ async def generate(request: GenerateRequest):
         ]
         
         # Markdown-style markers with strict line-boundary matching (regex patterns)
+        # Use lowercase patterns since we'll decode with .lower()
         harmony_stop_regex = [
             r"(^|\n)##\s*final\b",
             r"(^|\n)###\s*final\b"
@@ -393,11 +394,12 @@ async def generate(request: GenerateRequest):
         
         # Create stopping criteria class for Harmony format markers
         class HarmonyStoppingCriteria(StoppingCriteria):
-            def __init__(self, prompt_len_tokens: int, tokenizer, markers, regex_patterns, window_tokens: int = 80):
+            def __init__(self, prompt_len_tokens: int, tokenizer, markers, regex_patterns, window_tokens: int = 160):
                 self.prompt_len = prompt_len_tokens
                 self.tok = tokenizer
                 self.markers = [m.lower() for m in markers]
-                self.regex_patterns = [re.compile(pattern, re.IGNORECASE) for pattern in regex_patterns]
+                # Compile regex without IGNORECASE since we'll use .lower() on text
+                self.regex_patterns = [re.compile(pattern.lower()) for pattern in regex_patterns]
                 self.window = window_tokens
             
             def __call__(self, input_ids, scores, **kwargs):
@@ -407,6 +409,7 @@ async def generate(request: GenerateRequest):
                     return False
                 
                 # Only decode the last window of tokens (efficient)
+                # Increased window to 160 to catch markers even with whitespace/tokens before them
                 tail = gen_ids[-self.window:] if gen_ids.shape[0] > self.window else gen_ids
                 text = self.tok.decode(tail, skip_special_tokens=False).lower()
                 
@@ -493,6 +496,7 @@ async def generate(request: GenerateRequest):
         
         # Harmony format cleanup: Extract only the final response after markers
         # The stopping criteria should have stopped generation, but if markers appear, extract final section
+        # Only extract if marker appears early (within first ~200 chars) to avoid truncating legitimate responses
         # Only use specific boundary markers, not generic words that can appear in normal responses
         harmony_markers = [
             "assistantfinal", "Assistantfinal", "ASSISTANTFINAL",
@@ -500,34 +504,36 @@ async def generate(request: GenerateRequest):
             "<final>", "</final>"
         ]
         text_lower = generated_text.lower()
+        early_threshold = 200  # Only extract if marker appears in first 200 chars
         
-        # If any Harmony marker exists, extract everything after it
+        # If any Harmony marker exists early, extract everything after it
         for marker in harmony_markers:
             marker_pos = text_lower.find(marker.lower())
-            if marker_pos != -1:
+            if marker_pos != -1 and marker_pos < early_threshold:
                 # Extract text after marker
                 after_marker = generated_text[marker_pos + len(marker):].strip()
                 # Remove any leading punctuation/whitespace
                 after_marker = after_marker.lstrip('.,;:!? \n\t')
                 if len(after_marker) > 0:
                     generated_text = after_marker
-                    print(f"[INFERENCE SERVICE] Extracted response after Harmony marker '{marker}'", flush=True)
+                    print(f"[INFERENCE SERVICE] Extracted response after Harmony marker '{marker}' (found at pos {marker_pos})", flush=True)
                     break
         
         # Check for regex patterns (markdown markers at line boundaries only)
+        # Only extract if marker appears early
         harmony_marker_regex = [
             re.compile(r"(^|\n)##\s*final\b", re.IGNORECASE),
             re.compile(r"(^|\n)###\s*final\b", re.IGNORECASE)
         ]
         for pattern in harmony_marker_regex:
             match = pattern.search(generated_text)
-            if match:
+            if match and match.start() < early_threshold:
                 # Extract text after the matched marker
                 after_marker = generated_text[match.end():].strip()
                 after_marker = after_marker.lstrip('.,;:!? \n\t')
                 if len(after_marker) > 0:
                     generated_text = after_marker
-                    print(f"[INFERENCE SERVICE] Extracted response after Harmony regex marker", flush=True)
+                    print(f"[INFERENCE SERVICE] Extracted response after Harmony regex marker (found at pos {match.start()})", flush=True)
                     break
         
         # Remove any remaining analysis prefixes at the start (defensive)
