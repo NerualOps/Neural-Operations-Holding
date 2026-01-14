@@ -316,8 +316,7 @@ async def generate(request: GenerateRequest):
         raise HTTPException(status_code=503, detail="Model not loaded. Check /health endpoint.")
     
     try:
-        # Simple identity instruction - just state who it is, nothing else
-        # Use chat template if available for proper formatting
+        # Use chat template with minimal system message - just identity, no instructions
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
             messages = [
                 {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC."},
@@ -325,7 +324,7 @@ async def generate(request: GenerateRequest):
             ]
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
         else:
-            formatted_prompt = f"Epsilon AI: {request.prompt}\n\nResponse:"
+            formatted_prompt = f"User: {request.prompt}\nEpsilon AI:"
         try:
             stop_token_ids = []
             if request.stop and len(request.stop) > 0:
@@ -337,9 +336,9 @@ async def generate(request: GenerateRequest):
             outputs = pipe(
                 formatted_prompt,
                 max_new_tokens=min(request.max_new_tokens, 512),
-                temperature=0.6,
+                temperature=0.7,
                 top_p=0.9,
-                repetition_penalty=1.15,
+                repetition_penalty=1.2,
                 do_sample=True,
                 return_full_text=False,
                 pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id,
@@ -386,24 +385,37 @@ async def generate(request: GenerateRequest):
         else:
             generated_text = str(outputs).strip()
         
-        # Remove any analysis/thinking text - only show the actual response
-        analysis_indicators = ['user says', 'they want', 'we need', 'we should', 'we have to', 'as per', 'developer', 'system instruction', 'hierarchy', 'conflict', 'potential confusion', 'should answer', 'should respond', 'just respond', 'no explanation', 'provide', 'maybe mention', 'however', 'there\'s', 'likely they']
+        # Find where actual response starts - look for common analysis conclusion markers
+        # Analysis usually ends with markers like "Ok.", "So,", "Therefore," followed by the real response
+        response_start_markers = ["Ok.", "Okay.", "So,", "Therefore,", "Thus,", "Hey there!", "Hi!", "Hello!", "I'm", "I am"]
         
-        if any(indicator in generated_text.lower() for indicator in analysis_indicators):
+        for marker in response_start_markers:
+            marker_lower = marker.lower()
+            if marker_lower in generated_text.lower():
+                marker_pos = generated_text.lower().find(marker_lower)
+                if marker_pos != -1:
+                    # Get text after marker
+                    after_marker = generated_text[marker_pos + len(marker):].strip()
+                    # If there's substantial content after marker and it looks like a real response
+                    if len(after_marker) > 15 and (after_marker[0].isalpha() or after_marker[0] in ['"', "'"]):
+                        generated_text = after_marker
+                        break
+        
+        # Remove analysis patterns that are clearly meta-commentary (not part of legitimate responses)
+        # Only remove if they appear at the start, indicating analysis before response
+        if generated_text.lower().startswith(('user says', 'they want', 'we need respond', 'we should respond', 'we have to respond', 'as per instructions', 'from developer role')):
+            # Find first sentence that doesn't start with analysis
             sentences = generated_text.split('.')
-            response_sentences = []
-            for sentence in sentences:
+            for i, sentence in enumerate(sentences):
                 sentence = sentence.strip()
                 if not sentence:
                     continue
-                # Skip sentences that contain analysis indicators
-                if any(word in sentence.lower() for word in analysis_indicators):
-                    continue
-                response_sentences.append(sentence)
-            if response_sentences:
-                generated_text = '. '.join(response_sentences).strip()
+                # If sentence doesn't start with analysis pattern, use from here
+                if not any(sentence.lower().startswith(pattern) for pattern in ['user says', 'they want', 'we need', 'we should', 'we have to', 'as per', 'from developer']):
+                    generated_text = '. '.join(sentences[i:]).strip()
+                    break
         
-        # Replace identity mentions
+        # Replace identity mentions only
         generated_text = re.sub(r'\bChatGPT\b', 'Epsilon AI', generated_text, flags=re.IGNORECASE)
         generated_text = re.sub(r'\bChat-GPT\b', 'Epsilon AI', generated_text, flags=re.IGNORECASE)
         generated_text = re.sub(r'\bOpenAI\b', 'Neural Operations & Holdings LLC', generated_text, flags=re.IGNORECASE)
