@@ -386,6 +386,24 @@ async def generate(request: GenerateRequest):
         else:
             generated_text = str(outputs).strip()
         
+        # Remove any analysis/thinking text - only show the actual response
+        analysis_indicators = ['user says', 'they want', 'we need', 'we should', 'we have to', 'as per', 'developer', 'system instruction', 'hierarchy', 'conflict', 'potential confusion', 'should answer', 'should respond', 'just respond', 'no explanation', 'provide', 'maybe mention', 'however', 'there\'s', 'likely they']
+        
+        if any(indicator in generated_text.lower() for indicator in analysis_indicators):
+            sentences = generated_text.split('.')
+            response_sentences = []
+            for sentence in sentences:
+                sentence = sentence.strip()
+                if not sentence:
+                    continue
+                # Skip sentences that contain analysis indicators
+                if any(word in sentence.lower() for word in analysis_indicators):
+                    continue
+                response_sentences.append(sentence)
+            if response_sentences:
+                generated_text = '. '.join(response_sentences).strip()
+        
+        # Replace identity mentions
         generated_text = re.sub(r'\bChatGPT\b', 'Epsilon AI', generated_text, flags=re.IGNORECASE)
         generated_text = re.sub(r'\bChat-GPT\b', 'Epsilon AI', generated_text, flags=re.IGNORECASE)
         generated_text = re.sub(r'\bOpenAI\b', 'Neural Operations & Holdings LLC', generated_text, flags=re.IGNORECASE)
