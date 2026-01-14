@@ -241,7 +241,12 @@ def load_model():
         import traceback
         print(f"[INFERENCE SERVICE] ERROR: Failed to load model: {e}", flush=True)
         print(f"[INFERENCE SERVICE] Traceback: {traceback.format_exc()}", flush=True)
-        raise
+        # Don't raise - allow service to start even if model loading fails
+        # The /generate endpoint will return 503 if model is not loaded
+        model = None
+        tokenizer = None
+        pipe = None
+        model_metadata = None
 
 
 @app.on_event("startup")
