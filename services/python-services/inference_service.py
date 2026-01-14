@@ -13,7 +13,7 @@ import torch
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline, StoppingCriteria, StoppingCriteriaList
 from filelock import FileLock
 from huggingface_hub import snapshot_download
 
@@ -406,23 +406,21 @@ async def generate(request: GenerateRequest):
                 if hasattr(model, 'to'):
                     try:
                         model = model.to(torch.float16)
-                        pipe = pipeline(
-                            "text-generation",
-                            model=model,
-                            tokenizer=tokenizer,
-                            dtype=torch.float16,
-                            device_map="auto",
-                        )
-                        gen_kwargs_retry = {
-                            "max_new_tokens": min(request.max_new_tokens, 512),
-                            "temperature": gen_temperature,
-                            "top_p": request.top_p,
-                            "repetition_penalty": request.repetition_penalty,
-                            "do_sample": True,
-                            "return_full_text": False,
-                            "pad_token_id": tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id
-                        }
-                        outputs = pipe(formatted_prompt, **gen_kwargs_retry)
+                        # Retry generation with converted model
+                        with torch.no_grad():
+                            generated_ids = model.generate(
+                                input_ids,
+                                max_new_tokens=min(request.max_new_tokens, 512),
+                                temperature=gen_temperature,
+                                top_p=request.top_p,
+                                repetition_penalty=request.repetition_penalty,
+                                do_sample=True,
+                                pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id,
+                                eos_token_id=tokenizer.eos_token_id,
+                                stopping_criteria=stopping_criteria
+                            )
+                        generated_tokens = generated_ids[0, input_ids.shape[1]:]
+                        generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=False)
                     except Exception as conv_error:
                         print(f"[INFERENCE SERVICE] Failed to convert model dtype: {conv_error}", flush=True)
                         raise e  # Re-raise original error
@@ -431,17 +429,7 @@ async def generate(request: GenerateRequest):
             else:
                 raise e
         
-        # Extract generated text - handle different output formats
-        if isinstance(outputs, list) and len(outputs) > 0:
-            if isinstance(outputs[0], dict):
-                generated_text = outputs[0].get("generated_text", "").strip()
-            else:
-                generated_text = str(outputs[0]).strip()
-        else:
-            generated_text = str(outputs).strip()
-        
         generated_text = generated_text.strip()
-        print(f"[INFERENCE SERVICE] Raw generated text (first 300 chars): {generated_text[:300]}", flush=True)
         
         # Remove analysis text if it appears at the start (defensive cleanup)
         analysis_prefixes = [
