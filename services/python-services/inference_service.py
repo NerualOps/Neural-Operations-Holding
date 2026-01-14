@@ -236,6 +236,13 @@ def load_model():
         print(f"[INFERENCE SERVICE] Model loaded successfully!", flush=True)
         print(f"[INFERENCE SERVICE] Model parameters: {sum(p.numel() for p in model.parameters()):,}", flush=True)
         
+        # Log tokenizer special tokens for Harmony format debugging
+        print(f"[INFERENCE SERVICE] EOS token: {tokenizer.eos_token} (ID: {tokenizer.eos_token_id})", flush=True)
+        if hasattr(tokenizer, 'additional_special_tokens') and tokenizer.additional_special_tokens:
+            print(f"[INFERENCE SERVICE] Additional special tokens: {tokenizer.additional_special_tokens}", flush=True)
+        if hasattr(tokenizer, 'special_tokens_map'):
+            print(f"[INFERENCE SERVICE] Special tokens map: {tokenizer.special_tokens_map}", flush=True)
+        
     except Exception as e:
         import traceback
         print(f"[INFERENCE SERVICE] ERROR: Failed to load model: {e}", flush=True)
