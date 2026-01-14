@@ -4733,10 +4733,15 @@ app.get('/favicon.ico', (req, res) => {
 
 // Logo route - serve logo from Imagies folder
 app.get('/logo.png', (req, res) => {
-  const logoPath = path.join(__dirname, '..', 'Imagies', 'logo.png');
+  const logoCandidates = [
+    path.join(__dirname, '..', 'Imagies', 'logo.png'),
+    path.join(__dirname, '..', 'Imagies', 'Logo.png'),
+    path.join(__dirname, '..', 'Imagies', 'LOGO.png'),
+  ];
+  const logoPath = logoCandidates.find(p => fs.existsSync(p));
   
   // Check if file exists
-  if (fs.existsSync(logoPath)) {
+  if (logoPath) {
     if (isProduction) {
       return secureStaticFile(req, res, logoPath);
     } else {

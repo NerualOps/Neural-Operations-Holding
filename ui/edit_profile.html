@@ -157,6 +157,9 @@
 
         /* Navigation Styles - Matching epsilon.html */
         .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; transition: left 0.35s ease; display: flex; align-items: center; gap: 0.5rem; }
+        .home-logo-link { display: inline-flex; align-items: center; text-decoration: none; }
+        .home-logo { height: 40px; width: auto; display: block; object-fit: contain; }
+        @media (max-width: 768px) { .home-logo { height: 32px; } }
         .top-nav-button { padding: 0.6rem 1.2rem; background: rgba(15, 15, 15, 0.6); backdrop-filter: blur(10px); border: 1px solid var(--ash-neutral); border-radius: 6px; color: var(--soft-white); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: all 0.12s ease-out; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05); display: inline-block; width: auto; }
         .top-nav-button:hover { 
             border-color: var(--flame-core); 
@@ -561,8 +564,9 @@
 </head>
 <body>
     <div class="top-left-nav">
-        <a href="/"><img src="/logo.png" alt="NeuralOps Logo" style="height: 2rem; width: auto; margin-right: 0.5rem; vertical-align: middle;"></a>
-        <a href="/" class="top-nav-button">← Home</a>
+        <a href="/" class="home-logo-link" aria-label="Home">
+            <img src="/logo.png" alt="Neural Operations &amp; Holdings LLC" class="home-logo">
+        </a>
     </div>
     
     <div class="top-right-auth" id="topRightAuth">
@@ -574,7 +578,6 @@
         <div class="profile-bubble" id="profileBubble"><span id="profileInitials">U</span></div>
         <div class="profile-dropdown" id="profileDropdown">
             <div id="profileName" style="padding: 0.75rem 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 600; border-bottom: 1px solid rgba(255, 255, 255, 0.1);"></div>
-            <a href="/" class="profile-dropdown-item">Home</a>
             <a href="/epsilon" class="profile-dropdown-item">Epsilon AI</a>
             <a href="/about" class="profile-dropdown-item">About Us</a>
             <a href="/contact" class="profile-dropdown-item">Contact Us</a>

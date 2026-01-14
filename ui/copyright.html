@@ -101,6 +101,9 @@
     }
 
     .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; }
+    .home-logo-link { display: inline-flex; align-items: center; text-decoration: none; }
+    .home-logo { height: 40px; width: auto; display: block; object-fit: contain; }
+    @media (max-width: 768px) { .home-logo { height: 32px; } }
     /* Professional Design System - Ignition Precision */
     :root {
         --flame-core: #F97316;
@@ -664,8 +667,9 @@
 <body>
 
   <div class="top-left-nav">
-      <a href="/"><img src="/logo.png" alt="NeuralOps Logo" style="height: 2rem; width: auto; margin-right: 0.5rem; vertical-align: middle;"></a>
-      <a href="/" class="top-nav-button">← Home</a>
+      <a href="/" class="home-logo-link" aria-label="Home">
+          <img src="/logo.png" alt="Neural Operations &amp; Holdings LLC" class="home-logo">
+      </a>
   </div>
   
   <div class="top-right-auth" id="topRightAuth">
@@ -677,7 +681,6 @@
       <div class="profile-bubble" id="profileBubble"><span id="profileInitials">U</span></div>
       <div class="profile-dropdown" id="profileDropdown">
           <div id="profileName" style="padding: 0.75rem 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 600; border-bottom: 1px solid rgba(255, 255, 255, 0.1);"></div>
-          <a href="/" class="profile-dropdown-item">Home</a>
           <a href="/epsilon" class="profile-dropdown-item">Epsilon AI</a>
           <a href="/about" class="profile-dropdown-item">About Us</a>
           <a href="/contact" class="profile-dropdown-item">Contact Us</a>
@@ -692,9 +695,8 @@
       <div class="nav-content">
       <a href="/" class="logo"><img src="/logo.png" alt="NeuralOps" style="height: 32px; width: auto;"></a>
       <ul class="nav-menu">
-          <li><a href="/" class="nav-link">Home</a></li>
           <li><a href="/epsilon" class="nav-link">Epsilon AI</a></li>
-              <li><a href="/about" class="nav-link">About Us</a></li>
+          <li><a href="/about" class="nav-link">About Us</a></li>
       </ul>
           <div class="nav-actions" id="navActions">
               <button class="profile-pill" id="profilePill" style="display:none;">
@@ -718,7 +720,6 @@
 
   <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu">
-      <a href="/" onclick="toggleMobileMenu()">Home</a>
       <a href="/epsilon" onclick="toggleMobileMenu()">Epsilon AI</a>
       <a href="/about" onclick="toggleMobileMenu()">About Us</a>
       <a href="/contact" onclick="toggleMobileMenu()">Contact Us</a>

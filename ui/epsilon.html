@@ -100,6 +100,23 @@
             z-index: 2000; 
             transition: left 0.35s ease; 
         }
+
+        .home-logo-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .home-logo {
+            height: 40px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        @media (max-width: 768px) {
+            .home-logo { height: 32px; }
+        }
         
         .top-left-nav img {
             background: transparent !important;
@@ -756,8 +773,9 @@
 </head>
 <body>
     <div class="top-left-nav">
-        <a href="/"><img src="/favicon.ico" alt="Epsilon AI" style="height: 2.5rem; width: 2.5rem; margin-right: 0.5rem; vertical-align: middle; border-radius: 4px;"></a>
-        <a href="/" class="top-nav-button">← Home</a>
+        <a href="/" class="home-logo-link" aria-label="Home">
+            <img src="/logo.png" alt="Neural Operations &amp; Holdings LLC" class="home-logo">
+        </a>
     </div>
     <button class="sidebar-toggle" id="sidebarToggle"><span></span><span></span><span></span></button>
     
@@ -770,7 +788,6 @@
         <div class="profile-bubble" id="profileBubble"><span id="profileInitials">U</span></div>
         <div class="profile-dropdown" id="profileDropdown">
             <div id="profileName" style="padding: 0.75rem 1rem; color: rgba(255, 255, 255, 0.9); font-weight: 600; border-bottom: 1px solid rgba(255, 255, 255, 0.1);"></div>
-            <a href="/" class="profile-dropdown-item">Home</a>
             <a href="/epsilon" class="profile-dropdown-item">Epsilon AI</a>
             <a href="/about" class="profile-dropdown-item">About Us</a>
             <a href="/contact" class="profile-dropdown-item">Contact Us</a>

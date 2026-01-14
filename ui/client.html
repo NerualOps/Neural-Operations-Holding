@@ -101,6 +101,23 @@
             z-index: 2000; 
             transition: left 0.35s ease; 
         }
+
+        .home-logo-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .home-logo {
+            height: 40px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        @media (max-width: 768px) {
+            .home-logo { height: 32px; }
+        }
         body.sidebar-open .sidebar-toggle { left: calc(1.5rem + 320px); }
         .sidebar-toggle { 
             position: fixed; 
@@ -831,7 +848,9 @@
     
     <!-- Navigation -->
     <div class="top-left-nav">
-        <a href="/" class="top-nav-button">← Home</a>
+        <a href="/" class="home-logo-link" aria-label="Home">
+            <img src="/logo.png" alt="Neural Operations &amp; Holdings LLC" class="home-logo">
+        </a>
     </div>
     <button class="sidebar-toggle" id="sidebarToggle">
         <span></span>
@@ -856,7 +875,9 @@
             
             <div class="auth-section">
                 <div class="auth-section-title">Navigation</div>
-                <a href="/" class="auth-button">Home</a>
+                <a href="/" class="auth-button home-logo-link" aria-label="Home">
+                    <img src="/logo.png" alt="Neural Operations &amp; Holdings LLC" class="home-logo">
+                </a>
                 <a href="/epsilon" class="auth-button">Epsilon AI</a>
                 <a href="/about" class="auth-button">About</a>
                 <a href="/contact" class="auth-button">Contact</a>
