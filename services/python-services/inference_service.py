@@ -331,7 +331,7 @@ async def generate(request: GenerateRequest):
             print(f"[INFERENCE SERVICE] Using fallback format (no chat template): {formatted_prompt[:200]}", flush=True)
         
         # Harmony format stopping criteria - stop at markers like "assistantfinal"
-        # Only use specific boundary markers, not generic words like "analysis" that can appear in normal responses
+        # Only use specific boundary markers, not generic words like "analysis" or "final" that can appear in normal responses
         harmony_stop_markers = [
             "assistantfinal",
             "Assistantfinal",
@@ -343,17 +343,12 @@ async def generate(request: GenerateRequest):
             "ASSISTANT_FINAL",
             "\nassistant_final",
             "\nAssistant_final",
-            "final",
-            "Final",
-            "FINAL",
-            "\nfinal",
-            "\nFinal",
             "<final>",
             "</final>",
-            "### Final",
             "### final",
-            "## Final",
-            "## final"
+            "\n### final",
+            "## final",
+            "\n## final"
         ]
         
         # Check for end-of-turn tokens (many chat models use special EOT tokens)
@@ -409,7 +404,7 @@ async def generate(request: GenerateRequest):
                 
                 # Only decode the last window of tokens (efficient)
                 tail = gen_ids[-self.window:] if gen_ids.shape[0] > self.window else gen_ids
-                text = self.tok.decode(tail, skip_special_tokens=True).lower()
+                text = self.tok.decode(tail, skip_special_tokens=False).lower()
                 
                 # Check for Harmony markers in the decoded window
                 return any(m in text for m in self.markers)
@@ -481,12 +476,12 @@ async def generate(request: GenerateRequest):
         
         # Harmony format cleanup: Extract only the final response after markers
         # The stopping criteria should have stopped generation, but if markers appear, extract final section
+        # Only use specific boundary markers, not generic words that can appear in normal responses
         harmony_markers = [
             "assistantfinal", "Assistantfinal", "ASSISTANTFINAL",
             "assistant_final", "Assistant_final", "ASSISTANT_FINAL",
-            "final", "Final", "FINAL",
             "<final>", "</final>",
-            "### Final", "### final", "## Final", "## final"
+            "### final", "## final"
         ]
         text_lower = generated_text.lower()
         
