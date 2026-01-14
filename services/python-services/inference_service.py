@@ -31,7 +31,6 @@ app.add_middleware(
 # Global model and tokenizer
 model = None
 tokenizer = None
-pipe = None
 model_metadata = None
 
 # Import model configuration
@@ -179,9 +178,7 @@ def load_model():
         if model is not None:
             print(f"[INFERENCE SERVICE] Clearing existing model from memory...", flush=True)
             del model
-            del pipe
             model = None
-            pipe = None
         
         if torch.cuda.is_available():
             import gc
@@ -214,15 +211,6 @@ def load_model():
             low_cpu_mem_usage=True,
             local_files_only=True,
             max_memory={0: "42GB"}
-        )
-        
-        print(f"[INFERENCE SERVICE] Creating pipeline...", flush=True)
-        pipe = pipeline(
-            "text-generation",
-            model=model,
-            tokenizer=tokenizer,
-            dtype=torch.float16,
-            device_map="auto",
         )
         
         model_metadata = {
@@ -258,7 +246,7 @@ def load_model():
 @app.on_event("startup")
 async def startup_event():
     """Load model on startup"""
-    global model, tokenizer, pipe
+    global model, tokenizer
     
     print(f"[INFERENCE SERVICE] Starting up...", flush=True)
     
@@ -344,12 +332,11 @@ async def generate(request: GenerateRequest):
             print(f"[INFERENCE SERVICE] Using fallback format (no chat template): {formatted_prompt[:200]}", flush=True)
         
         # Harmony format stopping criteria - stop at markers like "assistantfinal"
+        # Only use specific boundary markers, not generic words like "analysis" that can appear in normal responses
         harmony_stop_markers = [
             "assistantfinal",
             "Assistantfinal",
             "ASSISTANTFINAL",
-            "analysis",
-            "Analysis",
             "\nassistantfinal",
             "\nAssistantfinal"
         ]
@@ -371,19 +358,25 @@ async def generate(request: GenerateRequest):
         # Tokenize input properly
         tokenized = tokenizer(formatted_prompt, return_tensors="pt")
         input_ids = tokenized.input_ids
+        attention_mask = tokenized.attention_mask
         prompt_len_tokens = input_ids.shape[1]
         
         # Get device from model (handle device_map="auto" correctly)
+        # Prefer first CUDA device for sharded models, fallback to CPU if needed
+        device = None
         if hasattr(model, 'device'):
             device = model.device
         elif hasattr(model, 'hf_device_map') and model.hf_device_map:
-            # For sharded models, use the first device
-            first_device = list(model.hf_device_map.values())[0]
-            device = torch.device(first_device)
-        else:
+            # For sharded models, pick the first CUDA device
+            for d in model.hf_device_map.values():
+                if isinstance(d, str) and d.startswith("cuda"):
+                    device = torch.device(d)
+                    break
+        if device is None:
             device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         
         input_ids = input_ids.to(device)
+        attention_mask = attention_mask.to(device)
         
         # Create stopping criteria class for Harmony format markers
         class HarmonyStoppingCriteria(StoppingCriteria):
@@ -422,7 +415,8 @@ async def generate(request: GenerateRequest):
             # Use model.generate() directly with stopping criteria for proper Harmony format handling
             with torch.no_grad():
                 generated_ids = model.generate(
-                    input_ids,
+                    input_ids=input_ids,
+                    attention_mask=attention_mask,
                     max_new_tokens=min(request.max_new_tokens, 512),
                     temperature=gen_temperature,
                     top_p=request.top_p,
@@ -446,7 +440,8 @@ async def generate(request: GenerateRequest):
                         # Retry generation with converted model
                         with torch.no_grad():
                             generated_ids = model.generate(
-                                input_ids,
+                                input_ids=input_ids,
+                                attention_mask=attention_mask,
                                 max_new_tokens=min(request.max_new_tokens, 512),
                                 temperature=gen_temperature,
                                 top_p=request.top_p,
