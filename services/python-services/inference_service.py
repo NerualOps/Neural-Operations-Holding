@@ -336,70 +336,95 @@ async def generate(request: GenerateRequest):
             formatted_prompt = f"User: {request.prompt}\nEpsilon AI: "
             print(f"[INFERENCE SERVICE] Using fallback format (no chat template): {formatted_prompt[:200]}", flush=True)
         
-        # Stop sequences to prevent analysis text patterns
-        analysis_stop_patterns = [
-            "\nThis is Epsilon AI",
-            "\nWe have",
-            "\nThe user",
-            "\nUser says",
-            "\nThey want",
-            "\nWe should",
-            "\nWe need",
-            "\nAs per",
-            "\nAccording to",
-            "\nanalysis",
-            "\nAnalysis",
+        # Harmony format stopping criteria - stop at markers like "assistantfinal"
+        harmony_stop_markers = [
+            "assistantfinal",
+            "Assistantfinal",
+            "ASSISTANTFINAL",
             "\nassistantfinal",
-            "\nAssistantfinal",
-            "This is Epsilon AI",
-            "We have user",
-            "The user says",
-            "User says",
-            "They want",
-            "We should respond",
-            "We need to respond",
-            "As per instructions",
-            "According to",
-            "analysisThe",
-            "assistantfinal"
+            "\nAssistantfinal"
         ]
         
-        stop_token_ids = []
-        for stop_seq in analysis_stop_patterns:
+        # Build stop token IDs for Harmony markers
+        harmony_stop_token_ids = set()
+        for marker in harmony_stop_markers:
             try:
-                stop_tokens = tokenizer.encode(stop_seq, add_special_tokens=False)
-                if len(stop_tokens) > 0:
-                    stop_token_ids.extend(stop_tokens)
+                tokens = tokenizer.encode(marker, add_special_tokens=False)
+                if len(tokens) > 0:
+                    harmony_stop_token_ids.add(tokens[0])  # Use first token of marker
             except:
                 pass
         
+        # Add user-provided stop sequences
         if request.stop and len(request.stop) > 0:
             for stop_seq in request.stop:
                 try:
-                    stop_tokens = tokenizer.encode(stop_seq, add_special_tokens=False)
-                    if len(stop_tokens) > 0:
-                        stop_token_ids.extend(stop_tokens)
+                    tokens = tokenizer.encode(stop_seq, add_special_tokens=False)
+                    if len(tokens) > 0:
+                        harmony_stop_token_ids.add(tokens[0])
                 except:
                     pass
+        
+        # Create stopping criteria class for Harmony format markers
+        class HarmonyStoppingCriteria(StoppingCriteria):
+            def __init__(self, stop_token_ids, tokenizer, prompt_text):
+                self.stop_token_ids = stop_token_ids
+                self.tokenizer = tokenizer
+                self.prompt_text = prompt_text
+            
+            def __call__(self, input_ids, scores, **kwargs):
+                # Check if last token is a stop token
+                last_token = input_ids[0, -1].item()
+                if last_token in self.stop_token_ids:
+                    return True
+                
+                # Also check if generated text contains Harmony markers
+                try:
+                    current_text = self.tokenizer.decode(input_ids[0], skip_special_tokens=False)
+                    # Check for Harmony markers in the generated portion (after prompt)
+                    prompt_len = len(self.prompt_text)
+                    if len(current_text) > prompt_len:
+                        generated_portion = current_text[prompt_len:]
+                        for marker in harmony_stop_markers:
+                            if marker.lower() in generated_portion.lower():
+                                return True
+                except:
+                    pass
+                
+                return False
         
         # Use standard temperature (0.7) for natural responses
         gen_temperature = request.temperature if request.temperature > 0 else 0.7
         
+        # Tokenize input
+        input_ids = tokenizer.encode(formatted_prompt, return_tensors="pt")
+        if torch.cuda.is_available():
+            input_ids = input_ids.to(model.device)
+        
+        # Create stopping criteria
+        stopping_criteria = StoppingCriteriaList([
+            HarmonyStoppingCriteria(harmony_stop_token_ids, tokenizer, formatted_prompt)
+        ])
+        
         try:
-            # Build generation kwargs - transformers pipeline doesn't support stop_token_ids directly
-            gen_kwargs = {
-                "max_new_tokens": min(request.max_new_tokens, 512),
-                "temperature": gen_temperature,
-                "top_p": request.top_p,
-                "repetition_penalty": request.repetition_penalty,
-                "do_sample": True,
-                "return_full_text": False,
-                "pad_token_id": tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id,
-                "eos_token_id": tokenizer.eos_token_id
-            }
+            # Use model.generate() directly with stopping criteria for proper Harmony format handling
+            with torch.no_grad():
+                generated_ids = model.generate(
+                    input_ids,
+                    max_new_tokens=min(request.max_new_tokens, 512),
+                    temperature=gen_temperature,
+                    top_p=request.top_p,
+                    repetition_penalty=request.repetition_penalty,
+                    do_sample=True,
+                    pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id,
+                    eos_token_id=tokenizer.eos_token_id,
+                    stopping_criteria=stopping_criteria
+                )
             
-            outputs = pipe(formatted_prompt, **gen_kwargs)
-            print(f"[INFERENCE SERVICE] Generated output type: {type(outputs)}, length: {len(outputs) if isinstance(outputs, list) else 'N/A'}", flush=True)
+            # Decode only the newly generated tokens (not the prompt)
+            generated_tokens = generated_ids[0, input_ids.shape[1]:]
+            generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=False)
+            print(f"[INFERENCE SERVICE] Generated text (first 300 chars): {generated_text[:300]}", flush=True)
         except RuntimeError as e:
             if "dtype" in str(e).lower() or "scalar type" in str(e).lower():
                 print(f"[INFERENCE SERVICE] Dtype mismatch detected, attempting to convert model to float16...", flush=True)
@@ -421,6 +446,7 @@ async def generate(request: GenerateRequest):
                             )
                         generated_tokens = generated_ids[0, input_ids.shape[1]:]
                         generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=False)
+                        print(f"[INFERENCE SERVICE] Generated text after dtype conversion (first 300 chars): {generated_text[:300]}", flush=True)
                     except Exception as conv_error:
                         print(f"[INFERENCE SERVICE] Failed to convert model dtype: {conv_error}", flush=True)
                         raise e  # Re-raise original error
@@ -431,45 +457,37 @@ async def generate(request: GenerateRequest):
         
         generated_text = generated_text.strip()
         
-        # Remove analysis text if it appears at the start (defensive cleanup)
-        analysis_prefixes = [
-            "This is Epsilon AI",
-            "We have",
-            "The user",
-            "User says",
-            "They want",
-            "We should",
-            "We need",
-            "As per",
-            "According to",
-            "analysis",
-            "Analysis",
-            "assistantfinal",
-            "Assistantfinal"
-        ]
-        
-        # Check if text starts with analysis pattern
+        # Harmony format cleanup: Extract only the final response after markers
+        # The stopping criteria should have stopped generation, but if markers appear, extract final section
+        harmony_markers = ["assistantfinal", "Assistantfinal", "ASSISTANTFINAL"]
         text_lower = generated_text.lower()
+        
+        # If "assistantfinal" marker exists, extract everything after it
+        for marker in harmony_markers:
+            marker_pos = text_lower.find(marker.lower())
+            if marker_pos != -1:
+                # Extract text after marker
+                after_marker = generated_text[marker_pos + len(marker):].strip()
+                # Remove any leading punctuation/whitespace
+                after_marker = after_marker.lstrip('.,;:!? \n\t')
+                if len(after_marker) > 0:
+                    generated_text = after_marker
+                    print(f"[INFERENCE SERVICE] Extracted response after Harmony marker '{marker}'", flush=True)
+                    break
+        
+        # Remove any remaining analysis prefixes at the start (defensive)
+        analysis_prefixes = ["This is Epsilon AI", "We have", "The user", "User says", "They want", "We should", "We need"]
+        text_lower = generated_text.lower().strip()
         for prefix in analysis_prefixes:
             if text_lower.startswith(prefix.lower()):
-                # Find where actual response starts (after first sentence or marker)
-                sentences = generated_text.split('.')
-                if len(sentences) > 1:
-                    # Skip first sentence if it's analysis
-                    for i, sent in enumerate(sentences[1:], 1):
-                        sent_lower = sent.strip().lower()
-                        # If sentence doesn't start with analysis pattern, use from here
-                        if not any(sent_lower.startswith(p.lower()) for p in analysis_prefixes):
-                            generated_text = '. '.join(sentences[i:]).strip()
-                            break
-                # If still starts with analysis, try finding common response starters
-                if generated_text.lower().startswith(prefix.lower()):
-                    response_starters = ["Hi", "Hello", "Hey", "I'm", "I am", "Sure", "Yes", "No", "Here"]
-                    for starter in response_starters:
-                        pos = generated_text.find(starter)
-                        if pos > 0 and pos < 200:
-                            generated_text = generated_text[pos:].strip()
-                            break
+                # Find common response starters
+                response_starters = ["Hi", "Hello", "Hey", "I'm", "I am", "Sure", "Yes", "No", "Here", "I", "Let"]
+                for starter in response_starters:
+                    pos = generated_text.find(starter)
+                    if pos > 0 and pos < 300:
+                        generated_text = generated_text[pos:].strip()
+                        print(f"[INFERENCE SERVICE] Cleaned analysis prefix, response starts at pos {pos}", flush=True)
+                        break
                 break
         
         # Calculate tokens
