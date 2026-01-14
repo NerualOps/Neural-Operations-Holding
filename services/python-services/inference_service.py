@@ -383,7 +383,7 @@ async def generate(request: GenerateRequest):
         gen_temperature = request.temperature if request.temperature > 0 else 0.7
         
         try:
-            # Build generation kwargs - transformers pipeline doesn't support stop_strings directly
+            # Build generation kwargs - transformers pipeline doesn't support stop_token_ids directly
             gen_kwargs = {
                 "max_new_tokens": min(request.max_new_tokens, 512),
                 "temperature": gen_temperature,
@@ -394,10 +394,6 @@ async def generate(request: GenerateRequest):
                 "pad_token_id": tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id,
                 "eos_token_id": tokenizer.eos_token_id
             }
-            
-            # Add stop token IDs if we have them
-            if stop_token_ids:
-                gen_kwargs["stop_token_ids"] = stop_token_ids[:10]  # Limit to first 10
             
             outputs = pipe(formatted_prompt, **gen_kwargs)
             print(f"[INFERENCE SERVICE] Generated output type: {type(outputs)}, length: {len(outputs) if isinstance(outputs, list) else 'N/A'}", flush=True)
@@ -423,8 +419,6 @@ async def generate(request: GenerateRequest):
                             "return_full_text": False,
                             "pad_token_id": tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id
                         }
-                        if stop_token_ids:
-                            gen_kwargs_retry["stop_token_ids"] = stop_token_ids[:10]
                         outputs = pipe(formatted_prompt, **gen_kwargs_retry)
                     except Exception as conv_error:
                         print(f"[INFERENCE SERVICE] Failed to convert model dtype: {conv_error}", flush=True)
