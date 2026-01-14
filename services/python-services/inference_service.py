@@ -13,7 +13,7 @@ import torch
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline, StoppingCriteria, StoppingCriteriaList
+from transformers import AutoTokenizer, AutoModelForCausalLM, StoppingCriteria, StoppingCriteriaList
 from filelock import FileLock
 from huggingface_hub import snapshot_download
 
@@ -53,7 +53,7 @@ MODEL_DIR = os.getenv('EPSILON_MODEL_DIR', str(Path('/workspace/models/epsilon-2
 
 def load_model():
     """Load Epsilon AI model using transformers - optimized for GPU"""
-    global model, tokenizer, pipe, model_metadata
+    global model, tokenizer, model_metadata
     
     # Use file lock to prevent concurrent downloads from multiple workers
     lock_dir = Path(__file__).parent / '.cursor'
@@ -174,7 +174,7 @@ def load_model():
         print(f"[INFERENCE SERVICE] Loading model on GPU from local path: {local_path}", flush=True)
         
         # Clear any existing model from memory first
-        global model, pipe
+        global model
         if model is not None:
             print(f"[INFERENCE SERVICE] Clearing existing model from memory...", flush=True)
             del model
@@ -239,7 +239,6 @@ def load_model():
         # The /generate endpoint will return 503 if model is not loaded
         model = None
         tokenizer = None
-        pipe = None
         model_metadata = None
 
 
@@ -309,9 +308,9 @@ async def model_info():
 @app.post("/generate", response_model=GenerateResponse)
 async def generate(request: GenerateRequest):
     """Generate text using Epsilon AI with Harmony format"""
-    global model, pipe  # Allow modification of global variables
+    global model  # Allow modification of global variables
     
-    if model is None or tokenizer is None or pipe is None:
+    if model is None or tokenizer is None:
         raise HTTPException(status_code=503, detail="Model not loaded. Check /health endpoint.")
     
     try:
@@ -530,7 +529,7 @@ async def generate(request: GenerateRequest):
 @app.post("/reload-model")
 async def reload_model():
     """Reload model"""
-    global model, tokenizer, pipe
+    global model, tokenizer
     
     try:
         load_model()
