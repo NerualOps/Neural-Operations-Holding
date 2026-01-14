@@ -289,9 +289,17 @@
         
         .chat-interface { width: 100%; height: 100vh; display: flex; flex-direction: column; transition: margin-left 0.35s ease; }
         .chat-interface.sidebar-open { margin-left: 280px; }
-        .chat-container { flex: 1; max-width: 800px; width: 100%; margin: 0 auto; padding: 100px 2rem 2rem; overflow-y: auto; }
+        .chat-container { 
+            flex: 1; 
+            max-width: 800px; 
+            width: 100%; 
+            margin: 0 auto; 
+            padding: 100px 2rem 2rem; 
+            overflow-y: auto; 
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
+        }
         .chat-container::-webkit-scrollbar { display: none; }
-        .chat-container { -ms-overflow-style: none; scrollbar-width: none; }
         
         @media (max-width: 768px) {
             .chat-container { 
