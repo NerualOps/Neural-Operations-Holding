@@ -3585,10 +3585,9 @@ const netlifyToExpress = (netlifyHandler) => {
 // API routes
 app.use('/api/auth', authLimiter, netlifyToExpress(authHandler));
 app.use('/.netlify/functions/auth', authLimiter, netlifyToExpress(authHandler));
-app.use('/api/analytics', apiLimiter, netlifyToExpress(analyticsHandler));
-app.use('/.netlify/functions/analytics', apiLimiter, netlifyToExpress(analyticsHandler));
 
 // Public analytics tracking endpoint (no auth required - for cookie consent tracking)
+// Must be BEFORE the /api/analytics route to avoid handler conflicts
 app.post('/api/analytics/track', apiLimiter, async (req, res) => {
   try {
     // Handle empty or malformed body gracefully
@@ -3635,12 +3634,13 @@ app.post('/api/analytics/track', apiLimiter, async (req, res) => {
     
     res.json({ success: true });
   } catch (error) {
-    console.debug('Analytics tracking error:', error.message);
     res.json({ success: false });
   }
 });
 
-// Analytics fallback endpoint removed - all analytics must go through /api/analytics
+// Protected analytics endpoints (require auth)
+app.use('/api/analytics', apiLimiter, netlifyToExpress(analyticsHandler));
+app.use('/.netlify/functions/analytics', apiLimiter, netlifyToExpress(analyticsHandler));
 // This ensures proper error handling and service availability checks
 // Debug endpoint removed - use /api/documents instead
 
