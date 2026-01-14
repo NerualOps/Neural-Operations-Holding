@@ -44,7 +44,7 @@ except ImportError:
     config_path = Path(__file__).parent
     if str(config_path) not in sys.path:
         sys.path.insert(0, str(config_path))
-    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
+from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
 
 # Model configuration
 MODEL_ID = os.getenv('EPSILON_MODEL_ID', HF_MODEL_ID)
@@ -319,9 +319,9 @@ async def generate(request: GenerateRequest):
         # The model was trained with harmony_format, so we must use the tokenizer's chat template
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
             # Harmony format uses system + user messages, chat template handles formatting
-            messages = [
+        messages = [
                 {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC."},
-                {"role": "user", "content": request.prompt}
+            {"role": "user", "content": request.prompt}
             ]
             # add_generation_prompt=True ensures proper harmony format response generation
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
@@ -359,12 +359,23 @@ async def generate(request: GenerateRequest):
         eot_token_id = None
         if hasattr(tokenizer, 'eos_token_id') and tokenizer.eos_token_id is not None:
             eot_token_id = tokenizer.eos_token_id
+        
+        # Check additional_special_tokens
         if hasattr(tokenizer, 'additional_special_tokens') and tokenizer.additional_special_tokens:
             for special_token in tokenizer.additional_special_tokens:
                 if 'eot' in special_token.lower() or 'end_of_turn' in special_token.lower():
                     eot_token_id = tokenizer.convert_tokens_to_ids(special_token)
-                    print(f"[INFERENCE SERVICE] Found EOT token: {special_token} (ID: {eot_token_id})", flush=True)
+                    print(f"[INFERENCE SERVICE] Found EOT token in additional_special_tokens: {special_token} (ID: {eot_token_id})", flush=True)
                     break
+        
+        # Also check special_tokens_map (some tokenizers put EOT there instead)
+        if eot_token_id is None or eot_token_id == tokenizer.eos_token_id:
+            if hasattr(tokenizer, 'special_tokens_map') and tokenizer.special_tokens_map:
+                for k, v in tokenizer.special_tokens_map.items():
+                    if isinstance(v, str) and ("eot" in v.lower() or "end_of_turn" in v.lower()):
+                        eot_token_id = tokenizer.convert_tokens_to_ids(v)
+                        print(f"[INFERENCE SERVICE] Found EOT token in special_tokens_map: {k}={v} (ID: {eot_token_id})", flush=True)
+                        break
         
         # Use standard temperature (0.7) for natural responses
         gen_temperature = request.temperature if request.temperature > 0 else 0.7
@@ -474,9 +485,9 @@ async def generate(request: GenerateRequest):
                                 attention_mask=attention_mask,
                                 max_new_tokens=min(request.max_new_tokens, 512),
                                 temperature=gen_temperature,
-                                top_p=request.top_p,
-                                repetition_penalty=request.repetition_penalty,
-                                do_sample=True,
+            top_p=request.top_p,
+            repetition_penalty=request.repetition_penalty,
+            do_sample=True,
                                 pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_token_id,
                                 eos_token_id=eos_token_id,
                                 stopping_criteria=stopping_criteria
