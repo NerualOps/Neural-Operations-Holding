@@ -81,8 +81,7 @@
                 left: 0.75rem;
             }
             .sidebar-toggle {
-                top: 3.5rem;
-                left: 0.75rem;
+                position: relative;
             }
             
             /* When sidebar is open, hide the toggle button */
@@ -127,11 +126,8 @@
             filter: none;
             object-fit: contain;
         }
-        body.sidebar-open .sidebar-toggle { left: calc(1.5rem + 280px); }
         .sidebar-toggle { 
-            position: fixed; 
-            top: 1.5rem; 
-            left: calc(1.5rem + 56px + 0.75rem); 
+            position: relative;
             width: 48px; 
             height: 48px; 
             background: transparent; 
@@ -779,8 +775,8 @@
         <a href="/" class="home-logo-link" aria-label="Home">
             <img src="/logo.png" alt="Neural Operations &amp; Holdings LLC" class="home-logo">
         </a>
+        <button class="sidebar-toggle" id="sidebarToggle"><span></span><span></span><span></span></button>
     </div>
-    <button class="sidebar-toggle" id="sidebarToggle"><span></span><span></span><span></span></button>
     
     <div class="top-right-auth" id="topRightAuth">
         <a href="/login" class="top-nav-button">Sign In</a>
