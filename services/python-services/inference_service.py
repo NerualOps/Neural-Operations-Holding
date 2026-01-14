@@ -319,9 +319,9 @@ async def generate(request: GenerateRequest):
         # The model was trained with harmony_format, so we must use the tokenizer's chat template
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
             # Harmony format uses system + user messages, chat template handles formatting
-        messages = [
+            messages = [
                 {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC."},
-            {"role": "user", "content": request.prompt}
+                {"role": "user", "content": request.prompt}
             ]
             # add_generation_prompt=True ensures proper harmony format response generation
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
