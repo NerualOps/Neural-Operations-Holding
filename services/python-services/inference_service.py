@@ -184,7 +184,6 @@ def load_model():
             model = None
             pipe = None
         
-        # Clear GPU cache aggressively before loading to avoid fragmentation
         if torch.cuda.is_available():
             import gc
             gc.collect()
@@ -321,21 +320,14 @@ async def generate(request: GenerateRequest):
         # Keep it simple to prevent the model from generating analysis/thinking text
         system_instruction = "You are Epsilon AI, created by Neural Operations & Holdings LLC. Respond naturally and directly to the user. Do not explain your reasoning or show your thinking process."
         
-        # Format prompt - try chat template if available, otherwise use plain prompt
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
-            # Use chat template for proper formatting with system message
             messages = [
                 {"role": "system", "content": system_instruction},
                 {"role": "user", "content": request.prompt}
             ]
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
         else:
-            # Fallback to plain prompt with system instruction
             formatted_prompt = f"System: {system_instruction}\n\nUser: {request.prompt}\nEpsilon AI:"
-        
-        # Generate using pipeline
-        # Use formatted prompt as string (pipeline handles tokenization)
-        # Wrap in try-catch to handle dtype mismatches if model is bfloat16 but pipeline expects float16
         try:
             # Prepare stop sequences to prevent analysis text generation
             stop_sequences = []
@@ -365,25 +357,19 @@ async def generate(request: GenerateRequest):
                 eos_token_id=tokenizer.eos_token_id if not stop_token_ids else None
             )
             
-            # Post-process to remove any analysis text that still appears
-            # (This is a safety net - the stop sequences should prevent it)
         except RuntimeError as e:
-            # Handle dtype mismatch errors (e.g., "expected scalar type Half but found BFloat16")
             if "dtype" in str(e).lower() or "scalar type" in str(e).lower():
                 print(f"[INFERENCE SERVICE] Dtype mismatch detected, attempting to convert model to float16...", flush=True)
-                # Convert model to float16 if it's bfloat16
                 if hasattr(model, 'to'):
                     try:
                         model = model.to(torch.float16)
-                        # Recreate pipeline with converted model
                         pipe = pipeline(
                             "text-generation",
                             model=model,
                             tokenizer=tokenizer,
-                            dtype=torch.float16,  # Use dtype instead of deprecated torch_dtype
+                            dtype=torch.float16,
                             device_map="auto",
                         )
-                        # Retry generation
                         outputs = pipe(
                             formatted_prompt,
                             max_new_tokens=min(request.max_new_tokens, 512),
@@ -411,24 +397,15 @@ async def generate(request: GenerateRequest):
         else:
             generated_text = str(outputs).strip()
         
-        # CRITICAL: Find where the actual response starts by looking for analysis conclusion markers
-        # The model sometimes generates: "analysis... Ok.<actual response>"
-        # We need to find the actual response after "Ok." or similar markers
         analysis_markers = ["Ok.", "Okay.", "So,", "Therefore,", "Thus,"]
         for marker in analysis_markers:
             if marker in generated_text:
-                # Find the position after the marker
                 marker_pos = generated_text.find(marker)
                 if marker_pos != -1:
-                    # Get text after marker, but check if there's actual content
                     after_marker = generated_text[marker_pos + len(marker):].strip()
-                    # If there's substantial content after marker, use that (likely the real response)
                     if len(after_marker) > 10:
                         generated_text = after_marker
                         break
-        
-        # Clean up the response - ALWAYS remove analysis text and unwanted prefixes
-        # Remove "analysis" prefixes (internal thinking process) - be aggressive
         generated_text = re.sub(r'analysis\s*', '', generated_text, flags=re.IGNORECASE)
         # Remove "assistantfinal" prefix
         generated_text = re.sub(r'assistantfinal\s*', '', generated_text, flags=re.IGNORECASE)
