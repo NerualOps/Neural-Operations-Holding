@@ -494,8 +494,7 @@ async def generate(request: GenerateRequest):
         harmony_markers = [
             "assistantfinal", "Assistantfinal", "ASSISTANTFINAL",
             "assistant_final", "Assistant_final", "ASSISTANT_FINAL",
-            "<final>", "</final>",
-            "### final", "## final"
+            "<final>", "</final>"
         ]
         text_lower = generated_text.lower()
         
@@ -512,7 +511,11 @@ async def generate(request: GenerateRequest):
                     print(f"[INFERENCE SERVICE] Extracted response after Harmony marker '{marker}'", flush=True)
                     break
         
-        # Check for regex patterns (markdown markers at line boundaries)
+        # Check for regex patterns (markdown markers at line boundaries only)
+        harmony_marker_regex = [
+            re.compile(r"(^|\n)##\s*final\b", re.IGNORECASE),
+            re.compile(r"(^|\n)###\s*final\b", re.IGNORECASE)
+        ]
         for pattern in harmony_marker_regex:
             match = pattern.search(generated_text)
             if match:
