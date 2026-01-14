@@ -9,6 +9,7 @@ os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True'
 
 from pathlib import Path
 from typing import Optional, List
+import re
 import torch
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -344,11 +345,13 @@ async def generate(request: GenerateRequest):
             "\nassistant_final",
             "\nAssistant_final",
             "<final>",
-            "</final>",
-            "### final",
-            "\n### final",
-            "## final",
-            "\n## final"
+            "</final>"
+        ]
+        
+        # Markdown-style markers with strict line-boundary matching (regex patterns)
+        harmony_stop_regex = [
+            r"(^|\n)##\s*final\b",
+            r"(^|\n)###\s*final\b"
         ]
         
         # Check for end-of-turn tokens (many chat models use special EOT tokens)
@@ -390,10 +393,11 @@ async def generate(request: GenerateRequest):
         
         # Create stopping criteria class for Harmony format markers
         class HarmonyStoppingCriteria(StoppingCriteria):
-            def __init__(self, prompt_len_tokens: int, tokenizer, markers, window_tokens: int = 80):
+            def __init__(self, prompt_len_tokens: int, tokenizer, markers, regex_patterns, window_tokens: int = 80):
                 self.prompt_len = prompt_len_tokens
                 self.tok = tokenizer
                 self.markers = [m.lower() for m in markers]
+                self.regex_patterns = [re.compile(pattern, re.IGNORECASE) for pattern in regex_patterns]
                 self.window = window_tokens
             
             def __call__(self, input_ids, scores, **kwargs):
@@ -406,12 +410,21 @@ async def generate(request: GenerateRequest):
                 tail = gen_ids[-self.window:] if gen_ids.shape[0] > self.window else gen_ids
                 text = self.tok.decode(tail, skip_special_tokens=False).lower()
                 
-                # Check for Harmony markers in the decoded window
-                return any(m in text for m in self.markers)
+                # Check for simple string markers
+                if any(m in text for m in self.markers):
+                    return True
+                
+                # Check for regex patterns (markdown markers at line boundaries)
+                for pattern in self.regex_patterns:
+                    if pattern.search(text):
+                        return True
+                
+                return False
         
         # Create stopping criteria
+        # max_new_tokens already provides a safety limit, so stopping criteria is the primary control
         stopping_criteria = StoppingCriteriaList([
-            HarmonyStoppingCriteria(prompt_len_tokens, tokenizer, harmony_stop_markers)
+            HarmonyStoppingCriteria(prompt_len_tokens, tokenizer, harmony_stop_markers, harmony_stop_regex)
         ])
         
         # Add EOT token to eos_token_id if found
@@ -423,18 +436,19 @@ async def generate(request: GenerateRequest):
         
         try:
             # Use model.generate() directly with stopping criteria for proper Harmony format handling
+            # max_new_tokens provides a safety limit (belt-and-suspenders) in case stopping criteria never triggers
             with torch.no_grad():
                 generated_ids = model.generate(
                     input_ids=input_ids,
                     attention_mask=attention_mask,
-                    max_new_tokens=min(request.max_new_tokens, 512),
+                    max_new_tokens=min(request.max_new_tokens, 512),  # Safety limit: prevents infinite generation
                     temperature=gen_temperature,
                     top_p=request.top_p,
                     repetition_penalty=request.repetition_penalty,
                     do_sample=True,
                     pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_token_id,
                     eos_token_id=eos_token_id,
-                    stopping_criteria=stopping_criteria
+                    stopping_criteria=stopping_criteria  # Primary stopping mechanism
                 )
             
             # Decode only the newly generated tokens (not the prompt)
@@ -496,6 +510,18 @@ async def generate(request: GenerateRequest):
                 if len(after_marker) > 0:
                     generated_text = after_marker
                     print(f"[INFERENCE SERVICE] Extracted response after Harmony marker '{marker}'", flush=True)
+                    break
+        
+        # Check for regex patterns (markdown markers at line boundaries)
+        for pattern in harmony_marker_regex:
+            match = pattern.search(generated_text)
+            if match:
+                # Extract text after the matched marker
+                after_marker = generated_text[match.end():].strip()
+                after_marker = after_marker.lstrip('.,;:!? \n\t')
+                if len(after_marker) > 0:
+                    generated_text = after_marker
+                    print(f"[INFERENCE SERVICE] Extracted response after Harmony regex marker", flush=True)
                     break
         
         # Remove any remaining analysis prefixes at the start (defensive)
