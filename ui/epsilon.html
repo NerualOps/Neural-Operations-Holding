@@ -98,7 +98,10 @@
             top: 1.5rem; 
             left: 1.5rem; 
             z-index: 2000; 
-            transition: left 0.35s ease; 
+            transition: left 0.35s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
         .home-logo-link {
@@ -108,14 +111,14 @@
         }
 
         .home-logo {
-            height: 48px;
+            height: 56px;
             width: auto;
             display: block;
             object-fit: contain;
         }
 
         @media (max-width: 768px) {
-            .home-logo { height: 40px; }
+            .home-logo { height: 44px; }
         }
         
         .top-left-nav img {
@@ -127,10 +130,10 @@
         body.sidebar-open .sidebar-toggle { left: calc(1.5rem + 280px); }
         .sidebar-toggle { 
             position: fixed; 
-            top: 5rem; 
-            left: 1.5rem; 
-            width: 40px; 
-            height: 40px; 
+            top: 1.5rem; 
+            left: calc(1.5rem + 56px + 0.75rem); 
+            width: 48px; 
+            height: 48px; 
             background: transparent; 
             border: 1px solid var(--ash-neutral); 
             border-radius: 6px; 
