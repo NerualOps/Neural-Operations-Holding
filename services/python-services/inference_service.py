@@ -481,10 +481,16 @@ async def generate(request: GenerateRequest):
         
         # Harmony format cleanup: Extract only the final response after markers
         # The stopping criteria should have stopped generation, but if markers appear, extract final section
-        harmony_markers = ["assistantfinal", "Assistantfinal", "ASSISTANTFINAL"]
+        harmony_markers = [
+            "assistantfinal", "Assistantfinal", "ASSISTANTFINAL",
+            "assistant_final", "Assistant_final", "ASSISTANT_FINAL",
+            "final", "Final", "FINAL",
+            "<final>", "</final>",
+            "### Final", "### final", "## Final", "## final"
+        ]
         text_lower = generated_text.lower()
         
-        # If "assistantfinal" marker exists, extract everything after it
+        # If any Harmony marker exists, extract everything after it
         for marker in harmony_markers:
             marker_pos = text_lower.find(marker.lower())
             if marker_pos != -1:
