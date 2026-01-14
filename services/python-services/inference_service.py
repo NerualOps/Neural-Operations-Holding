@@ -432,7 +432,10 @@ async def generate(request: GenerateRequest):
         if eot_token_id is not None and eot_token_id != eos_token_id:
             # Use EOT as the primary stop token
             eos_token_id = eot_token_id
-            print(f"[INFERENCE SERVICE] Using EOT token ID {eot_token_id} as eos_token_id", flush=True)
+            print(f"[INFERENCE SERVICE] Using detected EOT token (ID: {eot_token_id}) as primary stop token", flush=True)
+        else:
+            print(f"[INFERENCE SERVICE] No specific EOT token found, using eos_token_id: {tokenizer.eos_token_id}", flush=True)
+            print(f"[INFERENCE SERVICE] Harmony format markers will provide additional stopping control", flush=True)
         
         try:
             # Use model.generate() directly with stopping criteria for proper Harmony format handling
