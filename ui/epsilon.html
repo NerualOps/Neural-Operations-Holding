@@ -1768,8 +1768,8 @@
     };
     </script>
     
-    <script src="/services/libs/supabase.js" defer></script>
-    <script src="/core/epsilon-learning-engine.js" defer></script>
+    <script src="/services/libs/supabase.js" defer onerror="console.error('Failed to load supabase.js')"></script>
+    <script src="/core/epsilon-learning-engine.js" defer onerror="console.error('Failed to load epsilon-learning-engine.js')"></script>
     
     <!-- Cookie Consent Banner -->
     <div id="cookie-consent-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #ffffff; padding: 20px; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5); z-index: 10000; border-top: 1px solid #F97316; will-change: transform, opacity; backface-visibility: hidden;">
@@ -1824,8 +1824,8 @@
     </div>
     
     <!-- Analytics & Cookie Consent Scripts -->
-    <script src="/analytics.js" defer></script>
-    <script src="/cookie-consent.js" defer></script>
+    <script src="/analytics.js" defer onerror="console.error('Failed to load analytics.js')"></script>
+    <script src="/cookie-consent.js" defer onerror="console.error('Failed to load cookie-consent.js')"></script>
     
     <script>
         function createStarfield() {
