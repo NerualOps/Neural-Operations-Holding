@@ -320,18 +320,21 @@ async def generate(request: GenerateRequest):
         raise HTTPException(status_code=503, detail="Model not loaded. Check /health endpoint.")
     
     try:
-        # Use proper chat template with minimal system message for identity only
+        # Harmony format: Use chat template exactly as model was trained
+        # The model was trained with harmony_format, so we must use the tokenizer's chat template
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
+            # Harmony format uses system + user messages, chat template handles formatting
             messages = [
                 {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC."},
                 {"role": "user", "content": request.prompt}
             ]
+            # add_generation_prompt=True ensures proper harmony format response generation
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-            print(f"[INFERENCE SERVICE] Formatted prompt (first 200 chars): {formatted_prompt[:200]}", flush=True)
+            print(f"[INFERENCE SERVICE] Harmony format prompt (first 200 chars): {formatted_prompt[:200]}", flush=True)
         else:
-            # Fallback format - clear user/assistant structure
+            # Fallback if chat template not available - use harmony-style format
             formatted_prompt = f"User: {request.prompt}\nEpsilon AI: "
-            print(f"[INFERENCE SERVICE] Using fallback prompt format: {formatted_prompt[:200]}", flush=True)
+            print(f"[INFERENCE SERVICE] Using fallback format (no chat template): {formatted_prompt[:200]}", flush=True)
         
         # Stop sequences to prevent analysis text patterns
         analysis_stop_patterns = [
