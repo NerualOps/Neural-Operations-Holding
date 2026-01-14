@@ -1585,6 +1585,13 @@
                             }
                             window.addMessage(msg.role === 'epsilon' ? 'assistant' : 'user', msg.text, msg.role === 'epsilon' ? (msg.conversation_id || lastConversationId) : null);
                         });
+                        
+                        var chatContainer = document.querySelector('.chat-container');
+                        if (chatContainer) {
+                            setTimeout(function() {
+                                chatContainer.scrollTop = chatContainer.scrollHeight;
+                            }, 150);
+                        }
                     }
                     if (bottomChatInput) bottomChatInput.classList.add('visible');
                 }
