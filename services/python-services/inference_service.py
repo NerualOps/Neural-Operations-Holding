@@ -320,35 +320,87 @@ async def generate(request: GenerateRequest):
         raise HTTPException(status_code=503, detail="Model not loaded. Check /health endpoint.")
     
     try:
-        # Use chat template with minimal system message - identity + direct-response constraint
+        # Direct prompt format - no system message to avoid triggering analysis
+        # Just user message followed by assistant response marker
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
+            # Use assistant role directly without system message to prevent meta-thinking
             messages = [
-                {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC. Reply directly with only the answer."},
-                {"role": "user", "content": request.prompt}
+                {"role": "user", "content": request.prompt},
+                {"role": "assistant", "content": ""}
             ]
-            formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+            formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)
+            # If template adds assistant prefix, ensure it's just the response marker
+            if "assistant" in formatted_prompt.lower() and formatted_prompt.strip().endswith(":"):
+                # Good - template is ready
+                pass
+            else:
+                # Fallback to simple format
+                formatted_prompt = f"{request.prompt}\n\n"
         else:
-            formatted_prompt = f"User: {request.prompt}\nEpsilon AI:"
-        try:
-            stop_token_ids = []
-            if request.stop and len(request.stop) > 0:
-                for stop_seq in request.stop:
+            formatted_prompt = f"{request.prompt}\n\n"
+        
+        # Stop sequences to prevent analysis text patterns
+        analysis_stop_patterns = [
+            "\nThis is Epsilon AI",
+            "\nWe have",
+            "\nThe user",
+            "\nUser says",
+            "\nThey want",
+            "\nWe should",
+            "\nWe need",
+            "\nAs per",
+            "\nAccording to",
+            "\nanalysis",
+            "\nAnalysis",
+            "\nassistantfinal",
+            "\nAssistantfinal",
+            "This is Epsilon AI",
+            "We have user",
+            "The user says",
+            "User says",
+            "They want",
+            "We should respond",
+            "We need to respond",
+            "As per instructions",
+            "According to",
+            "analysisThe",
+            "assistantfinal"
+        ]
+        
+        stop_token_ids = []
+        for stop_seq in analysis_stop_patterns:
+            try:
+                stop_tokens = tokenizer.encode(stop_seq, add_special_tokens=False)
+                if len(stop_tokens) > 0:
+                    stop_token_ids.extend(stop_tokens)
+            except:
+                pass
+        
+        if request.stop and len(request.stop) > 0:
+            for stop_seq in request.stop:
+                try:
                     stop_tokens = tokenizer.encode(stop_seq, add_special_tokens=False)
                     if len(stop_tokens) > 0:
-                        stop_token_ids.append(stop_tokens[0])
-            
+                        stop_token_ids.extend(stop_tokens)
+                except:
+                    pass
+        
+        # Lower temperature to reduce analysis/thinking behavior
+        gen_temperature = min(request.temperature, 0.6) if request.temperature > 0.6 else request.temperature
+        
+        try:
             outputs = pipe(
                 formatted_prompt,
                 max_new_tokens=min(request.max_new_tokens, 512),
-                temperature=request.temperature,
+                temperature=gen_temperature,
                 top_p=request.top_p,
                 repetition_penalty=request.repetition_penalty,
                 do_sample=True,
                 return_full_text=False,
                 pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id,
-                eos_token_id=tokenizer.eos_token_id
+                eos_token_id=tokenizer.eos_token_id,
+                stop_strings=analysis_stop_patterns[:10] if hasattr(pipe, 'stop_strings') else None
             )
-            
         except RuntimeError as e:
             if "dtype" in str(e).lower() or "scalar type" in str(e).lower():
                 print(f"[INFERENCE SERVICE] Dtype mismatch detected, attempting to convert model to float16...", flush=True)
@@ -365,12 +417,13 @@ async def generate(request: GenerateRequest):
                         outputs = pipe(
                             formatted_prompt,
                             max_new_tokens=min(request.max_new_tokens, 512),
-                            temperature=request.temperature,
+                            temperature=gen_temperature,
                             top_p=request.top_p,
                             repetition_penalty=request.repetition_penalty,
                             do_sample=True,
                             return_full_text=False,
-                            pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id
+                            pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id,
+                            stop_strings=analysis_stop_patterns[:10] if hasattr(pipe, 'stop_strings') else None
                         )
                     except Exception as conv_error:
                         print(f"[INFERENCE SERVICE] Failed to convert model dtype: {conv_error}", flush=True)
@@ -390,6 +443,47 @@ async def generate(request: GenerateRequest):
             generated_text = str(outputs).strip()
         
         generated_text = generated_text.strip()
+        
+        # Remove analysis text if it appears at the start (defensive cleanup)
+        analysis_prefixes = [
+            "This is Epsilon AI",
+            "We have",
+            "The user",
+            "User says",
+            "They want",
+            "We should",
+            "We need",
+            "As per",
+            "According to",
+            "analysis",
+            "Analysis",
+            "assistantfinal",
+            "Assistantfinal"
+        ]
+        
+        # Check if text starts with analysis pattern
+        text_lower = generated_text.lower()
+        for prefix in analysis_prefixes:
+            if text_lower.startswith(prefix.lower()):
+                # Find where actual response starts (after first sentence or marker)
+                sentences = generated_text.split('.')
+                if len(sentences) > 1:
+                    # Skip first sentence if it's analysis
+                    for i, sent in enumerate(sentences[1:], 1):
+                        sent_lower = sent.strip().lower()
+                        # If sentence doesn't start with analysis pattern, use from here
+                        if not any(sent_lower.startswith(p.lower()) for p in analysis_prefixes):
+                            generated_text = '. '.join(sentences[i:]).strip()
+                            break
+                # If still starts with analysis, try finding common response starters
+                if generated_text.lower().startswith(prefix.lower()):
+                    response_starters = ["Hi", "Hello", "Hey", "I'm", "I am", "Sure", "Yes", "No", "Here"]
+                    for starter in response_starters:
+                        pos = generated_text.find(starter)
+                        if pos > 0 and pos < 200:
+                            generated_text = generated_text[pos:].strip()
+                            break
+                break
         
         # Calculate tokens
         prompt_tokens = len(tokenizer.encode(request.prompt))
