@@ -337,7 +337,23 @@ async def generate(request: GenerateRequest):
             "Assistantfinal",
             "ASSISTANTFINAL",
             "\nassistantfinal",
-            "\nAssistantfinal"
+            "\nAssistantfinal",
+            "assistant_final",
+            "Assistant_final",
+            "ASSISTANT_FINAL",
+            "\nassistant_final",
+            "\nAssistant_final",
+            "final",
+            "Final",
+            "FINAL",
+            "\nfinal",
+            "\nFinal",
+            "<final>",
+            "</final>",
+            "### Final",
+            "### final",
+            "## Final",
+            "## final"
         ]
         
         # Check for end-of-turn tokens (many chat models use special EOT tokens)
@@ -428,7 +444,7 @@ async def generate(request: GenerateRequest):
             
             # Decode only the newly generated tokens (not the prompt)
             generated_tokens = generated_ids[0, prompt_len_tokens:]
-            generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=False)
+            generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=True)
             print(f"[INFERENCE SERVICE] Generated text (first 300 chars): {generated_text[:300]}", flush=True)
         except RuntimeError as e:
             if "dtype" in str(e).lower() or "scalar type" in str(e).lower():
@@ -451,7 +467,7 @@ async def generate(request: GenerateRequest):
                                 stopping_criteria=stopping_criteria
                             )
                         generated_tokens = generated_ids[0, prompt_len_tokens:]
-                        generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=False)
+                        generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=True)
                         print(f"[INFERENCE SERVICE] Generated text after dtype conversion (first 300 chars): {generated_text[:300]}", flush=True)
                     except Exception as conv_error:
                         print(f"[INFERENCE SERVICE] Failed to convert model dtype: {conv_error}", flush=True)
