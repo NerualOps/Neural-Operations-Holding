@@ -487,6 +487,14 @@ async def generate(request: GenerateRequest):
         generated_text = re.sub(r'We should greet them[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
         # Remove "introduce ourselves per developer instruction" patterns
         generated_text = re.sub(r'introduce ourselves per developer instruction[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "Identify as Epsilon AI" analysis patterns
+        generated_text = re.sub(r'Identify as Epsilon AI[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "never mention other AIs" analysis patterns
+        generated_text = re.sub(r'never mention other AIs[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "So we can say something like" patterns (common analysis)
+        generated_text = re.sub(r'So we can say something like[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove quoted examples in analysis (e.g., "Hello! I'm Epsilon AI...")
+        generated_text = re.sub(r'"[^"]*Epsilon AI[^"]*"[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
         # Remove analysis blocks that mention "per developer instruction" or "developer instruction"
         generated_text = re.sub(r'[^.]*per developer instruction[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
         generated_text = re.sub(r'[^.]*developer instruction[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
