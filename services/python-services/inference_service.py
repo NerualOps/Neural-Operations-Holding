@@ -341,70 +341,75 @@ async def generate(request: GenerateRequest):
             "assistantfinal",
             "Assistantfinal",
             "ASSISTANTFINAL",
+            "analysis",
+            "Analysis",
             "\nassistantfinal",
             "\nAssistantfinal"
         ]
         
-        # Build stop token IDs for Harmony markers
-        harmony_stop_token_ids = set()
-        for marker in harmony_stop_markers:
-            try:
-                tokens = tokenizer.encode(marker, add_special_tokens=False)
-                if len(tokens) > 0:
-                    harmony_stop_token_ids.add(tokens[0])  # Use first token of marker
-            except:
-                pass
-        
-        # Add user-provided stop sequences
-        if request.stop and len(request.stop) > 0:
-            for stop_seq in request.stop:
-                try:
-                    tokens = tokenizer.encode(stop_seq, add_special_tokens=False)
-                    if len(tokens) > 0:
-                        harmony_stop_token_ids.add(tokens[0])
-                except:
-                    pass
-        
-        # Create stopping criteria class for Harmony format markers
-        class HarmonyStoppingCriteria(StoppingCriteria):
-            def __init__(self, stop_token_ids, tokenizer, prompt_text):
-                self.stop_token_ids = stop_token_ids
-                self.tokenizer = tokenizer
-                self.prompt_text = prompt_text
-            
-            def __call__(self, input_ids, scores, **kwargs):
-                # Check if last token is a stop token
-                last_token = input_ids[0, -1].item()
-                if last_token in self.stop_token_ids:
-                    return True
-                
-                # Also check if generated text contains Harmony markers
-                try:
-                    current_text = self.tokenizer.decode(input_ids[0], skip_special_tokens=False)
-                    # Check for Harmony markers in the generated portion (after prompt)
-                    prompt_len = len(self.prompt_text)
-                    if len(current_text) > prompt_len:
-                        generated_portion = current_text[prompt_len:]
-                        for marker in harmony_stop_markers:
-                            if marker.lower() in generated_portion.lower():
-                                return True
-                except:
-                    pass
-                
-                return False
+        # Check for end-of-turn tokens (many chat models use special EOT tokens)
+        eot_token_id = None
+        if hasattr(tokenizer, 'eos_token_id') and tokenizer.eos_token_id is not None:
+            eot_token_id = tokenizer.eos_token_id
+        if hasattr(tokenizer, 'additional_special_tokens') and tokenizer.additional_special_tokens:
+            for special_token in tokenizer.additional_special_tokens:
+                if 'eot' in special_token.lower() or 'end_of_turn' in special_token.lower():
+                    eot_token_id = tokenizer.convert_tokens_to_ids(special_token)
+                    print(f"[INFERENCE SERVICE] Found EOT token: {special_token} (ID: {eot_token_id})", flush=True)
+                    break
         
         # Use standard temperature (0.7) for natural responses
         gen_temperature = request.temperature if request.temperature > 0 else 0.7
         
-        # Tokenize input
-        input_ids = tokenizer.encode(formatted_prompt, return_tensors="pt")
-        if torch.cuda.is_available():
-            input_ids = input_ids.to(model.device)
+        # Tokenize input properly
+        tokenized = tokenizer(formatted_prompt, return_tensors="pt")
+        input_ids = tokenized.input_ids
+        prompt_len_tokens = input_ids.shape[1]
+        
+        # Get device from model (handle device_map="auto" correctly)
+        if hasattr(model, 'device'):
+            device = model.device
+        elif hasattr(model, 'hf_device_map') and model.hf_device_map:
+            # For sharded models, use the first device
+            first_device = list(model.hf_device_map.values())[0]
+            device = torch.device(first_device)
+        else:
+            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        
+        input_ids = input_ids.to(device)
+        
+        # Create stopping criteria class for Harmony format markers
+        class HarmonyStoppingCriteria(StoppingCriteria):
+            def __init__(self, prompt_len_tokens: int, tokenizer, markers, window_tokens: int = 80):
+                self.prompt_len = prompt_len_tokens
+                self.tok = tokenizer
+                self.markers = [m.lower() for m in markers]
+                self.window = window_tokens
+            
+            def __call__(self, input_ids, scores, **kwargs):
+                # Get only generated tokens (after prompt)
+                gen_ids = input_ids[0, self.prompt_len:]
+                if gen_ids.numel() == 0:
+                    return False
+                
+                # Only decode the last window of tokens (efficient)
+                tail = gen_ids[-self.window:] if gen_ids.shape[0] > self.window else gen_ids
+                text = self.tok.decode(tail, skip_special_tokens=False).lower()
+                
+                # Check for Harmony markers in the decoded window
+                return any(m in text for m in self.markers)
         
         # Create stopping criteria
         stopping_criteria = StoppingCriteriaList([
-            HarmonyStoppingCriteria(harmony_stop_token_ids, tokenizer, formatted_prompt)
+            HarmonyStoppingCriteria(prompt_len_tokens, tokenizer, harmony_stop_markers)
         ])
+        
+        # Add EOT token to eos_token_id if found
+        eos_token_id = tokenizer.eos_token_id if tokenizer.eos_token_id is not None else tokenizer.pad_token_id
+        if eot_token_id is not None and eot_token_id != eos_token_id:
+            # Use EOT as the primary stop token
+            eos_token_id = eot_token_id
+            print(f"[INFERENCE SERVICE] Using EOT token ID {eot_token_id} as eos_token_id", flush=True)
         
         try:
             # Use model.generate() directly with stopping criteria for proper Harmony format handling
@@ -416,13 +421,13 @@ async def generate(request: GenerateRequest):
                     top_p=request.top_p,
                     repetition_penalty=request.repetition_penalty,
                     do_sample=True,
-                    pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id,
-                    eos_token_id=tokenizer.eos_token_id,
+                    pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_token_id,
+                    eos_token_id=eos_token_id,
                     stopping_criteria=stopping_criteria
                 )
             
             # Decode only the newly generated tokens (not the prompt)
-            generated_tokens = generated_ids[0, input_ids.shape[1]:]
+            generated_tokens = generated_ids[0, prompt_len_tokens:]
             generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=False)
             print(f"[INFERENCE SERVICE] Generated text (first 300 chars): {generated_text[:300]}", flush=True)
         except RuntimeError as e:
@@ -440,11 +445,11 @@ async def generate(request: GenerateRequest):
                                 top_p=request.top_p,
                                 repetition_penalty=request.repetition_penalty,
                                 do_sample=True,
-                                pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id,
-                                eos_token_id=tokenizer.eos_token_id,
+                                pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_token_id,
+                                eos_token_id=eos_token_id,
                                 stopping_criteria=stopping_criteria
                             )
-                        generated_tokens = generated_ids[0, input_ids.shape[1]:]
+                        generated_tokens = generated_ids[0, prompt_len_tokens:]
                         generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=False)
                         print(f"[INFERENCE SERVICE] Generated text after dtype conversion (first 300 chars): {generated_text[:300]}", flush=True)
                     except Exception as conv_error:
