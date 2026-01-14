@@ -320,24 +320,18 @@ async def generate(request: GenerateRequest):
         raise HTTPException(status_code=503, detail="Model not loaded. Check /health endpoint.")
     
     try:
-        # Direct prompt format - no system message to avoid triggering analysis
-        # Just user message followed by assistant response marker
+        # Use proper chat template with minimal system message for identity only
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
-            # Use assistant role directly without system message to prevent meta-thinking
             messages = [
-                {"role": "user", "content": request.prompt},
-                {"role": "assistant", "content": ""}
+                {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC."},
+                {"role": "user", "content": request.prompt}
             ]
-            formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)
-            # If template adds assistant prefix, ensure it's just the response marker
-            if "assistant" in formatted_prompt.lower() and formatted_prompt.strip().endswith(":"):
-                # Good - template is ready
-                pass
-            else:
-                # Fallback to simple format
-                formatted_prompt = f"{request.prompt}\n\n"
+            formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+            print(f"[INFERENCE SERVICE] Formatted prompt (first 200 chars): {formatted_prompt[:200]}", flush=True)
         else:
-            formatted_prompt = f"{request.prompt}\n\n"
+            # Fallback format - clear user/assistant structure
+            formatted_prompt = f"User: {request.prompt}\nEpsilon AI: "
+            print(f"[INFERENCE SERVICE] Using fallback prompt format: {formatted_prompt[:200]}", flush=True)
         
         # Stop sequences to prevent analysis text patterns
         analysis_stop_patterns = [
@@ -385,22 +379,28 @@ async def generate(request: GenerateRequest):
                 except:
                     pass
         
-        # Lower temperature to reduce analysis/thinking behavior
-        gen_temperature = min(request.temperature, 0.6) if request.temperature > 0.6 else request.temperature
+        # Use standard temperature (0.7) for natural responses
+        gen_temperature = request.temperature if request.temperature > 0 else 0.7
         
         try:
-            outputs = pipe(
-                formatted_prompt,
-                max_new_tokens=min(request.max_new_tokens, 512),
-                temperature=gen_temperature,
-                top_p=request.top_p,
-                repetition_penalty=request.repetition_penalty,
-                do_sample=True,
-                return_full_text=False,
-                pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id,
-                eos_token_id=tokenizer.eos_token_id,
-                stop_strings=analysis_stop_patterns[:10] if hasattr(pipe, 'stop_strings') else None
-            )
+            # Build generation kwargs - transformers pipeline doesn't support stop_strings directly
+            gen_kwargs = {
+                "max_new_tokens": min(request.max_new_tokens, 512),
+                "temperature": gen_temperature,
+                "top_p": request.top_p,
+                "repetition_penalty": request.repetition_penalty,
+                "do_sample": True,
+                "return_full_text": False,
+                "pad_token_id": tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id,
+                "eos_token_id": tokenizer.eos_token_id
+            }
+            
+            # Add stop token IDs if we have them
+            if stop_token_ids:
+                gen_kwargs["stop_token_ids"] = stop_token_ids[:10]  # Limit to first 10
+            
+            outputs = pipe(formatted_prompt, **gen_kwargs)
+            print(f"[INFERENCE SERVICE] Generated output type: {type(outputs)}, length: {len(outputs) if isinstance(outputs, list) else 'N/A'}", flush=True)
         except RuntimeError as e:
             if "dtype" in str(e).lower() or "scalar type" in str(e).lower():
                 print(f"[INFERENCE SERVICE] Dtype mismatch detected, attempting to convert model to float16...", flush=True)
@@ -414,17 +414,18 @@ async def generate(request: GenerateRequest):
                             dtype=torch.float16,
                             device_map="auto",
                         )
-                        outputs = pipe(
-                            formatted_prompt,
-                            max_new_tokens=min(request.max_new_tokens, 512),
-                            temperature=gen_temperature,
-                            top_p=request.top_p,
-                            repetition_penalty=request.repetition_penalty,
-                            do_sample=True,
-                            return_full_text=False,
-                            pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id,
-                            stop_strings=analysis_stop_patterns[:10] if hasattr(pipe, 'stop_strings') else None
-                        )
+                        gen_kwargs_retry = {
+                            "max_new_tokens": min(request.max_new_tokens, 512),
+                            "temperature": gen_temperature,
+                            "top_p": request.top_p,
+                            "repetition_penalty": request.repetition_penalty,
+                            "do_sample": True,
+                            "return_full_text": False,
+                            "pad_token_id": tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id
+                        }
+                        if stop_token_ids:
+                            gen_kwargs_retry["stop_token_ids"] = stop_token_ids[:10]
+                        outputs = pipe(formatted_prompt, **gen_kwargs_retry)
                     except Exception as conv_error:
                         print(f"[INFERENCE SERVICE] Failed to convert model dtype: {conv_error}", flush=True)
                         raise e  # Re-raise original error
@@ -443,6 +444,7 @@ async def generate(request: GenerateRequest):
             generated_text = str(outputs).strip()
         
         generated_text = generated_text.strip()
+        print(f"[INFERENCE SERVICE] Raw generated text (first 300 chars): {generated_text[:300]}", flush=True)
         
         # Remove analysis text if it appears at the start (defensive cleanup)
         analysis_prefixes = [
