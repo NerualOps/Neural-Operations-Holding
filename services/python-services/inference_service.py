@@ -409,7 +409,7 @@ async def generate(request: GenerateRequest):
                 
                 # Only decode the last window of tokens (efficient)
                 tail = gen_ids[-self.window:] if gen_ids.shape[0] > self.window else gen_ids
-                text = self.tok.decode(tail, skip_special_tokens=False).lower()
+                text = self.tok.decode(tail, skip_special_tokens=True).lower()
                 
                 # Check for Harmony markers in the decoded window
                 return any(m in text for m in self.markers)
