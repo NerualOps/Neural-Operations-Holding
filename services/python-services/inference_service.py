@@ -10,7 +10,6 @@ os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True'
 from pathlib import Path
 from typing import Optional, List
 import torch
-import re
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -321,10 +320,10 @@ async def generate(request: GenerateRequest):
         raise HTTPException(status_code=503, detail="Model not loaded. Check /health endpoint.")
     
     try:
-        # Use chat template with minimal system message - just identity, no instructions
+        # Use chat template with minimal system message - identity + direct-response constraint
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
             messages = [
-                {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC."},
+                {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC. Reply directly with only the answer."},
                 {"role": "user", "content": request.prompt}
             ]
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
@@ -341,9 +340,9 @@ async def generate(request: GenerateRequest):
             outputs = pipe(
                 formatted_prompt,
                 max_new_tokens=min(request.max_new_tokens, 512),
-                temperature=0.7,
-                top_p=0.9,
-                repetition_penalty=1.2,
+                temperature=request.temperature,
+                top_p=request.top_p,
+                repetition_penalty=request.repetition_penalty,
                 do_sample=True,
                 return_full_text=False,
                 pad_token_id=tokenizer.eos_token_id if tokenizer.pad_token_id is None else tokenizer.pad_token_id,
@@ -390,41 +389,7 @@ async def generate(request: GenerateRequest):
         else:
             generated_text = str(outputs).strip()
         
-        # Find where actual response starts - look for common analysis conclusion markers
-        # Analysis usually ends with markers like "Ok.", "So,", "Therefore," followed by the real response
-        response_start_markers = ["Ok.", "Okay.", "So,", "Therefore,", "Thus,", "Hey there!", "Hi!", "Hello!", "I'm", "I am"]
-        
-        for marker in response_start_markers:
-            marker_lower = marker.lower()
-            if marker_lower in generated_text.lower():
-                marker_pos = generated_text.lower().find(marker_lower)
-                if marker_pos != -1:
-                    # Get text after marker
-                    after_marker = generated_text[marker_pos + len(marker):].strip()
-                    # If there's substantial content after marker and it looks like a real response
-                    if len(after_marker) > 15 and (after_marker[0].isalpha() or after_marker[0] in ['"', "'"]):
-                        generated_text = after_marker
-                        break
-        
-        # Remove analysis patterns that are clearly meta-commentary (not part of legitimate responses)
-        # Only remove if they appear at the start, indicating analysis before response
-        if generated_text.lower().startswith(('user says', 'they want', 'we need respond', 'we should respond', 'we have to respond', 'as per instructions', 'from developer role')):
-            # Find first sentence that doesn't start with analysis
-            sentences = generated_text.split('.')
-            for i, sentence in enumerate(sentences):
-                sentence = sentence.strip()
-                if not sentence:
-                    continue
-                # If sentence doesn't start with analysis pattern, use from here
-                if not any(sentence.lower().startswith(pattern) for pattern in ['user says', 'they want', 'we need', 'we should', 'we have to', 'as per', 'from developer']):
-                    generated_text = '. '.join(sentences[i:]).strip()
-                    break
-        
-        # Replace identity mentions only
-        generated_text = re.sub(r'\bChatGPT\b', 'Epsilon AI', generated_text, flags=re.IGNORECASE)
-        generated_text = re.sub(r'\bChat-GPT\b', 'Epsilon AI', generated_text, flags=re.IGNORECASE)
-        generated_text = re.sub(r'\bOpenAI\b', 'Neural Operations & Holdings LLC', generated_text, flags=re.IGNORECASE)
-        generated_text = re.sub(r'\s+', ' ', generated_text).strip()
+        generated_text = generated_text.strip()
         
         # Calculate tokens
         prompt_tokens = len(tokenizer.encode(request.prompt))

@@ -640,56 +640,7 @@ async function handleGetEpsilonResponse(body) {
       throw new Error('Inference service returned invalid response - no text generated');
     }
     
-    // Safety cleanup: Remove any analysis text that might have slipped through
-    let cleanedResponse = result.text;
-    // Remove analysis prefixes
-    cleanedResponse = cleanedResponse.replace(/analysis\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/assistantfinal\s*/gi, '');
-    // Remove analysis patterns
-    cleanedResponse = cleanedResponse.replace(/User says\s*"[^"]*"\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/User says[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/The user says\s*"[^"]*"\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/The user says[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/They want[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/Just respond[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/No explanation[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/Provide[^.]*answer[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/We need respond as per instructions[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/as per instructions[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/from developer role[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/Also we have system instruction[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/but dev overrides[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/The hierarchy[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/if there's conflict[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/we follow higher priority[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/Here there is no explicit contradiction[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/So I should answer[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/Provide concise info[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/maybe mention[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/However developer says[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/There's potential confusion[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/what do they expect[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/Likely they'd want[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/We should respond[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/We need to[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/We have to[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/The instruction:[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/So reply with[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/So we can say[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/per developer instruction[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/Ensure no references[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/Ok\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/Let's[^.]*\.\s*/gi, '');
-    // Remove entire analysis blocks
-    cleanedResponse = cleanedResponse.replace(/We (have to|should|need to) respond[^.]*\.\s*(We (should|can|need to))?[^.]*\.\s*(So (we can say|reply with))?[^.]*\.\s*(Ensure|Ok\.)?[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/[^.]*per developer instruction[^.]*\.\s*/gi, '');
-    cleanedResponse = cleanedResponse.replace(/[^.]*developer instruction[^.]*\.\s*/gi, '');
-    // Remove ChatGPT/OpenAI mentions
-    cleanedResponse = cleanedResponse.replace(/\bChatGPT\b/gi, 'Epsilon AI');
-    cleanedResponse = cleanedResponse.replace(/\bChat-GPT\b/gi, 'Epsilon AI');
-    cleanedResponse = cleanedResponse.replace(/\bOpenAI\b/gi, 'Neural Operations & Holdings LLC');
-    // Clean up whitespace
-    cleanedResponse = cleanedResponse.replace(/\s+/g, ' ').trim();
+    const cleanedResponse = String(result.text || '').trim();
     
     _silent('[PROXY EPSILON] Response generated via inference client');
     return {

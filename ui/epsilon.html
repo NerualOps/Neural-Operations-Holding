@@ -119,9 +119,9 @@
         }
         
         .top-left-nav img {
-            background: transparent !important;
-            mix-blend-mode: multiply;
-            filter: brightness(0) invert(1);
+            background: transparent;
+            mix-blend-mode: normal;
+            filter: none;
             object-fit: contain;
         }
         body.sidebar-open .sidebar-toggle { left: calc(1.5rem + 280px); }
@@ -525,7 +525,7 @@
             background: rgba(15, 15, 15, 0.3);
         }
         .message-role { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: var(--ash-neutral); margin-bottom: 0.75rem; }
-        .message-text { line-height: 1.7; word-wrap: break-word; color: var(--soft-white); }
+        .message-text { line-height: 1.7; color: var(--soft-white); white-space: pre-wrap; overflow-wrap: anywhere; }
         .message-feedback { margin-top: 1rem; padding-top: 1rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
         .feedback-label { font-size: 0.8rem; color: var(--ash-neutral); }
         .feedback-buttons { display: flex; gap: 0.5rem; align-items: center; }
@@ -1207,6 +1207,34 @@
     
     var msgCounter = 0;
     window.conversationIds = window.conversationIds || {};
+
+    window.scrollChatToBottom = function(force) {
+        var chatContainer = document.querySelector('.chat-container');
+        if (!chatContainer) return;
+        if (force) {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            return;
+        }
+        var nearBottom = (chatContainer.scrollHeight - chatContainer.scrollTop - chatContainer.clientHeight) < 120;
+        if (nearBottom) chatContainer.scrollTop = chatContainer.scrollHeight;
+    };
+
+    window.typeIntoElement = function(el, fullText, opts) {
+        var options = opts || {};
+        var speedMs = typeof options.speedMs === 'number' ? options.speedMs : 12;
+        var chunkSize = typeof options.chunkSize === 'number' ? options.chunkSize : 2;
+        var onUpdate = typeof options.onUpdate === 'function' ? options.onUpdate : function(){};
+        if (!el) return;
+        el.textContent = '';
+        var i = 0;
+        var interval = setInterval(function() {
+            i = Math.min(fullText.length, i + chunkSize);
+            el.textContent = fullText.slice(0, i);
+            onUpdate();
+            if (i >= fullText.length) clearInterval(interval);
+        }, speedMs);
+        return interval;
+    };
     
     window.addMessage = function(role, text, conversationId) {
         var chatMessages = document.getElementById('chatMessages');
@@ -1218,27 +1246,45 @@
         if (conversationId) {
             div.setAttribute('data-conversation-id', conversationId);
         }
-        
-        var messageContent = '<div class="message-role">' + (role === 'user' ? 'You' : 'Epsilon AI') + '</div><div class="message-text">' + text + '</div>';
-        
+
+        var roleEl = document.createElement('div');
+        roleEl.className = 'message-role';
+        roleEl.textContent = role === 'user' ? 'You' : 'Epsilon AI';
+
+        var textEl = document.createElement('div');
+        textEl.className = 'message-text';
+
+        div.appendChild(roleEl);
+        div.appendChild(textEl);
+
+        if (role === 'assistant') {
+            window.typeIntoElement(textEl, String(text || ''), {
+                speedMs: 12,
+                chunkSize: 2,
+                onUpdate: function() { window.scrollChatToBottom(true); }
+            });
+        } else {
+            textEl.textContent = String(text || '');
+        }
+
         if (role === 'assistant' && conversationId) {
-            messageContent += '<div class="message-feedback">' +
+            var feedbackWrap = document.createElement('div');
+            feedbackWrap.className = 'message-feedback';
+            feedbackWrap.innerHTML =
                 '<span class="feedback-label">Was this helpful?</span>' +
                 '<div class="feedback-buttons">' +
                 '<button class="feedback-btn" data-rating="helpful" data-conversation-id="' + conversationId + '">👍 Helpful</button>' +
                 '<button class="feedback-btn negative" data-rating="not-helpful" data-conversation-id="' + conversationId + '">👎 Not Helpful</button>' +
                 '</div>' +
-                '<span class="feedback-thanks">Thank you for your feedback!</span>' +
-                '</div>';
+                '<span class="feedback-thanks">Thank you for your feedback!</span>';
+            div.appendChild(feedbackWrap);
         }
-        
-        div.innerHTML = messageContent;
         chatMessages.appendChild(div);
         
         var chatContainer = document.querySelector('.chat-container');
         if (chatContainer) {
             setTimeout(function() {
-                chatContainer.scrollTop = chatContainer.scrollHeight;
+                window.scrollChatToBottom(true);
             }, 50);
         }
         
@@ -1272,7 +1318,7 @@
             }
             var chatContainer = document.querySelector('.chat-container');
             if (chatContainer) {
-                chatContainer.scrollTop = chatContainer.scrollHeight;
+                window.scrollChatToBottom(true);
             }
         }
     };
