@@ -44,12 +44,12 @@ except ImportError:
     config_path = Path(__file__).parent
     if str(config_path) not in sys.path:
         sys.path.insert(0, str(config_path))
-from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
+    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
 
 # Model configuration
 MODEL_ID = os.getenv('EPSILON_MODEL_ID', HF_MODEL_ID)
 # Use /workspace for model storage (usually has more space than /root)
-MODEL_DIR = os.getenv('EPSILON_MODEL_DIR', str(Path('/workspace/models/epsilon-20b')))
+MODEL_DIR = Path(os.getenv('EPSILON_MODEL_DIR', '/workspace/models/epsilon-20b'))
 
 
 def load_model():
@@ -148,7 +148,7 @@ def load_model():
                         print(f"[INFERENCE SERVICE] Warning: Could not clear model directory: {e}", flush=True)
                     local_path = snapshot_download(
                         repo_id=MODEL_ID,
-                        local_dir=MODEL_DIR,
+                        local_dir=str(MODEL_DIR),
                         local_dir_use_symlinks=False,
                         max_workers=1,
                         ignore_patterns=[".cache/**"],  # Ignore cache folder
@@ -485,9 +485,9 @@ async def generate(request: GenerateRequest):
                                 attention_mask=attention_mask,
                                 max_new_tokens=min(request.max_new_tokens, 512),
                                 temperature=gen_temperature,
-            top_p=request.top_p,
-            repetition_penalty=request.repetition_penalty,
-            do_sample=True,
+                                top_p=request.top_p,
+                                repetition_penalty=request.repetition_penalty,
+                                do_sample=True,
                                 pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_token_id,
                                 eos_token_id=eos_token_id,
                                 stopping_criteria=stopping_criteria
