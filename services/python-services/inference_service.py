@@ -397,21 +397,55 @@ async def generate(request: GenerateRequest):
         else:
             generated_text = str(outputs).strip()
         
-        analysis_markers = ["Ok.", "Okay.", "So,", "Therefore,", "Thus,"]
+        analysis_markers = ["Ok.", "Okay.", "So,", "Therefore,", "Thus,", "Hey there!", "Hi!", "Hello!"]
         for marker in analysis_markers:
             if marker in generated_text:
                 marker_pos = generated_text.find(marker)
                 if marker_pos != -1:
                     after_marker = generated_text[marker_pos + len(marker):].strip()
-                    if len(after_marker) > 10:
+                    if len(after_marker) > 10 and after_marker[0].isalpha():
                         generated_text = after_marker
                         break
+        
+        if "User says" in generated_text or "They want" in generated_text or "We need respond" in generated_text:
+            sentences = generated_text.split('.')
+            filtered_sentences = []
+            for sentence in sentences:
+                sentence = sentence.strip()
+                if not sentence:
+                    continue
+                if any(pattern in sentence.lower() for pattern in ['user says', 'they want', 'we need', 'just respond', 'no explanation', 'provide', 'as per instructions', 'developer role', 'system instruction', 'hierarchy', 'conflict', 'potential confusion', 'what do they', 'likely they']):
+                    continue
+                filtered_sentences.append(sentence)
+            if filtered_sentences:
+                generated_text = '. '.join(filtered_sentences).strip()
         generated_text = re.sub(r'analysis\s*', '', generated_text, flags=re.IGNORECASE)
         # Remove "assistantfinal" prefix
         generated_text = re.sub(r'assistantfinal\s*', '', generated_text, flags=re.IGNORECASE)
-        # Remove "The user says" analysis patterns (with or without quotes)
+        generated_text = re.sub(r'User says\s*"[^"]*"\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'User says[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
         generated_text = re.sub(r'The user says\s*"[^"]*"\.\s*', '', generated_text, flags=re.IGNORECASE)
         generated_text = re.sub(r'The user says[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'They want[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'Just respond[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'No explanation[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'Provide[^.]*answer[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'We need respond as per instructions[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'as per instructions[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'from developer role[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'Also we have system instruction[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'but dev overrides[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'The hierarchy[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'if there\'s conflict[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'we follow higher priority[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'Here there is no explicit contradiction[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'So I should answer[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'Provide concise info[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'maybe mention[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'However developer says[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'There\'s potential confusion[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'what do they expect[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'Likely they\'d want[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
         # Remove "We should respond" analysis patterns
         generated_text = re.sub(r'We should respond[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
         # Remove "We need to" analysis patterns
