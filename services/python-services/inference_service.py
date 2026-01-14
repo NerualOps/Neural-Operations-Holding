@@ -5,6 +5,10 @@ Created by Neural Operations & Holdings LLC
 """
 import os
 
+# CRITICAL: Set CUDA memory allocation config BEFORE any torch imports
+# This must be set before PyTorch initializes CUDA to prevent fragmentation
+os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True'
+
 # #region agent log
 import json
 from pathlib import Path as PathLib
@@ -190,6 +194,15 @@ def load_model():
         # Load model - simple GPU loading
         print(f"[INFERENCE SERVICE] Loading model on GPU from local path: {local_path}", flush=True)
         
+        # CRITICAL: Clear any existing model from memory first
+        global model, pipe
+        if model is not None:
+            print(f"[INFERENCE SERVICE] Clearing existing model from memory...", flush=True)
+            del model
+            del pipe
+            model = None
+            pipe = None
+        
         # Clear GPU cache aggressively before loading to avoid fragmentation
         if torch.cuda.is_available():
             import gc
@@ -199,15 +212,24 @@ def load_model():
             torch.cuda.ipc_collect()
             torch.cuda.empty_cache()
             
-            # Set environment variable to help with memory fragmentation
-            os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True'
-            
             # Check memory before loading
             allocated = torch.cuda.memory_allocated(0) / (1024**3)
             reserved = torch.cuda.memory_reserved(0) / (1024**3)
             total = torch.cuda.get_device_properties(0).total_memory / (1024**3)
-            print(f"[INFERENCE SERVICE] GPU memory before load - Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Total: {total:.2f} GB", flush=True)
+            free = total - reserved
+            print(f"[INFERENCE SERVICE] GPU memory before load - Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Free: {free:.2f} GB, Total: {total:.2f} GB", flush=True)
+            
+            # If there's not enough free memory, try to clear more aggressively
+            if free < 1.0:  # Less than 1GB free
+                print(f"[INFERENCE SERVICE] Warning: Low free memory ({free:.2f} GB), attempting aggressive cleanup...", flush=True)
+                gc.collect()
+                torch.cuda.empty_cache()
+                torch.cuda.ipc_collect()
+                torch.cuda.empty_cache()
+                free = total - (torch.cuda.memory_reserved(0) / (1024**3))
+                print(f"[INFERENCE SERVICE] After cleanup - Free: {free:.2f} GB", flush=True)
         
+        # Load model with reduced memory limit to prevent OOM (GPU has 44.45GB total)
         model = AutoModelForCausalLM.from_pretrained(
             local_path,
             torch_dtype=torch.float16,
@@ -215,7 +237,7 @@ def load_model():
             trust_remote_code=True,
             low_cpu_mem_usage=True,
             local_files_only=True,  # CRITICAL: Only use local files, no remote downloads
-            max_memory={0: "45GB"}  # Limit to 45GB to leave headroom
+            max_memory={0: "42GB"}  # Reduced to 42GB to leave headroom and prevent OOM
         )
         
         # Create pipeline
@@ -457,8 +479,14 @@ async def generate(request: GenerateRequest):
         # Remove "Let's" analysis patterns
         generated_text = re.sub(r"Let's[^.]*\.\s*", '', generated_text, flags=re.IGNORECASE)
         # Remove entire analysis blocks that start with "We have to respond" or similar
-        # This catches multi-sentence analysis blocks
+        # This catches multi-sentence analysis blocks - be very aggressive
         generated_text = re.sub(r'We (have to|should|need to) respond[^.]*\.\s*(We (should|can|need to))?[^.]*\.\s*(So (we can say|reply with))?[^.]*\.\s*(Ensure|Ok\.)?[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "We have to respond as" patterns (common analysis start)
+        generated_text = re.sub(r'We have to respond as[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "We should greet them" patterns
+        generated_text = re.sub(r'We should greet them[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
+        # Remove "introduce ourselves per developer instruction" patterns
+        generated_text = re.sub(r'introduce ourselves per developer instruction[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
         # Remove analysis blocks that mention "per developer instruction" or "developer instruction"
         generated_text = re.sub(r'[^.]*per developer instruction[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
         generated_text = re.sub(r'[^.]*developer instruction[^.]*\.\s*', '', generated_text, flags=re.IGNORECASE)
