@@ -465,9 +465,30 @@ async def generate(request: GenerateRequest):
                 if hasattr(model, 'to'):
                     try:
                         model = model.to(torch.float16)
+                        retry_device = device
+                        if retry_device is None:
+                            if hasattr(model, 'hf_device_map') and model.hf_device_map:
+                                cuda_devices = []
+                                for layer_name, d in model.hf_device_map.items():
+                                    if isinstance(d, (str, torch.device)):
+                                        device_str = str(d) if isinstance(d, torch.device) else d
+                                        if device_str.startswith("cuda"):
+                                            device_obj = torch.device(device_str)
+                                            if device_obj not in cuda_devices:
+                                                cuda_devices.append(device_obj)
+                                if cuda_devices:
+                                    retry_device = cuda_devices[0]
+                                else:
+                                    retry_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+                            else:
+                                retry_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+                        
+                        retry_input_ids = input_ids.to(retry_device)
+                        retry_attention_mask = attention_mask.to(retry_device)
+                        
                         retry_gen_kwargs = {
-                            "input_ids": input_ids,
-                            "attention_mask": attention_mask,
+                            "input_ids": retry_input_ids,
+                            "attention_mask": retry_attention_mask,
                             "max_new_tokens": min(request.max_new_tokens, 1024),
                             "temperature": gen_temperature,
                             "top_p": request.top_p,
