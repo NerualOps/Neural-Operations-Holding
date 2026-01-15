@@ -333,6 +333,7 @@ async def generate(request: GenerateRequest):
         
         # Harmony format stopping criteria - stop at markers like "assistantfinal"
         # Only use specific boundary markers, not generic words like "analysis" or "final" that can appear in normal responses
+        # Allow thinking/analysis internally, but stop at final response markers
         harmony_stop_markers = [
             "assistantfinal",
             "Assistantfinal",
@@ -506,22 +507,20 @@ async def generate(request: GenerateRequest):
         generated_text = generated_text.strip()
         
         # Harmony format cleanup: Extract only the final response after markers
-        # The stopping criteria should have stopped generation, but if markers appear, extract final section
-        # Only extract if marker appears early (within first ~200 chars) to avoid truncating legitimate responses
-        # Only use specific boundary markers, not generic words that can appear in normal responses
+        # Allow thinking/analysis internally, but extract only the final response
         harmony_markers = [
             "assistantfinal", "Assistantfinal", "ASSISTANTFINAL",
             "assistant_final", "Assistant_final", "ASSISTANT_FINAL",
             "<final>", "</final>"
         ]
         text_lower = generated_text.lower()
-        early_threshold = 200  # Only extract if marker appears in first 200 chars
+        early_threshold = 500  # Increased threshold to catch markers after thinking
         
-        # If any Harmony marker exists early, extract everything after it
+        # If any Harmony marker exists, extract everything after it (this is the actual response)
         for marker in harmony_markers:
             marker_pos = text_lower.find(marker.lower())
-            if marker_pos != -1 and marker_pos < early_threshold:
-                # Extract text after marker
+            if marker_pos != -1:
+                # Extract text after marker (this is the actual response)
                 after_marker = generated_text[marker_pos + len(marker):].strip()
                 # Remove any leading punctuation/whitespace
                 after_marker = after_marker.lstrip('.,;:!? \n\t')
@@ -530,15 +529,14 @@ async def generate(request: GenerateRequest):
                     print(f"[INFERENCE SERVICE] Extracted response after Harmony marker '{marker}' (found at pos {marker_pos})", flush=True)
                     break
         
-        # Check for regex patterns (markdown markers at line boundaries only)
-        # Only extract if marker appears early
+        # Check for regex patterns (markdown markers at line boundaries)
         harmony_marker_regex = [
             re.compile(r"(^|\n)##\s*final\b", re.IGNORECASE),
             re.compile(r"(^|\n)###\s*final\b", re.IGNORECASE)
         ]
         for pattern in harmony_marker_regex:
             match = pattern.search(generated_text)
-            if match and match.start() < early_threshold:
+            if match:
                 # Extract text after the matched marker
                 after_marker = generated_text[match.end():].strip()
                 after_marker = after_marker.lstrip('.,;:!? \n\t')
@@ -547,20 +545,67 @@ async def generate(request: GenerateRequest):
                     print(f"[INFERENCE SERVICE] Extracted response after Harmony regex marker (found at pos {match.start()})", flush=True)
                     break
         
-        # Remove any remaining analysis prefixes at the start (defensive)
-        analysis_prefixes = ["This is Epsilon AI", "We have", "The user", "User says", "They want", "We should", "We need"]
+        # Aggressively filter out GPT/ChatGPT/OpenAI mentions and analysis text
+        # Remove any mentions of GPT, ChatGPT, OpenAI, or GPT architecture
+        gpt_patterns = [
+            r'\bGPT\b',
+            r'\bChatGPT\b',
+            r'\bChat-GPT\b',
+            r'\bOpenAI\b',
+            r'\bGPT-?\d+\b',
+            r'\bGPT architecture\b',
+            r'\bGPT model\b',
+            r'created by OpenAI',
+            r'developed by OpenAI',
+            r'from OpenAI'
+        ]
+        for pattern in gpt_patterns:
+            generated_text = re.sub(pattern, 'Epsilon AI', generated_text, flags=re.IGNORECASE)
+        
+        # Remove analysis/thinking prefixes at the start
+        analysis_prefixes = [
+            "This is Epsilon AI",
+            "We have",
+            "The user",
+            "User says",
+            "They want",
+            "We should",
+            "We need",
+            "As per",
+            "According to",
+            "analysis",
+            "Analysis"
+        ]
         text_lower = generated_text.lower().strip()
         for prefix in analysis_prefixes:
             if text_lower.startswith(prefix.lower()):
-                # Find common response starters
-                response_starters = ["Hi", "Hello", "Hey", "I'm", "I am", "Sure", "Yes", "No", "Here", "I", "Let"]
+                # Find where actual response starts
+                response_starters = ["Hi", "Hello", "Hey", "I'm", "I am", "Sure", "Yes", "No", "Here", "I", "Let", "Well", "So", "Ok", "Okay"]
                 for starter in response_starters:
                     pos = generated_text.find(starter)
-                    if pos > 0 and pos < 300:
+                    if pos > 0 and pos < 500:
                         generated_text = generated_text[pos:].strip()
                         print(f"[INFERENCE SERVICE] Cleaned analysis prefix, response starts at pos {pos}", flush=True)
                         break
                 break
+        
+        # Final cleanup: remove any remaining analysis-style sentences at the start
+        # Look for sentences that start with analysis patterns and remove them
+        sentences = generated_text.split('.')
+        cleaned_sentences = []
+        skip_analysis = True
+        for sentence in sentences:
+            sentence_lower = sentence.strip().lower()
+            # Skip analysis sentences at the start
+            if skip_analysis and any(sentence_lower.startswith(p.lower()) for p in analysis_prefixes):
+                continue
+            # Once we hit a real response, keep everything
+            if skip_analysis and len(sentence.strip()) > 0:
+                skip_analysis = False
+            cleaned_sentences.append(sentence)
+        
+        if len(cleaned_sentences) > 0:
+            generated_text = '. '.join(cleaned_sentences).strip()
         
         # Calculate tokens
         prompt_tokens = len(tokenizer.encode(request.prompt))
