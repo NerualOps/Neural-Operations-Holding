@@ -101,9 +101,8 @@
     }
 
     .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; }
-    .home-logo-link { display: inline-flex; align-items: center; text-decoration: none; }
-    .home-logo { height: 48px; width: auto; display: block; object-fit: contain; }
-    @media (max-width: 768px) { .home-logo { height: 40px; } }
+    .home-link { display: inline-flex; align-items: center; text-decoration: none; color: #fff; font-weight: 500; font-size: 18px; }
+    @media (max-width: 768px) { .home-link { font-size: 16px; } }
     /* Professional Design System - Ignition Precision */
     :root {
         --flame-core: #F97316;
@@ -667,8 +666,8 @@
 <body>
 
   <div class="top-left-nav">
-      <a href="/" class="home-logo-link" aria-label="Home">
-          <img src="/logo.png" alt="Neural Operations &amp; Holdings LLC" class="home-logo">
+      <a href="/" class="home-link" aria-label="Home">
+          Home
       </a>
   </div>
   
@@ -693,7 +692,7 @@
 
   <nav class="nav" style="display: none;">
       <div class="nav-content">
-      <a href="/" class="logo"><img src="/logo.png" alt="NeuralOps" style="height: 32px; width: auto;"></a>
+      <a href="/" class="home-link">Home</a>
       <ul class="nav-menu">
           <li><a href="/epsilon" class="nav-link">Epsilon AI</a></li>
           <li><a href="/about" class="nav-link">About Us</a></li>

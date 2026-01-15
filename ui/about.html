@@ -73,9 +73,8 @@
 
         /* Navigation Styles - Matching epsilon.html */
         .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; transition: left 0.35s ease; }
-        .home-logo-link { display: inline-flex; align-items: center; text-decoration: none; }
-        .home-logo { height: 48px; width: auto; display: block; object-fit: contain; }
-        @media (max-width: 768px) { .home-logo { height: 40px; } }
+        .home-link { display: inline-flex; align-items: center; text-decoration: none; color: #fff; font-weight: 500; font-size: 18px; }
+        @media (max-width: 768px) { .home-link { font-size: 16px; } }
         .top-nav-button { 
             padding: 0.6rem 1.2rem; 
             background: transparent; 
@@ -1014,8 +1013,8 @@
 <body>
     <!-- Standard Navigation -->
     <div class="top-left-nav">
-        <a href="/" class="home-logo-link" aria-label="Home">
-            <img src="/logo.png" alt="Neural Operations &amp; Holdings LLC" class="home-logo">
+        <a href="/" class="home-link" aria-label="Home">
+            Home
         </a>
     </div>
     
