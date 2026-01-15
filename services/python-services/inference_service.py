@@ -318,8 +318,11 @@ def parse_harmony_response(text: str, tokenizer) -> str:
     
     # First, look for <|channel|> format (what the model is actually outputting)
     # Pattern: <|channel|>analysis content... <|channel|>final content...
+    # Content starts immediately after channel name (no separator)
     channel_pattern = re.compile(r'<\|channel\|>(analysis|commentary|final)(.*?)(?=<\|channel\|>|<\|end\|>|$)', re.DOTALL | re.IGNORECASE)
     matches = channel_pattern.findall(text)
+    
+    print(f"[INFERENCE SERVICE] Found {len(matches)} channel blocks in response", flush=True)
     
     if matches:
         # Process all channel blocks, extract only final channel
@@ -327,11 +330,13 @@ def parse_harmony_response(text: str, tokenizer) -> str:
             channel_lower = channel.lower().strip()
             content = content.strip()
             
-            # Extract final channel content only
+            print(f"[INFERENCE SERVICE] Processing channel: {channel_lower}, content length: {len(content)}", flush=True)
+            
+            # Extract final channel content only - skip analysis and commentary
             if 'final' in channel_lower:
                 # Clean up the content
                 content = content.strip()
-                # Remove any leading colons or whitespace
+                # Remove any leading colons, spaces, or whitespace
                 content = content.lstrip(': \n\t')
                 # Stop at next channel or end token
                 end_pos = content.find("<|channel|>")
@@ -341,8 +346,10 @@ def parse_harmony_response(text: str, tokenizer) -> str:
                 if end_pos != -1:
                     content = content[:end_pos].strip()
                 if len(content) > 0:
-                    print(f"[INFERENCE SERVICE] Extracted final channel content via <|channel|> format", flush=True)
+                    print(f"[INFERENCE SERVICE] ✓ Extracted final channel content ({len(content)} chars) via <|channel|> format", flush=True)
                     return content
+            else:
+                print(f"[INFERENCE SERVICE] Skipping {channel_lower} channel (not final)", flush=True)
     
     # Fallback: Look for Harmony format with <|start|>assistant<|message|>channel: content<|end|>
     harmony_pattern = re.compile(r'<\|start\|>assistant<\|message\|>(.*?)<\|end\|>', re.DOTALL)
@@ -396,12 +403,32 @@ def parse_harmony_response(text: str, tokenizer) -> str:
                 return after_marker
     
     # If no Harmony format detected, try to remove analysis channels manually
-    # Remove <|channel|>analysis blocks
+    # This is a fallback - aggressively remove all analysis/commentary blocks
+    print(f"[INFERENCE SERVICE] No final channel found via pattern matching, using aggressive cleanup", flush=True)
+    
+    # Remove all <|channel|>analysis blocks (everything from <|channel|>analysis until <|channel|>final or end)
     text = re.sub(r'<\|channel\|>analysis.*?(?=<\|channel\|>final|<\|channel\|>|<\|end\|>|$)', '', text, flags=re.DOTALL | re.IGNORECASE)
     text = re.sub(r'<\|channel\|>commentary.*?(?=<\|channel\|>final|<\|channel\|>|<\|end\|>|$)', '', text, flags=re.DOTALL | re.IGNORECASE)
     
+    # Now extract final channel if it exists
+    final_match = re.search(r'<\|channel\|>final(.*?)(?=<\|channel\|>|<\|end\|>|$)', text, re.DOTALL | re.IGNORECASE)
+    if final_match:
+        final_content = final_match.group(1).strip()
+        final_content = final_content.lstrip(': \n\t')
+        if len(final_content) > 0:
+            print(f"[INFERENCE SERVICE] ✓ Extracted final channel via aggressive cleanup ({len(final_content)} chars)", flush=True)
+            return final_content
+    
+    # Remove all Harmony format tokens as last resort
+    text = re.sub(r'<\|channel\|>', '', text)
+    text = re.sub(r'<\|start\|>', '', text)
+    text = re.sub(r'<\|message\|>', '', text)
+    text = re.sub(r'<\|end\|>', '', text)
+    
     # Return cleaned text
-    return text.strip()
+    cleaned = text.strip()
+    print(f"[INFERENCE SERVICE] Returning cleaned text ({len(cleaned)} chars) after removing all Harmony tokens", flush=True)
+    return cleaned
 
 
 @app.post("/generate", response_model=GenerateResponse)
