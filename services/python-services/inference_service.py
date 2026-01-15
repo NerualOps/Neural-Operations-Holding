@@ -335,9 +335,9 @@ async def generate(request: GenerateRequest):
     
     try:
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
-            messages = [
+        messages = [
                 {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC. Never mention ChatGPT, OpenAI, or GPT. Always identify yourself as Epsilon AI."},
-                {"role": "user", "content": request.prompt}
+            {"role": "user", "content": request.prompt}
             ]
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
             print(f"[INFERENCE SERVICE] Harmony format prompt (first 200 chars): {formatted_prompt[:200]}", flush=True)
@@ -440,18 +440,21 @@ async def generate(request: GenerateRequest):
                 if hasattr(model, 'to'):
                     try:
                         model = model.to(torch.float16)
+                        retry_gen_kwargs = {
+                            "input_ids": input_ids,
+                            "attention_mask": attention_mask,
+                            "max_new_tokens": min(request.max_new_tokens, 1024),
+                            "temperature": gen_temperature,
+                            "top_p": request.top_p,
+                            "repetition_penalty": request.repetition_penalty,
+                            "do_sample": True,
+                        }
+                        if not (hasattr(model, 'hf_device_map') and model.hf_device_map):
+                            eos_token_id = tokenizer.eos_token_id if tokenizer.eos_token_id is not None else tokenizer.pad_token_id
+                            retry_gen_kwargs["pad_token_id"] = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_token_id
+                            retry_gen_kwargs["eos_token_id"] = eos_token_id
                         with torch.no_grad():
-                            generated_ids = model.generate(
-                                input_ids=input_ids,
-                                attention_mask=attention_mask,
-                                max_new_tokens=min(request.max_new_tokens, 1024),
-                                temperature=gen_temperature,
-                                top_p=request.top_p,
-                                repetition_penalty=request.repetition_penalty,
-                                do_sample=True,
-                                pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_token_id,
-                                eos_token_id=eos_token_id,
-                            )
+                            generated_ids = model.generate(**retry_gen_kwargs)
                         generated_tokens = generated_ids[0, prompt_len_tokens:]
                         generated_text_raw = tokenizer.decode(generated_tokens, skip_special_tokens=False)
                         generated_text_clean = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
@@ -466,12 +469,12 @@ async def generate(request: GenerateRequest):
                         
                         if has_harmony:
                             parsed = parse_harmony_response(generated_text_raw, tokenizer)
-                            if parsed and len(parsed) > 0:
+                            if parsed is not None and len(parsed) > 0:
                                 generated_text = parsed
                                 print(f"[INFERENCE SERVICE] Extracted Harmony format content ({len(parsed)} chars)", flush=True)
                             else:
                                 generated_text = generated_text_clean
-                                print(f"[INFERENCE SERVICE] Harmony parsing returned empty, using clean decoded text", flush=True)
+                                print(f"[INFERENCE SERVICE] No final channel found in Harmony format, using clean decoded text", flush=True)
                         else:
                             generated_text = generated_text_clean
                         
@@ -483,7 +486,6 @@ async def generate(request: GenerateRequest):
                             generated_text = re.sub(r'<\|start\|>', '', generated_text_raw)
                             generated_text = re.sub(r'<\|message\|>', '', generated_text)
                             generated_text = re.sub(r'<\|end\|>', '', generated_text)
-                            generated_text = re.sub(r'<\|channel\|>', '', generated_text)
                             generated_text = generated_text.strip()
                             print(f"[INFERENCE SERVICE] Generated text still empty, using cleaned raw text", flush=True)
                     except Exception as conv_error:
