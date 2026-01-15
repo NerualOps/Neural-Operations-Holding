@@ -591,8 +591,6 @@ async def generate(request: GenerateRequest):
         generated_text = re.sub(r'<\|start\|>', '', generated_text)
         generated_text = re.sub(r'<\|message\|>', '', generated_text)
         generated_text = re.sub(r'<\|end\|>', '', generated_text)
-        generated_text = re.sub(r'analysis:', '', generated_text, flags=re.IGNORECASE)
-        generated_text = re.sub(r'commentary:', '', generated_text, flags=re.IGNORECASE)
         generated_text = re.sub(r'\s+', ' ', generated_text)
         generated_text = generated_text.strip()
         
