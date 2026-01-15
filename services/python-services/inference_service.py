@@ -315,11 +315,13 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
             if final_content:
                 print(f"[INFERENCE SERVICE] Extracted final channel ({len(final_content)} chars)", flush=True)
                 return final_content
+        else:
+            print(f"[INFERENCE SERVICE] Harmony markers found but no final channel - returning None to use clean decode", flush=True)
+            return None
     
     cleaned_text = re.sub(r'<\|start\|>', '', text)
     cleaned_text = re.sub(r'<\|message\|>', '', cleaned_text)
     cleaned_text = re.sub(r'<\|end\|>', '', cleaned_text)
-    cleaned_text = re.sub(r'<\|channel\|>', '', cleaned_text)
     cleaned_text = cleaned_text.strip()
     
     return cleaned_text if cleaned_text else text.strip()
