@@ -397,8 +397,6 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
                 print(f"[INFERENCE SERVICE] Extracted final channel via marker: {marker}", flush=True)
                 return after_marker
     
-    print(f"[INFERENCE SERVICE] No final channel found via pattern matching, using aggressive cleanup", flush=True)
-    
     text_clean = re.sub(r'<\|channel\|>analysis(?:<message>)?.*?(?=<\|channel\|>final|<\|channel\|>|<\|end\|>|$)', '', text, flags=re.DOTALL | re.IGNORECASE)
     text_clean = re.sub(r'<\|channel\|>commentary(?:<message>)?.*?(?=<\|channel\|>final|<\|channel\|>|<\|end\|>|$)', '', text_clean, flags=re.DOTALL | re.IGNORECASE)
     
@@ -407,31 +405,24 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
         final_content = final_match.group(1).strip()
         final_content = final_content.lstrip(': \n\t')
         final_content = final_content.replace('<message>', '').replace('</message>', '')
+        final_content = re.sub(r'^<message>', '', final_content, flags=re.IGNORECASE)
+        final_content = re.sub(r'</message>$', '', final_content, flags=re.IGNORECASE)
         if len(final_content) > 0:
-            print(f"[INFERENCE SERVICE] ✓ Extracted final channel via aggressive cleanup ({len(final_content)} chars)", flush=True)
+            print(f"[INFERENCE SERVICE] ✓ Extracted final channel via cleanup ({len(final_content)} chars)", flush=True)
             return final_content
     
     final_simple = re.search(r'<\|channel\|>final(.*?)(?=<\|end\|>|$)', text, re.DOTALL | re.IGNORECASE)
     if final_simple:
         final_content = final_simple.group(1).strip()
-        final_content = final_content.lstrip(': \n\t<message>')
+        final_content = final_content.lstrip(': \n\t')
         final_content = final_content.replace('<message>', '').replace('</message>', '')
+        final_content = re.sub(r'^<message>', '', final_content, flags=re.IGNORECASE)
+        final_content = re.sub(r'</message>$', '', final_content, flags=re.IGNORECASE)
         if '<|end|>' in final_content:
             final_content = final_content[:final_content.find('<|end|>')].strip()
         if len(final_content) > 0:
             print(f"[INFERENCE SERVICE] ✓ Extracted final channel via simple pattern ({len(final_content)} chars)", flush=True)
             return final_content
-    
-    if '<|channel|>final' in text.lower():
-        final_pos = text.lower().find('<|channel|>final')
-        after_final = text[final_pos + len('<|channel|>final'):]
-        if '<|end|>' in after_final:
-            after_final = after_final[:after_final.find('<|end|>')]
-        after_final = after_final.strip().lstrip(': \n\t<message>')
-        after_final = after_final.replace('<message>', '').replace('</message>', '')
-        if len(after_final) > 0:
-            print(f"[INFERENCE SERVICE] ✓ Extracted final channel via position search ({len(after_final)} chars)", flush=True)
-            return after_final
     
     print(f"[INFERENCE SERVICE] ERROR: No final channel found in response. Raw text length: {len(text)}", flush=True)
     print(f"[INFERENCE SERVICE] Raw text preview: {text[:500]}", flush=True)
