@@ -601,6 +601,8 @@ async def generate(request: GenerateRequest):
             # Use model.generate() directly with stopping criteria for proper Harmony format handling
             # max_new_tokens provides a safety limit (belt-and-suspenders) in case stopping criteria never triggers
             with torch.no_grad():
+                # Generate with stopping criteria - stopping_criteria takes precedence over eos_token_id
+                # We set eos_token_id but stopping_criteria will control when to actually stop
                 generated_ids = model.generate(
                     input_ids=input_ids,
                     attention_mask=attention_mask,
@@ -610,8 +612,8 @@ async def generate(request: GenerateRequest):
                     repetition_penalty=request.repetition_penalty,
                     do_sample=True,
                     pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_token_id,
-                    eos_token_id=eos_token_id,
-                    stopping_criteria=stopping_criteria  # Primary stopping mechanism
+                    eos_token_id=None,  # Don't use eos_token_id for stopping - let stopping_criteria handle it
+                    stopping_criteria=stopping_criteria  # Primary stopping mechanism - waits for final channel
                 )
             
             # Decode only the newly generated tokens (not the prompt)
