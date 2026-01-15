@@ -471,8 +471,13 @@ async def generate(request: GenerateRequest):
             
             # Decode only the newly generated tokens (not the prompt)
             generated_tokens = generated_ids[0, prompt_len_tokens:]
-            generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=True)
-            print(f"[INFERENCE SERVICE] Generated text (first 300 chars): {generated_text[:300]}", flush=True)
+            generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=False)
+            print(f"[INFERENCE SERVICE] Raw generated text (first 500 chars): {generated_text[:500]}", flush=True)
+            
+            # Parse Harmony format to extract only the 'final' channel
+            # Harmony format uses: <|start|>assistant<|message|>channel: content<|end|>
+            # We need to extract content from the 'final' channel only
+            generated_text = parse_harmony_response(generated_text, tokenizer)
         except RuntimeError as e:
             if "dtype" in str(e).lower() or "scalar type" in str(e).lower():
                 print(f"[INFERENCE SERVICE] Dtype mismatch detected, attempting to convert model to float16...", flush=True)
@@ -494,8 +499,10 @@ async def generate(request: GenerateRequest):
                                 stopping_criteria=stopping_criteria
                             )
                         generated_tokens = generated_ids[0, prompt_len_tokens:]
-                        generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=True)
-                        print(f"[INFERENCE SERVICE] Generated text after dtype conversion (first 300 chars): {generated_text[:300]}", flush=True)
+                        generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=False)
+                        print(f"[INFERENCE SERVICE] Raw generated text after dtype conversion (first 500 chars): {generated_text[:500]}", flush=True)
+                        # Parse Harmony format
+                        generated_text = parse_harmony_response(generated_text, tokenizer)
                     except Exception as conv_error:
                         print(f"[INFERENCE SERVICE] Failed to convert model dtype: {conv_error}", flush=True)
                         raise e  # Re-raise original error
@@ -506,47 +513,8 @@ async def generate(request: GenerateRequest):
         
         generated_text = generated_text.strip()
         
-        # Harmony format cleanup: Extract only the final response after markers
-        # Allow thinking/analysis internally, but extract only the final response
-        harmony_markers = [
-            "assistantfinal", "Assistantfinal", "ASSISTANTFINAL",
-            "assistant_final", "Assistant_final", "ASSISTANT_FINAL",
-            "<final>", "</final>"
-        ]
-        text_lower = generated_text.lower()
-        early_threshold = 500  # Increased threshold to catch markers after thinking
-        
-        # If any Harmony marker exists, extract everything after it (this is the actual response)
-        for marker in harmony_markers:
-            marker_pos = text_lower.find(marker.lower())
-            if marker_pos != -1:
-                # Extract text after marker (this is the actual response)
-                after_marker = generated_text[marker_pos + len(marker):].strip()
-                # Remove any leading punctuation/whitespace
-                after_marker = after_marker.lstrip('.,;:!? \n\t')
-                if len(after_marker) > 0:
-                    generated_text = after_marker
-                    print(f"[INFERENCE SERVICE] Extracted response after Harmony marker '{marker}' (found at pos {marker_pos})", flush=True)
-                    break
-        
-        # Check for regex patterns (markdown markers at line boundaries)
-        harmony_marker_regex = [
-            re.compile(r"(^|\n)##\s*final\b", re.IGNORECASE),
-            re.compile(r"(^|\n)###\s*final\b", re.IGNORECASE)
-        ]
-        for pattern in harmony_marker_regex:
-            match = pattern.search(generated_text)
-            if match:
-                # Extract text after the matched marker
-                after_marker = generated_text[match.end():].strip()
-                after_marker = after_marker.lstrip('.,;:!? \n\t')
-                if len(after_marker) > 0:
-                    generated_text = after_marker
-                    print(f"[INFERENCE SERVICE] Extracted response after Harmony regex marker (found at pos {match.start()})", flush=True)
-                    break
-        
-        # Aggressively filter out GPT/ChatGPT/OpenAI mentions and analysis text
-        # Remove any mentions of GPT, ChatGPT, OpenAI, or GPT architecture
+        # Final cleanup: Remove any GPT/ChatGPT/OpenAI mentions (defensive)
+        # This should not be needed if Harmony format parsing worked, but keep as safety net
         gpt_patterns = [
             r'\bGPT\b',
             r'\bChatGPT\b',
@@ -562,50 +530,16 @@ async def generate(request: GenerateRequest):
         for pattern in gpt_patterns:
             generated_text = re.sub(pattern, 'Epsilon AI', generated_text, flags=re.IGNORECASE)
         
-        # Remove analysis/thinking prefixes at the start
-        analysis_prefixes = [
-            "This is Epsilon AI",
-            "We have",
-            "The user",
-            "User says",
-            "They want",
-            "We should",
-            "We need",
-            "As per",
-            "According to",
-            "analysis",
-            "Analysis"
-        ]
-        text_lower = generated_text.lower().strip()
-        for prefix in analysis_prefixes:
-            if text_lower.startswith(prefix.lower()):
-                # Find where actual response starts
-                response_starters = ["Hi", "Hello", "Hey", "I'm", "I am", "Sure", "Yes", "No", "Here", "I", "Let", "Well", "So", "Ok", "Okay"]
-                for starter in response_starters:
-                    pos = generated_text.find(starter)
-                    if pos > 0 and pos < 500:
-                        generated_text = generated_text[pos:].strip()
-                        print(f"[INFERENCE SERVICE] Cleaned analysis prefix, response starts at pos {pos}", flush=True)
-                        break
-                break
+        # Remove any remaining Harmony format tokens if they leaked through
+        generated_text = re.sub(r'<\|start\|>', '', generated_text)
+        generated_text = re.sub(r'<\|message\|>', '', generated_text)
+        generated_text = re.sub(r'<\|end\|>', '', generated_text)
+        generated_text = re.sub(r'analysis:', '', generated_text, flags=re.IGNORECASE)
+        generated_text = re.sub(r'commentary:', '', generated_text, flags=re.IGNORECASE)
         
-        # Final cleanup: remove any remaining analysis-style sentences at the start
-        # Look for sentences that start with analysis patterns and remove them
-        sentences = generated_text.split('.')
-        cleaned_sentences = []
-        skip_analysis = True
-        for sentence in sentences:
-            sentence_lower = sentence.strip().lower()
-            # Skip analysis sentences at the start
-            if skip_analysis and any(sentence_lower.startswith(p.lower()) for p in analysis_prefixes):
-                continue
-            # Once we hit a real response, keep everything
-            if skip_analysis and len(sentence.strip()) > 0:
-                skip_analysis = False
-            cleaned_sentences.append(sentence)
-        
-        if len(cleaned_sentences) > 0:
-            generated_text = '. '.join(cleaned_sentences).strip()
+        # Clean up any double spaces or weird formatting
+        generated_text = re.sub(r'\s+', ' ', generated_text)
+        generated_text = generated_text.strip()
         
         # Calculate tokens
         prompt_tokens = len(tokenizer.encode(request.prompt))
