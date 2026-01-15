@@ -295,162 +295,26 @@ async def model_info():
 def parse_harmony_response(text: str, tokenizer: Any) -> str:
     """
     Parse Harmony format response to extract only the 'final' channel content.
-    Harmony format can use: <|channel|>analysis, <|channel|>commentary, <|channel|>final
-    Or: <|start|>assistant<|message|>channel: content<|end|>
-    We only return content from the 'final' channel - NEVER show analysis or commentary.
-    NEVER returns empty if given non-empty text - always returns best available content.
+    Simple single-path parser: if <|channel|> exists, extract final channel.
+    Otherwise return cleaned text (Harmony tokens removed).
+    NEVER returns empty if given non-empty text.
     """
     if not text:
         return ""
     
-    best_content = None
-    best_length = 0
-    
-    text_lower = text.lower()
-    
-    if '<|channel|>final' in text_lower:
-        final_pos = text_lower.find('<|channel|>final')
-        after_final = text[final_pos + len('<|channel|>final'):]
-        
-        if '<|end|>' in after_final:
-            after_final = after_final[:after_final.find('<|end|>')]
-        elif '<|channel|>' in after_final:
-            after_final = after_final[:after_final.find('<|channel|>')]
-        
-        after_final = after_final.strip()
-        after_final = after_final.lstrip(': \n\t')
-        after_final = after_final.replace('<message>', '').replace('</message>', '')
-        after_final = re.sub(r'^<message>', '', after_final, flags=re.IGNORECASE)
-        after_final = re.sub(r'</message>$', '', after_final, flags=re.IGNORECASE)
-        
-        if len(after_final) > 0:
-            print(f"[INFERENCE SERVICE] ✓ Extracted final channel content ({len(after_final)} chars) via direct search", flush=True)
-            return after_final
-    
-    channel_pattern = re.compile(r'<\|channel\|>(analysis|commentary|final)(?:<message>)?(.*?)(?=<\|channel\|>|<\|end\|>|$)', re.DOTALL | re.IGNORECASE)
-    matches = channel_pattern.findall(text)
-    
-    print(f"[INFERENCE SERVICE] Found {len(matches)} channel blocks in response", flush=True)
-    
-    if matches:
-        for channel, content in reversed(matches):
-            channel_lower = channel.lower().strip()
-            content = content.strip()
-            
-            print(f"[INFERENCE SERVICE] Processing channel: {channel_lower}, content length: {len(content)}", flush=True)
-            
-            if 'final' in channel_lower:
-                content = content.strip()
-                content = content.lstrip(': \n\t')
-                content = content.replace('<message>', '').replace('</message>', '')
-                content = re.sub(r'^<message>', '', content, flags=re.IGNORECASE)
-                content = re.sub(r'</message>$', '', content, flags=re.IGNORECASE)
-                
-                end_pos = content.find("<|channel|>")
-                if end_pos != -1:
-                    content = content[:end_pos].strip()
-                end_pos = content.find("<|end|>")
-                if end_pos != -1:
-                    content = content[:end_pos].strip()
-                
-                if len(content) > 0:
-                    print(f"[INFERENCE SERVICE] ✓ Extracted final channel content ({len(content)} chars) via <|channel|> format", flush=True)
-                    return content
-            
-            if len(content) > best_length:
-                best_content = content
-                best_length = len(content)
-        
-        if not any('final' in ch.lower() for ch, _ in matches):
-            print(f"[INFERENCE SERVICE] WARNING: Only analysis/commentary channels found, no final channel. Using best available content.", flush=True)
-            if best_content and len(best_content) > 20:
-                best_content = best_content.strip()
-                best_content = best_content.lstrip(': \n\t')
-                best_content = best_content.replace('<message>', '').replace('</message>', '')
-                best_content = re.sub(r'^<message>', '', best_content, flags=re.IGNORECASE)
-                best_content = re.sub(r'</message>$', '', best_content, flags=re.IGNORECASE)
-                end_pos = best_content.find("<|end|>")
-                if end_pos != -1:
-                    best_content = best_content[:end_pos].strip()
-                if len(best_content) > 20:
-                    print(f"[INFERENCE SERVICE] Using best available channel content as fallback ({len(best_content)} chars)", flush=True)
-                    return best_content
-    
-    harmony_pattern = re.compile(r'<\|start\|>assistant<\|message\|>(.*?)<\|end\|>', re.DOTALL)
-    matches = harmony_pattern.findall(text)
-    
-    if matches:
-        for match in reversed(matches):
-            content = match.strip()
-            
-            if ':' in content:
-                parts = content.split(':', 1)
-                if len(parts) > 1:
-                    channel = parts[0].strip().lower()
-                    channel_content = parts[1].strip()
-                    
-                    if 'final' in channel:
-                        print(f"[INFERENCE SERVICE] Extracted final channel content via Harmony format", flush=True)
-                        return channel_content
-                    
-                    if len(channel_content) > best_length:
-                        best_content = channel_content
-                        best_length = len(channel_content)
-    
-    final_markers = [
-        "<|channel|>final",
-        "<|channel|>final:",
-        "<|start|>assistant<|message|>final:",
-        "<|message|>final:",
-        "final:"
-    ]
-    
-    text_lower = text.lower()
-    for marker in final_markers:
-        marker_lower = marker.lower()
-        pos = text_lower.find(marker_lower)
-        if pos != -1:
-            after_marker = text[pos + len(marker):].strip()
-            after_marker = after_marker.lstrip(': \n\t')
-            for stop_token in ["<|end|>", "<|channel|>", "<|start|>"]:
-                end_pos = after_marker.find(stop_token)
-                if end_pos != -1:
-                    after_marker = after_marker[:end_pos].strip()
-                    break
-            if len(after_marker) > 0:
-                print(f"[INFERENCE SERVICE] Extracted final channel via marker: {marker}", flush=True)
-                return after_marker
-    
-    text_clean = re.sub(r'<\|channel\|>analysis(?:<message>)?.*?(?=<\|channel\|>final|<\|channel\|>|<\|end\|>|$)', '', text, flags=re.DOTALL | re.IGNORECASE)
-    text_clean = re.sub(r'<\|channel\|>commentary(?:<message>)?.*?(?=<\|channel\|>final|<\|channel\|>|<\|end\|>|$)', '', text_clean, flags=re.DOTALL | re.IGNORECASE)
-    
-    final_match = re.search(r'<\|channel\|>final(?:<message>)?(.*?)(?=<\|channel\|>|<\|end\|>|$)', text_clean, re.DOTALL | re.IGNORECASE)
-    if final_match:
-        final_content = final_match.group(1).strip()
-        final_content = final_content.lstrip(': \n\t')
-        final_content = final_content.replace('<message>', '').replace('</message>', '')
-        final_content = re.sub(r'^<message>', '', final_content, flags=re.IGNORECASE)
-        final_content = re.sub(r'</message>$', '', final_content, flags=re.IGNORECASE)
-        if len(final_content) > 0:
-            print(f"[INFERENCE SERVICE] ✓ Extracted final channel via cleanup ({len(final_content)} chars)", flush=True)
-            return final_content
-    
-    final_simple = re.search(r'<\|channel\|>final(.*?)(?=<\|end\|>|$)', text, re.DOTALL | re.IGNORECASE)
-    if final_simple:
-        final_content = final_simple.group(1).strip()
-        final_content = final_content.lstrip(': \n\t')
-        final_content = final_content.replace('<message>', '').replace('</message>', '')
-        final_content = re.sub(r'^<message>', '', final_content, flags=re.IGNORECASE)
-        final_content = re.sub(r'</message>$', '', final_content, flags=re.IGNORECASE)
-        if '<|end|>' in final_content:
-            final_content = final_content[:final_content.find('<|end|>')].strip()
-        if len(final_content) > 0:
-            print(f"[INFERENCE SERVICE] ✓ Extracted final channel via simple pattern ({len(final_content)} chars)", flush=True)
-            return final_content
-    
-    if best_content and len(best_content) > 20:
-        print(f"[INFERENCE SERVICE] Using best available content as final fallback ({len(best_content)} chars)", flush=True)
-        return best_content
+    if '<|channel|>' in text.lower():
+        final_match = re.search(r'<\|channel\|>final(?:<message>)?(.*?)(?=<\|channel\|>|<\|end\|>|$)', text, re.DOTALL | re.IGNORECASE)
+        if final_match:
+            final_content = final_match.group(1).strip()
+            final_content = final_content.lstrip(': \n\t')
+            final_content = final_content.replace('<message>', '').replace('</message>', '')
+            final_content = re.sub(r'^<message>', '', final_content, flags=re.IGNORECASE)
+            final_content = re.sub(r'</message>$', '', final_content, flags=re.IGNORECASE)
+            if '<|end|>' in final_content:
+                final_content = final_content[:final_content.find('<|end|>')].strip()
+            if final_content:
+                print(f"[INFERENCE SERVICE] Extracted final channel ({len(final_content)} chars)", flush=True)
+                return final_content
     
     cleaned_text = re.sub(r'<\|start\|>', '', text)
     cleaned_text = re.sub(r'<\|message\|>', '', cleaned_text)
@@ -458,12 +322,7 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
     cleaned_text = re.sub(r'<\|channel\|>', '', cleaned_text)
     cleaned_text = cleaned_text.strip()
     
-    if len(cleaned_text) > 0:
-        print(f"[INFERENCE SERVICE] Using cleaned raw text as final fallback ({len(cleaned_text)} chars)", flush=True)
-        return cleaned_text
-    
-    print(f"[INFERENCE SERVICE] ERROR: All parsing attempts failed and text is empty", flush=True)
-    return ""
+    return cleaned_text if cleaned_text else text.strip()
 
 
 @app.post("/generate", response_model=GenerateResponse)
@@ -512,26 +371,13 @@ async def generate(request: GenerateRequest):
         attention_mask = tokenized.attention_mask
         prompt_len_tokens = input_ids.shape[1]
         
-        device = None
         if hasattr(model, 'hf_device_map') and model.hf_device_map:
-            cuda_devices = []
-            for layer_name, d in model.hf_device_map.items():
-                if isinstance(d, (str, torch.device)):
-                    device_str = str(d) if isinstance(d, torch.device) else d
-                    if device_str.startswith("cuda"):
-                        device_obj = torch.device(device_str)
-                        if device_obj not in cuda_devices:
-                            cuda_devices.append(device_obj)
-            if cuda_devices:
-                device = cuda_devices[0]
-                print(f"[INFERENCE SERVICE] Using first CUDA device from device_map: {device}", flush=True)
-        
-        if device is None:
+            print(f"[INFERENCE SERVICE] Model uses device_map='auto', letting transformers handle device placement", flush=True)
+        else:
             device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-            print(f"[INFERENCE SERVICE] Using default device: {device}", flush=True)
-        
-        input_ids = input_ids.to(device)
-        attention_mask = attention_mask.to(device)
+            input_ids = input_ids.to(device)
+            attention_mask = attention_mask.to(device)
+            print(f"[INFERENCE SERVICE] Using device: {device}", flush=True)
         
         eos_token_id = tokenizer.eos_token_id if tokenizer.eos_token_id is not None else tokenizer.pad_token_id
         if eot_token_id is not None and eot_token_id != eos_token_id:
