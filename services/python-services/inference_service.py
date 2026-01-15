@@ -306,6 +306,76 @@ async def model_info():
     return info
 
 
+def parse_harmony_response(text: str, tokenizer) -> str:
+    """
+    Parse Harmony format response to extract only the 'final' channel content.
+    Harmony format: <|start|>assistant<|message|>channel: content<|end|>
+    Channels: analysis, commentary, final
+    We only return content from the 'final' channel.
+    """
+    if not text:
+        return ""
+    
+    # Harmony format uses special tokens: <|start|>, <|message|>, <|end|>
+    # Look for the final channel marker
+    final_markers = [
+        "<|start|>assistant<|message|>final:",
+        "<|start|>assistant<|message|>final",
+        "final:",
+        "final\n",
+        "final ",
+        "<|message|>final:",
+        "<|message|>final"
+    ]
+    
+    # Try to find final channel content
+    text_lower = text.lower()
+    for marker in final_markers:
+        marker_lower = marker.lower()
+        pos = text_lower.find(marker_lower)
+        if pos != -1:
+            # Extract content after marker
+            after_marker = text[pos + len(marker):].strip()
+            # Remove any leading colons, whitespace
+            after_marker = after_marker.lstrip(': \n\t')
+            # If we hit another <|start|> or <|end|>, stop there
+            end_pos = after_marker.find("<|end|>")
+            if end_pos != -1:
+                after_marker = after_marker[:end_pos].strip()
+            # If we hit another channel marker, stop there
+            next_channel = after_marker.find("<|message|>")
+            if next_channel != -1:
+                after_marker = after_marker[:next_channel].strip()
+            if len(after_marker) > 0:
+                print(f"[INFERENCE SERVICE] Extracted final channel content (found marker: {marker})", flush=True)
+                return after_marker
+    
+    # Fallback: Look for Harmony format structure and extract last message
+    # Pattern: <|start|>assistant<|message|>...content...<|end|>
+    harmony_pattern = re.compile(r'<\|start\|>assistant<\|message\|>(.*?)<\|end\|>', re.DOTALL)
+    matches = harmony_pattern.findall(text)
+    if matches:
+        # Get the last match (should be the final channel)
+        last_content = matches[-1].strip()
+        # Remove channel prefix if present
+        if ':' in last_content:
+            parts = last_content.split(':', 1)
+            if len(parts) > 1:
+                channel = parts[0].strip().lower()
+                content = parts[1].strip()
+                # Only return if it's the final channel
+                if 'final' in channel:
+                    print(f"[INFERENCE SERVICE] Extracted final channel via Harmony pattern", flush=True)
+                    return content
+                # If no channel specified, assume it's the final content
+                if channel not in ['analysis', 'commentary']:
+                    print(f"[INFERENCE SERVICE] Extracted content (no channel specified, assuming final)", flush=True)
+                    return content
+    
+    # If no Harmony format detected, return as-is (will be cleaned by filters)
+    return text
+
+
 @app.post("/generate", response_model=GenerateResponse)
 async def generate(request: GenerateRequest):
     """Generate text using Epsilon AI with Harmony format"""
