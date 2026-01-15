@@ -547,6 +547,8 @@ async def generate(request: GenerateRequest):
         generated_text = re.sub(r'<\|start\|>', '', generated_text)
         generated_text = re.sub(r'<\|message\|>', '', generated_text)
         generated_text = re.sub(r'<\|end\|>', '', generated_text)
+        generated_text = re.sub(r'<\|return\|>', '', generated_text)
+        generated_text = re.sub(r'<\|call\|>', '', generated_text)
         generated_text = re.sub(r'\s+', ' ', generated_text)
         generated_text = generated_text.strip()
         
