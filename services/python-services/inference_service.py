@@ -589,7 +589,7 @@ async def generate(request: GenerateRequest):
                 generated_ids = model.generate(
                     input_ids=input_ids,
                     attention_mask=attention_mask,
-                    max_new_tokens=min(request.max_new_tokens, 512),
+                    max_new_tokens=min(request.max_new_tokens, 1024),
                     temperature=gen_temperature,
                     top_p=request.top_p,
                     repetition_penalty=request.repetition_penalty,
@@ -614,7 +614,7 @@ async def generate(request: GenerateRequest):
                             generated_ids = model.generate(
                                 input_ids=input_ids,
                                 attention_mask=attention_mask,
-                                max_new_tokens=min(request.max_new_tokens, 512),
+                                max_new_tokens=min(request.max_new_tokens, 1024),
                                 temperature=gen_temperature,
                                 top_p=request.top_p,
                                 repetition_penalty=request.repetition_penalty,
