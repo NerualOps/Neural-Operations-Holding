@@ -309,16 +309,42 @@ async def model_info():
 def parse_harmony_response(text: str, tokenizer) -> str:
     """
     Parse Harmony format response to extract only the 'final' channel content.
-    Harmony format per OpenAI spec: <|start|>assistant<|message|>channel: content<|end|>
-    Channels: analysis, commentary, final
-    We only return content from the 'final' channel.
-    Official Harmony format tokens: <|start|>, <|message|>, <|end|>, <|return|>, <|call|>
+    Harmony format can use: <|channel|>analysis, <|channel|>commentary, <|channel|>final
+    Or: <|start|>assistant<|message|>channel: content<|end|>
+    We only return content from the 'final' channel - NEVER show analysis or commentary.
     """
     if not text:
         return ""
     
-    # Harmony format structure: <|start|>assistant<|message|>channel: content<|end|>
-    # Look for all Harmony format message blocks and extract the final channel
+    # First, look for <|channel|> format (what the model is actually outputting)
+    # Pattern: <|channel|>analysis content... <|channel|>final content...
+    channel_pattern = re.compile(r'<\|channel\|>(analysis|commentary|final)(.*?)(?=<\|channel\|>|<\|end\|>|$)', re.DOTALL | re.IGNORECASE)
+    matches = channel_pattern.findall(text)
+    
+    if matches:
+        # Process all channel blocks, extract only final channel
+        for channel, content in reversed(matches):  # Start from last (most likely to be final)
+            channel_lower = channel.lower().strip()
+            content = content.strip()
+            
+            # Extract final channel content only
+            if 'final' in channel_lower:
+                # Clean up the content
+                content = content.strip()
+                # Remove any leading colons or whitespace
+                content = content.lstrip(': \n\t')
+                # Stop at next channel or end token
+                end_pos = content.find("<|channel|>")
+                if end_pos != -1:
+                    content = content[:end_pos].strip()
+                end_pos = content.find("<|end|>")
+                if end_pos != -1:
+                    content = content[:end_pos].strip()
+                if len(content) > 0:
+                    print(f"[INFERENCE SERVICE] Extracted final channel content via <|channel|> format", flush=True)
+                    return content
+    
+    # Fallback: Look for Harmony format with <|start|>assistant<|message|>channel: content<|end|>
     harmony_pattern = re.compile(r'<\|start\|>assistant<\|message\|>(.*?)<\|end\|>', re.DOTALL)
     matches = harmony_pattern.findall(text)
     
@@ -334,7 +360,7 @@ def parse_harmony_response(text: str, tokenizer) -> str:
                     channel = parts[0].strip().lower()
                     channel_content = parts[1].strip()
                     
-                    # Extract final channel content
+                    # Extract final channel content only
                     if 'final' in channel:
                         print(f"[INFERENCE SERVICE] Extracted final channel content via Harmony format", flush=True)
                         return channel_content
@@ -342,15 +368,11 @@ def parse_harmony_response(text: str, tokenizer) -> str:
                     # Skip analysis and commentary channels
                     if channel in ['analysis', 'commentary']:
                         continue
-            
-            # If no channel prefix, check if it's the last message (likely final)
-            # Only use if it's the last match and doesn't look like analysis
-            if match == matches[-1] and not any(word in content.lower()[:50] for word in ['analysis', 'commentary', 'we have', 'the user']):
-                print(f"[INFERENCE SERVICE] Extracted content from last Harmony message (assuming final)", flush=True)
-                return content
     
     # Fallback: Look for final channel markers directly
     final_markers = [
+        "<|channel|>final",
+        "<|channel|>final:",
         "<|start|>assistant<|message|>final:",
         "<|message|>final:",
         "final:"
@@ -363,19 +385,23 @@ def parse_harmony_response(text: str, tokenizer) -> str:
         if pos != -1:
             after_marker = text[pos + len(marker):].strip()
             after_marker = after_marker.lstrip(': \n\t')
-            # Stop at <|end|> or next <|start|>
-            end_pos = after_marker.find("<|end|>")
-            if end_pos != -1:
-                after_marker = after_marker[:end_pos].strip()
-            next_start = after_marker.find("<|start|>")
-            if next_start != -1:
-                after_marker = after_marker[:next_start].strip()
+            # Stop at <|end|>, <|channel|>, or next <|start|>
+            for stop_token in ["<|end|>", "<|channel|>", "<|start|>"]:
+                end_pos = after_marker.find(stop_token)
+                if end_pos != -1:
+                    after_marker = after_marker[:end_pos].strip()
+                    break
             if len(after_marker) > 0:
                 print(f"[INFERENCE SERVICE] Extracted final channel via marker: {marker}", flush=True)
                 return after_marker
     
-    # If no Harmony format detected, return as-is (will be cleaned by filters)
-    return text
+    # If no Harmony format detected, try to remove analysis channels manually
+    # Remove <|channel|>analysis blocks
+    text = re.sub(r'<\|channel\|>analysis.*?(?=<\|channel\|>final|<\|channel\|>|<\|end\|>|$)', '', text, flags=re.DOTALL | re.IGNORECASE)
+    text = re.sub(r'<\|channel\|>commentary.*?(?=<\|channel\|>final|<\|channel\|>|<\|end\|>|$)', '', text, flags=re.DOTALL | re.IGNORECASE)
+    
+    # Return cleaned text
+    return text.strip()
 
 
 @app.post("/generate", response_model=GenerateResponse)
@@ -410,6 +436,8 @@ async def generate(request: GenerateRequest):
             "<|end|>",  # Primary Harmony format end token
             "<|return|>",  # Harmony format return token
             "<|call|>",  # Harmony format call token
+            "<|channel|>final",  # Final channel marker (what model actually uses)
+            "<|channel|>final:",
             "<|start|>assistant<|message|>final:",  # Final channel start
             "<|message|>final:",  # Final channel marker
             "assistantfinal",  # Legacy marker (if model uses it)
@@ -423,6 +451,7 @@ async def generate(request: GenerateRequest):
             r"<\|end\|>",  # Harmony format end token
             r"<\|return\|>",  # Harmony format return token
             r"<\|call\|>",  # Harmony format call token
+            r"<\|channel\|>final",  # Final channel marker
             r"<\|message\|>final:",  # Final channel marker
             r"(^|\n)##\s*final\b",
             r"(^|\n)###\s*final\b"
