@@ -302,9 +302,27 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
     if not text:
         return ""
     
-    # First, look for <|channel|> format (what the model is actually outputting)
-    # Pattern can be: <|channel|>analysis<message>content...<|end|> or <|channel|>final content...<|end|>
-    # Handle both formats: with <message> tag and without
+    text_lower = text.lower()
+    
+    if '<|channel|>final' in text_lower:
+        final_pos = text_lower.find('<|channel|>final')
+        after_final = text[final_pos + len('<|channel|>final'):]
+        
+        if '<|end|>' in after_final:
+            after_final = after_final[:after_final.find('<|end|>')]
+        elif '<|channel|>' in after_final:
+            after_final = after_final[:after_final.find('<|channel|>')]
+        
+        after_final = after_final.strip()
+        after_final = after_final.lstrip(': \n\t')
+        after_final = after_final.replace('<message>', '').replace('</message>', '')
+        after_final = re.sub(r'^<message>', '', after_final, flags=re.IGNORECASE)
+        after_final = re.sub(r'</message>$', '', after_final, flags=re.IGNORECASE)
+        
+        if len(after_final) > 0:
+            print(f"[INFERENCE SERVICE] ✓ Extracted final channel content ({len(after_final)} chars) via direct search", flush=True)
+            return after_final
+    
     channel_pattern = re.compile(r'<\|channel\|>(analysis|commentary|final)(?:<message>)?(.*?)(?=<\|channel\|>|<\|end\|>|$)', re.DOTALL | re.IGNORECASE)
     matches = channel_pattern.findall(text)
     
@@ -321,20 +339,19 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
                 content = content.strip()
                 content = content.lstrip(': \n\t')
                 content = content.replace('<message>', '').replace('</message>', '')
+                content = re.sub(r'^<message>', '', content, flags=re.IGNORECASE)
+                content = re.sub(r'</message>$', '', content, flags=re.IGNORECASE)
+                
                 end_pos = content.find("<|channel|>")
                 if end_pos != -1:
                     content = content[:end_pos].strip()
                 end_pos = content.find("<|end|>")
                 if end_pos != -1:
                     content = content[:end_pos].strip()
+                
                 if len(content) > 0:
                     print(f"[INFERENCE SERVICE] ✓ Extracted final channel content ({len(content)} chars) via <|channel|> format", flush=True)
                     return content
-        
-        has_final = any('final' in ch.lower() for ch, _ in matches)
-        if not has_final:
-            print(f"[INFERENCE SERVICE] WARNING: Only analysis/commentary channels found, no final channel.", flush=True)
-            return ""
     
     harmony_pattern = re.compile(r'<\|start\|>assistant<\|message\|>(.*?)<\|end\|>', re.DOTALL)
     matches = harmony_pattern.findall(text)
@@ -520,26 +537,15 @@ async def generate(request: GenerateRequest):
                 tail = gen_ids[-self.window:] if gen_ids.shape[0] > self.window else gen_ids
                 text = self.tok.decode(tail, skip_special_tokens=False).lower()
                 
-                if '<|end|>' in text:
-                    if '<|channel|>final' in text or 'assistantfinal' in text:
-                        return True
+                has_final = '<|channel|>final' in text or 'assistantfinal' in text
+                has_end = '<|end|>' in text
                 
-                final_markers = ['<|channel|>final', '<|channel|>final:', '<|channel|>final<message>']
-                if any(m in text for m in final_markers):
-                    if '<|end|>' in text:
-                        return True
-                
-                other_markers = ['<|return|>', '<|call|>']
-                if any(m in text for m in other_markers):
+                if has_final and has_end:
+                    print(f"[INFERENCE SERVICE] Stopping criteria met: Final channel and end token found", flush=True)
                     return True
                 
-                if 'assistantfinal' in text and '<|end|>' in text:
+                if '<|return|>' in text or '<|call|>' in text:
                     return True
-                
-                for pattern in self.regex_patterns:
-                    if pattern.search(text):
-                        if 'final' in pattern.pattern.lower() and '<|end|>' in text:
-                            return True
                 
                 return False
         
