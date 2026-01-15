@@ -401,27 +401,23 @@ async def generate(request: GenerateRequest):
             formatted_prompt = f"User: {request.prompt}\nEpsilon AI: "
             print(f"[INFERENCE SERVICE] Using fallback format (no chat template): {formatted_prompt[:200]}", flush=True)
         
-        # Harmony format stopping criteria - stop at markers like "assistantfinal"
-        # Only use specific boundary markers, not generic words like "analysis" or "final" that can appear in normal responses
-        # Allow thinking/analysis internally, but stop at final response markers
+        # Harmony format stopping criteria - stop at Harmony format end tokens
+        # Harmony format uses: <|start|>assistant<|message|>channel: content<|end|>
+        # Stop when we see <|end|> token (proper Harmony format end)
         harmony_stop_markers = [
-            "assistantfinal",
+            "<|end|>",  # Primary Harmony format end token
+            "<|start|>assistant<|message|>final:",  # Final channel start
+            "<|message|>final:",  # Final channel marker
+            "assistantfinal",  # Legacy marker (if model uses it)
             "Assistantfinal",
-            "ASSISTANTFINAL",
-            "\nassistantfinal",
-            "\nAssistantfinal",
-            "assistant_final",
-            "Assistant_final",
-            "ASSISTANT_FINAL",
-            "\nassistant_final",
-            "\nAssistant_final",
-            "<final>",
-            "</final>"
+            "ASSISTANTFINAL"
         ]
         
         # Markdown-style markers with strict line-boundary matching (regex patterns)
         # Use lowercase patterns since we'll decode with .lower()
         harmony_stop_regex = [
+            r"<\|end\|>",  # Harmony format end token
+            r"<\|message\|>final:",  # Final channel marker
             r"(^|\n)##\s*final\b",
             r"(^|\n)###\s*final\b"
         ]
