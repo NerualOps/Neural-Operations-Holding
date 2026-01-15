@@ -33,17 +33,25 @@ tokenizer = None
 model_metadata = None
 
 try:
-    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME, DISPLAY_MODEL_ID
+    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
+    try:
+        from model_config import DISPLAY_MODEL_ID
+    except ImportError:
+        DISPLAY_MODEL_ID = MODEL_NAME
 except ImportError:
     import sys
     from pathlib import Path
     config_path = Path(__file__).parent
     if str(config_path) not in sys.path:
         sys.path.insert(0, str(config_path))
-    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME, DISPLAY_MODEL_ID
+    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
+    try:
+        from model_config import DISPLAY_MODEL_ID
+    except ImportError:
+        DISPLAY_MODEL_ID = MODEL_NAME
 
 HF_MODEL_ID_INTERNAL = os.getenv('EPSILON_MODEL_ID', HF_MODEL_ID)
-MODEL_ID = os.getenv('EPSILON_DISPLAY_MODEL_ID', DISPLAY_MODEL_ID)
+MODEL_ID = os.getenv('EPSILON_DISPLAY_MODEL_ID', DISPLAY_MODEL_ID if 'DISPLAY_MODEL_ID' in locals() else MODEL_NAME)
 # Use /workspace for model storage (usually has more space than /root)
 MODEL_DIR = Path(os.getenv('EPSILON_MODEL_DIR', '/workspace/models/epsilon-20b'))
 
