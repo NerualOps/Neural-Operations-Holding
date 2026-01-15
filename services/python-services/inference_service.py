@@ -472,29 +472,6 @@ async def generate(request: GenerateRequest):
             formatted_prompt = f"User: {request.prompt}\nEpsilon AI: "
             print(f"[INFERENCE SERVICE] Using fallback format (no chat template): {formatted_prompt[:200]}", flush=True)
         
-        harmony_stop_markers = [
-            "<|end|>",
-            "<|return|>",
-            "<|call|>",
-            "<|channel|>final",
-            "<|channel|>final:",
-            "<|start|>assistant<|message|>final:",
-            "<|message|>final:",
-            "assistantfinal",
-            "Assistantfinal",
-            "ASSISTANTFINAL"
-        ]
-        
-        harmony_stop_regex = [
-            r"<\|end\|>",
-            r"<\|return\|>",
-            r"<\|call\|>",
-            r"<\|channel\|>final",
-            r"<\|message\|>final:",
-            r"(^|\n)##\s*final\b",
-            r"(^|\n)###\s*final\b"
-        ]
-        
         eot_token_id = None
         if hasattr(tokenizer, 'eos_token_id') and tokenizer.eos_token_id is not None:
             eot_token_id = tokenizer.eos_token_id
@@ -535,54 +512,12 @@ async def generate(request: GenerateRequest):
         input_ids = input_ids.to(device)
         attention_mask = attention_mask.to(device)
         
-        class HarmonyStoppingCriteria(StoppingCriteria):
-            def __init__(self, prompt_len_tokens: int, tokenizer, markers, regex_patterns, window_tokens: int = 160):
-                self.prompt_len = prompt_len_tokens
-                self.tok = tokenizer
-                self.markers = [m.lower() for m in markers]
-                self.regex_patterns = [re.compile(pattern.lower()) for pattern in regex_patterns]
-                self.window = window_tokens
-                self.seen_final = False
-            
-            def __call__(self, input_ids, scores, **kwargs):
-                gen_ids = input_ids[0, self.prompt_len:]
-                if gen_ids.numel() == 0:
-                    return False
-                
-                full_text = self.tok.decode(gen_ids, skip_special_tokens=False).lower()
-                tail = gen_ids[-self.window:] if gen_ids.shape[0] > self.window else gen_ids
-                tail_text = self.tok.decode(tail, skip_special_tokens=False).lower()
-                
-                if '<|channel|>final' in full_text or 'assistantfinal' in full_text:
-                    self.seen_final = True
-                    print(f"[INFERENCE SERVICE] Final channel marker detected in generation", flush=True)
-                
-                if '<|end|>' in tail_text:
-                    if self.seen_final:
-                        print(f"[INFERENCE SERVICE] Stopping criteria met: Final channel and end token found", flush=True)
-                        return True
-                    else:
-                        print(f"[INFERENCE SERVICE] <|end|> detected but no final channel yet - continuing generation", flush=True)
-                        return False
-                
-                if '<|return|>' in tail_text or '<|call|>' in tail_text:
-                    if self.seen_final:
-                        return True
-                    return False
-                
-                return False
-        
-        stopping_criteria = StoppingCriteriaList([
-            HarmonyStoppingCriteria(prompt_len_tokens, tokenizer, harmony_stop_markers, harmony_stop_regex)
-        ])
-        
         eos_token_id = tokenizer.eos_token_id if tokenizer.eos_token_id is not None else tokenizer.pad_token_id
         if eot_token_id is not None and eot_token_id != eos_token_id:
             eos_token_id = eot_token_id
-            print(f"[INFERENCE SERVICE] Using detected EOT token (ID: {eot_token_id}) as primary stop token", flush=True)
+            print(f"[INFERENCE SERVICE] Using detected EOT token (ID: {eot_token_id}) as eos_token_id", flush=True)
         else:
-            print(f"[INFERENCE SERVICE] No specific EOT token found, using eos_token_id: {tokenizer.eos_token_id}", flush=True)
-            print(f"[INFERENCE SERVICE] Harmony format markers will provide additional stopping control", flush=True)
+            print(f"[INFERENCE SERVICE] Using eos_token_id: {tokenizer.eos_token_id}", flush=True)
         
         try:
             with torch.no_grad():
@@ -595,15 +530,15 @@ async def generate(request: GenerateRequest):
                     repetition_penalty=request.repetition_penalty,
                     do_sample=True,
                     pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_token_id,
-                    eos_token_id=None,
-                    stopping_criteria=stopping_criteria
+                    eos_token_id=eos_token_id,
                 )
             
             generated_tokens = generated_ids[0, prompt_len_tokens:]
-            generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=False)
-            print(f"[INFERENCE SERVICE] Raw generated text (first 500 chars): {generated_text[:500]}", flush=True)
+            generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
+            print(f"[INFERENCE SERVICE] Generated text (first 500 chars): {generated_text[:500]}", flush=True)
             
-            generated_text = parse_harmony_response(generated_text, tokenizer)
+            if '<|channel|>final' in generated_text.lower() or '<|channel|>analysis' in generated_text.lower():
+                generated_text = parse_harmony_response(generated_text, tokenizer)
         except RuntimeError as e:
             if "dtype" in str(e).lower() or "scalar type" in str(e).lower():
                 print(f"[INFERENCE SERVICE] Dtype mismatch detected, attempting to convert model to float16...", flush=True)
@@ -620,13 +555,14 @@ async def generate(request: GenerateRequest):
                                 repetition_penalty=request.repetition_penalty,
                                 do_sample=True,
                                 pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_token_id,
-                                eos_token_id=None,
-                                stopping_criteria=stopping_criteria
+                                eos_token_id=eos_token_id,
                             )
                         generated_tokens = generated_ids[0, prompt_len_tokens:]
-                        generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=False)
-                        print(f"[INFERENCE SERVICE] Raw generated text after dtype conversion (first 500 chars): {generated_text[:500]}", flush=True)
-                        generated_text = parse_harmony_response(generated_text, tokenizer)
+                        generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
+                        print(f"[INFERENCE SERVICE] Generated text after dtype conversion (first 500 chars): {generated_text[:500]}", flush=True)
+                        
+                        if '<|channel|>final' in generated_text.lower() or '<|channel|>analysis' in generated_text.lower():
+                            generated_text = parse_harmony_response(generated_text, tokenizer)
                     except Exception as conv_error:
                         print(f"[INFERENCE SERVICE] Failed to convert model dtype: {conv_error}", flush=True)
                         raise e  # Re-raise original error
