@@ -317,9 +317,9 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
         return ""
     
     # First, look for <|channel|> format (what the model is actually outputting)
-    # Pattern: <|channel|>analysis content... <|channel|>final content...
-    # Content starts immediately after channel name (no separator)
-    channel_pattern = re.compile(r'<\|channel\|>(analysis|commentary|final)(.*?)(?=<\|channel\|>|<\|end\|>|$)', re.DOTALL | re.IGNORECASE)
+    # Pattern can be: <|channel|>analysis<message>content...<|end|> or <|channel|>final content...<|end|>
+    # Handle both formats: with <message> tag and without
+    channel_pattern = re.compile(r'<\|channel\|>(analysis|commentary|final)(?:<message>)?(.*?)(?=<\|channel\|>|<\|end\|>|$)', re.DOTALL | re.IGNORECASE)
     matches = channel_pattern.findall(text)
     
     print(f"[INFERENCE SERVICE] Found {len(matches)} channel blocks in response", flush=True)
@@ -336,8 +336,9 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
             if 'final' in channel_lower:
                 # Clean up the content
                 content = content.strip()
-                # Remove any leading colons, spaces, or whitespace
+                # Remove any leading colons, spaces, <message> tags, or whitespace
                 content = content.lstrip(': \n\t')
+                content = content.replace('<message>', '').replace('</message>', '')
                 # Stop at next channel or end token
                 end_pos = content.find("<|channel|>")
                 if end_pos != -1:
@@ -350,6 +351,16 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
                     return content
             else:
                 print(f"[INFERENCE SERVICE] Skipping {channel_lower} channel (not final)", flush=True)
+    
+    # If only analysis channel found, wait for final channel or extract from analysis as fallback
+    # Check if we only have analysis/commentary channels
+    has_final = any('final' in ch.lower() for ch, _ in matches)
+    if not has_final and matches:
+        # Model only generated analysis, not final channel yet
+        # This means generation stopped too early - we need to continue or extract what we can
+        print(f"[INFERENCE SERVICE] WARNING: Only analysis/commentary channels found, no final channel. Generation may have stopped too early.", flush=True)
+        # Don't return analysis - return empty and let the caller handle it
+        return ""
     
     # Fallback: Look for Harmony format with <|start|>assistant<|message|>channel: content<|end|>
     harmony_pattern = re.compile(r'<\|start\|>assistant<\|message\|>(.*?)<\|end\|>', re.DOTALL)
@@ -407,28 +418,24 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
     print(f"[INFERENCE SERVICE] No final channel found via pattern matching, using aggressive cleanup", flush=True)
     
     # Remove all <|channel|>analysis blocks (everything from <|channel|>analysis until <|channel|>final or end)
-    text = re.sub(r'<\|channel\|>analysis.*?(?=<\|channel\|>final|<\|channel\|>|<\|end\|>|$)', '', text, flags=re.DOTALL | re.IGNORECASE)
-    text = re.sub(r'<\|channel\|>commentary.*?(?=<\|channel\|>final|<\|channel\|>|<\|end\|>|$)', '', text, flags=re.DOTALL | re.IGNORECASE)
+    # Handle both <|channel|>analysis<message> and <|channel|>analysis formats
+    text = re.sub(r'<\|channel\|>analysis(?:<message>)?.*?(?=<\|channel\|>final|<\|channel\|>|<\|end\|>|$)', '', text, flags=re.DOTALL | re.IGNORECASE)
+    text = re.sub(r'<\|channel\|>commentary(?:<message>)?.*?(?=<\|channel\|>final|<\|channel\|>|<\|end\|>|$)', '', text, flags=re.DOTALL | re.IGNORECASE)
     
     # Now extract final channel if it exists
-    final_match = re.search(r'<\|channel\|>final(.*?)(?=<\|channel\|>|<\|end\|>|$)', text, re.DOTALL | re.IGNORECASE)
+    final_match = re.search(r'<\|channel\|>final(?:<message>)?(.*?)(?=<\|channel\|>|<\|end\|>|$)', text, re.DOTALL | re.IGNORECASE)
     if final_match:
         final_content = final_match.group(1).strip()
         final_content = final_content.lstrip(': \n\t')
+        final_content = final_content.replace('<message>', '').replace('</message>', '')
         if len(final_content) > 0:
             print(f"[INFERENCE SERVICE] ✓ Extracted final channel via aggressive cleanup ({len(final_content)} chars)", flush=True)
             return final_content
     
-    # Remove all Harmony format tokens as last resort
-    text = re.sub(r'<\|channel\|>', '', text)
-    text = re.sub(r'<\|start\|>', '', text)
-    text = re.sub(r'<\|message\|>', '', text)
-    text = re.sub(r'<\|end\|>', '', text)
-    
-    # Return cleaned text
-    cleaned = text.strip()
-    print(f"[INFERENCE SERVICE] Returning cleaned text ({len(cleaned)} chars) after removing all Harmony tokens", flush=True)
-    return cleaned
+    # If we still have no final channel, the model stopped too early
+    # Return empty to indicate no valid response
+    print(f"[INFERENCE SERVICE] ERROR: No final channel found in response. Model may have stopped too early.", flush=True)
+    return ""
 
 
 @app.post("/generate", response_model=GenerateResponse)
