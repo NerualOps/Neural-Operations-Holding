@@ -1246,12 +1246,14 @@
     window.scrollChatToBottom = function(force) {
         var chatContainer = document.querySelector('.chat-container');
         if (!chatContainer) return;
-        if (force) {
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-            return;
-        }
-        var nearBottom = (chatContainer.scrollHeight - chatContainer.scrollTop - chatContainer.clientHeight) < 120;
-        if (nearBottom) chatContainer.scrollTop = chatContainer.scrollHeight;
+        setTimeout(function() {
+            if (force) {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                return;
+            }
+            var nearBottom = (chatContainer.scrollHeight - chatContainer.scrollTop - chatContainer.clientHeight) < 120;
+            if (nearBottom) chatContainer.scrollTop = chatContainer.scrollHeight;
+        }, 10);
     };
 
     window.renderMarkdown = function(text) {
@@ -1348,7 +1350,7 @@
                 onUpdate: function() { window.scrollChatToBottom(true); }
             });
         } else {
-            textEl.textContent = String(text || '');
+            textEl.innerHTML = window.renderMarkdown(String(text || ''));
         }
 
         if (role === 'assistant' && conversationId) {
@@ -1398,7 +1400,7 @@
         if (msgElement) {
             var messageText = msgElement.querySelector('.message-text');
             if (messageText) {
-                messageText.textContent = newText;
+                messageText.innerHTML = window.renderMarkdown(String(newText || ''));
             }
             var chatContainer = document.querySelector('.chat-container');
             if (chatContainer) {
