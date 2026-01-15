@@ -8,7 +8,7 @@ import os
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True'
 
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional, List, Any
 import re
 import torch
 from fastapi import FastAPI, HTTPException
@@ -306,7 +306,7 @@ async def model_info():
     return info
 
 
-def parse_harmony_response(text: str, tokenizer) -> str:
+def parse_harmony_response(text: str, tokenizer: Any) -> str:
     """
     Parse Harmony format response to extract only the 'final' channel content.
     Harmony format can use: <|channel|>analysis, <|channel|>commentary, <|channel|>final
