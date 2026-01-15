@@ -599,19 +599,31 @@ async def generate(request: GenerateRequest):
         
         generated_text = generated_text.strip()
         
-        gpt_patterns = [
-            r'\bGPT\b',
-            r'\bChatGPT\b',
-            r'\bChat-GPT\b',
-            r'\bOpenAI\b',
-            r'\bGPT-?\d+\b',
-            r'\bGPT architecture\b',
-            r'\bGPT model\b',
-            r'created by OpenAI',
-            r'developed by OpenAI',
-            r'from OpenAI'
+        if not generated_text:
+            print(f"[INFERENCE SERVICE] ERROR: Generated text is empty after processing", flush=True)
+            raise HTTPException(status_code=500, detail="Model generated empty response")
+        
+        if request.stop:
+            for stop_str in request.stop:
+                if stop_str in generated_text:
+                    stop_pos = generated_text.find(stop_str)
+                    generated_text = generated_text[:stop_pos].strip()
+                    print(f"[INFERENCE SERVICE] Truncated at stop string: {stop_str}", flush=True)
+                    break
+        
+        gpt_identity_patterns = [
+            r'\bI am ChatGPT\b',
+            r'\bI\'m ChatGPT\b',
+            r'\bI am GPT\b',
+            r'\bI\'m GPT\b',
+            r'\bcreated by OpenAI\b',
+            r'\bdeveloped by OpenAI\b',
+            r'\bfrom OpenAI\b',
+            r'\bOpenAI\'s\b',
+            r'\bOpenAI model\b',
+            r'\bChatGPT model\b'
         ]
-        for pattern in gpt_patterns:
+        for pattern in gpt_identity_patterns:
             generated_text = re.sub(pattern, 'Epsilon AI', generated_text, flags=re.IGNORECASE)
         
         generated_text = re.sub(r'<\|start\|>', '', generated_text)
