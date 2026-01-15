@@ -519,23 +519,25 @@ async def generate(request: GenerateRequest):
                 self.markers = [m.lower() for m in markers]
                 self.regex_patterns = [re.compile(pattern.lower()) for pattern in regex_patterns]
                 self.window = window_tokens
+                self.seen_final = False
             
             def __call__(self, input_ids, scores, **kwargs):
                 gen_ids = input_ids[0, self.prompt_len:]
                 if gen_ids.numel() == 0:
                     return False
                 
+                full_text = self.tok.decode(gen_ids, skip_special_tokens=False).lower()
                 tail = gen_ids[-self.window:] if gen_ids.shape[0] > self.window else gen_ids
-                text = self.tok.decode(tail, skip_special_tokens=False).lower()
+                tail_text = self.tok.decode(tail, skip_special_tokens=False).lower()
                 
-                has_final = '<|channel|>final' in text or 'assistantfinal' in text
-                has_end = '<|end|>' in text
+                if '<|channel|>final' in full_text or 'assistantfinal' in full_text:
+                    self.seen_final = True
                 
-                if has_final and has_end:
+                if '<|end|>' in tail_text and self.seen_final:
                     print(f"[INFERENCE SERVICE] Stopping criteria met: Final channel and end token found", flush=True)
                     return True
                 
-                if '<|return|>' in text or '<|call|>' in text:
+                if '<|return|>' in tail_text or '<|call|>' in tail_text:
                     return True
                 
                 return False
