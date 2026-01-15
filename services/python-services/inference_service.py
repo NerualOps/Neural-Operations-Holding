@@ -576,6 +576,18 @@ async def generate(request: GenerateRequest):
                     print(f"[INFERENCE SERVICE] Harmony parsing returned empty, using clean decoded text", flush=True)
             else:
                 generated_text = generated_text_clean
+            
+            if not generated_text or len(generated_text.strip()) == 0:
+                generated_text = generated_text_clean
+                print(f"[INFERENCE SERVICE] Generated text empty, using clean decoded text", flush=True)
+            
+            if not generated_text or len(generated_text.strip()) == 0:
+                generated_text = re.sub(r'<\|start\|>', '', generated_text_raw)
+                generated_text = re.sub(r'<\|message\|>', '', generated_text)
+                generated_text = re.sub(r'<\|end\|>', '', generated_text)
+                generated_text = re.sub(r'<\|channel\|>', '', generated_text)
+                generated_text = generated_text.strip()
+                print(f"[INFERENCE SERVICE] Generated text still empty, using cleaned raw text", flush=True)
         except RuntimeError as e:
             if "dtype" in str(e).lower() or "scalar type" in str(e).lower():
                 print(f"[INFERENCE SERVICE] Dtype mismatch detected, attempting to convert model to float16...", flush=True)
