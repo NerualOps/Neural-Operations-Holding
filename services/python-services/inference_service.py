@@ -381,13 +381,28 @@ async def generate(request: GenerateRequest):
         attention_mask = tokenized.attention_mask
         prompt_len_tokens = input_ids.shape[1]
         
+        device = None
         if hasattr(model, 'hf_device_map') and model.hf_device_map:
-            print(f"[INFERENCE SERVICE] Model uses device_map='auto', letting transformers handle device placement", flush=True)
+            cuda_devices = []
+            for layer_name, d in model.hf_device_map.items():
+                if isinstance(d, (str, torch.device)):
+                    device_str = str(d) if isinstance(d, torch.device) else d
+                    if device_str.startswith("cuda"):
+                        device_obj = torch.device(device_str)
+                        if device_obj not in cuda_devices:
+                            cuda_devices.append(device_obj)
+            if cuda_devices:
+                device = cuda_devices[0]
+                print(f"[INFERENCE SERVICE] Model uses device_map='auto', moving inputs to first CUDA device: {device}", flush=True)
+            else:
+                device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+                print(f"[INFERENCE SERVICE] Model uses device_map='auto' but no CUDA device found, using: {device}", flush=True)
         else:
             device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-            input_ids = input_ids.to(device)
-            attention_mask = attention_mask.to(device)
             print(f"[INFERENCE SERVICE] Using device: {device}", flush=True)
+        
+        input_ids = input_ids.to(device)
+        attention_mask = attention_mask.to(device)
         
         gen_kwargs = {
             "input_ids": input_ids,
