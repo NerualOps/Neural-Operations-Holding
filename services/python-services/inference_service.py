@@ -20,7 +20,6 @@ from huggingface_hub import snapshot_download
 
 app = FastAPI(title="Epsilon AI Inference Service")
 
-# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -29,16 +28,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Global model and tokenizer
 model = None
 tokenizer = None
 model_metadata = None
 
-# Import model configuration
 try:
     from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
 except ImportError:
-    # Fallback if model_config.py is not in the same directory
     import sys
     from pathlib import Path
     config_path = Path(__file__).parent
@@ -46,7 +42,6 @@ except ImportError:
         sys.path.insert(0, str(config_path))
     from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
 
-# Model configuration
 MODEL_ID = os.getenv('EPSILON_MODEL_ID', HF_MODEL_ID)
 # Use /workspace for model storage (usually has more space than /root)
 MODEL_DIR = Path(os.getenv('EPSILON_MODEL_DIR', '/workspace/models/epsilon-20b'))
@@ -64,7 +59,6 @@ def load_model():
     print(f"[INFERENCE SERVICE] Loading Epsilon AI model: {MODEL_ID}", flush=True)
     
     try:
-        # Check disk space before downloading
         import shutil
         disk_usage = shutil.disk_usage(MODEL_DIR if MODEL_DIR.exists() else Path(__file__).parent)
         free_gb = disk_usage.free / (1024**3)
@@ -72,17 +66,13 @@ def load_model():
         if free_gb < 50:
             print(f"[INFERENCE SERVICE] WARNING: Low disk space ({free_gb:.2f} GB). Model requires ~40GB.", flush=True)
         
-        # Clear CUDA cache aggressively before loading
         if torch.cuda.is_available():
-            # Clear all GPU memory
             torch.cuda.empty_cache()
             torch.cuda.synchronize()
-            # Force garbage collection
             import gc
             gc.collect()
             torch.cuda.empty_cache()
             
-            # Check current GPU memory usage
             allocated = torch.cuda.memory_allocated(0) / (1024**3)
             reserved = torch.cuda.memory_reserved(0) / (1024**3)
             total = torch.cuda.get_device_properties(0).total_memory / (1024**3)
@@ -104,7 +94,6 @@ def load_model():
             print(f"[INFERENCE SERVICE] Clearing Hugging Face cache in home directory to free disk space...", flush=True)
             import shutil
             try:
-                # Get size before deletion
                 cache_size = sum(f.stat().st_size for f in hub_dir.rglob('*') if f.is_file()) / (1024**3)
                 shutil.rmtree(hub_dir)
                 print(f"[INFERENCE SERVICE] Cleared {cache_size:.2f} GB of Hugging Face cache", flush=True)
@@ -122,23 +111,18 @@ def load_model():
             except Exception as e:
                 print(f"[INFERENCE SERVICE] Warning: Could not remove model cache: {e}", flush=True)
         
-        # Acquire lock to prevent concurrent downloads
-        with FileLock(lock_path, timeout=60 * 60):  # 1 hour timeout
-            # 1) Download snapshot to a stable local directory ONCE
+        with FileLock(lock_path, timeout=60 * 60):
             Path(MODEL_DIR).mkdir(parents=True, exist_ok=True)
             
-            # Check if model already exists locally - count safetensors files and verify sizes
             safetensors_files = list(Path(MODEL_DIR).glob("*.safetensors"))
             if safetensors_files and len(safetensors_files) >= 2:
-                # Verify files are complete (each should be ~4-5GB)
-                complete_files = [f for f in safetensors_files if f.stat().st_size > 4 * 1024 * 1024 * 1024]  # > 4GB
+                complete_files = [f for f in safetensors_files if f.stat().st_size > 4 * 1024 * 1024 * 1024]
                 if len(complete_files) >= 2:
                     total_size = sum(f.stat().st_size for f in complete_files) / (1024**3)
                     print(f"[INFERENCE SERVICE] Model files found locally ({len(complete_files)} complete safetensors, {total_size:.2f} GB), skipping download...", flush=True)
                     local_path = MODEL_DIR
                 else:
                     print(f"[INFERENCE SERVICE] Found {len(safetensors_files)} safetensors but only {len(complete_files)} are complete, re-downloading...", flush=True)
-                    # Remove ALL files in MODEL_DIR to start fresh (incomplete files)
                     import shutil
                     try:
                         shutil.rmtree(MODEL_DIR)
@@ -151,7 +135,7 @@ def load_model():
                         local_dir=str(MODEL_DIR),
                         local_dir_use_symlinks=False,
                         max_workers=1,
-                        ignore_patterns=[".cache/**"],  # Ignore cache folder
+                        ignore_patterns=[".cache/**"],
                     )
                     print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
             else:
@@ -160,8 +144,8 @@ def load_model():
                     repo_id=MODEL_ID,
                     local_dir=str(MODEL_DIR),
                     local_dir_use_symlinks=False,
-                    max_workers=1,  # Single worker to prevent concurrent downloads
-                    ignore_patterns=[".cache/**"],  # Ignore cache folder
+                    max_workers=1,
+                    ignore_patterns=[".cache/**"],
                 )
                 print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
         
@@ -174,7 +158,6 @@ def load_model():
         
         print(f"[INFERENCE SERVICE] Loading model on GPU from local path: {local_path}", flush=True)
         
-        # Clear any existing model from memory first
         global model
         if model is not None:
             print(f"[INFERENCE SERVICE] Clearing existing model from memory...", flush=True)
@@ -325,21 +308,16 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
     print(f"[INFERENCE SERVICE] Found {len(matches)} channel blocks in response", flush=True)
     
     if matches:
-        # Process all channel blocks, extract only final channel
-        for channel, content in reversed(matches):  # Start from last (most likely to be final)
+        for channel, content in reversed(matches):
             channel_lower = channel.lower().strip()
             content = content.strip()
             
             print(f"[INFERENCE SERVICE] Processing channel: {channel_lower}, content length: {len(content)}", flush=True)
             
-            # Extract final channel content only - skip analysis and commentary
             if 'final' in channel_lower:
-                # Clean up the content
                 content = content.strip()
-                # Remove any leading colons, spaces, <message> tags, or whitespace
                 content = content.lstrip(': \n\t')
                 content = content.replace('<message>', '').replace('</message>', '')
-                # Stop at next channel or end token
                 end_pos = content.find("<|channel|>")
                 if end_pos != -1:
                     content = content[:end_pos].strip()
@@ -352,42 +330,31 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
             else:
                 print(f"[INFERENCE SERVICE] Skipping {channel_lower} channel (not final)", flush=True)
     
-    # If only analysis channel found, wait for final channel or extract from analysis as fallback
-    # Check if we only have analysis/commentary channels
     has_final = any('final' in ch.lower() for ch, _ in matches)
     if not has_final and matches:
-        # Model only generated analysis, not final channel yet
-        # This means generation stopped too early - we need to continue or extract what we can
         print(f"[INFERENCE SERVICE] WARNING: Only analysis/commentary channels found, no final channel. Generation may have stopped too early.", flush=True)
-        # Don't return analysis - return empty and let the caller handle it
         return ""
     
-    # Fallback: Look for Harmony format with <|start|>assistant<|message|>channel: content<|end|>
     harmony_pattern = re.compile(r'<\|start\|>assistant<\|message\|>(.*?)<\|end\|>', re.DOTALL)
     matches = harmony_pattern.findall(text)
     
     if matches:
-        # Process all matches to find the final channel
-        for match in reversed(matches):  # Start from last (most likely to be final)
+        for match in reversed(matches):
             content = match.strip()
             
-            # Check if this is the final channel
             if ':' in content:
                 parts = content.split(':', 1)
                 if len(parts) > 1:
                     channel = parts[0].strip().lower()
                     channel_content = parts[1].strip()
                     
-                    # Extract final channel content only
                     if 'final' in channel:
                         print(f"[INFERENCE SERVICE] Extracted final channel content via Harmony format", flush=True)
                         return channel_content
                     
-                    # Skip analysis and commentary channels
                     if channel in ['analysis', 'commentary']:
                         continue
     
-    # Fallback: Look for final channel markers directly
     final_markers = [
         "<|channel|>final",
         "<|channel|>final:",
@@ -403,7 +370,6 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
         if pos != -1:
             after_marker = text[pos + len(marker):].strip()
             after_marker = after_marker.lstrip(': \n\t')
-            # Stop at <|end|>, <|channel|>, or next <|start|>
             for stop_token in ["<|end|>", "<|channel|>", "<|start|>"]:
                 end_pos = after_marker.find(stop_token)
                 if end_pos != -1:
@@ -413,16 +379,11 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
                 print(f"[INFERENCE SERVICE] Extracted final channel via marker: {marker}", flush=True)
                 return after_marker
     
-    # If no Harmony format detected, try to remove analysis channels manually
-    # This is a fallback - aggressively remove all analysis/commentary blocks
     print(f"[INFERENCE SERVICE] No final channel found via pattern matching, using aggressive cleanup", flush=True)
     
-    # Remove all <|channel|>analysis blocks (everything from <|channel|>analysis until <|channel|>final or end)
-    # Handle both <|channel|>analysis<message> and <|channel|>analysis formats
     text = re.sub(r'<\|channel\|>analysis(?:<message>)?.*?(?=<\|channel\|>final|<\|channel\|>|<\|end\|>|$)', '', text, flags=re.DOTALL | re.IGNORECASE)
     text = re.sub(r'<\|channel\|>commentary(?:<message>)?.*?(?=<\|channel\|>final|<\|channel\|>|<\|end\|>|$)', '', text, flags=re.DOTALL | re.IGNORECASE)
     
-    # Now extract final channel if it exists
     final_match = re.search(r'<\|channel\|>final(?:<message>)?(.*?)(?=<\|channel\|>|<\|end\|>|$)', text, re.DOTALL | re.IGNORECASE)
     if final_match:
         final_content = final_match.group(1).strip()
@@ -432,8 +393,6 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
             print(f"[INFERENCE SERVICE] ✓ Extracted final channel via aggressive cleanup ({len(final_content)} chars)", flush=True)
             return final_content
     
-    # If we still have no final channel, the model stopped too early
-    # Return empty to indicate no valid response
     print(f"[INFERENCE SERVICE] ERROR: No final channel found in response. Model may have stopped too early.", flush=True)
     return ""
 
@@ -441,62 +400,50 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
 @app.post("/generate", response_model=GenerateResponse)
 async def generate(request: GenerateRequest):
     """Generate text using Epsilon AI with Harmony format"""
-    global model  # Allow modification of global variables
+    global model
     
     if model is None or tokenizer is None:
         raise HTTPException(status_code=503, detail="Model not loaded. Check /health endpoint.")
     
     try:
-        # Harmony format: Use chat template exactly as model was trained
-        # The model was trained with harmony_format, so we must use the tokenizer's chat template
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
-            # Harmony format uses system + user messages, chat template handles formatting
             messages = [
                 {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC."},
                 {"role": "user", "content": request.prompt}
             ]
-            # add_generation_prompt=True ensures proper harmony format response generation
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
             print(f"[INFERENCE SERVICE] Harmony format prompt (first 200 chars): {formatted_prompt[:200]}", flush=True)
         else:
-            # Fallback if chat template not available - use harmony-style format
             formatted_prompt = f"User: {request.prompt}\nEpsilon AI: "
             print(f"[INFERENCE SERVICE] Using fallback format (no chat template): {formatted_prompt[:200]}", flush=True)
         
-        # Harmony format stopping criteria - stop at Harmony format end tokens
-        # Harmony format uses: <|start|>assistant<|message|>channel: content<|end|>
-        # Official stop tokens per Harmony spec: <|end|>, <|return|>, <|call|>
         harmony_stop_markers = [
-            "<|end|>",  # Primary Harmony format end token
-            "<|return|>",  # Harmony format return token
-            "<|call|>",  # Harmony format call token
-            "<|channel|>final",  # Final channel marker (what model actually uses)
+            "<|end|>",
+            "<|return|>",
+            "<|call|>",
+            "<|channel|>final",
             "<|channel|>final:",
-            "<|start|>assistant<|message|>final:",  # Final channel start
-            "<|message|>final:",  # Final channel marker
-            "assistantfinal",  # Legacy marker (if model uses it)
+            "<|start|>assistant<|message|>final:",
+            "<|message|>final:",
+            "assistantfinal",
             "Assistantfinal",
             "ASSISTANTFINAL"
         ]
         
-        # Markdown-style markers with strict line-boundary matching (regex patterns)
-        # Use lowercase patterns since we'll decode with .lower()
         harmony_stop_regex = [
-            r"<\|end\|>",  # Harmony format end token
-            r"<\|return\|>",  # Harmony format return token
-            r"<\|call\|>",  # Harmony format call token
-            r"<\|channel\|>final",  # Final channel marker
-            r"<\|message\|>final:",  # Final channel marker
+            r"<\|end\|>",
+            r"<\|return\|>",
+            r"<\|call\|>",
+            r"<\|channel\|>final",
+            r"<\|message\|>final:",
             r"(^|\n)##\s*final\b",
             r"(^|\n)###\s*final\b"
         ]
         
-        # Check for end-of-turn tokens (many chat models use special EOT tokens)
         eot_token_id = None
         if hasattr(tokenizer, 'eos_token_id') and tokenizer.eos_token_id is not None:
             eot_token_id = tokenizer.eos_token_id
         
-        # Check additional_special_tokens
         if hasattr(tokenizer, 'additional_special_tokens') and tokenizer.additional_special_tokens:
             for special_token in tokenizer.additional_special_tokens:
                 if 'eot' in special_token.lower() or 'end_of_turn' in special_token.lower():
@@ -504,7 +451,6 @@ async def generate(request: GenerateRequest):
                     print(f"[INFERENCE SERVICE] Found EOT token in additional_special_tokens: {special_token} (ID: {eot_token_id})", flush=True)
                     break
         
-        # Also check special_tokens_map (some tokenizers put EOT there instead)
         if eot_token_id is None or eot_token_id == tokenizer.eos_token_id:
             if hasattr(tokenizer, 'special_tokens_map') and tokenizer.special_tokens_map:
                 for k, v in tokenizer.special_tokens_map.items():
@@ -513,22 +459,17 @@ async def generate(request: GenerateRequest):
                         print(f"[INFERENCE SERVICE] Found EOT token in special_tokens_map: {k}={v} (ID: {eot_token_id})", flush=True)
                         break
         
-        # Use standard temperature (0.7) for natural responses
         gen_temperature = request.temperature if request.temperature > 0 else 0.7
         
-        # Tokenize input properly
         tokenized = tokenizer(formatted_prompt, return_tensors="pt")
         input_ids = tokenized.input_ids
         attention_mask = tokenized.attention_mask
         prompt_len_tokens = input_ids.shape[1]
         
-        # Get device from model (handle device_map="auto" correctly)
-        # Prefer first CUDA device for sharded models, fallback to CPU if needed
         device = None
         if hasattr(model, 'device'):
             device = model.device
         elif hasattr(model, 'hf_device_map') and model.hf_device_map:
-            # For sharded models, pick the first CUDA device
             for d in model.hf_device_map.values():
                 if isinstance(d, str) and d.startswith("cuda"):
                     device = torch.device(d)
@@ -539,58 +480,43 @@ async def generate(request: GenerateRequest):
         input_ids = input_ids.to(device)
         attention_mask = attention_mask.to(device)
         
-        # Create stopping criteria class for Harmony format markers
         class HarmonyStoppingCriteria(StoppingCriteria):
             def __init__(self, prompt_len_tokens: int, tokenizer, markers, regex_patterns, window_tokens: int = 160):
                 self.prompt_len = prompt_len_tokens
                 self.tok = tokenizer
                 self.markers = [m.lower() for m in markers]
-                # Compile regex without IGNORECASE since we'll use .lower() on text
                 self.regex_patterns = [re.compile(pattern.lower()) for pattern in regex_patterns]
                 self.window = window_tokens
             
             def __call__(self, input_ids, scores, **kwargs):
-                # Get only generated tokens (after prompt)
                 gen_ids = input_ids[0, self.prompt_len:]
                 if gen_ids.numel() == 0:
                     return False
                 
-                # Only decode the last window of tokens (efficient)
-                # Increased window to 160 to catch markers even with whitespace/tokens before them
                 tail = gen_ids[-self.window:] if gen_ids.shape[0] > self.window else gen_ids
                 text = self.tok.decode(tail, skip_special_tokens=False).lower()
                 
-                # Check for final channel marker - ONLY stop when we see final channel
                 final_markers = ['<|channel|>final', '<|channel|>final:', '<|channel|>final<message>']
                 if any(m in text for m in final_markers):
                     return True
                 
-                # Check for other stop markers (return, call, legacy markers)
                 other_markers = ['<|return|>', '<|call|>', 'assistantfinal']
                 if any(m in text for m in other_markers):
                     return True
                 
-                # Check for regex patterns (markdown markers at line boundaries)
                 for pattern in self.regex_patterns:
                     if pattern.search(text):
-                        # Only stop on regex if it's a final channel marker
                         if 'final' in pattern.pattern.lower():
                             return True
                 
-                # Don't stop on <|end|> alone - only stop when final channel is present
-                # The model will generate analysis then final, we need to wait for final
                 return False
         
-        # Create stopping criteria
-        # max_new_tokens already provides a safety limit, so stopping criteria is the primary control
         stopping_criteria = StoppingCriteriaList([
             HarmonyStoppingCriteria(prompt_len_tokens, tokenizer, harmony_stop_markers, harmony_stop_regex)
         ])
         
-        # Add EOT token to eos_token_id if found
         eos_token_id = tokenizer.eos_token_id if tokenizer.eos_token_id is not None else tokenizer.pad_token_id
         if eot_token_id is not None and eot_token_id != eos_token_id:
-            # Use EOT as the primary stop token
             eos_token_id = eot_token_id
             print(f"[INFERENCE SERVICE] Using detected EOT token (ID: {eot_token_id}) as primary stop token", flush=True)
         else:
@@ -598,32 +524,24 @@ async def generate(request: GenerateRequest):
             print(f"[INFERENCE SERVICE] Harmony format markers will provide additional stopping control", flush=True)
         
         try:
-            # Use model.generate() directly with stopping criteria for proper Harmony format handling
-            # max_new_tokens provides a safety limit (belt-and-suspenders) in case stopping criteria never triggers
             with torch.no_grad():
-                # Generate with stopping criteria - stopping_criteria takes precedence over eos_token_id
-                # We set eos_token_id but stopping_criteria will control when to actually stop
                 generated_ids = model.generate(
                     input_ids=input_ids,
                     attention_mask=attention_mask,
-                    max_new_tokens=min(request.max_new_tokens, 512),  # Safety limit: prevents infinite generation
+                    max_new_tokens=min(request.max_new_tokens, 512),
                     temperature=gen_temperature,
                     top_p=request.top_p,
                     repetition_penalty=request.repetition_penalty,
                     do_sample=True,
                     pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_token_id,
-                    eos_token_id=None,  # Don't use eos_token_id for stopping - let stopping_criteria handle it
-                    stopping_criteria=stopping_criteria  # Primary stopping mechanism - waits for final channel
+                    eos_token_id=None,
+                    stopping_criteria=stopping_criteria
                 )
             
-            # Decode only the newly generated tokens (not the prompt)
             generated_tokens = generated_ids[0, prompt_len_tokens:]
             generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=False)
             print(f"[INFERENCE SERVICE] Raw generated text (first 500 chars): {generated_text[:500]}", flush=True)
             
-            # Parse Harmony format to extract only the 'final' channel
-            # Harmony format uses: <|start|>assistant<|message|>channel: content<|end|>
-            # We need to extract content from the 'final' channel only
             generated_text = parse_harmony_response(generated_text, tokenizer)
         except RuntimeError as e:
             if "dtype" in str(e).lower() or "scalar type" in str(e).lower():
@@ -631,7 +549,6 @@ async def generate(request: GenerateRequest):
                 if hasattr(model, 'to'):
                     try:
                         model = model.to(torch.float16)
-                        # Retry generation with converted model
                         with torch.no_grad():
                             generated_ids = model.generate(
                                 input_ids=input_ids,
@@ -642,13 +559,12 @@ async def generate(request: GenerateRequest):
                                 repetition_penalty=request.repetition_penalty,
                                 do_sample=True,
                                 pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_token_id,
-                                eos_token_id=None,  # Don't use eos_token_id for stopping - let stopping_criteria handle it
-                                stopping_criteria=stopping_criteria  # Waits for final channel
+                                eos_token_id=None,
+                                stopping_criteria=stopping_criteria
                             )
                         generated_tokens = generated_ids[0, prompt_len_tokens:]
                         generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=False)
                         print(f"[INFERENCE SERVICE] Raw generated text after dtype conversion (first 500 chars): {generated_text[:500]}", flush=True)
-                        # Parse Harmony format
                         generated_text = parse_harmony_response(generated_text, tokenizer)
                     except Exception as conv_error:
                         print(f"[INFERENCE SERVICE] Failed to convert model dtype: {conv_error}", flush=True)
@@ -660,8 +576,6 @@ async def generate(request: GenerateRequest):
         
         generated_text = generated_text.strip()
         
-        # Final cleanup: Remove any GPT/ChatGPT/OpenAI mentions (defensive)
-        # This should not be needed if Harmony format parsing worked, but keep as safety net
         gpt_patterns = [
             r'\bGPT\b',
             r'\bChatGPT\b',
@@ -677,18 +591,14 @@ async def generate(request: GenerateRequest):
         for pattern in gpt_patterns:
             generated_text = re.sub(pattern, 'Epsilon AI', generated_text, flags=re.IGNORECASE)
         
-        # Remove any remaining Harmony format tokens if they leaked through
         generated_text = re.sub(r'<\|start\|>', '', generated_text)
         generated_text = re.sub(r'<\|message\|>', '', generated_text)
         generated_text = re.sub(r'<\|end\|>', '', generated_text)
         generated_text = re.sub(r'analysis:', '', generated_text, flags=re.IGNORECASE)
         generated_text = re.sub(r'commentary:', '', generated_text, flags=re.IGNORECASE)
-        
-        # Clean up any double spaces or weird formatting
         generated_text = re.sub(r'\s+', ' ', generated_text)
         generated_text = generated_text.strip()
         
-        # Calculate tokens
         prompt_tokens = len(tokenizer.encode(request.prompt))
         completion_tokens = len(tokenizer.encode(generated_text)) if generated_text else 0
         
@@ -707,7 +617,6 @@ async def generate(request: GenerateRequest):
         print(f"[INFERENCE SERVICE] Generation error: {error_msg}", flush=True)
         print(f"[INFERENCE SERVICE] Traceback: {traceback_str}", flush=True)
         
-        # Provide more helpful error messages
         if "dtype" in error_msg.lower() or "scalar type" in error_msg.lower():
             error_detail = f"Model dtype mismatch. Please ensure model and pipeline use compatible dtypes. Original error: {error_msg}"
         elif "out of memory" in error_msg.lower() or "cuda" in error_msg.lower():
