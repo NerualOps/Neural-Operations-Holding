@@ -292,7 +292,7 @@ async def model_info():
     return info
 
 
-def parse_harmony_response(text: str, tokenizer: Any) -> str:
+def parse_harmony_response(text: str, tokenizer: Any) -> Optional[str]:
     """
     Parse Harmony format response to extract only the 'final' channel content.
     Simple single-path parser: if <|channel|> exists, extract final channel.
