@@ -33,16 +33,17 @@ tokenizer = None
 model_metadata = None
 
 try:
-    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
+    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME, DISPLAY_MODEL_ID
 except ImportError:
     import sys
     from pathlib import Path
     config_path = Path(__file__).parent
     if str(config_path) not in sys.path:
         sys.path.insert(0, str(config_path))
-    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
+    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME, DISPLAY_MODEL_ID
 
-MODEL_ID = os.getenv('EPSILON_MODEL_ID', HF_MODEL_ID)
+HF_MODEL_ID_INTERNAL = os.getenv('EPSILON_MODEL_ID', HF_MODEL_ID)
+MODEL_ID = os.getenv('EPSILON_DISPLAY_MODEL_ID', DISPLAY_MODEL_ID)
 # Use /workspace for model storage (usually has more space than /root)
 MODEL_DIR = Path(os.getenv('EPSILON_MODEL_DIR', '/workspace/models/epsilon-20b'))
 
@@ -57,6 +58,7 @@ def load_model():
     lock_path = str(lock_dir / "hf_download.lock")
     
     print(f"[INFERENCE SERVICE] Loading Epsilon AI model: {MODEL_ID}", flush=True)
+    print(f"[INFERENCE SERVICE] Internal model repository: {HF_MODEL_ID_INTERNAL}", flush=True)
     
     try:
         import shutil
@@ -131,7 +133,7 @@ def load_model():
                     except Exception as e:
                         print(f"[INFERENCE SERVICE] Warning: Could not clear model directory: {e}", flush=True)
                     local_path = snapshot_download(
-                        repo_id=MODEL_ID,
+                        repo_id=HF_MODEL_ID_INTERNAL,
                         local_dir=str(MODEL_DIR),
                         local_dir_use_symlinks=False,
                         max_workers=1,
@@ -141,7 +143,7 @@ def load_model():
             else:
                 print(f"[INFERENCE SERVICE] Downloading model snapshot to local directory (this may take 10-15 minutes)...", flush=True)
                 local_path = snapshot_download(
-                    repo_id=MODEL_ID,
+                    repo_id=HF_MODEL_ID_INTERNAL,
                     local_dir=str(MODEL_DIR),
                     local_dir_use_symlinks=False,
                     max_workers=1,
@@ -199,6 +201,7 @@ def load_model():
         
         model_metadata = {
             "model_id": MODEL_ID,
+            "internal_repo": HF_MODEL_ID_INTERNAL,
             "model_name": MODEL_NAME,
             "framework": "transformers",
             "harmony_format": True,
@@ -268,7 +271,7 @@ async def health():
         "status": "ok",
         "model_loaded": model is not None and tokenizer is not None,
         "model_id": MODEL_ID,
-        "model_dir": MODEL_DIR
+        "model_dir": str(MODEL_DIR)
     }
 
 
@@ -638,7 +641,7 @@ async def reload_model():
         if model is not None and tokenizer is not None:
             return {
                 "status": "ok", 
-                "message": f"Model reloaded from {MODEL_ID}",
+                "message": f"Model reloaded successfully",
                 "model_loaded": True
             }
         else:
