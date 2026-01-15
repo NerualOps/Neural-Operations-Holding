@@ -447,8 +447,7 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
             print(f"[INFERENCE SERVICE] ✓ Extracted final channel via simple pattern ({len(final_content)} chars)", flush=True)
             return final_content
     
-    print(f"[INFERENCE SERVICE] ERROR: No final channel found in response. Raw text length: {len(text)}", flush=True)
-    print(f"[INFERENCE SERVICE] Raw text preview: {text[:500]}", flush=True)
+    print(f"[INFERENCE SERVICE] WARNING: No final channel found in Harmony format. Returning empty to fallback to raw text.", flush=True)
     return ""
 
 
@@ -499,18 +498,21 @@ async def generate(request: GenerateRequest):
         prompt_len_tokens = input_ids.shape[1]
         
         device = None
-        if hasattr(model, 'device'):
-            device = model.device
-        elif hasattr(model, 'hf_device_map') and model.hf_device_map:
+        if hasattr(model, 'hf_device_map') and model.hf_device_map:
             for d in model.hf_device_map.values():
-                if isinstance(d, str) and d.startswith("cuda"):
-                    device = torch.device(d)
-                    break
+                if isinstance(d, (str, torch.device)):
+                    device_str = str(d) if isinstance(d, torch.device) else d
+                    if device_str.startswith("cuda"):
+                        device = torch.device(device_str)
+                        break
+        if device is None and hasattr(model, 'device'):
+            device = model.device
         if device is None:
             device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         
         input_ids = input_ids.to(device)
         attention_mask = attention_mask.to(device)
+        print(f"[INFERENCE SERVICE] Using device: {device} for generation", flush=True)
         
         eos_token_id = tokenizer.eos_token_id if tokenizer.eos_token_id is not None else tokenizer.pad_token_id
         if eot_token_id is not None and eot_token_id != eos_token_id:
@@ -534,11 +536,23 @@ async def generate(request: GenerateRequest):
                 )
             
             generated_tokens = generated_ids[0, prompt_len_tokens:]
-            generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
-            print(f"[INFERENCE SERVICE] Generated text (first 500 chars): {generated_text[:500]}", flush=True)
+            generated_text_raw = tokenizer.decode(generated_tokens, skip_special_tokens=False)
+            generated_text_clean = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
             
-            if '<|channel|>final' in generated_text.lower() or '<|channel|>analysis' in generated_text.lower():
-                generated_text = parse_harmony_response(generated_text, tokenizer)
+            print(f"[INFERENCE SERVICE] Generated text raw (first 500 chars): {generated_text_raw[:500]}", flush=True)
+            
+            has_harmony = '<|channel|>final' in generated_text_raw.lower() or '<|channel|>analysis' in generated_text_raw.lower()
+            
+            if has_harmony:
+                parsed = parse_harmony_response(generated_text_raw, tokenizer)
+                if parsed and len(parsed) > 0:
+                    generated_text = parsed
+                    print(f"[INFERENCE SERVICE] Extracted Harmony format content ({len(parsed)} chars)", flush=True)
+                else:
+                    generated_text = generated_text_clean
+                    print(f"[INFERENCE SERVICE] Harmony parsing returned empty, using clean decoded text", flush=True)
+            else:
+                generated_text = generated_text_clean
         except RuntimeError as e:
             if "dtype" in str(e).lower() or "scalar type" in str(e).lower():
                 print(f"[INFERENCE SERVICE] Dtype mismatch detected, attempting to convert model to float16...", flush=True)
@@ -558,11 +572,23 @@ async def generate(request: GenerateRequest):
                                 eos_token_id=eos_token_id,
                             )
                         generated_tokens = generated_ids[0, prompt_len_tokens:]
-                        generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
-                        print(f"[INFERENCE SERVICE] Generated text after dtype conversion (first 500 chars): {generated_text[:500]}", flush=True)
+                        generated_text_raw = tokenizer.decode(generated_tokens, skip_special_tokens=False)
+                        generated_text_clean = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
                         
-                        if '<|channel|>final' in generated_text.lower() or '<|channel|>analysis' in generated_text.lower():
-                            generated_text = parse_harmony_response(generated_text, tokenizer)
+                        print(f"[INFERENCE SERVICE] Generated text raw after dtype conversion (first 500 chars): {generated_text_raw[:500]}", flush=True)
+                        
+                        has_harmony = '<|channel|>final' in generated_text_raw.lower() or '<|channel|>analysis' in generated_text_raw.lower()
+                        
+                        if has_harmony:
+                            parsed = parse_harmony_response(generated_text_raw, tokenizer)
+                            if parsed and len(parsed) > 0:
+                                generated_text = parsed
+                                print(f"[INFERENCE SERVICE] Extracted Harmony format content ({len(parsed)} chars)", flush=True)
+                            else:
+                                generated_text = generated_text_clean
+                                print(f"[INFERENCE SERVICE] Harmony parsing returned empty, using clean decoded text", flush=True)
+                        else:
+                            generated_text = generated_text_clean
                     except Exception as conv_error:
                         print(f"[INFERENCE SERVICE] Failed to convert model dtype: {conv_error}", flush=True)
                         raise e  # Re-raise original error
