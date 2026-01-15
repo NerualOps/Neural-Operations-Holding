@@ -330,13 +330,11 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
                 if len(content) > 0:
                     print(f"[INFERENCE SERVICE] ✓ Extracted final channel content ({len(content)} chars) via <|channel|> format", flush=True)
                     return content
-            else:
-                print(f"[INFERENCE SERVICE] Skipping {channel_lower} channel (not final)", flush=True)
-    
-    has_final = any('final' in ch.lower() for ch, _ in matches)
-    if not has_final and matches:
-        print(f"[INFERENCE SERVICE] WARNING: Only analysis/commentary channels found, no final channel. Generation may have stopped too early.", flush=True)
-        return ""
+        
+        has_final = any('final' in ch.lower() for ch, _ in matches)
+        if not has_final:
+            print(f"[INFERENCE SERVICE] WARNING: Only analysis/commentary channels found, no final channel.", flush=True)
+            return ""
     
     harmony_pattern = re.compile(r'<\|start\|>assistant<\|message\|>(.*?)<\|end\|>', re.DOTALL)
     matches = harmony_pattern.findall(text)
@@ -499,17 +497,25 @@ async def generate(request: GenerateRequest):
                 tail = gen_ids[-self.window:] if gen_ids.shape[0] > self.window else gen_ids
                 text = self.tok.decode(tail, skip_special_tokens=False).lower()
                 
+                if '<|end|>' in text:
+                    if '<|channel|>final' in text or 'assistantfinal' in text:
+                        return True
+                
                 final_markers = ['<|channel|>final', '<|channel|>final:', '<|channel|>final<message>']
                 if any(m in text for m in final_markers):
+                    if '<|end|>' in text:
+                        return True
+                
+                other_markers = ['<|return|>', '<|call|>']
+                if any(m in text for m in other_markers):
                     return True
                 
-                other_markers = ['<|return|>', '<|call|>', 'assistantfinal']
-                if any(m in text for m in other_markers):
+                if 'assistantfinal' in text and '<|end|>' in text:
                     return True
                 
                 for pattern in self.regex_patterns:
                     if pattern.search(text):
-                        if 'final' in pattern.pattern.lower():
+                        if 'final' in pattern.pattern.lower() and '<|end|>' in text:
                             return True
                 
                 return False
