@@ -642,8 +642,8 @@ async def generate(request: GenerateRequest):
                                 repetition_penalty=request.repetition_penalty,
                                 do_sample=True,
                                 pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_token_id,
-                                eos_token_id=eos_token_id,
-                                stopping_criteria=stopping_criteria
+                                eos_token_id=None,  # Don't use eos_token_id for stopping - let stopping_criteria handle it
+                                stopping_criteria=stopping_criteria  # Waits for final channel
                             )
                         generated_tokens = generated_ids[0, prompt_len_tokens:]
                         generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=False)
