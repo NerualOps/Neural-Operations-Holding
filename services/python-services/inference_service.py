@@ -496,6 +496,12 @@ async def generate(request: GenerateRequest):
         
         generated_text = generated_text.strip()
         
+        generated_text = re.sub(r'<\|start\|>', '', generated_text)
+        generated_text = re.sub(r'<\|message\|>', '', generated_text)
+        generated_text = re.sub(r'<\|end\|>', '', generated_text)
+        generated_text = re.sub(r'\s+', ' ', generated_text)
+        generated_text = generated_text.strip()
+        
         if request.stop:
             earliest_stop = None
             earliest_pos = len(generated_text)
@@ -523,28 +529,18 @@ async def generate(request: GenerateRequest):
             r'\bdeveloped by OpenAI\b',
             r'\btrained by OpenAI\b',
             r'\bfrom OpenAI\b',
-            r'\bOpenAI\'s\b',
-            r'\bOpenAI model\b',
-            r'\bChatGPT model\b',
             r'\bas an OpenAI model\b',
             r'\bas a ChatGPT model\b',
-            r'\bas a GPT model\b',
-            r'\bas a large language model\b',
-            r'\bOpenAI\b',
-            r'\bChatGPT\b',
-            r'\bGPT-4\b',
-            r'\bGPT-3\.5\b',
-            r'\bGPT-3\b',
-            r'\bGPT\b'
+            r'\bas a GPT model\b'
         ]
         for pattern in gpt_identity_patterns:
             generated_text = re.sub(pattern, 'Epsilon AI', generated_text, flags=re.IGNORECASE)
         
-        generated_text = re.sub(r'<\|start\|>', '', generated_text)
-        generated_text = re.sub(r'<\|message\|>', '', generated_text)
-        generated_text = re.sub(r'<\|end\|>', '', generated_text)
-        generated_text = re.sub(r'\s+', ' ', generated_text)
         generated_text = generated_text.strip()
+        
+        if not generated_text:
+            print(f"[INFERENCE SERVICE] ERROR: Generated text is empty after all processing", flush=True)
+            raise HTTPException(status_code=500, detail="Model generated empty response")
         
         prompt_tokens = len(tokenizer.encode(request.prompt))
         completion_tokens = len(tokenizer.encode(generated_text)) if generated_text else 0
