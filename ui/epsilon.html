@@ -1129,8 +1129,10 @@
         if (chatInput) chatInput.value = '';
         
         window.addMessage('user', input);
+        window.scrollChatToBottom(true);
         window.messageStartTime = Date.now();
         var loadingId = window.addMessage('assistant', 'Thinking...');
+        window.scrollChatToBottom(true);
         
         // Start timer to show elapsed time
         window.loadingTimer = setInterval(function() {
