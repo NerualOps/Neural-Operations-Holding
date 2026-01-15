@@ -532,13 +532,20 @@ async def generate(request: GenerateRequest):
                 
                 if '<|channel|>final' in full_text or 'assistantfinal' in full_text:
                     self.seen_final = True
+                    print(f"[INFERENCE SERVICE] Final channel marker detected in generation", flush=True)
                 
-                if '<|end|>' in tail_text and self.seen_final:
-                    print(f"[INFERENCE SERVICE] Stopping criteria met: Final channel and end token found", flush=True)
-                    return True
+                if '<|end|>' in tail_text:
+                    if self.seen_final:
+                        print(f"[INFERENCE SERVICE] Stopping criteria met: Final channel and end token found", flush=True)
+                        return True
+                    else:
+                        print(f"[INFERENCE SERVICE] <|end|> detected but no final channel yet - continuing generation", flush=True)
+                        return False
                 
                 if '<|return|>' in tail_text or '<|call|>' in tail_text:
-                    return True
+                    if self.seen_final:
+                        return True
+                    return False
                 
                 return False
         
