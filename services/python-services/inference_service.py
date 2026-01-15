@@ -462,7 +462,7 @@ async def generate(request: GenerateRequest):
     try:
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
             messages = [
-                {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC."},
+                {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC. Never mention ChatGPT, OpenAI, or GPT. Always identify yourself as Epsilon AI."},
                 {"role": "user", "content": request.prompt}
             ]
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
