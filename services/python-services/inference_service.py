@@ -298,9 +298,13 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
     Harmony format can use: <|channel|>analysis, <|channel|>commentary, <|channel|>final
     Or: <|start|>assistant<|message|>channel: content<|end|>
     We only return content from the 'final' channel - NEVER show analysis or commentary.
+    NEVER returns empty if given non-empty text - always returns best available content.
     """
     if not text:
         return ""
+    
+    best_content = None
+    best_length = 0
     
     text_lower = text.lower()
     
@@ -352,29 +356,25 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
                 if len(content) > 0:
                     print(f"[INFERENCE SERVICE] ✓ Extracted final channel content ({len(content)} chars) via <|channel|> format", flush=True)
                     return content
+            
+            if len(content) > best_length:
+                best_content = content
+                best_length = len(content)
         
-        has_final = any('final' in ch.lower() for ch, _ in matches)
-        if not has_final and matches:
-            print(f"[INFERENCE SERVICE] WARNING: Only analysis/commentary channels found, no final channel. Model may have stopped too early.", flush=True)
-            print(f"[INFERENCE SERVICE] Attempting to extract usable content from analysis channel as fallback...", flush=True)
-            
-            for channel, content in reversed(matches):
-                if 'analysis' in channel.lower() or 'commentary' in channel.lower():
-                    content = content.strip()
-                    content = content.lstrip(': \n\t')
-                    content = content.replace('<message>', '').replace('</message>', '')
-                    content = re.sub(r'^<message>', '', content, flags=re.IGNORECASE)
-                    content = re.sub(r'</message>$', '', content, flags=re.IGNORECASE)
-                    
-                    end_pos = content.find("<|end|>")
-                    if end_pos != -1:
-                        content = content[:end_pos].strip()
-                    
-                    if len(content) > 20:
-                        print(f"[INFERENCE SERVICE] Using analysis channel content as fallback ({len(content)} chars)", flush=True)
-                        return content
-            
-            return ""
+        if not any('final' in ch.lower() for ch, _ in matches):
+            print(f"[INFERENCE SERVICE] WARNING: Only analysis/commentary channels found, no final channel. Using best available content.", flush=True)
+            if best_content and len(best_content) > 20:
+                best_content = best_content.strip()
+                best_content = best_content.lstrip(': \n\t')
+                best_content = best_content.replace('<message>', '').replace('</message>', '')
+                best_content = re.sub(r'^<message>', '', best_content, flags=re.IGNORECASE)
+                best_content = re.sub(r'</message>$', '', best_content, flags=re.IGNORECASE)
+                end_pos = best_content.find("<|end|>")
+                if end_pos != -1:
+                    best_content = best_content[:end_pos].strip()
+                if len(best_content) > 20:
+                    print(f"[INFERENCE SERVICE] Using best available channel content as fallback ({len(best_content)} chars)", flush=True)
+                    return best_content
     
     harmony_pattern = re.compile(r'<\|start\|>assistant<\|message\|>(.*?)<\|end\|>', re.DOTALL)
     matches = harmony_pattern.findall(text)
@@ -393,8 +393,9 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
                         print(f"[INFERENCE SERVICE] Extracted final channel content via Harmony format", flush=True)
                         return channel_content
                     
-                    if channel in ['analysis', 'commentary']:
-                        continue
+                    if len(channel_content) > best_length:
+                        best_content = channel_content
+                        best_length = len(channel_content)
     
     final_markers = [
         "<|channel|>final",
@@ -447,7 +448,21 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
             print(f"[INFERENCE SERVICE] ✓ Extracted final channel via simple pattern ({len(final_content)} chars)", flush=True)
             return final_content
     
-    print(f"[INFERENCE SERVICE] WARNING: No final channel found in Harmony format. Returning empty to fallback to raw text.", flush=True)
+    if best_content and len(best_content) > 20:
+        print(f"[INFERENCE SERVICE] Using best available content as final fallback ({len(best_content)} chars)", flush=True)
+        return best_content
+    
+    cleaned_text = re.sub(r'<\|start\|>', '', text)
+    cleaned_text = re.sub(r'<\|message\|>', '', cleaned_text)
+    cleaned_text = re.sub(r'<\|end\|>', '', cleaned_text)
+    cleaned_text = re.sub(r'<\|channel\|>', '', cleaned_text)
+    cleaned_text = cleaned_text.strip()
+    
+    if len(cleaned_text) > 0:
+        print(f"[INFERENCE SERVICE] Using cleaned raw text as final fallback ({len(cleaned_text)} chars)", flush=True)
+        return cleaned_text
+    
+    print(f"[INFERENCE SERVICE] ERROR: All parsing attempts failed and text is empty", flush=True)
     return ""
 
 
@@ -499,20 +514,24 @@ async def generate(request: GenerateRequest):
         
         device = None
         if hasattr(model, 'hf_device_map') and model.hf_device_map:
-            for d in model.hf_device_map.values():
+            cuda_devices = []
+            for layer_name, d in model.hf_device_map.items():
                 if isinstance(d, (str, torch.device)):
                     device_str = str(d) if isinstance(d, torch.device) else d
                     if device_str.startswith("cuda"):
-                        device = torch.device(device_str)
-                        break
-        if device is None and hasattr(model, 'device'):
-            device = model.device
+                        device_obj = torch.device(device_str)
+                        if device_obj not in cuda_devices:
+                            cuda_devices.append(device_obj)
+            if cuda_devices:
+                device = cuda_devices[0]
+                print(f"[INFERENCE SERVICE] Using first CUDA device from device_map: {device}", flush=True)
+        
         if device is None:
             device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            print(f"[INFERENCE SERVICE] Using default device: {device}", flush=True)
         
         input_ids = input_ids.to(device)
         attention_mask = attention_mask.to(device)
-        print(f"[INFERENCE SERVICE] Using device: {device} for generation", flush=True)
         
         eos_token_id = tokenizer.eos_token_id if tokenizer.eos_token_id is not None else tokenizer.pad_token_id
         if eot_token_id is not None and eot_token_id != eos_token_id:
@@ -577,7 +596,11 @@ async def generate(request: GenerateRequest):
                         
                         print(f"[INFERENCE SERVICE] Generated text raw after dtype conversion (first 500 chars): {generated_text_raw[:500]}", flush=True)
                         
-                        has_harmony = '<|channel|>final' in generated_text_raw.lower() or '<|channel|>analysis' in generated_text_raw.lower()
+                        has_harmony = (
+                            '<|channel|>' in generated_text_raw.lower() or
+                            '<|start|>assistant' in generated_text_raw.lower() or
+                            '<|message|>' in generated_text_raw.lower()
+                        )
                         
                         if has_harmony:
                             parsed = parse_harmony_response(generated_text_raw, tokenizer)
@@ -589,6 +612,18 @@ async def generate(request: GenerateRequest):
                                 print(f"[INFERENCE SERVICE] Harmony parsing returned empty, using clean decoded text", flush=True)
                         else:
                             generated_text = generated_text_clean
+                        
+                        if not generated_text or len(generated_text.strip()) == 0:
+                            generated_text = generated_text_clean
+                            print(f"[INFERENCE SERVICE] Generated text empty, using clean decoded text", flush=True)
+                        
+                        if not generated_text or len(generated_text.strip()) == 0:
+                            generated_text = re.sub(r'<\|start\|>', '', generated_text_raw)
+                            generated_text = re.sub(r'<\|message\|>', '', generated_text)
+                            generated_text = re.sub(r'<\|end\|>', '', generated_text)
+                            generated_text = re.sub(r'<\|channel\|>', '', generated_text)
+                            generated_text = generated_text.strip()
+                            print(f"[INFERENCE SERVICE] Generated text still empty, using cleaned raw text", flush=True)
                     except Exception as conv_error:
                         print(f"[INFERENCE SERVICE] Failed to convert model dtype: {conv_error}", flush=True)
                         raise e  # Re-raise original error
@@ -599,29 +634,46 @@ async def generate(request: GenerateRequest):
         
         generated_text = generated_text.strip()
         
-        if not generated_text:
-            print(f"[INFERENCE SERVICE] ERROR: Generated text is empty after processing", flush=True)
-            raise HTTPException(status_code=500, detail="Model generated empty response")
-        
         if request.stop:
+            earliest_stop = None
+            earliest_pos = len(generated_text)
+            
             for stop_str in request.stop:
-                if stop_str in generated_text:
-                    stop_pos = generated_text.find(stop_str)
-                    generated_text = generated_text[:stop_pos].strip()
-                    print(f"[INFERENCE SERVICE] Truncated at stop string: {stop_str}", flush=True)
-                    break
+                if stop_str:
+                    stop_str_clean = stop_str.strip()
+                    pos = generated_text.find(stop_str_clean)
+                    if pos != -1 and pos < earliest_pos:
+                        earliest_pos = pos
+                        earliest_stop = stop_str_clean
+            
+            if earliest_stop is not None:
+                generated_text = generated_text[:earliest_pos].strip()
+                print(f"[INFERENCE SERVICE] Truncated at earliest stop string: {earliest_stop} (position {earliest_pos})", flush=True)
         
         gpt_identity_patterns = [
             r'\bI am ChatGPT\b',
             r'\bI\'m ChatGPT\b',
             r'\bI am GPT\b',
             r'\bI\'m GPT\b',
+            r'\bI am GPT-?\d+\b',
+            r'\bI\'m GPT-?\d+\b',
             r'\bcreated by OpenAI\b',
             r'\bdeveloped by OpenAI\b',
+            r'\btrained by OpenAI\b',
             r'\bfrom OpenAI\b',
             r'\bOpenAI\'s\b',
             r'\bOpenAI model\b',
-            r'\bChatGPT model\b'
+            r'\bChatGPT model\b',
+            r'\bas an OpenAI model\b',
+            r'\bas a ChatGPT model\b',
+            r'\bas a GPT model\b',
+            r'\bas a large language model\b',
+            r'\bOpenAI\b',
+            r'\bChatGPT\b',
+            r'\bGPT-4\b',
+            r'\bGPT-3\.5\b',
+            r'\bGPT-3\b',
+            r'\bGPT\b'
         ]
         for pattern in gpt_identity_patterns:
             generated_text = re.sub(pattern, 'Epsilon AI', generated_text, flags=re.IGNORECASE)
