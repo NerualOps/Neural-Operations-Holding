@@ -379,26 +379,27 @@ async def generate(request: GenerateRequest):
             attention_mask = attention_mask.to(device)
             print(f"[INFERENCE SERVICE] Using device: {device}", flush=True)
         
-        eos_token_id = tokenizer.eos_token_id if tokenizer.eos_token_id is not None else tokenizer.pad_token_id
-        if eot_token_id is not None and eot_token_id != eos_token_id:
-            eos_token_id = eot_token_id
-            print(f"[INFERENCE SERVICE] Using detected EOT token (ID: {eot_token_id}) as eos_token_id", flush=True)
+        gen_kwargs = {
+            "input_ids": input_ids,
+            "attention_mask": attention_mask,
+            "max_new_tokens": min(request.max_new_tokens, 1024),
+            "temperature": gen_temperature,
+            "top_p": request.top_p,
+            "repetition_penalty": request.repetition_penalty,
+            "do_sample": True,
+        }
+        
+        if hasattr(model, 'hf_device_map') and model.hf_device_map:
+            print(f"[INFERENCE SERVICE] Using device_map='auto' - letting model use default EOS token", flush=True)
         else:
+            eos_token_id = tokenizer.eos_token_id if tokenizer.eos_token_id is not None else tokenizer.pad_token_id
+            gen_kwargs["pad_token_id"] = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_token_id
+            gen_kwargs["eos_token_id"] = eos_token_id
             print(f"[INFERENCE SERVICE] Using eos_token_id: {tokenizer.eos_token_id}", flush=True)
         
         try:
             with torch.no_grad():
-                generated_ids = model.generate(
-                    input_ids=input_ids,
-                    attention_mask=attention_mask,
-                    max_new_tokens=min(request.max_new_tokens, 1024),
-                    temperature=gen_temperature,
-                    top_p=request.top_p,
-                    repetition_penalty=request.repetition_penalty,
-                    do_sample=True,
-                    pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_token_id,
-                    eos_token_id=eos_token_id,
-                )
+                generated_ids = model.generate(**gen_kwargs)
             
             generated_tokens = generated_ids[0, prompt_len_tokens:]
             generated_text_raw = tokenizer.decode(generated_tokens, skip_special_tokens=False)
@@ -414,12 +415,12 @@ async def generate(request: GenerateRequest):
             
             if has_harmony:
                 parsed = parse_harmony_response(generated_text_raw, tokenizer)
-                if parsed and len(parsed) > 0:
+                if parsed is not None and len(parsed) > 0:
                     generated_text = parsed
                     print(f"[INFERENCE SERVICE] Extracted Harmony format content ({len(parsed)} chars)", flush=True)
                 else:
                     generated_text = generated_text_clean
-                    print(f"[INFERENCE SERVICE] Harmony parsing returned empty, using clean decoded text", flush=True)
+                    print(f"[INFERENCE SERVICE] No final channel found in Harmony format, using clean decoded text", flush=True)
             else:
                 generated_text = generated_text_clean
             
@@ -431,7 +432,6 @@ async def generate(request: GenerateRequest):
                 generated_text = re.sub(r'<\|start\|>', '', generated_text_raw)
                 generated_text = re.sub(r'<\|message\|>', '', generated_text)
                 generated_text = re.sub(r'<\|end\|>', '', generated_text)
-                generated_text = re.sub(r'<\|channel\|>', '', generated_text)
                 generated_text = generated_text.strip()
                 print(f"[INFERENCE SERVICE] Generated text still empty, using cleaned raw text", flush=True)
         except RuntimeError as e:
@@ -539,8 +539,12 @@ async def generate(request: GenerateRequest):
         generated_text = generated_text.strip()
         
         if not generated_text:
-            print(f"[INFERENCE SERVICE] ERROR: Generated text is empty after all processing", flush=True)
-            raise HTTPException(status_code=500, detail="Model generated empty response")
+            print(f"[INFERENCE SERVICE] WARNING: Generated text is empty after processing, using clean decoded as final fallback", flush=True)
+            generated_text = generated_text_clean if 'generated_text_clean' in locals() else "I apologize, but I couldn't generate a response. Please try again."
+        
+        if not generated_text or len(generated_text.strip()) == 0:
+            print(f"[INFERENCE SERVICE] WARNING: All fallbacks exhausted, using minimal fallback text", flush=True)
+            generated_text = "I apologize, but I couldn't generate a response. Please try again."
         
         prompt_tokens = len(tokenizer.encode(request.prompt))
         completion_tokens = len(tokenizer.encode(generated_text)) if generated_text else 0
