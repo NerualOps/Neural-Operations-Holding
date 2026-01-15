@@ -352,6 +352,29 @@ def parse_harmony_response(text: str, tokenizer: Any) -> str:
                 if len(content) > 0:
                     print(f"[INFERENCE SERVICE] ✓ Extracted final channel content ({len(content)} chars) via <|channel|> format", flush=True)
                     return content
+        
+        has_final = any('final' in ch.lower() for ch, _ in matches)
+        if not has_final and matches:
+            print(f"[INFERENCE SERVICE] WARNING: Only analysis/commentary channels found, no final channel. Model may have stopped too early.", flush=True)
+            print(f"[INFERENCE SERVICE] Attempting to extract usable content from analysis channel as fallback...", flush=True)
+            
+            for channel, content in reversed(matches):
+                if 'analysis' in channel.lower() or 'commentary' in channel.lower():
+                    content = content.strip()
+                    content = content.lstrip(': \n\t')
+                    content = content.replace('<message>', '').replace('</message>', '')
+                    content = re.sub(r'^<message>', '', content, flags=re.IGNORECASE)
+                    content = re.sub(r'</message>$', '', content, flags=re.IGNORECASE)
+                    
+                    end_pos = content.find("<|end|>")
+                    if end_pos != -1:
+                        content = content[:end_pos].strip()
+                    
+                    if len(content) > 20:
+                        print(f"[INFERENCE SERVICE] Using analysis channel content as fallback ({len(content)} chars)", flush=True)
+                        return content
+            
+            return ""
     
     harmony_pattern = re.compile(r'<\|start\|>assistant<\|message\|>(.*?)<\|end\|>', re.DOTALL)
     matches = harmony_pattern.findall(text)
