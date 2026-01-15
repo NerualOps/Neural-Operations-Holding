@@ -560,14 +560,32 @@ async def generate(request: GenerateRequest):
                 tail = gen_ids[-self.window:] if gen_ids.shape[0] > self.window else gen_ids
                 text = self.tok.decode(tail, skip_special_tokens=False).lower()
                 
-                # Check for simple string markers
-                if any(m in text for m in self.markers):
+                # Check if we have a final channel marker - this is when we should stop
+                final_markers = ['<|channel|>final', '<|channel|>final:', '<|channel|>final<message>']
+                if any(m in text for m in final_markers):
+                    return True
+                
+                # Check for other stop tokens (but not <|end|> if we only have analysis)
+                # If we see <|end|> but no final channel, don't stop yet - let it continue
+                if '<|end|>' in text:
+                    # Check if we have final channel before stopping
+                    if any(m in text for m in final_markers):
+                        return True
+                    # If only analysis exists, don't stop - let it continue to generate final
+                    if '<|channel|>analysis' in text and not any(m in text for m in final_markers):
+                        return False
+                
+                # Check for other stop markers (return, call, legacy markers)
+                other_markers = ['<|return|>', '<|call|>', 'assistantfinal']
+                if any(m in text for m in other_markers):
                     return True
                 
                 # Check for regex patterns (markdown markers at line boundaries)
                 for pattern in self.regex_patterns:
                     if pattern.search(text):
-                        return True
+                        # Only stop on regex if it's a final channel marker
+                        if 'final' in pattern.pattern.lower():
+                            return True
                 
                 return False
         
