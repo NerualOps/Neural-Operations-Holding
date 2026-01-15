@@ -560,7 +560,11 @@ async def generate(request: GenerateRequest):
             
             print(f"[INFERENCE SERVICE] Generated text raw (first 500 chars): {generated_text_raw[:500]}", flush=True)
             
-            has_harmony = '<|channel|>final' in generated_text_raw.lower() or '<|channel|>analysis' in generated_text_raw.lower()
+            has_harmony = (
+                '<|channel|>' in generated_text_raw.lower() or
+                '<|start|>assistant' in generated_text_raw.lower() or
+                '<|message|>' in generated_text_raw.lower()
+            )
             
             if has_harmony:
                 parsed = parse_harmony_response(generated_text_raw, tokenizer)
