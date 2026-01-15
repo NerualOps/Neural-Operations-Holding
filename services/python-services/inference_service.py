@@ -543,11 +543,7 @@ async def generate(request: GenerateRequest):
         generated_text = generated_text.strip()
         
         if not generated_text:
-            print(f"[INFERENCE SERVICE] WARNING: Generated text is empty after processing, using clean decoded as final fallback", flush=True)
-            generated_text = generated_text_clean if 'generated_text_clean' in locals() else "I apologize, but I couldn't generate a response. Please try again."
-        
-        if not generated_text or len(generated_text.strip()) == 0:
-            print(f"[INFERENCE SERVICE] WARNING: All fallbacks exhausted, using minimal fallback text", flush=True)
+            print(f"[INFERENCE SERVICE] WARNING: Generated text is empty after processing, using fallback message", flush=True)
             generated_text = "I apologize, but I couldn't generate a response. Please try again."
         
         prompt_tokens = len(tokenizer.encode(request.prompt))
