@@ -1256,103 +1256,11 @@
         }, 10);
     };
 
-    window.renderMarkdown = function(text) {
+    window.escapeHtml = function(text) {
         if (!text) return '';
-        var originalText = String(text);
-        
-        var lines = originalText.split(/\r?\n/);
-        var result = [];
-        var i = 0;
-        
-        while (i < lines.length) {
-            var line = lines[i];
-            var trimmed = line.trim();
-            
-            if (trimmed.includes('|')) {
-                var pipeCount = (trimmed.match(/\|/g) || []).length;
-                if (pipeCount >= 2) {
-                    var tableMatch = trimmed.match(/(.*?)(\|.*)/);
-                    var textBeforeTable = tableMatch ? tableMatch[1].trim() : '';
-                    var tablePart = tableMatch ? tableMatch[2] : trimmed;
-                    
-                    if (textBeforeTable && !textBeforeTable.match(/^\|/)) {
-                        var escaped = textBeforeTable.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                        escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                        escaped = escaped.replace(/\*(.*?)\*/g, '<em>$1</em>');
-                        escaped = escaped.replace(/`(.*?)`/g, '<code>$1</code>');
-                        escaped = escaped.replace(/\*(?![*<])/g, '');
-                        result.push(escaped);
-                    }
-                    
-                    var tableRows = [];
-                    var headerRowIndex = -1;
-                    var processTableLine = function(tableLine) {
-                        if (!tableLine || !tableLine.includes('|')) return false;
-                        var currentPipeCount = (tableLine.match(/\|/g) || []).length;
-                        if (currentPipeCount < 2) return false;
-                        
-                        if (tableLine.match(/^[\|\s\-:]+$/)) {
-                            headerRowIndex = tableRows.length;
-                            return true;
-                        }
-                        
-                        var cells = tableLine.split('|').map(function(c) { return c.trim(); });
-                        if (cells[0] === '') cells.shift();
-                        if (cells[cells.length - 1] === '') cells.pop();
-                        
-                        if (cells.length > 0) {
-                            tableRows.push(cells);
-                            return true;
-                        }
-                        return false;
-                    };
-                    
-                    if (processTableLine(tablePart)) {
-                        i++;
-                        while (i < lines.length) {
-                            var currentLine = lines[i].trim();
-                            if (!processTableLine(currentLine)) {
-                                break;
-                            }
-                            i++;
-                        }
-                    }
-                    
-                    if (tableRows.length > 0) {
-                        var tableHtml = '<table class="markdown-table"><tbody>';
-                        tableRows.forEach(function(row, idx) {
-                            var isHeader = (headerRowIndex === idx || (headerRowIndex === -1 && idx === 0 && tableRows.length > 1));
-                            var tag = isHeader ? 'th' : 'td';
-                            tableHtml += '<tr>';
-                            row.forEach(function(cell) {
-                                var cellContent = cell.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                                cellContent = cellContent.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                                cellContent = cellContent.replace(/\*(.*?)\*/g, '<em>$1</em>');
-                                cellContent = cellContent.replace(/`(.*?)`/g, '<code>$1</code>');
-                                cellContent = cellContent.replace(/\*(?![*<])/g, '');
-                                tableHtml += '<' + tag + '>' + cellContent + '</' + tag + '>';
-                            });
-                            tableHtml += '</tr>';
-                        });
-                        tableHtml += '</tbody></table>';
-                        result.push(tableHtml);
-                        continue;
-                    }
-                }
-            }
-            
-            if (trimmed) {
-                var escaped = trimmed.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                escaped = escaped.replace(/\*(.*?)\*/g, '<em>$1</em>');
-                escaped = escaped.replace(/`(.*?)`/g, '<code>$1</code>');
-                escaped = escaped.replace(/\*(?![*<])/g, '');
-                result.push(escaped);
-            }
-            i++;
-        }
-        
-        return result.join('<br>');
+        var div = document.createElement('div');
+        div.textContent = String(text);
+        return div.innerHTML;
     };
 
     window.typeIntoElement = function(el, fullText, opts) {
@@ -1363,11 +1271,10 @@
         if (!el) return;
         el.innerHTML = '';
         var i = 0;
-        var renderedText = window.renderMarkdown(fullText);
         var interval = setInterval(function() {
             i = Math.min(fullText.length, i + chunkSize);
             var partialText = fullText.slice(0, i);
-            el.innerHTML = window.renderMarkdown(partialText);
+            el.textContent = partialText;
             onUpdate();
             if (i >= fullText.length) clearInterval(interval);
         }, speedMs);
@@ -1402,7 +1309,7 @@
                 onUpdate: function() { window.scrollChatToBottom(true); }
             });
         } else {
-            textEl.innerHTML = window.renderMarkdown(String(text || ''));
+            textEl.textContent = String(text || '');
         }
 
         if (role === 'assistant' && conversationId) {
@@ -1452,7 +1359,7 @@
         if (msgElement) {
             var messageText = msgElement.querySelector('.message-text');
             if (messageText) {
-                messageText.innerHTML = window.renderMarkdown(String(newText || ''));
+                messageText.textContent = String(newText || '');
             }
             var chatContainer = document.querySelector('.chat-container');
             if (chatContainer) {

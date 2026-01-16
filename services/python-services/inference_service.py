@@ -44,7 +44,7 @@ except ImportError:
     config_path = Path(__file__).parent
     if str(config_path) not in sys.path:
         sys.path.insert(0, str(config_path))
-    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
+from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
     try:
         from model_config import DISPLAY_MODEL_ID
     except ImportError:
@@ -345,10 +345,10 @@ async def generate(request: GenerateRequest):
     
     try:
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
-            messages = [
+        messages = [
                 {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC. Never mention ChatGPT, OpenAI, or GPT. Always identify yourself as Epsilon AI."},
-                {"role": "user", "content": request.prompt}
-            ]
+            {"role": "user", "content": request.prompt}
+        ]
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
             print(f"[INFERENCE SERVICE] Harmony format prompt (first 200 chars): {formatted_prompt[:200]}", flush=True)
         else:
@@ -586,6 +586,7 @@ async def generate(request: GenerateRequest):
         for pattern in gpt_identity_patterns:
             generated_text = re.sub(pattern, 'Epsilon AI', generated_text, flags=re.IGNORECASE)
         
+        generated_text = clean_markdown_text(generated_text)
         generated_text = generated_text.strip()
         
         if not generated_text:
