@@ -247,40 +247,21 @@ try {
 }
 
 // Enhanced security headers middleware - add this near the top of your middleware chain
-console.log('[SERVER] Setting up security headers middleware...');
+// ============================================================================
+// COMPREHENSIVE SECURITY HARDENING
+// ============================================================================
+const { securityHardening, secureHeaders } = require('./security-hardening');
+
+console.log('[SERVER] Setting up comprehensive security hardening...');
+
+// Apply security hardening middleware (anomaly detection, IP reputation, etc.)
+app.use(securityHardening);
+
+// Apply secure headers with CSP nonces (replaces unsafe-inline)
+app.use(secureHeaders);
+
+// PERFORMANCE: Enhanced caching for better performance
 app.use((req, res, next) => {
-  // Basic security headers for all responses
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  
-  // Additional security headers to prevent source code inspection
-  res.setHeader('X-Permitted-Cross-Domain-Policies', 'none');
-  res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
-  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
-  res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
-  
-  // Enhanced Content Security Policy with stricter rules
-  // RENDER COMPATIBLE: 'self' automatically includes Render domain
-  // FIXED: Added 'unsafe-hashes' to allow event handlers (onclick, etc.)
-  res.setHeader('Content-Security-Policy', 
-    "default-src 'self'; " +
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' 'unsafe-hashes' blob: https://www.googletagmanager.com https://www.google-analytics.com; " +
-    "script-src-elem 'self' 'unsafe-inline' 'unsafe-hashes' blob: https://www.googletagmanager.com https://www.google-analytics.com; " +
-    "script-src-attr 'unsafe-inline' 'unsafe-hashes'; " +
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-    "font-src 'self' https://fonts.gstatic.com; " +
-    "img-src 'self' data: blob: https://*.supabase.co https://www.google-analytics.com; " +
-    "connect-src 'self' blob: https://fonts.googleapis.com https://fonts.gstatic.com https://*.supabase.co https://www.google-analytics.com https://www.googletagmanager.com; " +
-    "object-src 'none'; " +
-    "base-uri 'self'; " +
-    "form-action 'self'; " +
-    "frame-ancestors 'none'; " +
-    "upgrade-insecure-requests"
-  );
-  
-  // PERFORMANCE: Enhanced caching for better performance
   if (req.path.match(/\.(js|css|html)$/i)) {
     res.setHeader('Cache-Control', 'public, max-age=300'); // 5 minutes
     res.setHeader('Pragma', 'cache');
@@ -293,14 +274,10 @@ app.use((req, res, next) => {
     res.setHeader('Vary', 'Accept-Encoding');
   }
   
-  // SECURITY: Additional headers for production
-  if (process.env.NODE_ENV === 'production') {
-    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-    res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
-  }
-  
   next();
 });
+
+console.log('[SERVER] Security hardening configured - CSP nonces, anomaly detection, IP reputation enabled');
 
 // Enhanced rate limiting for sensitive routes - now imported from rate-limit.js
 
