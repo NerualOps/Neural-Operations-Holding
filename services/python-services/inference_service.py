@@ -44,7 +44,7 @@ except ImportError:
     config_path = Path(__file__).parent
     if str(config_path) not in sys.path:
         sys.path.insert(0, str(config_path))
-    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
+from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
     try:
         from model_config import DISPLAY_MODEL_ID
     except ImportError:
@@ -361,17 +361,64 @@ def clean_markdown_text(text: str) -> str:
     return text
 
 
-def parse_harmony_response(text: str, tokenizer: Any) -> Optional[str]:
+def remove_analysis_text(text: str) -> str:
     """
-    Parse Harmony format response to extract only the 'final' channel content.
-    Simple single-path parser: if <|channel|> exists, extract final channel.
-    Otherwise return cleaned text (Harmony tokens removed).
-    NEVER returns empty if given non-empty text.
+    Aggressively remove analysis, commentary, and internal reasoning text from responses.
+    Removes text that starts with 'analysis', 'commentary', or contains internal reasoning patterns.
     """
     if not text:
         return ""
     
-    if '<|channel|>' in text.lower():
+    text_lower = text.lower()
+    
+    analysis_patterns = [
+        r'^analysis\s*',
+        r'^commentary\s*',
+        r'^analysiswe\s+',
+        r'^analysis\s+the\s+user',
+        r'^we\s+need\s+to\s+respond',
+        r'^we\s+should\s+',
+        r'^the\s+user\s+says',
+        r'^according\s+to\s+policy',
+        r'^per\s+policy',
+        r'^let\'?s\s+check',
+        r'^let\'?s\s+see',
+        r'^we\s+have\s+instruction',
+        r'^the\s+developer\s+instruction',
+    ]
+    
+    for pattern in analysis_patterns:
+        text = re.sub(pattern, '', text, flags=re.IGNORECASE | re.MULTILINE)
+    
+    if text_lower.startswith('analysis'):
+        text = re.sub(r'^analysis[^a-z]*', '', text, flags=re.IGNORECASE)
+    
+    if 'analysis' in text_lower[:200]:
+        analysis_pos = text_lower.find('analysis')
+        if analysis_pos < 200:
+            after_analysis = text[analysis_pos + 7:].strip()
+            if after_analysis and len(after_analysis) > 20:
+                potential_start = re.search(r'[A-Z][a-z]+', after_analysis)
+                if potential_start:
+                    text = after_analysis[potential_start.start():]
+    
+    text = re.sub(r'\s+', ' ', text)
+    text = text.strip()
+    
+    return text
+
+
+def parse_harmony_response(text: str, tokenizer: Any) -> Optional[str]:
+    """
+    Parse Harmony format response to extract only the 'final' channel content.
+    Removes all analysis, commentary, and internal reasoning text.
+    """
+    if not text:
+        return ""
+    
+    text_lower = text.lower()
+    
+    if '<|channel|>' in text_lower:
         final_match = re.search(r'<\|channel\|>final(?:<message>)?(.*?)(?=<\|channel\|>|<\|end\|>|$)', text, re.DOTALL | re.IGNORECASE)
         if final_match:
             final_content = final_match.group(1).strip()
@@ -406,10 +453,10 @@ async def generate(request: GenerateRequest):
     
     try:
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
-            messages = [
+        messages = [
                 {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC. Never mention ChatGPT, OpenAI, or GPT. Always identify yourself as Epsilon AI."},
-                {"role": "user", "content": request.prompt}
-            ]
+            {"role": "user", "content": request.prompt}
+        ]
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
             print(f"[INFERENCE SERVICE] Harmony format prompt (first 200 chars): {formatted_prompt[:200]}", flush=True)
         else:
@@ -647,6 +694,7 @@ async def generate(request: GenerateRequest):
         for pattern in gpt_identity_patterns:
             generated_text = re.sub(pattern, 'Epsilon AI', generated_text, flags=re.IGNORECASE)
         
+        generated_text = remove_analysis_text(generated_text)
         generated_text = clean_markdown_text(generated_text)
         generated_text = generated_text.strip()
         
