@@ -40,7 +40,6 @@ try:
         DISPLAY_MODEL_ID = MODEL_NAME
 except ImportError:
     import sys
-    from pathlib import Path
     config_path = Path(__file__).parent
     if str(config_path) not in sys.path:
         sys.path.insert(0, str(config_path))
@@ -51,7 +50,7 @@ except ImportError:
         DISPLAY_MODEL_ID = MODEL_NAME
 
 HF_MODEL_ID_INTERNAL = os.getenv('EPSILON_MODEL_ID', HF_MODEL_ID)
-MODEL_ID = os.getenv('EPSILON_DISPLAY_MODEL_ID', DISPLAY_MODEL_ID if 'DISPLAY_MODEL_ID' in locals() else MODEL_NAME)
+MODEL_ID = os.getenv('EPSILON_DISPLAY_MODEL_ID', DISPLAY_MODEL_ID)
 # Use /workspace for model storage (usually has more space than /root)
 MODEL_DIR = Path(os.getenv('EPSILON_MODEL_DIR', '/workspace/models/epsilon-20b'))
 
@@ -79,7 +78,6 @@ def load_model():
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
             torch.cuda.synchronize()
-            import gc
             gc.collect()
             torch.cuda.empty_cache()
             
@@ -102,7 +100,6 @@ def load_model():
         hub_dir = Path.home() / ".cache" / "huggingface"
         if hub_dir.exists():
             print(f"[INFERENCE SERVICE] Clearing Hugging Face cache in home directory to free disk space...", flush=True)
-            import shutil
             try:
                 cache_size = sum(f.stat().st_size for f in hub_dir.rglob('*') if f.is_file()) / (1024**3)
                 shutil.rmtree(hub_dir)
@@ -111,10 +108,9 @@ def load_model():
                 print(f"[INFERENCE SERVICE] Warning: Could not clear cache: {e}", flush=True)
         
         # Also remove .cache folder from MODEL_DIR if it exists (created by snapshot_download)
-        model_cache_dir = Path(MODEL_DIR) / ".cache"
+        model_cache_dir = MODEL_DIR / ".cache"
         if model_cache_dir.exists():
             print(f"[INFERENCE SERVICE] Removing .cache folder from model directory...", flush=True)
-            import shutil
             try:
                 shutil.rmtree(model_cache_dir)
                 print(f"[INFERENCE SERVICE] Removed .cache folder from {MODEL_DIR}", flush=True)
@@ -133,7 +129,6 @@ def load_model():
                     local_path = MODEL_DIR
                 else:
                     print(f"[INFERENCE SERVICE] Found {len(safetensors_files)} safetensors but only {len(complete_files)} are complete, re-downloading...", flush=True)
-                    import shutil
                     try:
                         shutil.rmtree(MODEL_DIR)
                         MODEL_DIR.mkdir(parents=True, exist_ok=True)
@@ -175,7 +170,6 @@ def load_model():
             model = None
         
         if torch.cuda.is_available():
-            import gc
             gc.collect()
             torch.cuda.empty_cache()
             torch.cuda.synchronize()
