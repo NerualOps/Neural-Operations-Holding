@@ -300,6 +300,72 @@ async def model_info():
     return info
 
 
+def clean_markdown_text(text: str) -> str:
+    """
+    Clean markdown formatting and convert tables to plain text.
+    Removes markdown symbols and formats tables as readable text.
+    """
+    if not text:
+        return ""
+    
+    lines = text.split('\n')
+    result = []
+    i = 0
+    
+    while i < len(lines):
+        line = lines[i]
+        trimmed = line.strip()
+        
+        if '|' in trimmed and trimmed.count('|') >= 2:
+            if trimmed.replace('|', '').replace('-', '').replace(':', '').replace(' ', '').strip():
+                table_rows = []
+                header_row_index = -1
+                
+                while i < len(lines):
+                    current_line = lines[i].strip()
+                    if not current_line or '|' not in current_line or current_line.count('|') < 2:
+                        break
+                    
+                    if re.match(r'^[\|\s\-:]+$', current_line):
+                        header_row_index = len(table_rows)
+                        i += 1
+                        continue
+                    
+                    cells = [c.strip() for c in current_line.split('|')]
+                    if cells and cells[0] == '':
+                        cells.pop(0)
+                    if cells and cells[-1] == '':
+                        cells.pop()
+                    
+                    if cells:
+                        table_rows.append(cells)
+                    i += 1
+                
+                if table_rows:
+                    for row_idx, row in enumerate(table_rows):
+                        if header_row_index == row_idx:
+                            result.append(' | '.join(row))
+                            result.append('-' * (sum(len(c) for c in row) + len(row) * 3 - 3))
+                        else:
+                            result.append(' | '.join(row))
+                    continue
+        
+        result.append(line)
+        i += 1
+    
+    text = '\n'.join(result)
+    
+    text = re.sub(r'\*\*(.*?)\*\*', r'\1', text)
+    text = re.sub(r'\*(.*?)\*', r'\1', text)
+    text = re.sub(r'`(.*?)`', r'\1', text)
+    text = re.sub(r'#{1,6}\s+', '', text)
+    text = re.sub(r'\[([^\]]+)\]\([^\)]+\)', r'\1', text)
+    
+    text = re.sub(r'\n{3,}', '\n\n', text)
+    
+    return text
+
+
 def parse_harmony_response(text: str, tokenizer: Any) -> Optional[str]:
     """
     Parse Harmony format response to extract only the 'final' channel content.
