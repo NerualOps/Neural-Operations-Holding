@@ -1258,48 +1258,65 @@
 
     window.renderMarkdown = function(text) {
         if (!text) return '';
-        var html = String(text);
-        html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-        html = html.replace(/`(.*?)`/g, '<code>$1</code>');
-        html = html.replace(/\n/g, '<br>');
-        var lines = html.split('<br>');
-        var inTable = false;
-        var tableHtml = '';
+        var originalText = String(text);
+        
+        var lines = originalText.split('\n');
         var result = [];
-        for (var i = 0; i < lines.length; i++) {
+        var i = 0;
+        
+        while (i < lines.length) {
             var line = lines[i].trim();
-            if (line.includes('|') && line.split('|').length >= 3) {
-                if (!inTable) {
-                    inTable = true;
-                    tableHtml = '<table class="markdown-table"><tbody>';
+            
+            if (line.includes('|') && line.split('|').filter(function(c) { return c.trim(); }).length >= 2) {
+                var tableRows = [];
+                var hasHeader = false;
+                
+                while (i < lines.length) {
+                    var currentLine = lines[i].trim();
+                    if (!currentLine.includes('|') || currentLine.split('|').filter(function(c) { return c.trim(); }).length < 2) {
+                        break;
+                    }
+                    
+                    if (currentLine.match(/^[\|\s\-:]+$/)) {
+                        hasHeader = true;
+                        i++;
+                        continue;
+                    }
+                    
+                    var cells = currentLine.split('|').map(function(c) { return c.trim(); }).filter(function(c) { return c.length > 0 || c === ''; });
+                    if (cells.length > 0) {
+                        tableRows.push(cells);
+                    }
+                    i++;
                 }
-                var cells = line.split('|').map(function(c) { return c.trim(); }).filter(function(c) { return c; });
-                if (cells.length > 0) {
-                    var isHeader = (i < lines.length - 1 && lines[i + 1].includes('---'));
-                    var tag = isHeader ? 'th' : 'td';
-                    tableHtml += '<tr>';
-                    cells.forEach(function(cell) {
-                        tableHtml += '<' + tag + '>' + cell + '</' + tag + '>';
+                
+                if (tableRows.length > 0) {
+                    var tableHtml = '<table class="markdown-table"><tbody>';
+                    tableRows.forEach(function(row, idx) {
+                        var tag = (hasHeader && idx === 0) ? 'th' : 'td';
+                        tableHtml += '<tr>';
+                        row.forEach(function(cell) {
+                            var cellContent = cell.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
+                            tableHtml += '<' + tag + '>' + cellContent + '</' + tag + '>';
+                        });
+                        tableHtml += '</tr>';
                     });
-                    tableHtml += '</tr>';
-                    if (isHeader) i++;
-                }
-            } else {
-                if (inTable) {
                     tableHtml += '</tbody></table>';
                     result.push(tableHtml);
-                    tableHtml = '';
-                    inTable = false;
+                    continue;
                 }
-                if (line) result.push(line);
             }
+            
+            if (line) {
+                var escaped = line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                escaped = escaped.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                escaped = escaped.replace(/`(.*?)`/g, '<code>$1</code>');
+                result.push(escaped);
+            }
+            i++;
         }
-        if (inTable) {
-            tableHtml += '</tbody></table>';
-            result.push(tableHtml);
-        }
+        
         return result.join('<br>');
     };
 
