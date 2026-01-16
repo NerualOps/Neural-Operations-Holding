@@ -1271,35 +1271,50 @@
             if (trimmed.includes('|')) {
                 var pipeCount = (trimmed.match(/\|/g) || []).length;
                 if (pipeCount >= 2) {
+                    var tableMatch = trimmed.match(/(.*?)(\|.*)/);
+                    var textBeforeTable = tableMatch ? tableMatch[1].trim() : '';
+                    var tablePart = tableMatch ? tableMatch[2] : trimmed;
+                    
+                    if (textBeforeTable && !textBeforeTable.match(/^\|/)) {
+                        var escaped = textBeforeTable.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        escaped = escaped.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                        escaped = escaped.replace(/`(.*?)`/g, '<code>$1</code>');
+                        result.push(escaped);
+                    }
+                    
                     var tableRows = [];
                     var headerRowIndex = -1;
-                    var startIndex = i;
-                    
-                    while (i < lines.length) {
-                        var currentLine = lines[i].trim();
-                        if (!currentLine || !currentLine.includes('|')) {
-                            break;
-                        }
+                    var processTableLine = function(tableLine) {
+                        if (!tableLine || !tableLine.includes('|')) return false;
+                        var currentPipeCount = (tableLine.match(/\|/g) || []).length;
+                        if (currentPipeCount < 2) return false;
                         
-                        var currentPipeCount = (currentLine.match(/\|/g) || []).length;
-                        if (currentPipeCount < 2) {
-                            break;
-                        }
-                        
-                        if (currentLine.match(/^[\|\s\-:]+$/)) {
+                        if (tableLine.match(/^[\|\s\-:]+$/)) {
                             headerRowIndex = tableRows.length;
-                            i++;
-                            continue;
+                            return true;
                         }
                         
-                        var cells = currentLine.split('|').map(function(c) { return c.trim(); });
+                        var cells = tableLine.split('|').map(function(c) { return c.trim(); });
                         if (cells[0] === '') cells.shift();
                         if (cells[cells.length - 1] === '') cells.pop();
                         
                         if (cells.length > 0) {
                             tableRows.push(cells);
+                            return true;
                         }
+                        return false;
+                    };
+                    
+                    if (processTableLine(tablePart)) {
                         i++;
+                        while (i < lines.length) {
+                            var currentLine = lines[i].trim();
+                            if (!processTableLine(currentLine)) {
+                                break;
+                            }
+                            i++;
+                        }
                     }
                     
                     if (tableRows.length > 0) {
