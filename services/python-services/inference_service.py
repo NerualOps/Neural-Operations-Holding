@@ -504,7 +504,7 @@ async def generate(request: GenerateRequest):
         gen_kwargs = {
             "input_ids": input_ids,
             "attention_mask": attention_mask,
-            "max_new_tokens": min(request.max_new_tokens, 1024),
+            "max_new_tokens": min(request.max_new_tokens, 2048),
             "temperature": gen_temperature,
             "top_p": request.top_p,
             "repetition_penalty": request.repetition_penalty,
@@ -586,7 +586,7 @@ async def generate(request: GenerateRequest):
                         retry_gen_kwargs = {
                             "input_ids": retry_input_ids,
                             "attention_mask": retry_attention_mask,
-                            "max_new_tokens": min(request.max_new_tokens, 1024),
+                            "max_new_tokens": min(request.max_new_tokens, 2048),
                             "temperature": gen_temperature,
                             "top_p": request.top_p,
                             "repetition_penalty": request.repetition_penalty,

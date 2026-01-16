@@ -634,7 +634,7 @@ async function handleGetEpsilonResponse(body) {
     // Generation parameters for quality responses
     const result = await inferenceClient.generate({
       prompt: formattedPrompt,
-      max_new_tokens: 512,   // Increased for better responses
+      max_new_tokens: 1024,   // Allow longer, complete responses
       temperature: 0.7,     // Balanced creativity and coherence
       top_p: 0.9,          // Nucleus sampling
       repetition_penalty: 1.3,  // Prevent repetition loops
