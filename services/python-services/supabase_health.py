@@ -14,7 +14,9 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Supabase Health Check")
 
-SUPABASE_URL = os.getenv('SUPABASE_URL', 'https://jdruawealecokthrwtjg.supabase.co')
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+if not SUPABASE_URL:
+    raise ValueError("SUPABASE_URL environment variable is required")
 SUPABASE_SERVICE_KEY = os.getenv('SUPABASE_SERVICE_KEY', '')
 
 @app.get("/health")

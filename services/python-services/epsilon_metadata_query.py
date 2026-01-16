@@ -17,7 +17,9 @@ class EpsilonMetadataQuery:
     """Fast metadata query system for instant knowledge retrieval"""
     
     def __init__(self):
-        self.supabase_url = os.getenv('SUPABASE_URL', 'https://jdruawealecokthrwtjg.supabase.co')
+        self.supabase_url = os.getenv('SUPABASE_URL')
+        if not self.supabase_url:
+            raise ValueError("SUPABASE_URL environment variable is required")
         self.supabase_key = os.getenv('SUPABASE_SERVICE_KEY', '')
         if not self.supabase_key:
             logger.warning("SUPABASE_SERVICE_KEY not set - metadata queries may fail")

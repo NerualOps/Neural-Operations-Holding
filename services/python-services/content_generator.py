@@ -127,7 +127,9 @@ class EpsilonContentGenerator:
             import aiohttp
             import os
             
-            supabase_url = os.getenv('SUPABASE_URL', 'https://jdruawealecokthrwtjg.supabase.co')
+            supabase_url = os.getenv('SUPABASE_URL')
+            if not supabase_url:
+                raise ValueError('SUPABASE_URL environment variable is required')
             supabase_key = os.getenv('SUPABASE_SERVICE_KEY', '')
             
             if not supabase_key:
@@ -481,7 +483,9 @@ class EpsilonContentGenerator:
             import aiohttp
             import os
             
-            supabase_url = os.getenv('SUPABASE_URL', 'https://jdruawealecokthrwtjg.supabase.co')
+            supabase_url = os.getenv('SUPABASE_URL')
+            if not supabase_url:
+                raise ValueError('SUPABASE_URL environment variable is required')
             supabase_key = os.getenv('SUPABASE_SERVICE_KEY', '')
             
             if not supabase_key:

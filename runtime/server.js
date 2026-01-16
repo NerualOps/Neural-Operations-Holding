@@ -459,7 +459,6 @@ app.use(helmet({
         "https://fonts.gstatic.com",
         process.env.SUPABASE_URL, 
         "https://*.supabase.co",
-        "https://uvvfuxdrqbrnhdlrkrsb.supabase.co",
         "https://www.google-analytics.com",
         "https://www.googletagmanager.com"
       ],
