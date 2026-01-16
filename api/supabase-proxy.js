@@ -598,7 +598,7 @@ async function handleGetEpsilonResponse(body) {
   }
   
   // Get conversation history if available
-  let conversationHistory = '';
+  let conversationHistory = [];
   if (session_id) {
     try {
       const { data: recentConvs } = await supabase
@@ -606,14 +606,18 @@ async function handleGetEpsilonResponse(body) {
         .select('user_message, epsilon_response')
         .eq('session_id', session_id)
         .order('created_at', { ascending: false })
-        .limit(5); // Last 5 exchanges for context
+        .limit(10); // Last 10 exchanges for context
       
       if (recentConvs && recentConvs.length > 0) {
-        // Build conversation history (oldest first)
-        const history = recentConvs.reverse().map(conv => 
-          `User: ${conv.user_message}\nEpsilon: ${conv.epsilon_response}`
-        ).join('\n\n');
-        conversationHistory = history + '\n\n';
+        // Build conversation history array (oldest first)
+        recentConvs.reverse().forEach(conv => {
+          if (conv.user_message) {
+            conversationHistory.push({ role: 'user', content: conv.user_message });
+          }
+          if (conv.epsilon_response) {
+            conversationHistory.push({ role: 'assistant', content: conv.epsilon_response });
+          }
+        });
       }
     } catch (historyError) {
       _silent('[PROXY EPSILON] Could not fetch conversation history:', historyError.message);
@@ -630,10 +634,11 @@ async function handleGetEpsilonResponse(body) {
     // Generation parameters for quality responses
     const result = await inferenceClient.generate({
       prompt: formattedPrompt,
-      max_new_tokens: 256,   // Reasonable response length for conversations
+      max_new_tokens: 512,   // Increased for better responses
       temperature: 0.7,     // Balanced creativity and coherence
       top_p: 0.9,          // Nucleus sampling
-      repetition_penalty: 1.3  // Prevent repetition loops
+      repetition_penalty: 1.3,  // Prevent repetition loops
+      conversation_history: conversationHistory
     });
     
     if (!result || !result.text) {

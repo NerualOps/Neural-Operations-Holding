@@ -87,7 +87,8 @@ class InferenceClient {
       temperature = 0.7,
       top_p = 0.9,
       stop = null,
-      repetition_penalty = 1.3
+      repetition_penalty = 1.3,
+      conversation_history = null
     } = options;
 
     if (!prompt || typeof prompt !== 'string' || prompt.trim().length === 0) {
@@ -106,6 +107,10 @@ class InferenceClient {
 
       if (stop && Array.isArray(stop) && stop.length > 0) {
         requestPayload.stop = stop;
+      }
+
+      if (conversation_history && Array.isArray(conversation_history) && conversation_history.length > 0) {
+        requestPayload.conversation_history = conversation_history;
       }
 
       const response = await axios.post(

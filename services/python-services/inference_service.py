@@ -259,6 +259,7 @@ class GenerateRequest(BaseModel):
     top_p: float = 0.9
     stop: Optional[List[str]] = None
     repetition_penalty: float = 1.3
+    conversation_history: Optional[List[dict]] = None
 
 
 class GenerateResponse(BaseModel):
@@ -361,57 +362,11 @@ def clean_markdown_text(text: str) -> str:
     return text
 
 
-def remove_analysis_text(text: str) -> str:
-    """
-    Aggressively remove analysis, commentary, and internal reasoning text from responses.
-    Removes text that starts with 'analysis', 'commentary', or contains internal reasoning patterns.
-    """
-    if not text:
-        return ""
-    
-    text_lower = text.lower()
-    
-    analysis_patterns = [
-        r'^analysis\s*',
-        r'^commentary\s*',
-        r'^analysiswe\s+',
-        r'^analysis\s+the\s+user',
-        r'^we\s+need\s+to\s+respond',
-        r'^we\s+should\s+',
-        r'^the\s+user\s+says',
-        r'^according\s+to\s+policy',
-        r'^per\s+policy',
-        r'^let\'?s\s+check',
-        r'^let\'?s\s+see',
-        r'^we\s+have\s+instruction',
-        r'^the\s+developer\s+instruction',
-    ]
-    
-    for pattern in analysis_patterns:
-        text = re.sub(pattern, '', text, flags=re.IGNORECASE | re.MULTILINE)
-    
-    if text_lower.startswith('analysis'):
-        text = re.sub(r'^analysis[^a-z]*', '', text, flags=re.IGNORECASE)
-    
-    if 'analysis' in text_lower[:200]:
-        analysis_pos = text_lower.find('analysis')
-        if analysis_pos < 200:
-            after_analysis = text[analysis_pos + 7:].strip()
-            if after_analysis and len(after_analysis) > 20:
-                potential_start = re.search(r'[A-Z][a-z]+', after_analysis)
-                if potential_start:
-                    text = after_analysis[potential_start.start():]
-    
-    text = re.sub(r'\s+', ' ', text)
-    text = text.strip()
-    
-    return text
-
-
 def parse_harmony_response(text: str, tokenizer: Any) -> Optional[str]:
     """
     Parse Harmony format response to extract only the 'final' channel content.
-    Removes all analysis, commentary, and internal reasoning text.
+    Aggressively removes ALL analysis and commentary channels - only returns final channel.
+    NEVER returns empty if given non-empty text.
     """
     if not text:
         return ""
@@ -431,13 +386,31 @@ def parse_harmony_response(text: str, tokenizer: Any) -> Optional[str]:
             if final_content:
                 print(f"[INFERENCE SERVICE] Extracted final channel ({len(final_content)} chars)", flush=True)
                 return final_content
-        else:
-            print(f"[INFERENCE SERVICE] Harmony markers found but no final channel - returning None to use clean decode", flush=True)
-            return None
+        
+        final_match = re.search(r'<\|channel\|>final(.*?)(?=<\|channel\|>|<\|end\|>|$)', text, re.DOTALL | re.IGNORECASE)
+        if final_match:
+            final_content = final_match.group(1).strip()
+            final_content = final_content.lstrip(': \n\t')
+            if '<|end|>' in final_content:
+                final_content = final_content[:final_content.find('<|end|>')].strip()
+            if final_content:
+                print(f"[INFERENCE SERVICE] Extracted final channel ({len(final_content)} chars)", flush=True)
+                return final_content
+        
+        print(f"[INFERENCE SERVICE] Harmony markers found but no final channel - returning None to use clean decode", flush=True)
+        return None
     
     cleaned_text = re.sub(r'<\|start\|>', '', text)
     cleaned_text = re.sub(r'<\|message\|>', '', cleaned_text)
     cleaned_text = re.sub(r'<\|end\|>', '', cleaned_text)
+    
+    cleaned_text = re.sub(r'<\|channel\|>analysis.*?<\|channel\|>', '', cleaned_text, flags=re.DOTALL | re.IGNORECASE)
+    cleaned_text = re.sub(r'<\|channel\|>commentary.*?<\|channel\|>', '', cleaned_text, flags=re.DOTALL | re.IGNORECASE)
+    
+    if re.search(r'^analysis', cleaned_text, re.IGNORECASE):
+        cleaned_text = re.sub(r'^analysis.*?(?=assistantfinal|final|$)', '', cleaned_text, flags=re.DOTALL | re.IGNORECASE)
+    
+    cleaned_text = re.sub(r'assistantfinal', '', cleaned_text, flags=re.IGNORECASE)
     cleaned_text = cleaned_text.strip()
     
     return cleaned_text if cleaned_text else text.strip()
@@ -453,14 +426,30 @@ async def generate(request: GenerateRequest):
     
     try:
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
-        messages = [
-                {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC. Never mention ChatGPT, OpenAI, or GPT. Always identify yourself as Epsilon AI."},
-            {"role": "user", "content": request.prompt}
-        ]
+            messages = [
+                {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC. Never mention ChatGPT, OpenAI, or GPT. Always identify yourself as Epsilon AI. Only output your final response - do not show your reasoning or analysis."}
+            ]
+            
+            if request.conversation_history:
+                for msg in request.conversation_history:
+                    if isinstance(msg, dict) and 'role' in msg and 'content' in msg:
+                        messages.append({"role": msg['role'], "content": msg['content']})
+            
+            messages.append({"role": "user", "content": request.prompt})
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
             print(f"[INFERENCE SERVICE] Harmony format prompt (first 200 chars): {formatted_prompt[:200]}", flush=True)
         else:
-            formatted_prompt = f"User: {request.prompt}\nEpsilon AI: "
+            history_text = ""
+            if request.conversation_history:
+                for msg in request.conversation_history:
+                    if isinstance(msg, dict) and 'role' in msg and 'content' in msg:
+                        role = msg['role']
+                        content = msg['content']
+                        if role == 'user':
+                            history_text += f"User: {content}\n"
+                        elif role == 'assistant':
+                            history_text += f"Epsilon AI: {content}\n"
+            formatted_prompt = f"{history_text}User: {request.prompt}\nEpsilon AI: "
             print(f"[INFERENCE SERVICE] Using fallback format (no chat template): {formatted_prompt[:200]}", flush=True)
         
         eot_token_id = None
@@ -657,6 +646,14 @@ async def generate(request: GenerateRequest):
         generated_text = re.sub(r'<\|end\|>', '', generated_text)
         generated_text = re.sub(r'<\|return\|>', '', generated_text)
         generated_text = re.sub(r'<\|call\|>', '', generated_text)
+        
+        generated_text = re.sub(r'<\|channel\|>analysis.*?<\|channel\|>', '', generated_text, flags=re.DOTALL | re.IGNORECASE)
+        generated_text = re.sub(r'<\|channel\|>commentary.*?<\|channel\|>', '', generated_text, flags=re.DOTALL | re.IGNORECASE)
+        
+        if re.search(r'^analysis', generated_text, re.IGNORECASE):
+            generated_text = re.sub(r'^analysis.*?(?=assistantfinal|final|Epsilon AI|I\'m Epsilon|Hello|Hi|Hey)', '', generated_text, flags=re.DOTALL | re.IGNORECASE)
+        
+        generated_text = re.sub(r'assistantfinal', '', generated_text, flags=re.IGNORECASE)
         generated_text = re.sub(r'\s+', ' ', generated_text)
         generated_text = generated_text.strip()
         
@@ -694,7 +691,6 @@ async def generate(request: GenerateRequest):
         for pattern in gpt_identity_patterns:
             generated_text = re.sub(pattern, 'Epsilon AI', generated_text, flags=re.IGNORECASE)
         
-        generated_text = remove_analysis_text(generated_text)
         generated_text = clean_markdown_text(generated_text)
         generated_text = generated_text.strip()
         
