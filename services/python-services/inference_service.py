@@ -484,6 +484,8 @@ CRITICAL RULES - YOU MUST FOLLOW THESE:
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
             print(f"[INFERENCE SERVICE] Harmony format prompt (first 200 chars): {formatted_prompt[:200]}", flush=True)
         else:
+            safety_guidelines = """You are Epsilon AI, created by Neural Operations & Holdings LLC. Never mention ChatGPT, OpenAI, or GPT. Always identify yourself as Epsilon AI. Only output your final response - do not show your reasoning or analysis. NEVER provide information about illegal drugs, violence, unethical content, or inappropriate material. If asked about prohibited topics, politely decline."""
+            
             history_text = ""
             if request.conversation_history:
                 for msg in request.conversation_history:
@@ -494,7 +496,7 @@ CRITICAL RULES - YOU MUST FOLLOW THESE:
                             history_text += f"User: {content}\n"
                         elif role == 'assistant':
                             history_text += f"Epsilon AI: {content}\n"
-            formatted_prompt = f"{history_text}User: {request.prompt}\nEpsilon AI: "
+            formatted_prompt = f"{safety_guidelines}\n\n{history_text}User: {request.prompt}\nEpsilon AI: "
             print(f"[INFERENCE SERVICE] Using fallback format (no chat template): {formatted_prompt[:200]}", flush=True)
         
         eot_token_id = None
@@ -739,6 +741,8 @@ CRITICAL RULES - YOU MUST FOLLOW THESE:
         
         generated_text = clean_markdown_text(generated_text)
         generated_text = generated_text.strip()
+        
+        generated_text = filter_unsafe_content(generated_text)
         
         if not generated_text:
             print(f"[INFERENCE SERVICE] WARNING: Generated text is empty after processing, using fallback message", flush=True)
