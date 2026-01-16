@@ -254,7 +254,7 @@ async def startup_event():
 
 class GenerateRequest(BaseModel):
     prompt: str
-    max_new_tokens: int = 256
+    max_new_tokens: int = 1024
     temperature: float = 0.7
     top_p: float = 0.9
     stop: Optional[List[str]] = None
@@ -654,7 +654,8 @@ async def generate(request: GenerateRequest):
             generated_text = re.sub(r'^analysis.*?(?=assistantfinal|final|Epsilon AI|I\'m Epsilon|Hello|Hi|Hey)', '', generated_text, flags=re.DOTALL | re.IGNORECASE)
         
         generated_text = re.sub(r'assistantfinal', '', generated_text, flags=re.IGNORECASE)
-        generated_text = re.sub(r'\s+', ' ', generated_text)
+        generated_text = re.sub(r'[ \t]+', ' ', generated_text)
+        generated_text = re.sub(r'\n{3,}', '\n\n', generated_text)
         generated_text = generated_text.strip()
         
         if request.stop:
