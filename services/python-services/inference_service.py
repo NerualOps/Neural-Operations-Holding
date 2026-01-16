@@ -10,6 +10,7 @@ os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True'
 from pathlib import Path
 from typing import Optional, List, Any
 import re
+import gc
 import torch
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
