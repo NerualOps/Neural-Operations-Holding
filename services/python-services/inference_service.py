@@ -44,7 +44,7 @@ except ImportError:
     config_path = Path(__file__).parent
     if str(config_path) not in sys.path:
         sys.path.insert(0, str(config_path))
-from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
+    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
     try:
         from model_config import DISPLAY_MODEL_ID
     except ImportError:
