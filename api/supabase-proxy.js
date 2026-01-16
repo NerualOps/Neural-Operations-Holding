@@ -597,20 +597,30 @@ async function handleGetEpsilonResponse(body) {
     }
   }
   
-  // Get conversation history if available
+  // Get conversation history if available - SECURITY: Must verify user_id matches
   let conversationHistory = [];
-  if (session_id) {
+  if (session_id && user_id) {
     try {
-      const { data: recentConvs } = await supabase
+      const { data: recentConvs, error: historyError } = await supabase
         .from('epsilon_conversations')
-        .select('user_message, epsilon_response')
+        .select('user_message, epsilon_response, user_id')
         .eq('session_id', session_id)
+        .eq('user_id', user_id)
         .order('created_at', { ascending: false })
-        .limit(10); // Last 10 exchanges for context
+        .limit(10);
       
-      if (recentConvs && recentConvs.length > 0) {
+      if (historyError) {
+        _silent('[PROXY EPSILON] Error fetching conversation history:', historyError.message);
+      } else if (recentConvs && recentConvs.length > 0) {
+        // SECURITY: Double-check all conversations belong to this user
+        const validConvs = recentConvs.filter(conv => conv.user_id === user_id);
+        
+        if (validConvs.length !== recentConvs.length) {
+          _silent('[PROXY EPSILON] SECURITY WARNING: Some conversations did not match user_id - filtered out');
+        }
+        
         // Build conversation history array (oldest first)
-        recentConvs.reverse().forEach(conv => {
+        validConvs.reverse().forEach(conv => {
           if (conv.user_message) {
             conversationHistory.push({ role: 'user', content: conv.user_message });
           }
@@ -622,6 +632,8 @@ async function handleGetEpsilonResponse(body) {
     } catch (historyError) {
       _silent('[PROXY EPSILON] Could not fetch conversation history:', historyError.message);
     }
+  } else if (session_id && !user_id) {
+    _silent('[PROXY EPSILON] SECURITY WARNING: session_id provided without user_id - skipping conversation history');
   }
   
   // Format prompt for Epsilon AI with Harmony format

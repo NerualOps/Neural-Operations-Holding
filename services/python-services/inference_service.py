@@ -416,6 +416,34 @@ def parse_harmony_response(text: str, tokenizer: Any) -> Optional[str]:
     return cleaned_text if cleaned_text else text.strip()
 
 
+def filter_unsafe_content(text: str) -> str:
+    """
+    Filter out unsafe or inappropriate content from AI responses.
+    Returns filtered text or safe alternative message if content is unsafe.
+    """
+    if not text:
+        return ""
+    
+    text_lower = text.lower()
+    
+    unsafe_patterns = [
+        r'\b(how to|where to|where can i).*?(buy|get|obtain|make|manufacture|create).*?(drug|cocaine|heroin|meth|marijuana|cannabis|weed|pills|prescription).*?\b',
+        r'\b(drug|drugs|cocaine|heroin|methamphetamine|marijuana|cannabis).*?(recipe|formula|how to make|how to cook)\b',
+        r'\b(kill|murder|assassinate|harm|hurt|violence).*?(someone|person|people|yourself)\b',
+        r'\b(how to|ways to).*?(kill|hurt|harm|injure)\b',
+        r'\b(suicide|self-harm|self harm|cutting|overdose).*?(how|method|way|guide)\b',
+        r'\b(bomb|explosive|weapon|gun).*?(how to|make|build|create)\b',
+        r'\b(hack|hacking|cyberattack|malware|virus).*?(how to|tutorial|guide)\b',
+    ]
+    
+    for pattern in unsafe_patterns:
+        if re.search(pattern, text_lower):
+            print(f"[INFERENCE SERVICE] SECURITY: Unsafe content detected and filtered", flush=True)
+            return "I cannot provide information on that topic. Is there something else I can help you with?"
+    
+    return text
+
+
 @app.post("/generate", response_model=GenerateResponse)
 async def generate(request: GenerateRequest):
     """Generate text using Epsilon AI with Harmony format"""
@@ -426,8 +454,25 @@ async def generate(request: GenerateRequest):
     
     try:
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
+            safety_guidelines = """You are Epsilon AI, created by Neural Operations & Holdings LLC. 
+
+CRITICAL RULES - YOU MUST FOLLOW THESE:
+1. Never mention ChatGPT, OpenAI, or GPT. Always identify yourself as Epsilon AI.
+2. Only output your final response - do not show your reasoning or analysis.
+3. NEVER provide information about, promote, or discuss:
+   - Illegal drugs, drug use, drug manufacturing, or drug distribution
+   - How to obtain illegal substances
+   - Violence, harm, or illegal activities
+   - Unethical practices or content
+   - Adult content, explicit material, or inappropriate sexual content
+   - Hate speech, discrimination, or harassment
+   - Self-harm or suicide methods
+4. If asked about prohibited topics, politely decline and redirect to appropriate resources.
+5. Always maintain professional, helpful, and ethical responses.
+6. Respect user privacy and confidentiality - conversations are private and isolated per user."""
+            
             messages = [
-                {"role": "system", "content": "You are Epsilon AI, created by Neural Operations & Holdings LLC. Never mention ChatGPT, OpenAI, or GPT. Always identify yourself as Epsilon AI. Only output your final response - do not show your reasoning or analysis."}
+                {"role": "system", "content": safety_guidelines}
             ]
             
             if request.conversation_history:
