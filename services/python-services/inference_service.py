@@ -44,11 +44,11 @@ except ImportError:
     config_path = Path(__file__).parent
     if str(config_path) not in sys.path:
         sys.path.insert(0, str(config_path))
-    from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
-    try:
-        from model_config import DISPLAY_MODEL_ID
-    except ImportError:
-        DISPLAY_MODEL_ID = MODEL_NAME
+from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
+try:
+    from model_config import DISPLAY_MODEL_ID
+except ImportError:
+    DISPLAY_MODEL_ID = MODEL_NAME
 
 HF_MODEL_ID_INTERNAL = os.getenv('EPSILON_MODEL_ID', HF_MODEL_ID)
 MODEL_ID = os.getenv('EPSILON_DISPLAY_MODEL_ID', DISPLAY_MODEL_ID)
@@ -408,7 +408,7 @@ def parse_harmony_response(text: str, tokenizer: Any) -> Optional[str]:
     cleaned_text = re.sub(r'<\|channel\|>commentary.*?<\|channel\|>', '', cleaned_text, flags=re.DOTALL | re.IGNORECASE)
     
     if re.search(r'^analysis', cleaned_text, re.IGNORECASE):
-        cleaned_text = re.sub(r'^analysis.*?(?=assistantfinal|final|$)', '', cleaned_text, flags=re.DOTALL | re.IGNORECASE)
+        cleaned_text = re.sub(r'^analysis.*?(?=assistantfinal|final|Epsilon AI|I\'m Epsilon|Hello|Hi|Hey|Sure|Here|What|I|The)', '', cleaned_text, flags=re.DOTALL | re.IGNORECASE)
     
     cleaned_text = re.sub(r'assistantfinal', '', cleaned_text, flags=re.IGNORECASE)
     cleaned_text = cleaned_text.strip()
@@ -456,10 +456,12 @@ async def generate(request: GenerateRequest):
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
             safety_guidelines = """You are Epsilon AI, created by Neural Operations & Holdings LLC. 
 
-CRITICAL RULES - YOU MUST FOLLOW THESE:
-1. Never mention ChatGPT, OpenAI, or GPT. Always identify yourself as Epsilon AI.
-2. Only output your final response - do not show your reasoning or analysis.
-3. NEVER provide information about, promote, or discuss:
+CRITICAL OUTPUT FORMAT RULES:
+1. You MUST use Harmony format: Put ALL your reasoning/analysis in <|channel|>analysis channel, then output ONLY your final response in <|channel|>final channel.
+2. NEVER include analysis, commentary, reasoning, or function calls in your final response channel.
+3. Your <|channel|>final response must start directly with the answer - no "assistantcommentary", no "to=functions.run", no JSON code blocks, no reasoning phrases.
+4. Never mention ChatGPT, OpenAI, or GPT. Always identify yourself as Epsilon AI.
+5. NEVER provide information about, promote, or discuss:
    - Illegal drugs, drug use, drug manufacturing, or drug distribution
    - How to obtain illegal substances
    - Violence, harm, or illegal activities
@@ -484,7 +486,7 @@ CRITICAL RULES - YOU MUST FOLLOW THESE:
             formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
             print(f"[INFERENCE SERVICE] Harmony format prompt (first 200 chars): {formatted_prompt[:200]}", flush=True)
         else:
-            safety_guidelines = """You are Epsilon AI, created by Neural Operations & Holdings LLC. Never mention ChatGPT, OpenAI, or GPT. Always identify yourself as Epsilon AI. Only output your final response - do not show your reasoning or analysis. NEVER provide information about illegal drugs, violence, unethical content, or inappropriate material. If asked about prohibited topics, politely decline."""
+            safety_guidelines = """You are Epsilon AI, created by Neural Operations & Holdings LLC. Use Harmony format: Put reasoning in <|channel|>analysis, then output ONLY your final response in <|channel|>final. Never mention ChatGPT, OpenAI, or GPT. Always identify yourself as Epsilon AI. NEVER provide information about illegal drugs, violence, unethical content, or inappropriate material. If asked about prohibited topics, politely decline."""
             
             history_text = ""
             if request.conversation_history:
@@ -694,11 +696,13 @@ CRITICAL RULES - YOU MUST FOLLOW THESE:
         generated_text = re.sub(r'<\|return\|>', '', generated_text)
         generated_text = re.sub(r'<\|call\|>', '', generated_text)
         
+        # Remove Harmony channel markers - let parse_harmony_response extract final channel
         generated_text = re.sub(r'<\|channel\|>analysis.*?<\|channel\|>', '', generated_text, flags=re.DOTALL | re.IGNORECASE)
         generated_text = re.sub(r'<\|channel\|>commentary.*?<\|channel\|>', '', generated_text, flags=re.DOTALL | re.IGNORECASE)
         
+        # Only remove basic analysis prefix if it appears at start
         if re.search(r'^analysis', generated_text, re.IGNORECASE):
-            generated_text = re.sub(r'^analysis.*?(?=assistantfinal|final|Epsilon AI|I\'m Epsilon|Hello|Hi|Hey)', '', generated_text, flags=re.DOTALL | re.IGNORECASE)
+            generated_text = re.sub(r'^analysis.*?(?=assistantfinal|final|Epsilon AI|I\'m Epsilon|Hello|Hi|Hey|Sure|Here|What|I|The)', '', generated_text, flags=re.DOTALL | re.IGNORECASE)
         
         generated_text = re.sub(r'assistantfinal', '', generated_text, flags=re.IGNORECASE)
         generated_text = re.sub(r'[ \t]+', ' ', generated_text)

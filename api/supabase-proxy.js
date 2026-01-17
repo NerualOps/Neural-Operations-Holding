@@ -1637,40 +1637,46 @@ router.post('/', async (req, res) => {
             break;
           }
           
-          const conversationsTableExists = await checkTableExists('conversations');
-          if (!conversationsTableExists) {
+          // Get conversations from epsilon_conversations grouped by session_id
+          const { data: epsilonConvs, error } = await supabase
+            .from('epsilon_conversations')
+            .select('id, session_id, user_message, epsilon_response, context_data, created_at, updated_at')
+            .eq('user_id', user_id)
+            .order('created_at', { ascending: false })
+            .limit(limit * 3); // Get more to group by session_id
+          
+          if (error) {
+            console.warn('[SUPABASE] Failed to get epsilon conversations:', error.message);
             result = { success: true, conversations: [] };
             break;
           }
           
-          // Get conversations - handle is_deleted column if it exists
-          let { data: conversations, error } = await supabase
-            .from('conversations')
-            .select('id, session_id, created_at, conversation_name, folder_id')
-            .eq('user_id', user_id)
-            .order('created_at', { ascending: false })
-            .limit(limit);
-          
-          if (error && error.message && error.message.includes('is_deleted')) {
-            ({ data: conversations, error } = await supabase
-              .from('conversations')
-              .select('id, session_id, created_at, conversation_name, folder_id')
-              .eq('user_id', user_id)
-              .order('created_at', { ascending: false })
-              .limit(limit));
+          // Group by session_id and get the most recent message for each session
+          const sessionMap = {};
+          if (epsilonConvs && Array.isArray(epsilonConvs)) {
+            epsilonConvs.forEach(conv => {
+              if (!conv.session_id) return;
+              if (!sessionMap[conv.session_id] || new Date(conv.created_at) > new Date(sessionMap[conv.session_id].created_at)) {
+                sessionMap[conv.session_id] = {
+                  id: conv.id,
+                  session_id: conv.session_id,
+                  user_message: conv.user_message,
+                  epsilon_response: conv.epsilon_response,
+                  last_message: conv.epsilon_response || conv.user_message || '',
+                  context_data: conv.context_data || {},
+                  created_at: conv.created_at,
+                  updated_at: conv.updated_at
+                };
+              }
+            });
           }
           
-          // Filter out deleted conversations if is_deleted column exists
-          if (!error && conversations && Array.isArray(conversations)) {
-            conversations = conversations.filter(conv => conv.is_deleted !== true);
-          }
+          // Convert to array and sort by updated_at
+          const conversations = Object.values(sessionMap)
+            .sort((a, b) => new Date(b.updated_at || b.created_at) - new Date(a.updated_at || a.created_at))
+            .slice(0, limit);
           
-          if (error) {
-            console.warn('[SUPABASE] Failed to get conversations:', error.message);
-            result = { success: true, conversations: [] };
-          } else {
-            result = { success: true, conversations: conversations || [] };
-          }
+          result = { success: true, conversations: conversations || [] };
         } catch (error) {
           console.error('Get conversations error:', error);
           // Return empty array instead of throwing to prevent 500 error
@@ -1680,61 +1686,69 @@ router.post('/', async (req, res) => {
         
       case 'get-messages':
         try {
-          const { conversation_id } = sanitizedData;
+          const { conversation_id, session_id } = sanitizedData;
           
-          if (!conversation_id) {
+          if (!conversation_id && !session_id) {
             result = { success: true, messages: [] };
             break;
           }
           
-          const { data: messages, error } = await supabase
-            .from('messages')
-            .select('id, role, text, created_at, conversation_id')
-            .eq('conversation_id', conversation_id)
+          // Get messages from epsilon_conversations by session_id
+          let query = supabase
+            .from('epsilon_conversations')
+            .select('id, user_message, epsilon_response, created_at, session_id')
             .order('created_at', { ascending: true });
           
+          if (session_id) {
+            query = query.eq('session_id', session_id);
+          } else if (conversation_id) {
+            // Get session_id from the conversation_id first
+            const { data: conv } = await supabase
+              .from('epsilon_conversations')
+              .select('session_id')
+              .eq('id', conversation_id)
+              .limit(1)
+              .maybeSingle();
+            
+            if (conv && conv.session_id) {
+              query = query.eq('session_id', conv.session_id);
+            } else {
+              result = { success: true, messages: [] };
+              break;
+            }
+          }
+          
+          const { data: epsilonConvs, error } = await query;
+          
           if (error) {
-            console.warn('[SUPABASE] Failed to get messages:', error.message);
+            console.warn('[SUPABASE] Failed to get epsilon conversations:', error.message);
             result = { success: true, messages: [] };
             break;
           }
           
-          let sessionId = null;
-          try {
-            const { data: convData } = await supabase
-              .from('conversations')
-              .select('session_id')
-              .eq('id', conversation_id)
-              .limit(1).maybeSingle();
-            
-            sessionId = convData?.session_id || null;
-          } catch (convError) {
-            console.warn('[SUPABASE] Failed to get conversation session ID:', convError.message);
-          }
-          
-          if (sessionId && messages) {
-            try {
-            const { data: epsilonConvs } = await supabase
-              .from('epsilon_conversations')
-              .select('id')
-              .eq('session_id', sessionId)
-              .order('created_at', { ascending: true });
-            
-            if (epsilonConvs && epsilonConvs.length > 0) {
-              let epsilonConvIndex = 0;
-              for (let i = 0; i < messages.length; i++) {
-                const msg = messages[i];
-                if (msg.role === 'epsilon' && epsilonConvIndex < epsilonConvs.length) {
-                  msg.conversation_id = epsilonConvs[epsilonConvIndex].id;
-                  epsilonConvIndex++;
-                } else {
-                  msg.conversation_id = null;
-                }
+          // Convert epsilon_conversations to messages format
+          const messages = [];
+          if (epsilonConvs && Array.isArray(epsilonConvs)) {
+            epsilonConvs.forEach(conv => {
+              if (conv.user_message) {
+                messages.push({
+                  id: conv.id,
+                  role: 'user',
+                  text: conv.user_message,
+                  created_at: conv.created_at,
+                  conversation_id: conv.id
+                });
               }
+              if (conv.epsilon_response) {
+                messages.push({
+                  id: conv.id,
+                  role: 'epsilon',
+                  text: conv.epsilon_response,
+                  created_at: conv.created_at,
+                  conversation_id: conv.id
+                });
               }
-            } catch (epsilonError) {
-              // Non-critical - continue without epsilon conversation IDs
-            }
+            });
           }
           
           result = { success: true, messages: messages || [] };
@@ -3354,7 +3368,7 @@ router.post('/', async (req, res) => {
           // Verify user owns the conversation
           if (user_id) {
             const { data: conv, error: checkError } = await supabase
-              .from('conversations')
+              .from('epsilon_conversations')
               .select('user_id')
               .eq('id', conversation_id)
               .limit(1).maybeSingle();
@@ -3370,14 +3384,16 @@ router.post('/', async (req, res) => {
             }
           }
           
-          // Soft delete conversation (mark as deleted, keep data for history)
-          const { error } = await supabase
-            .from('conversations')
-            .update({ 
-              is_deleted: true,
-              deleted_at: new Date().toISOString()
-            })
+          // Delete conversation messages and conversation
+          const { error: deleteMessagesError } = await supabase
+            .from('epsilon_conversations')
+            .delete()
             .eq('id', conversation_id);
+          
+          if (deleteMessagesError) {
+            console.error('Delete conversation error:', deleteMessagesError);
+            throw new Error(`Failed to delete conversation: ${deleteMessagesError.message}`);
+          }
           
           if (error) {
             console.error('Delete conversation error:', error);
@@ -3420,7 +3436,7 @@ router.post('/', async (req, res) => {
           // Verify user owns the conversation
           if (user_id) {
             const { data: conv, error: checkError } = await supabase
-              .from('conversations')
+              .from('epsilon_conversations')
               .select('user_id')
               .eq('id', conversation_id)
               .limit(1).maybeSingle();
@@ -3436,20 +3452,25 @@ router.post('/', async (req, res) => {
             }
           }
           
-          // Get old name before updating
-          const { data: oldConv } = await supabase
-            .from('conversations')
-            .select('conversation_name')
-            .eq('id', conversation_id)
-            .limit(1).maybeSingle();
-          
-          const oldName = oldConv?.conversation_name || null;
           const newName = name.substring(0, 255);
           
-          // Update conversation name
+          // Update conversation - store custom name in context_data JSON field
+          const { data: existingConv } = await supabase
+            .from('epsilon_conversations')
+            .select('context_data')
+            .eq('id', conversation_id)
+            .limit(1)
+            .maybeSingle();
+          
+          const contextData = existingConv?.context_data || {};
+          contextData.custom_name = newName;
+          
           const { error } = await supabase
-            .from('conversations')
-            .update({ conversation_name: newName, updated_at: new Date().toISOString() })
+            .from('epsilon_conversations')
+            .update({ 
+              context_data: contextData,
+              updated_at: new Date().toISOString() 
+            })
             .eq('id', conversation_id);
           
           if (error) {
