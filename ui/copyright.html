@@ -101,8 +101,34 @@
     }
 
     .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; }
-    .home-link { display: inline-flex; align-items: center; text-decoration: none; color: #fff; font-weight: 500; font-size: 18px; }
-    @media (max-width: 768px) { .home-link { font-size: 16px; } }
+    .home-link { 
+        display: inline-flex; 
+        align-items: center; 
+        text-decoration: none; 
+        color: var(--soft-white); 
+        font-weight: 600; 
+        font-size: 0.9rem;
+        padding: 0.6rem 1.2rem;
+        background: rgba(15, 15, 15, 0.6);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    .home-link:hover {
+        background: rgba(249, 115, 22, 0.1);
+        border-color: var(--flame-core);
+        color: var(--flame-core);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+    }
+    @media (max-width: 768px) { 
+        .home-link { 
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+        } 
+    }
     /* Professional Design System - Ignition Precision */
     :root {
         --flame-core: #F97316;
