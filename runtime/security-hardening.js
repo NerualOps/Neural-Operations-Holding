@@ -42,8 +42,10 @@ const requestFingerprint = (req) => {
 // ============================================================================
 const suspiciousPatterns = {
   sqlInjection: [
-    /(\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|EXECUTE|UNION)\b)/gi,
-    /(--|\/\*|\*\/|;)/g,
+    // Only flag SQL keywords in suspicious contexts (not in URLs or normal text)
+    /(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|EXECUTE|UNION).*FROM/gi,
+    /--.*$/gm,  // SQL comments at end of line
+    /\/\*.*\*\//gs,  // Multi-line SQL comments
     /(\bOR\b\s+\d+\s*=\s*\d+)/gi,
     /(\bAND\b\s+\d+\s*=\s*\d+)/gi
   ],
@@ -56,15 +58,18 @@ const suspiciousPatterns = {
     /<embed[^>]*>/gi
   ],
   pathTraversal: [
-    /\.\.\//g,
-    /\.\.\\/g,
+    /\.\.\/\.\.\//g,  // Multiple ../ patterns
+    /\.\.\\\.\.\\/g,  // Multiple ..\ patterns
     /\/etc\/passwd/gi,
     /\/proc\/self\/environ/gi,
     /windows\/system32/gi
   ],
   commandInjection: [
-    /[;&|`$(){}[\]]/g,
-    /\b(cat|ls|pwd|whoami|id|uname|ps|netstat)\b/gi
+    // Only flag actual command injection attempts (command + shell operators together)
+    /[;&|`]\s*(cat|ls|pwd|whoami|id|uname|ps|netstat|rm|mv|cp|chmod|chown)/gi,
+    /\$\s*\(/g,  // Command substitution $()
+    /`\s*[a-z]/gi,  // Backtick with command
+    /\|\s*(cat|ls|grep|awk|sed|cut)/gi  // Pipe to command
   ]
 };
 
@@ -73,12 +78,29 @@ const detectAnomalies = (req) => {
   const url = req.url || '';
   const body = JSON.stringify(req.body || {});
   const query = JSON.stringify(req.query || {});
-  const combined = url + body + query;
+  
+  // Whitelist common safe paths - don't check these for most patterns
+  const safePaths = ['/', '/health', '/favicon.ico', '/robots.txt', '/api/health'];
+  const isSafePath = safePaths.some(path => url === path || url.startsWith(path + '/'));
+  
+  // For command injection and SQL injection, only check body/query, not URL
+  // URLs can legitimately contain these characters
+  const bodyAndQuery = body + query;
   
   // Check for suspicious patterns
   Object.entries(suspiciousPatterns).forEach(([type, patterns]) => {
     patterns.forEach(pattern => {
-      if (pattern.test(combined)) {
+      // For command injection and SQL injection, don't check URL path
+      const textToCheck = (type === 'commandInjection' || type === 'sqlInjection') 
+        ? bodyAndQuery 
+        : (url + body + query);
+      
+      // Skip checking safe paths for most patterns (except path traversal)
+      if (isSafePath && type !== 'pathTraversal' && type !== 'xss') {
+        return;
+      }
+      
+      if (pattern.test(textToCheck)) {
         anomalies.push({
           type,
           pattern: pattern.toString(),
@@ -177,13 +199,28 @@ const securityHardening = (req, res, next) => {
     });
   }
   
+  // Whitelist common safe paths - don't block these
+  const safePaths = ['/', '/health', '/favicon.ico', '/robots.txt', '/api/health'];
+  const isSafePath = safePaths.some(path => req.path === path || req.path.startsWith(path + '/'));
+  
   // Detect anomalies
   const anomalies = detectAnomalies(req);
   if (anomalies.length > 0) {
     const highSeverity = anomalies.filter(a => a.severity === 'high');
     
-    if (highSeverity.length > 0) {
-      // High severity - block immediately
+    // Don't block safe paths even if anomalies detected (false positives)
+    if (isSafePath) {
+      // Just log, don't block
+      logSecurityEvent('ANOMALY_DETECTED_SAFE_PATH', {
+        ip,
+        fingerprint,
+        path: req.path,
+        anomalies,
+        action: 'allowed_whitelist'
+      }, 'info');
+      // Continue to next middleware
+    } else if (highSeverity.length > 0) {
+      // High severity - block immediately (but not on safe paths)
       logSecurityEvent('BLOCKED_ANOMALY_HIGH', {
         ip,
         fingerprint,
