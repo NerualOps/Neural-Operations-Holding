@@ -91,7 +91,7 @@
             }
         }
         
-        body.sidebar-open .top-left-nav { left: calc(1.5rem + 280px); }
+        body.sidebar-open .top-left-nav { left: calc(1.5rem + 320px); }
         .top-left-nav { 
             position: fixed; 
             top: 1.5rem; 
@@ -231,7 +231,7 @@
             position: fixed;
             top: 0; 
             left: 0;
-            width: 280px; 
+            width: 320px; 
             height: 100vh; 
             background: rgba(15, 15, 15, 0.95);
             backdrop-filter: blur(20px);
@@ -242,6 +242,13 @@
             display: flex; 
             flex-direction: column;
             box-shadow: 2px 0 16px rgba(0, 0, 0, 0.5);
+        }
+        .sidebar-chats {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .sidebar-chats::-webkit-scrollbar {
+            display: none;
         }
         .chat-sidebar.open { transform: translateX(0); }
         .sidebar-header { 
@@ -299,7 +306,7 @@
         .sidebar-overlay.active { opacity: 1; visibility: visible; }
         
         .chat-interface { width: 100%; height: 100vh; display: flex; flex-direction: column; transition: margin-left 0.35s ease; }
-        .chat-interface.sidebar-open { margin-left: 280px; }
+        .chat-interface.sidebar-open { margin-left: 320px; }
         .chat-container { 
             flex: 1; 
             max-width: 800px; 
@@ -529,18 +536,99 @@
         .recent-chat-time { font-size: 0.75rem; color: var(--ash-neutral); margin-top: 0.5rem; }
         .no-recent-chats { text-align: center; color: var(--ash-neutral); font-size: 0.9rem; padding: 2rem; }
         
-        .chat-messages { display: none; flex-direction: column; gap: 1.5rem; padding-bottom: 1rem; }
+        .chat-messages { display: none; flex-direction: column-reverse; gap: 2rem; padding-bottom: 1rem; }
         .chat-messages.visible { display: flex; }
-        .message { padding: 1.25rem 1.5rem; border-radius: 6px; background: rgba(15, 15, 15, 0.3); margin-bottom: 0.5rem; position: relative; }
+        .message { padding: 1.5rem 1.75rem; border-radius: 8px; background: rgba(15, 15, 15, 0.3); margin-bottom: 0; position: relative; max-width: 85%; }
         .message.user { 
-            background: rgba(15, 15, 15, 0.4);
+            background: rgba(249, 115, 22, 0.15);
+            margin-left: auto;
+            border: 1px solid rgba(249, 115, 22, 0.3);
         }
         .message.assistant { 
-            background: rgba(15, 15, 15, 0.3);
+            background: rgba(15, 15, 15, 0.4);
+            margin-right: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .message-role { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: var(--ash-neutral); margin-bottom: 0.75rem; }
         .message-text { line-height: 1.7; color: var(--soft-white); white-space: pre-wrap; overflow-wrap: anywhere; }
         .message-text code { background: rgba(249, 115, 22, 0.15); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.9em; }
+        .code-block { 
+            position: relative; 
+            background: rgba(15, 15, 15, 0.8); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 8px; 
+            padding: 1rem; 
+            margin: 1rem 0; 
+            overflow-x: auto;
+        }
+        .code-block pre { 
+            margin: 0; 
+            font-family: 'Courier New', monospace; 
+            font-size: 0.9em; 
+            line-height: 1.6; 
+            color: var(--soft-white);
+            white-space: pre;
+            overflow-x: auto;
+        }
+        .code-block-copy { 
+            position: absolute; 
+            top: 0.5rem; 
+            right: 0.5rem; 
+            padding: 0.4rem 0.8rem; 
+            background: var(--flame-core); 
+            border: none; 
+            border-radius: 4px; 
+            color: var(--near-black); 
+            font-size: 0.75rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.12s ease-out;
+        }
+        .code-block-copy:hover { 
+            background: var(--flame-highlight); 
+            transform: translateY(-1px);
+        }
+        .loading-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--ash-neutral);
+            font-size: 0.85rem;
+        }
+        .loading-spinner {
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(249, 115, 22, 0.3);
+            border-top-color: var(--flame-core);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .stop-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            background: rgba(255, 59, 48, 0.2);
+            border: 1px solid #ff3b30;
+            border-radius: 6px;
+            color: #ff3b30;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.12s ease-out;
+        }
+        .stop-button:hover {
+            background: rgba(255, 59, 48, 0.3);
+        }
+        .stop-icon {
+            width: 12px;
+            height: 12px;
+            background: #ff3b30;
+            border-radius: 2px;
+        }
         .message-text strong { font-weight: 600; color: var(--flame-highlight); }
         .message-text em { font-style: italic; }
         .message-feedback { margin-top: 1rem; padding-top: 1rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
@@ -559,7 +647,7 @@
         .feedback-thanks { font-size: 0.8rem; color: var(--flame-core); display: none; }
         .feedback-thanks.show { display: block; }
         
-        body.sidebar-open .bottom-chat-input { left: 280px; }
+        body.sidebar-open .bottom-chat-input { left: 320px; }
         .bottom-chat-input { 
             position: fixed; 
             bottom: 0; 
@@ -567,7 +655,7 @@
             right: 0; 
             padding: 1.5rem 2rem 2rem; 
             background: var(--near-black); 
-            border-top: 1px solid var(--ash-neutral);
+            border-top: none;
             z-index: 1000; 
             display: none; 
             transition: left 0.35s ease; 
@@ -803,7 +891,6 @@
 </head>
 <body>
     <div class="top-left-nav">
-        <a href="/" class="home-link" aria-label="Home">Home</a>
         <button class="sidebar-toggle" id="sidebarToggle"><span></span><span></span><span></span></button>
     </div>
     
@@ -832,7 +919,7 @@
                 <div class="sidebar-header">
                     <h3>Chats</h3>
                 <div class="sidebar-header-actions">
-                    <button class="folder-btn" id="folderBtn" title="Folders">📁</button>
+                    <a href="/" class="home-link-sidebar" aria-label="Home" style="padding: 0.5rem 0.875rem; background: rgba(15, 15, 15, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: var(--soft-white); font-size: 0.85rem; font-weight: 600; text-decoration: none; transition: all 0.12s ease-out;">Home</a>
                     <button class="new-chat-btn" id="newChatBtn">+ New</button>
                 </div>
             </div>
@@ -1101,6 +1188,73 @@
         return '';
     };
     
+    // Process message text to detect and format code blocks
+    window.processMessageText = function(text) {
+        if (!text) return '';
+        
+        // Detect code blocks (```code``` or ```language\ncode\n```)
+        var codeBlockRegex = /```(\w+)?\n?([\s\S]*?)```/g;
+        var processed = text;
+        var codeBlocks = [];
+        var match;
+        var index = 0;
+        
+        while ((match = codeBlockRegex.exec(text)) !== null) {
+            var language = match[1] || '';
+            var code = match[2];
+            var placeholder = '___CODE_BLOCK_' + index + '___';
+            codeBlocks.push({ placeholder: placeholder, language: language, code: code });
+            processed = processed.replace(match[0], placeholder);
+            index++;
+        }
+        
+        // Replace placeholders with formatted code blocks
+        codeBlocks.forEach(function(block) {
+            var codeBlockHtml = '<div class="code-block">' +
+                '<button class="code-block-copy">Copy</button>' +
+                '<pre><code>' + window.escapeHtml(block.code) + '</code></pre>' +
+                '</div>';
+            processed = processed.replace(block.placeholder, codeBlockHtml);
+        });
+        
+        // Escape HTML for non-code parts (simple approach)
+        var parts = processed.split(/(___CODE_BLOCK_\d+___|<div class="code-block">)/);
+        var escaped = '';
+        for (var i = 0; i < parts.length; i++) {
+            if (parts[i].indexOf('code-block') >= 0 || parts[i].indexOf('___CODE_BLOCK') >= 0) {
+                escaped += parts[i];
+            } else {
+                escaped += window.escapeHtml(parts[i]);
+            }
+        }
+        
+        return escaped;
+    };
+    
+    // Process code blocks in an element (for dynamic content)
+    window.processCodeBlocks = function(element) {
+        if (!element) return;
+        var codeBlocks = element.querySelectorAll('.code-block');
+        codeBlocks.forEach(function(block) {
+            var copyBtn = block.querySelector('.code-block-copy');
+            if (copyBtn && !copyBtn._listenerAdded) {
+                var codeEl = block.querySelector('code');
+                if (codeEl) {
+                    copyBtn.onclick = function() {
+                        navigator.clipboard.writeText(codeEl.textContent).then(function() {
+                            this.textContent = 'Copied!';
+                            var self = this;
+                            setTimeout(function() {
+                                self.textContent = 'Copy';
+                            }, 2000);
+                        }.bind(this));
+                    };
+                    copyBtn._listenerAdded = true;
+                }
+            }
+        });
+    };
+    
     window.sendMessage = async function() {
         var welcomeInput = document.getElementById('welcomeInput');
         var chatInput = document.getElementById('chatInput');
@@ -1124,19 +1278,11 @@
         if (chatInput) chatInput.value = '';
         
         window.addMessage('user', input);
-        window.scrollChatToBottom(true);
         window.messageStartTime = Date.now();
-        var loadingId = window.addMessage('assistant', 'Thinking...');
-        window.scrollChatToBottom(true);
         
-        // Start timer to show elapsed time
-        window.loadingTimer = setInterval(function() {
-            if (window.messageStartTime) {
-                var elapsed = Math.floor((Date.now() - window.messageStartTime) / 1000);
-                var timeText = elapsed < 60 ? elapsed + 's' : Math.floor(elapsed / 60) + 'm ' + (elapsed % 60) + 's';
-                window.updateMessage(loadingId, 'Thinking... (' + timeText + ')');
-            }
-        }, 1000); // Update every second
+        // Store first word for chat naming
+        var firstWord = input.trim().split(/\s+/)[0] || 'Chat';
+        window.currentChatFirstWord = firstWord;
         
         try {
             var response;
@@ -1173,13 +1319,6 @@
                 response = data.response || data.content;
                 if (data.sessionId) window.currentSessionId = data.sessionId;
             }
-            
-            // Stop timer and remove loading message
-            if (window.loadingTimer) {
-                clearInterval(window.loadingTimer);
-                window.loadingTimer = null;
-            }
-            window.removeMessage(loadingId);
             
             var conversationId = null;
             if (userId && sessionId) {
@@ -1224,12 +1363,6 @@
                 window.loadChatHistory();
             }, 500);
         } catch (error) {
-            // Stop timer and remove loading message
-            if (window.loadingTimer) {
-                clearInterval(window.loadingTimer);
-                window.loadingTimer = null;
-            }
-            window.removeMessage(loadingId);
             var errorMessage = error.message || 'Failed to generate response. The AI model may not be trained yet or the service is unavailable.';
             window.addMessage('assistant', 'Error: ' + errorMessage);
         }
@@ -1238,16 +1371,12 @@
     var msgCounter = 0;
     window.conversationIds = window.conversationIds || {};
 
-    window.scrollChatToBottom = function(force) {
+    window.scrollChatToTop = function(force) {
         var chatContainer = document.querySelector('.chat-container');
         if (!chatContainer) return;
         setTimeout(function() {
-            if (force) {
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-                return;
-            }
-            var nearBottom = (chatContainer.scrollHeight - chatContainer.scrollTop - chatContainer.clientHeight) < 120;
-            if (nearBottom) chatContainer.scrollTop = chatContainer.scrollHeight;
+            // Always scroll to top for new messages (newest at top)
+            chatContainer.scrollTop = 0;
         }, 10);
     };
 
@@ -1276,7 +1405,7 @@
         return interval;
     };
     
-    window.addMessage = function(role, text, conversationId) {
+    window.addMessage = function(role, text, conversationId, skipTypewriter) {
         var chatMessages = document.getElementById('chatMessages');
         if (!chatMessages) return null;
         var msgId = 'msg' + (++msgCounter);
@@ -1297,34 +1426,96 @@
         div.appendChild(roleEl);
         div.appendChild(textEl);
 
-        if (role === 'assistant') {
-            window.typeIntoElement(textEl, String(text || ''), {
-                speedMs: 12,
-                chunkSize: 2,
-                onUpdate: function() { window.scrollChatToBottom(true); }
-            });
+        // Process text for code blocks
+        var processedText = window.processMessageText(String(text || ''));
+        
+        // Skip typewriter effect for old messages (skipTypewriter = true)
+        if (role === 'assistant' && !skipTypewriter) {
+            // Add loading indicator
+            var loadingEl = document.createElement('div');
+            loadingEl.className = 'loading-indicator';
+            loadingEl.innerHTML = '<div class="loading-spinner"></div><span>Epsilon AI is thinking...</span>';
+            textEl.appendChild(loadingEl);
+            
+            // Store loading element and interval for stop functionality
+            var typeInterval = null;
+            var stopBtn = null;
+            
+            // Create stop button
+            stopBtn = document.createElement('button');
+            stopBtn.className = 'stop-button';
+            stopBtn.innerHTML = '<div class="stop-icon"></div><span>Stop</span>';
+            stopBtn.style.display = 'none';
+            stopBtn.onclick = function() {
+                if (typeInterval) {
+                    clearInterval(typeInterval);
+                    typeInterval = null;
+                }
+                if (loadingEl) loadingEl.remove();
+                if (stopBtn) stopBtn.remove();
+                textEl.innerHTML = processedText;
+                window.processCodeBlocks(textEl);
+            };
+            textEl.appendChild(stopBtn);
+            
+            // Start typing effect
+            var fullText = processedText;
+            var i = 0;
+            var chunkSize = 2;
+            var speedMs = 12;
+            
+            typeInterval = setInterval(function() {
+                i = Math.min(fullText.length, i + chunkSize);
+                var partialText = fullText.slice(0, i);
+                
+                if (loadingEl && i > 50) {
+                    loadingEl.style.display = 'none';
+                    stopBtn.style.display = 'inline-flex';
+                }
+                
+                textEl.innerHTML = partialText;
+                window.processCodeBlocks(textEl);
+                
+                if (i >= fullText.length) {
+                    clearInterval(typeInterval);
+                    typeInterval = null;
+                    if (loadingEl) loadingEl.remove();
+                    if (stopBtn) stopBtn.remove();
+                }
+                
+                // Scroll to top
+                var chatContainer = document.querySelector('.chat-container');
+                if (chatContainer) chatContainer.scrollTop = 0;
+            }, speedMs);
+            
+            // Store interval for cleanup
+            div._typeInterval = typeInterval;
         } else {
-            textEl.textContent = String(text || '');
+            // For user messages or old assistant messages, display instantly
+            textEl.innerHTML = processedText;
+            window.processCodeBlocks(textEl);
         }
 
         if (role === 'assistant' && conversationId) {
             var feedbackWrap = document.createElement('div');
             feedbackWrap.className = 'message-feedback';
             feedbackWrap.innerHTML =
-                '<span class="feedback-label">Was this helpful?</span>' +
+                '<span class="feedback-label">Rate this response:</span>' +
                 '<div class="feedback-buttons">' +
-                '<button class="feedback-btn" data-rating="helpful" data-conversation-id="' + conversationId + '">👍 Helpful</button>' +
-                '<button class="feedback-btn negative" data-rating="not-helpful" data-conversation-id="' + conversationId + '">👎 Not Helpful</button>' +
+                '<button class="feedback-btn" data-rating="helpful" data-conversation-id="' + conversationId + '">✓ Helpful</button>' +
+                '<button class="feedback-btn negative" data-rating="not-helpful" data-conversation-id="' + conversationId + '">✗ Not Helpful</button>' +
                 '</div>' +
                 '<span class="feedback-thanks">Thank you for your feedback!</span>';
             div.appendChild(feedbackWrap);
         }
-        chatMessages.appendChild(div);
+        // Prepend message (newest at top) like Claude/GPT
+        chatMessages.insertBefore(div, chatMessages.firstChild);
         
+        // Scroll to top to see new message
         var chatContainer = document.querySelector('.chat-container');
         if (chatContainer) {
             setTimeout(function() {
-                window.scrollChatToBottom(true);
+                chatContainer.scrollTop = 0;
             }, 50);
         }
         
@@ -1358,7 +1549,7 @@
             }
             var chatContainer = document.querySelector('.chat-container');
             if (chatContainer) {
-                window.scrollChatToBottom(true);
+                window.scrollChatToTop(true);
             }
         }
     };
@@ -1463,9 +1654,15 @@
     
     function getChatName(conv) {
         if (!conv) return 'Chat';
+        // Use first word from first user message
+        if (conv.user_message && conv.user_message.trim()) {
+            var firstWord = conv.user_message.trim().split(/\s+/)[0];
+            if (firstWord && firstWord.length > 0) return firstWord;
+        }
+        // Fallback to last message
         if (conv.last_message && conv.last_message.trim()) {
             var firstWord = conv.last_message.trim().split(/\s+/)[0];
-            if (firstWord) return firstWord;
+            if (firstWord && firstWord.length > 0) return firstWord;
         }
         return 'Chat ' + (conv.session_id ? conv.session_id.slice(-8) : 'XXXX');
     }
@@ -1506,32 +1703,83 @@
                     if (sidebarChats) {
                         sidebarChats.innerHTML = '';
                         data.conversations.forEach(function(conv) {
-                            var div = document.createElement('div');
+                            var chatItem = document.createElement('div');
                             var sessionName = getChatName(conv);
                             
-                            div.style.cssText = 'padding: 0.75rem; margin: 0.4rem 0; background: rgba(15, 15, 15, 0.4); backdrop-filter: blur(8px); border: 1px solid var(--ash-neutral); border-radius: 6px; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03); transition: all 0.15s ease-out;';
-                            div.textContent = sessionName;
-                            div.onclick = function(e) {
+                            chatItem.style.cssText = 'padding: 0.75rem; margin: 0.4rem 0; background: rgba(15, 15, 15, 0.4); backdrop-filter: blur(8px); border: 1px solid var(--ash-neutral); border-radius: 6px; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03); transition: all 0.15s ease-out; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;';
+                            
+                            var chatNameDiv = document.createElement('div');
+                            chatNameDiv.textContent = sessionName;
+                            chatNameDiv.style.flex = '1';
+                            chatNameDiv.style.overflow = 'hidden';
+                            chatNameDiv.style.textOverflow = 'ellipsis';
+                            chatNameDiv.style.whiteSpace = 'nowrap';
+                            
+                            var actionsDiv = document.createElement('div');
+                            actionsDiv.style.display = 'flex';
+                            actionsDiv.style.gap = '0.25rem';
+                            actionsDiv.style.opacity = '0';
+                            actionsDiv.style.transition = 'opacity 0.15s ease-out';
+                            
+                            var renameBtn = document.createElement('button');
+                            renameBtn.className = 'chat-action-btn';
+                            renameBtn.title = 'Rename';
+                            renameBtn.innerHTML = '✎';
+                            renameBtn.style.padding = '0.3rem 0.5rem';
+                            renameBtn.style.fontSize = '0.75rem';
+                            renameBtn.onclick = function(e) {
+                                e.stopPropagation();
+                                var newName = prompt('Enter new chat name:', sessionName);
+                                if (newName && newName.trim() && newName.trim() !== sessionName) {
+                                    window.renameConversation(conv.id, newName.trim());
+                                }
+                            };
+                            
+                            var deleteBtn = document.createElement('button');
+                            deleteBtn.className = 'chat-action-btn delete';
+                            deleteBtn.title = 'Delete';
+                            deleteBtn.innerHTML = '×';
+                            deleteBtn.style.padding = '0.3rem 0.5rem';
+                            deleteBtn.style.fontSize = '0.9rem';
+                            deleteBtn.onclick = function(e) {
+                                e.stopPropagation();
+                                if (confirm('Are you sure you want to delete this chat?')) {
+                                    window.deleteConversation(conv.id);
+                                }
+                            };
+                            
+                            actionsDiv.appendChild(renameBtn);
+                            actionsDiv.appendChild(deleteBtn);
+                            chatItem.appendChild(chatNameDiv);
+                            chatItem.appendChild(actionsDiv);
+                            
+                            chatItem.onclick = function(e) {
+                                if (e.target === renameBtn || e.target === deleteBtn || renameBtn.contains(e.target) || deleteBtn.contains(e.target)) {
+                                    return;
+                                }
                                 e.preventDefault();
                                 e.stopPropagation();
                                 if (window.loadChat) {
-                                window.loadChat(conv.id, conv.session_id);
+                                    window.loadChat(conv.id, conv.session_id);
                                 }
                             };
-                            div.style.cursor = 'pointer';
-                            div.addEventListener('mouseenter', function() {
+                            
+                            chatItem.addEventListener('mouseenter', function() {
                                 this.style.background = 'rgba(249, 115, 22, 0.1)';
                                 this.style.borderColor = 'var(--flame-core)';
                                 this.style.transform = 'translateY(-1px)';
                                 this.style.boxShadow = '0 4px 12px rgba(249, 115, 22, 0.25), 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05)';
+                                actionsDiv.style.opacity = '1';
                             });
-                            div.addEventListener('mouseleave', function() {
+                            chatItem.addEventListener('mouseleave', function() {
                                 this.style.background = 'rgba(15, 15, 15, 0.4)';
                                 this.style.borderColor = 'var(--ash-neutral)';
                                 this.style.transform = 'translateY(0)';
                                 this.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03)';
+                                actionsDiv.style.opacity = '0';
                             });
-                            sidebarChats.appendChild(div);
+                            
+                            sidebarChats.appendChild(chatItem);
                         });
                     }
                     
@@ -1561,7 +1809,7 @@
                             var renameBtn = document.createElement('button');
                             renameBtn.className = 'chat-action-btn';
                             renameBtn.title = 'Rename';
-                            renameBtn.innerHTML = '✏️';
+                            renameBtn.innerHTML = '✎';
                             renameBtn.onclick = function(e) {
                                 e.stopPropagation();
                                 var newName = prompt('Enter new chat name:', sessionName);
@@ -1573,7 +1821,7 @@
                             var deleteBtn = document.createElement('button');
                             deleteBtn.className = 'chat-action-btn delete';
                             deleteBtn.title = 'Delete';
-                            deleteBtn.innerHTML = '🗑️';
+                            deleteBtn.innerHTML = '×';
                             deleteBtn.onclick = function(e) {
                                 e.stopPropagation();
                                 if (confirm('Are you sure you want to delete this chat?')) {
@@ -1694,14 +1942,16 @@
                                     lastConversationId = msg.conversation_id || null;
                                 }
                             }
-                            window.addMessage(msg.role === 'epsilon' ? 'assistant' : 'user', msg.text, msg.role === 'epsilon' ? (msg.conversation_id || lastConversationId) : null);
+                            // Skip typewriter effect for old messages (pass true as 4th parameter)
+                            window.addMessage(msg.role === 'epsilon' ? 'assistant' : 'user', msg.text, msg.role === 'epsilon' ? (msg.conversation_id || lastConversationId) : null, true);
                         });
                         
                         var chatContainer = document.querySelector('.chat-container');
                         if (chatContainer) {
                             setTimeout(function() {
-                                chatContainer.scrollTop = chatContainer.scrollHeight;
-                            }, 150);
+                                // Scroll to top since newest messages are at top
+                                chatContainer.scrollTop = 0;
+                            }, 50);
                         }
                     }
                     if (bottomChatInput) bottomChatInput.classList.add('visible');
