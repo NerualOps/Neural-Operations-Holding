@@ -873,15 +873,16 @@
             // Safety check: validate DOM element
             if (!starfield) return;
             
-            const starCount = 180;
+            const starCount = 80;
             
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 
-                const size = Math.random() * 3.5 + 1.2;
+                // Smaller stars for galaxy effect (0.5px to 1.5px)
+                const size = Math.random() * 1 + 0.5;
                 // Safety check: validate size
-                if (!isFinite(size) || size <= 0 || size > 10) continue;
+                if (!isFinite(size) || size <= 0 || size > 2) continue;
                 
                 star.style.width = size + 'px';
                 star.style.height = size + 'px';
@@ -925,17 +926,18 @@
                     color = centerVariants[Math.floor(Math.random() * centerVariants.length)];
                 }
                 
+                // Galaxy effect with glow
                 star.style.background = color;
                 star.style.color = color;
+                star.style.boxShadow = `0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color}`;
+                star.style.borderRadius = '50%';
+                star.style.opacity = Math.random() * 0.6 + 0.4;
 
                 // Dynamic animations
-                const twinkleDuration = Math.random() * 4 + 2;
+                const twinkleDuration = Math.random() * 4 + 3;
                 const floatDuration = Math.random() * 20 + 15;
                 star.style.animation = `twinkle ${twinkleDuration}s linear infinite, float3d ${floatDuration}s ease-in-out infinite`;
                 star.style.animationDelay = `${Math.random() * 3}s, ${Math.random() * 10}s`;
-                
-                const brightness = Math.random() * 0.4 + 0.3;
-                star.style.opacity = brightness;
                 
                 starfield.appendChild(star);
                 }

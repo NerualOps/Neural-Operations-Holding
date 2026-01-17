@@ -312,7 +312,7 @@
             max-width: 800px; 
             width: 100%; 
             margin: 0 auto; 
-            padding: 100px 2rem 2rem; 
+            padding: 100px 2rem 180px; 
             overflow-y: auto; 
             -ms-overflow-style: none; 
             scrollbar-width: none; 
@@ -321,7 +321,7 @@
         
         @media (max-width: 768px) {
             .chat-container { 
-                padding: 80px 1rem 120px; 
+                padding: 80px 1rem 180px; 
                 width: 100%;
                 max-width: 100%;
                 overflow-x: hidden;
@@ -540,14 +540,14 @@
         .chat-messages.visible { display: flex; }
         .message { padding: 1.5rem 1.75rem; border-radius: 8px; background: rgba(15, 15, 15, 0.3); margin-bottom: 0; position: relative; max-width: 85%; }
         .message.user { 
-            background: rgba(249, 115, 22, 0.15);
+            background: rgba(249, 115, 22, 0.08);
             margin-left: auto;
-            border: 1px solid rgba(249, 115, 22, 0.3);
+            border: 0.5px solid rgba(249, 115, 22, 0.15);
         }
         .message.assistant { 
             background: rgba(15, 15, 15, 0.4);
             margin-right: auto;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: none;
         }
         .message-role { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: var(--ash-neutral); margin-bottom: 0.75rem; }
         .message-text { line-height: 1.7; color: var(--soft-white); white-space: pre-wrap; overflow-wrap: anywhere; }
@@ -2185,14 +2185,15 @@
             const starfield = document.getElementById('starfield');
             if (!starfield) return;
             
-            const starCount = 150;
+            const starCount = 80;
             
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 
-                const size = Math.random() * 3.5 + 1.2;
-                if (!isFinite(size) || size <= 0 || size > 10) continue;
+                // Smaller stars for galaxy effect (0.5px to 1.5px)
+                const size = Math.random() * 1 + 0.5;
+                if (!isFinite(size) || size <= 0 || size > 2) continue;
                 
                 star.style.width = size + 'px';
                 star.style.height = size + 'px';
@@ -2205,10 +2206,16 @@
                 if (!isFinite(topPos) || topPos < 0 || topPos > 100) continue;
                 star.style.top = topPos + '%';
                 
+                // Keep same colors but with glow effect for galaxy look
                 const colors = ['#F97316', '#FF8A3D', '#FAFAFA', '#A1A1AA'];
-                star.style.color = colors[Math.floor(Math.random() * colors.length)];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                star.style.color = color;
+                star.style.background = color;
+                star.style.boxShadow = `0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color}`;
+                star.style.borderRadius = '50%';
+                star.style.opacity = Math.random() * 0.6 + 0.4;
                 
-                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                star.style.animationDuration = (Math.random() * 4 + 3) + 's';
                 star.style.animationDelay = Math.random() * 2 + 's';
                 
                 starfield.appendChild(star);
