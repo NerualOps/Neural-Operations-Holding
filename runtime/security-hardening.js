@@ -76,12 +76,13 @@ const suspiciousPatterns = {
 const detectAnomalies = (req) => {
   const anomalies = [];
   const url = req.url || '';
+  const path = req.path || '';  // Use req.path for safe path checking (doesn't include query string)
   const body = JSON.stringify(req.body || {});
   const query = JSON.stringify(req.query || {});
   
   // Whitelist common safe paths - don't check these for most patterns
   const safePaths = ['/', '/health', '/favicon.ico', '/robots.txt', '/api/health'];
-  const isSafePath = safePaths.some(path => url === path || url.startsWith(path + '/'));
+  const isSafePath = safePaths.some(safePath => path === safePath || path.startsWith(safePath + '/'));
   
   // For command injection and SQL injection, only check body/query, not URL
   // URLs can legitimately contain these characters
