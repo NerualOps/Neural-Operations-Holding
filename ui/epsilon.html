@@ -1346,7 +1346,7 @@
         // Show thinking indicator while waiting for response
         var thinkingMessageId = 'thinking-' + Date.now();
         var thinkingDiv = window.addMessage('assistant', '', null, false, true); // true = isThinking
-        if (thinkingDiv) {
+        if (thinkingDiv && thinkingDiv.nodeType === 1) { // Check if it's a DOM element
             thinkingDiv.id = thinkingMessageId;
             var thinkingText = thinkingDiv.querySelector('.message-text');
             if (thinkingText) {
@@ -1626,7 +1626,7 @@
             });
         }
         
-        return msgId;
+        return div; // Return the div element, not just the ID
     };
     
     window.updateMessage = function(msgId, newText) {
