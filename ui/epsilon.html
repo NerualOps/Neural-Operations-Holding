@@ -570,10 +570,15 @@
             white-space: pre;
             overflow-x: auto;
         }
-        .code-block-copy { 
-            position: absolute; 
-            top: 0.5rem; 
-            right: 0.5rem; 
+        .code-block-actions {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        .code-block-copy, .code-block-download { 
             padding: 0.4rem 0.8rem; 
             background: var(--flame-core); 
             border: none; 
@@ -584,7 +589,7 @@
             cursor: pointer; 
             transition: all 0.12s ease-out;
         }
-        .code-block-copy:hover { 
+        .code-block-copy:hover, .code-block-download:hover { 
             background: var(--flame-highlight); 
             transform: translateY(-1px);
         }
@@ -1188,6 +1193,39 @@
         return '';
     };
     
+    // Get file extension from language
+    window.getFileExtension = function(language) {
+        var extMap = {
+            'javascript': 'js', 'js': 'js', 'jsx': 'jsx',
+            'typescript': 'ts', 'ts': 'ts', 'tsx': 'tsx',
+            'python': 'py', 'py': 'py',
+            'java': 'java',
+            'cpp': 'cpp', 'c++': 'cpp', 'c': 'c',
+            'csharp': 'cs', 'cs': 'cs',
+            'php': 'php',
+            'ruby': 'rb', 'rb': 'rb',
+            'go': 'go',
+            'rust': 'rs', 'rs': 'rs',
+            'swift': 'swift',
+            'kotlin': 'kt', 'kt': 'kt',
+            'html': 'html',
+            'css': 'css',
+            'scss': 'scss', 'sass': 'sass',
+            'json': 'json',
+            'xml': 'xml',
+            'yaml': 'yaml', 'yml': 'yml',
+            'markdown': 'md', 'md': 'md',
+            'sql': 'sql',
+            'bash': 'sh', 'sh': 'sh', 'shell': 'sh',
+            'powershell': 'ps1', 'ps1': 'ps1',
+            'dockerfile': 'Dockerfile',
+            'makefile': 'Makefile'
+        };
+        if (!language) return 'txt';
+        var lang = language.toLowerCase().trim();
+        return extMap[lang] || 'txt';
+    };
+    
     // Process message text to detect and format code blocks
     window.processMessageText = function(text) {
         if (!text) return '';
@@ -1210,8 +1248,12 @@
         
         // Replace placeholders with formatted code blocks
         codeBlocks.forEach(function(block) {
+            var ext = window.getFileExtension(block.language);
             var codeBlockHtml = '<div class="code-block">' +
+                '<div class="code-block-actions">' +
                 '<button class="code-block-copy">Copy</button>' +
+                '<button class="code-block-download" data-code="' + window.escapeHtml(block.code) + '" data-ext="' + ext + '">Download</button>' +
+                '</div>' +
                 '<pre><code>' + window.escapeHtml(block.code) + '</code></pre>' +
                 '</div>';
             processed = processed.replace(block.placeholder, codeBlockHtml);
@@ -1237,20 +1279,37 @@
         var codeBlocks = element.querySelectorAll('.code-block');
         codeBlocks.forEach(function(block) {
             var copyBtn = block.querySelector('.code-block-copy');
-            if (copyBtn && !copyBtn._listenerAdded) {
-                var codeEl = block.querySelector('code');
-                if (codeEl) {
-                    copyBtn.onclick = function() {
-                        navigator.clipboard.writeText(codeEl.textContent).then(function() {
-                            this.textContent = 'Copied!';
-                            var self = this;
-                            setTimeout(function() {
-                                self.textContent = 'Copy';
-                            }, 2000);
-                        }.bind(this));
-                    };
-                    copyBtn._listenerAdded = true;
-                }
+            var downloadBtn = block.querySelector('.code-block-download');
+            var codeEl = block.querySelector('code');
+            
+            if (copyBtn && !copyBtn._listenerAdded && codeEl) {
+                copyBtn.onclick = function() {
+                    navigator.clipboard.writeText(codeEl.textContent).then(function() {
+                        this.textContent = 'Copied!';
+                        var self = this;
+                        setTimeout(function() {
+                            self.textContent = 'Copy';
+                        }, 2000);
+                    }.bind(this));
+                };
+                copyBtn._listenerAdded = true;
+            }
+            
+            if (downloadBtn && !downloadBtn._listenerAdded && codeEl) {
+                downloadBtn.onclick = function() {
+                    var code = codeEl.textContent;
+                    var ext = this.getAttribute('data-ext') || 'txt';
+                    var blob = new Blob([code], { type: 'text/plain' });
+                    var url = URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'code.' + ext;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                };
+                downloadBtn._listenerAdded = true;
             }
         });
     };
@@ -1283,6 +1342,19 @@
         // Store first word for chat naming
         var firstWord = input.trim().split(/\s+/)[0] || 'Chat';
         window.currentChatFirstWord = firstWord;
+        
+        // Show thinking indicator while waiting for response
+        var thinkingMessageId = 'thinking-' + Date.now();
+        var thinkingDiv = window.addMessage('assistant', '', null, false, true); // true = isThinking
+        if (thinkingDiv) {
+            thinkingDiv.id = thinkingMessageId;
+            var thinkingText = thinkingDiv.querySelector('.message-text');
+            if (thinkingText) {
+                thinkingText.innerHTML = '<div class="loading-indicator"><div class="loading-spinner"></div><span>Epsilon AI is thinking...</span></div>';
+            }
+            // Scroll to top to show thinking indicator
+            window.scrollChatToTop();
+        }
         
         try {
             var response;
@@ -1357,12 +1429,18 @@
                 }
             }
             
+            // Remove thinking indicator and add actual response
+            var thinkingMsg = document.getElementById(thinkingMessageId);
+            if (thinkingMsg) thinkingMsg.remove();
             window.addMessage('assistant', response, conversationId);
             
             setTimeout(function() {
                 window.loadChatHistory();
             }, 500);
         } catch (error) {
+            // Remove thinking indicator on error
+            var thinkingMsg = document.getElementById(thinkingMessageId);
+            if (thinkingMsg) thinkingMsg.remove();
             var errorMessage = error.message || 'Failed to generate response. The AI model may not be trained yet or the service is unavailable.';
             window.addMessage('assistant', 'Error: ' + errorMessage);
         }
@@ -1374,10 +1452,14 @@
     window.scrollChatToTop = function(force) {
         var chatContainer = document.querySelector('.chat-container');
         if (!chatContainer) return;
-        setTimeout(function() {
-            // Always scroll to top for new messages (newest at top)
+        // Use requestAnimationFrame for smooth scrolling
+        requestAnimationFrame(function() {
             chatContainer.scrollTop = 0;
-        }, 10);
+            // Also try scrollIntoView as fallback
+            if (chatContainer.firstElementChild) {
+                chatContainer.firstElementChild.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
     };
 
     window.escapeHtml = function(text) {
@@ -1405,7 +1487,7 @@
         return interval;
     };
     
-    window.addMessage = function(role, text, conversationId, skipTypewriter) {
+    window.addMessage = function(role, text, conversationId, skipTypewriter, isThinking) {
         var chatMessages = document.getElementById('chatMessages');
         if (!chatMessages) return null;
         var msgId = 'msg' + (++msgCounter);
@@ -1429,9 +1511,11 @@
         // Process text for code blocks
         var processedText = window.processMessageText(String(text || ''));
         
-        // Skip typewriter effect for old messages (skipTypewriter = true)
-        if (role === 'assistant' && !skipTypewriter) {
-            // Add loading indicator
+        // Handle thinking indicator (shows while waiting for API response)
+        if (role === 'assistant' && isThinking) {
+            textEl.innerHTML = '<div class="loading-indicator"><div class="loading-spinner"></div><span>Epsilon AI is thinking...</span></div>';
+        } else if (role === 'assistant' && !skipTypewriter) {
+            // Add loading indicator for typewriter effect
             var loadingEl = document.createElement('div');
             loadingEl.className = 'loading-indicator';
             loadingEl.innerHTML = '<div class="loading-spinner"></div><span>Epsilon AI is thinking...</span>';
@@ -1473,7 +1557,11 @@
                     stopBtn.style.display = 'inline-flex';
                 }
                 
-                textEl.innerHTML = partialText;
+                // Use innerHTML for code blocks, but process them
+                var tempDiv = document.createElement('div');
+                tempDiv.textContent = partialText;
+                var processedPartial = window.processMessageText(tempDiv.textContent);
+                textEl.innerHTML = processedPartial;
                 window.processCodeBlocks(textEl);
                 
                 if (i >= fullText.length) {
@@ -1483,9 +1571,15 @@
                     if (stopBtn) stopBtn.remove();
                 }
                 
-                // Scroll to top
+                // Scroll to top smoothly - allow user to scroll if they want
                 var chatContainer = document.querySelector('.chat-container');
-                if (chatContainer) chatContainer.scrollTop = 0;
+                if (chatContainer) {
+                    // Only auto-scroll if user hasn't manually scrolled away
+                    var isNearTop = chatContainer.scrollTop < 50;
+                    if (isNearTop) {
+                        chatContainer.scrollTop = 0;
+                    }
+                }
             }, speedMs);
             
             // Store interval for cleanup
@@ -1511,13 +1605,8 @@
         // Prepend message (newest at top) like Claude/GPT
         chatMessages.insertBefore(div, chatMessages.firstChild);
         
-        // Scroll to top to see new message
-        var chatContainer = document.querySelector('.chat-container');
-        if (chatContainer) {
-            setTimeout(function() {
-                chatContainer.scrollTop = 0;
-            }, 50);
-        }
+        // Scroll to top to see new message - always scroll for new messages
+        window.scrollChatToTop();
         
         if (role === 'assistant' && conversationId) {
             var feedbackBtns = div.querySelectorAll('.feedback-btn');

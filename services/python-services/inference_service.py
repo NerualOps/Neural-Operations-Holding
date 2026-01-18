@@ -298,7 +298,7 @@ async def model_info():
 
 def clean_markdown_text(text: str) -> str:
     """
-    Clean markdown formatting and convert tables to plain text.
+    Clean markdown formatting and convert tables to clean plain text.
     Removes markdown symbols and formats tables as readable text.
     """
     if not text:
@@ -312,38 +312,53 @@ def clean_markdown_text(text: str) -> str:
         line = lines[i]
         trimmed = line.strip()
         
+        # Detect markdown tables
         if '|' in trimmed and trimmed.count('|') >= 2:
+            # Check if it's not just a separator line
             if trimmed.replace('|', '').replace('-', '').replace(':', '').replace(' ', '').strip():
                 table_rows = []
-                header_row_index = -1
+                is_separator_line = False
                 
+                # Collect all table rows
                 while i < len(lines):
                     current_line = lines[i].strip()
                     if not current_line or '|' not in current_line or current_line.count('|') < 2:
                         break
                     
+                    # Skip separator lines like |---|---|
                     if re.match(r'^[\|\s\-:]+$', current_line):
-                        header_row_index = len(table_rows)
+                        is_separator_line = True
                         i += 1
                         continue
                     
+                    # Parse table cells
                     cells = [c.strip() for c in current_line.split('|')]
                     if cells and cells[0] == '':
                         cells.pop(0)
                     if cells and cells[-1] == '':
                         cells.pop()
                     
+                    # Filter out empty cells and separator-only cells
+                    cells = [c for c in cells if c and not re.match(r'^[\s\-:]+$', c)]
+                    
                     if cells:
                         table_rows.append(cells)
                     i += 1
                 
+                # Convert table to clean text format
                 if table_rows:
-                    for row_idx, row in enumerate(table_rows):
-                        if header_row_index == row_idx:
-                            result.append(' | '.join(row))
-                            result.append('-' * (sum(len(c) for c in row) + len(row) * 3 - 3))
+                    result.append('')  # Add spacing before table
+                    for row in table_rows:
+                        if len(row) == 2:
+                            # Two columns: format as "Key: Value"
+                            result.append(f"{row[0]}: {row[1]}")
+                        elif len(row) > 2:
+                            # Multiple columns: format as "Item1 • Item2 • Item3"
+                            result.append(" • ".join(row))
                         else:
-                            result.append(' | '.join(row))
+                            # Single column
+                            result.append(row[0])
+                    result.append('')  # Add spacing after table
                     continue
         
         result.append(line)
@@ -351,64 +366,117 @@ def clean_markdown_text(text: str) -> str:
     
     text = '\n'.join(result)
     
-    text = re.sub(r'\*\*(.*?)\*\*', r'\1', text)
-    text = re.sub(r'\*(.*?)\*', r'\1', text)
-    text = re.sub(r'`(.*?)`', r'\1', text)
-    text = re.sub(r'#{1,6}\s+', '', text)
-    text = re.sub(r'\[([^\]]+)\]\([^\)]+\)', r'\1', text)
+    # Remove markdown formatting
+    text = re.sub(r'\*\*(.*?)\*\*', r'\1', text)  # Bold
+    text = re.sub(r'\*(?!\*)([^\*\n]+?)(?!\*)\*', r'\1', text)  # Italic (but not bold)
+    text = re.sub(r'`([^`]+)`', r'\1', text)  # Inline code
+    text = re.sub(r'```[\s\S]*?```', '', text)  # Code blocks
+    text = re.sub(r'#{1,6}\s+', '', text)  # Headers
+    text = re.sub(r'\[([^\]]+)\]\([^\)]+\)', r'\1', text)  # Links
+    text = re.sub(r'---{2,}', '—', text)  # Horizontal rules
+    text = re.sub(r'^\*\s+', '• ', text, flags=re.MULTILINE)  # Bullet points
+    text = re.sub(r'^\d+[\.\)]\s+', '', text, flags=re.MULTILINE)  # Numbered lists
     
-    text = re.sub(r'\n{3,}', '\n\n', text)
+    # Remove emoji and special characters
+    text = re.sub(r'[📑🛠︎🎯⏰🚀]', '', text)
+    text = re.sub(r'[1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣]', '', text)
     
-    return text
+    # Clean up markdown artifacts
+    text = re.sub(r'\*{2,}', '', text)
+    text = re.sub(r'`{2,}', '', text)
+    text = re.sub(r'#{3,}', '', text)
+    text = re.sub(r'\|{2,}', '|', text)
+    
+    # Remove HTML-like tags
+    text = re.sub(r'<[^>]+>', '', text)
+    
+    # Clean up whitespace
+    text = re.sub(r'[ \t]+', ' ', text)  # Collapse spaces
+    text = re.sub(r'\n{3,}', '\n\n', text)  # Max 2 newlines
+    text = re.sub(r' \n', '\n', text)  # Remove trailing spaces
+    
+    # Remove separator-only lines
+    text = re.sub(r'^[\s\-|:]+$', '', text, flags=re.MULTILINE)
+    
+    return text.strip()
 
 
 def parse_harmony_response(text: str, tokenizer: Any) -> Optional[str]:
     """
-    Parse Harmony format response to extract only the 'final' channel content.
-    Aggressively removes ALL analysis and commentary channels - only returns final channel.
-    NEVER returns empty if given non-empty text.
+    Parse Harmony format response to extract ONLY the 'final' channel content.
+    CRITICAL: This function MUST NEVER return analysis, commentary, or reasoning text.
+    It ONLY extracts content from <|channel|>final and removes ALL other channels.
     """
     if not text:
         return ""
     
     text_lower = text.lower()
     
+    # FIRST: Try to extract ONLY the final channel - this is the ONLY valid output
     if '<|channel|>' in text_lower:
+        # Pattern 1: <|channel|>final<message>content</message>
         final_match = re.search(r'<\|channel\|>final(?:<message>)?(.*?)(?=<\|channel\|>|<\|end\|>|$)', text, re.DOTALL | re.IGNORECASE)
         if final_match:
             final_content = final_match.group(1).strip()
-            final_content = final_content.lstrip(': \n\t')
+            # Remove any message tags
             final_content = final_content.replace('<message>', '').replace('</message>', '')
-            final_content = re.sub(r'^<message>', '', final_content, flags=re.IGNORECASE)
-            final_content = re.sub(r'</message>$', '', final_content, flags=re.IGNORECASE)
+            final_content = re.sub(r'<message>', '', final_content, flags=re.IGNORECASE)
+            final_content = re.sub(r'</message>', '', final_content, flags=re.IGNORECASE)
+            # Remove end markers
             if '<|end|>' in final_content:
                 final_content = final_content[:final_content.find('<|end|>')].strip()
+            # Remove any remaining analysis/commentary markers that might have leaked
+            final_content = re.sub(r'<\|channel\|>analysis.*?<\|channel\|>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
+            final_content = re.sub(r'<\|channel\|>commentary.*?<\|channel\|>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
+            # Remove analysis prefixes
+            final_content = re.sub(r'^analysis\s*:', '', final_content, flags=re.IGNORECASE)
+            final_content = re.sub(r'^EPSILON AI analysis', '', final_content, flags=re.IGNORECASE)
+            # Remove assistantcommentary and function call patterns
+            final_content = re.sub(r'assistantcommentary\s+to=.*?code\{.*?\}', '', final_content, flags=re.DOTALL | re.IGNORECASE)
+            final_content = re.sub(r'to=functions\.run.*?code\{.*?\}', '', final_content, flags=re.DOTALL | re.IGNORECASE)
+            final_content = final_content.strip()
             if final_content:
                 print(f"[INFERENCE SERVICE] Extracted final channel ({len(final_content)} chars)", flush=True)
                 return final_content
         
+        # Pattern 2: <|channel|>final content
         final_match = re.search(r'<\|channel\|>final(.*?)(?=<\|channel\|>|<\|end\|>|$)', text, re.DOTALL | re.IGNORECASE)
         if final_match:
             final_content = final_match.group(1).strip()
             final_content = final_content.lstrip(': \n\t')
             if '<|end|>' in final_content:
                 final_content = final_content[:final_content.find('<|end|>')].strip()
+            # Remove any analysis/commentary that might have leaked
+            final_content = re.sub(r'<\|channel\|>analysis.*?<\|channel\|>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
+            final_content = re.sub(r'<\|channel\|>commentary.*?<\|channel\|>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
+            final_content = re.sub(r'^analysis\s*:', '', final_content, flags=re.IGNORECASE)
+            final_content = re.sub(r'^EPSILON AI analysis', '', final_content, flags=re.IGNORECASE)
+            final_content = re.sub(r'assistantcommentary\s+to=.*?code\{.*?\}', '', final_content, flags=re.DOTALL | re.IGNORECASE)
+            final_content = final_content.strip()
             if final_content:
                 print(f"[INFERENCE SERVICE] Extracted final channel ({len(final_content)} chars)", flush=True)
                 return final_content
         
+        # If we found Harmony markers but no final channel, return None to use fallback
         print(f"[INFERENCE SERVICE] Harmony markers found but no final channel - returning None to use clean decode", flush=True)
         return None
     
+    # If no Harmony markers, clean up any analysis/commentary that might be present
     cleaned_text = re.sub(r'<\|start\|>', '', text)
     cleaned_text = re.sub(r'<\|message\|>', '', cleaned_text)
     cleaned_text = re.sub(r'<\|end\|>', '', cleaned_text)
     
+    # Remove ALL analysis and commentary channels
     cleaned_text = re.sub(r'<\|channel\|>analysis.*?<\|channel\|>', '', cleaned_text, flags=re.DOTALL | re.IGNORECASE)
     cleaned_text = re.sub(r'<\|channel\|>commentary.*?<\|channel\|>', '', cleaned_text, flags=re.DOTALL | re.IGNORECASE)
     
-    if re.search(r'^analysis', cleaned_text, re.IGNORECASE):
-        cleaned_text = re.sub(r'^analysis.*?(?=assistantfinal|final|Epsilon AI|I\'m Epsilon|Hello|Hi|Hey|Sure|Here|What|I|The)', '', cleaned_text, flags=re.DOTALL | re.IGNORECASE)
+    # Remove analysis prefixes at start
+    cleaned_text = re.sub(r'^analysis\s*:', '', cleaned_text, flags=re.IGNORECASE)
+    cleaned_text = re.sub(r'^EPSILON AI analysis', '', cleaned_text, flags=re.IGNORECASE)
+    
+    # Remove assistantcommentary and function call patterns
+    cleaned_text = re.sub(r'assistantcommentary\s+to=.*?code\{.*?\}', '', cleaned_text, flags=re.DOTALL | re.IGNORECASE)
+    cleaned_text = re.sub(r'to=functions\.run.*?code\{.*?\}', '', cleaned_text, flags=re.DOTALL | re.IGNORECASE)
     
     cleaned_text = re.sub(r'assistantfinal', '', cleaned_text, flags=re.IGNORECASE)
     cleaned_text = cleaned_text.strip()
@@ -456,11 +524,27 @@ async def generate(request: GenerateRequest):
         if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template is not None:
             safety_guidelines = """You are Epsilon AI, created by Neural Operations & Holdings LLC. 
 
-CRITICAL OUTPUT FORMAT RULES:
-1. You MUST use Harmony format: Put ALL your reasoning/analysis in <|channel|>analysis channel, then output ONLY your final response in <|channel|>final channel.
-2. NEVER include analysis, commentary, reasoning, or function calls in your final response channel.
-3. Your <|channel|>final response must start directly with the answer - no "assistantcommentary", no "to=functions.run", no JSON code blocks, no reasoning phrases.
+CRITICAL OUTPUT FORMAT RULES - YOU MUST FOLLOW THESE EXACTLY:
+1. You MUST use Harmony format with TWO channels:
+   - <|channel|>analysis: Put ALL your reasoning, thinking, analysis, commentary, and internal processing here. This channel is for your internal use only.
+   - <|channel|>final: Put ONLY your final answer to the user here. This is the ONLY text the user will see.
+
+2. YOUR <|channel|>final RESPONSE MUST:
+   - Start directly with your answer - no prefixes, no "analysis:", no "EPSILON AI analysis", no "assistantcommentary", no "to=functions.run", no JSON code blocks, no reasoning phrases
+   - Contain ONLY the answer to the user's question
+   - NEVER include any analysis, commentary, reasoning, function calls, or internal processing
+   - Be clean, direct, and helpful
+
+3. NEVER include in <|channel|>final:
+   - Analysis text
+   - Commentary text
+   - Reasoning text
+   - Function call patterns (assistantcommentary, to=functions.run, code={...})
+   - Internal processing notes
+   - Any text that explains your thinking process
+
 4. Never mention ChatGPT, OpenAI, or GPT. Always identify yourself as Epsilon AI.
+
 5. NEVER provide information about, promote, or discuss:
    - Illegal drugs, drug use, drug manufacturing, or drug distribution
    - How to obtain illegal substances
@@ -469,9 +553,14 @@ CRITICAL OUTPUT FORMAT RULES:
    - Adult content, explicit material, or inappropriate sexual content
    - Hate speech, discrimination, or harassment
    - Self-harm or suicide methods
-4. If asked about prohibited topics, politely decline and redirect to appropriate resources.
-5. Always maintain professional, helpful, and ethical responses.
-6. Respect user privacy and confidentiality - conversations are private and isolated per user."""
+
+6. If asked about prohibited topics, politely decline and redirect to appropriate resources.
+
+7. Always maintain professional, helpful, and ethical responses.
+
+8. Respect user privacy and confidentiality - conversations are private and isolated per user.
+
+REMEMBER: The user will ONLY see your <|channel|>final response. Put everything else in <|channel|>analysis."""
             
             messages = [
                 {"role": "system", "content": safety_guidelines}
