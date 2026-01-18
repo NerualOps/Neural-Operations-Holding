@@ -111,6 +111,61 @@
         text-rendering: optimizeLegibility;
     }
 
+    /* Starfield Background */
+    .starfield {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        background: var(--near-black);
+        perspective: 1000px;
+        overflow: hidden;
+    }
+
+    .starfield::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(120% 120% at 20% 20%, rgba(255, 138, 61, 0.08) 0%, rgba(249, 115, 22, 0.05) 35%, transparent 70%),
+            radial-gradient(120% 120% at 80% 80%, rgba(255, 138, 61, 0.06) 0%, transparent 50%);
+        animation: gradientShift 20s ease-in-out infinite;
+    }
+
+    @keyframes gradientShift {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 0.9; }
+    }
+
+    .star {
+        position: absolute;
+        border-radius: 50%;
+        animation: twinkle linear infinite, float3d linear infinite;
+        filter: blur(0.3px);
+    }
+
+    @keyframes twinkle {
+        0%, 100% { 
+            opacity: 0.4; 
+            box-shadow: 0 0 4px currentColor;
+        }
+        50% { 
+            opacity: 0.9; 
+            box-shadow: 0 0 8px currentColor;
+        }
+    }
+
+    @keyframes float3d {
+        0% { transform: translateZ(0px); }
+        50% { transform: translateZ(150px); }
+        100% { transform: translateZ(0px); }
+    }
+
     .top-left-nav { position: fixed; top: 1.5rem; left: 1.5rem; z-index: 2000; display: flex; align-items: center; gap: 0.5rem; }
     .home-link { 
         display: inline-flex; 
@@ -560,13 +615,18 @@
         margin: 0 auto;
         padding: 3rem 2rem;
         line-height: 1.8;
+        position: relative;
+        z-index: 1;
     }
 
     .policy-title {
         font-size: 2.5rem;
         font-weight: 700;
         margin-bottom: 1rem;
-        color: var(--soft-white);
+        background: var(--flame-core);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 
     .policy-date {
@@ -901,6 +961,9 @@
           <a href="#" class="profile-dropdown-item logout" id="profileLogout">Logout</a>
       </div>
   </div>
+
+  <!-- Starfield Background -->
+  <div class="starfield" id="starfield"></div>
 
   <div class="policy-container">
       <h1 class="policy-title">Privacy Policy</h1>
@@ -1560,5 +1623,38 @@
   <!-- Analytics & Cookie Consent Scripts -->
   <script src="/analytics.js" defer></script>
   <script src="/cookie-consent.js" defer></script>
+  
+  <script>
+    // Create starfield effect - Galaxy effect
+    (function() {
+        const starfield = document.getElementById('starfield');
+        if (!starfield) return;
+        const numStars = 80;
+        
+        for (let i = 0; i < numStars; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            
+            // Smaller stars for galaxy effect (0.5px to 1.5px)
+            const size = Math.random() * 1 + 0.5;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            
+            // Keep same colors with glow effect
+            const color = i % 3 === 0 ? '#F97316' : '#FAFAFA';
+            star.style.color = color;
+            star.style.background = color;
+            star.style.boxShadow = `0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color}`;
+            star.style.borderRadius = '50%';
+            star.style.opacity = Math.random() * 0.6 + 0.4;
+            
+            star.style.animationDuration = (Math.random() * 4 + 3) + 's';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            starfield.appendChild(star);
+        }
+    })();
+  </script>
 </body>
 </html>
