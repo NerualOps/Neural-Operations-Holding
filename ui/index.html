@@ -82,7 +82,7 @@
             }
         }
 
-        /* Subtle Starfield Background */
+        /* Starfield Background */
         .starfield {
             position: fixed;
             top: 0;
@@ -105,12 +105,36 @@
             background: 
                 radial-gradient(120% 120% at 20% 20%, rgba(255, 138, 61, 0.08) 0%, rgba(249, 115, 22, 0.05) 35%, transparent 70%),
                 radial-gradient(120% 120% at 80% 80%, rgba(255, 138, 61, 0.06) 0%, transparent 50%);
-            animation: gradientShift 25s ease-in-out infinite;
+            animation: gradientShift 20s ease-in-out infinite;
         }
 
         @keyframes gradientShift {
             0%, 100% { opacity: 0.6; }
             50% { opacity: 0.9; }
+        }
+
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            animation: twinkle linear infinite, float3d linear infinite;
+            filter: blur(0.3px);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { 
+                opacity: 0.4; 
+                box-shadow: 0 0 4px currentColor;
+            }
+            50% { 
+                opacity: 0.9; 
+                box-shadow: 0 0 8px currentColor;
+            }
+        }
+
+        @keyframes float3d {
+            0% { transform: translateZ(0px); }
+            50% { transform: translateZ(150px); }
+            100% { transform: translateZ(0px); }
         }
 
         .star {
@@ -867,81 +891,36 @@
                 </div>
 
     <script defer>
-        // Generate subtle starfield
-        function createStarfield() {
-            const starfield = document.querySelector('.starfield');
-            // Safety check: validate DOM element
+        // Create starfield effect - Galaxy effect
+        (function() {
+            const starfield = document.getElementById('starfield');
             if (!starfield) return;
+            const numStars = 80;
             
-            const starCount = 80;
-            
-            for (let i = 0; i < starCount; i++) {
+            for (let i = 0; i < numStars; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 
                 // Smaller stars for galaxy effect (0.5px to 1.5px)
                 const size = Math.random() * 1 + 0.5;
-                // Safety check: validate size
-                if (!isFinite(size) || size <= 0 || size > 2) continue;
-                
                 star.style.width = size + 'px';
                 star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
                 
-                const leftPos = Math.random() * 100;
-                // Safety check: validate position
-                if (!isFinite(leftPos) || leftPos < 0 || leftPos > 100) continue;
-                
-                star.style.left = leftPos + '%';
-                const topPos = Math.random() * 100;
-                if (!isFinite(topPos) || topPos < 0 || topPos > 100) continue;
-                star.style.top = topPos + '%';
-                
-                // Color stars based on position: Blue (Epsilon AI) on right, Orange (CRM) on left
-                let color;
-                if (leftPos < 45) {
-                    // Left side - CRM Orange tones
-                    const orangeVariants = [
-                        'rgba(255, 107, 53, 0.7)',   // flame orange
-                        'rgba(255, 140, 80, 0.6)',   // lighter orange
-                        'rgba(255, 180, 120, 0.5)',  // peachy orange
-                        'rgba(255, 200, 150, 0.4)'   // soft orange
-                    ];
-                    color = orangeVariants[Math.floor(Math.random() * orangeVariants.length)];
-                } else if (leftPos > 55) {
-                    // Right side - Epsilon AI Blue tones
-                    const blueVariants = [
-                        'rgba(249, 115, 22, 0.5)',  // flame orange
-                        'rgba(90, 139, 216, 0.6)',   // deeper blue
-                        'rgba(140, 180, 230, 0.5)',  // lighter blue
-                        'rgba(180, 200, 240, 0.4)'   // soft blue
-                    ];
-                    color = blueVariants[Math.floor(Math.random() * blueVariants.length)];
-            } else {
-                    // Center - mix of both
-                    const centerVariants = [
-                        'rgba(200, 150, 180, 0.5)',  // purple mix
-                        'rgba(220, 180, 200, 0.4)',  // pink mix
-                        'rgba(255, 255, 255, 0.4)'   // white
-                    ];
-                    color = centerVariants[Math.floor(Math.random() * centerVariants.length)];
-                }
-                
-                // Galaxy effect with glow
-                star.style.background = color;
+                // Keep same colors with glow effect
+                const color = i % 3 === 0 ? '#F97316' : '#FAFAFA';
                 star.style.color = color;
+                star.style.background = color;
                 star.style.boxShadow = `0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color}`;
                 star.style.borderRadius = '50%';
                 star.style.opacity = Math.random() * 0.6 + 0.4;
-
-                // Dynamic animations
-                const twinkleDuration = Math.random() * 4 + 3;
-                const floatDuration = Math.random() * 20 + 15;
-                star.style.animation = `twinkle ${twinkleDuration}s linear infinite, float3d ${floatDuration}s ease-in-out infinite`;
-                star.style.animationDelay = `${Math.random() * 3}s, ${Math.random() * 10}s`;
                 
+                star.style.animationDuration = (Math.random() * 4 + 3) + 's';
+                star.style.animationDelay = Math.random() * 2 + 's';
                 starfield.appendChild(star);
-                }
             }
+        })();
 
         // Navigate to Epsilon AI with transition
         // Define directly on window to ensure global access after obfuscation
