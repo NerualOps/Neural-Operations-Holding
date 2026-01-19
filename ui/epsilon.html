@@ -1314,12 +1314,36 @@
         });
     };
     
+    // Track if AI is responding
+    window.isAIResponding = false;
+    window.currentTypeInterval = null;
+    
     window.sendMessage = async function() {
+        // Prevent spam - disable send button while AI is responding
+        if (window.isAIResponding) {
+            return;
+        }
+        
         var welcomeInput = document.getElementById('welcomeInput');
         var chatInput = document.getElementById('chatInput');
         var input = (welcomeInput && welcomeInput.value) ? welcomeInput.value.trim() : (chatInput && chatInput.value) ? chatInput.value.trim() : '';
         
         if (!input) return;
+        
+        // Disable send buttons
+        window.isAIResponding = true;
+        var sendBtn = document.getElementById('sendBtn');
+        var welcomeSendBtn = document.getElementById('welcomeSendBtn');
+        if (sendBtn) {
+            sendBtn.disabled = true;
+            sendBtn.style.opacity = '0.5';
+            sendBtn.style.cursor = 'not-allowed';
+        }
+        if (welcomeSendBtn) {
+            welcomeSendBtn.disabled = true;
+            welcomeSendBtn.style.opacity = '0.5';
+            welcomeSendBtn.style.cursor = 'not-allowed';
+        }
         
         var welcomeScreen = document.getElementById('welcomeScreen');
         var chatMessages = document.getElementById('chatMessages');
@@ -1352,8 +1376,7 @@
             if (thinkingText) {
                 thinkingText.innerHTML = '<div class="loading-indicator"><div class="loading-spinner"></div><span>Epsilon AI is thinking...</span></div>';
             }
-            // Scroll to top to show thinking indicator
-            window.scrollChatToTop();
+            // Thinking indicator is already at top with column-reverse, no need to scroll
         }
         
         try {
@@ -1450,16 +1473,16 @@
     window.conversationIds = window.conversationIds || {};
 
     window.scrollChatToTop = function(force) {
+        // Don't scroll - with column-reverse, newest messages are already at top
+        // Just ensure the container is positioned correctly
         var chatContainer = document.querySelector('.chat-container');
         if (!chatContainer) return;
-        // Use requestAnimationFrame for smooth scrolling
-        requestAnimationFrame(function() {
-            chatContainer.scrollTop = 0;
-            // Also try scrollIntoView as fallback
-            if (chatContainer.firstElementChild) {
-                chatContainer.firstElementChild.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
+        // Only scroll if user explicitly wants to (force = true), otherwise let natural flow work
+        if (force) {
+            requestAnimationFrame(function() {
+                chatContainer.scrollTop = 0;
+            });
+        }
     };
 
     window.escapeHtml = function(text) {
@@ -1534,11 +1557,27 @@
                 if (typeInterval) {
                     clearInterval(typeInterval);
                     typeInterval = null;
+                    window.currentTypeInterval = null;
                 }
                 if (loadingEl) loadingEl.remove();
                 if (stopBtn) stopBtn.remove();
                 textEl.innerHTML = processedText;
                 window.processCodeBlocks(textEl);
+                
+                // Re-enable send buttons when stopped
+                window.isAIResponding = false;
+                var sendBtn = document.getElementById('sendBtn');
+                var welcomeSendBtn = document.getElementById('welcomeSendBtn');
+                if (sendBtn) {
+                    sendBtn.disabled = false;
+                    sendBtn.style.opacity = '1';
+                    sendBtn.style.cursor = 'pointer';
+                }
+                if (welcomeSendBtn) {
+                    welcomeSendBtn.disabled = false;
+                    welcomeSendBtn.style.opacity = '1';
+                    welcomeSendBtn.style.cursor = 'pointer';
+                }
             };
             textEl.appendChild(stopBtn);
             
@@ -1567,8 +1606,24 @@
                 if (i >= fullText.length) {
                     clearInterval(typeInterval);
                     typeInterval = null;
+                    window.currentTypeInterval = null;
                     if (loadingEl) loadingEl.remove();
                     if (stopBtn) stopBtn.remove();
+                    
+                    // Re-enable send buttons when typing is complete
+                    window.isAIResponding = false;
+                    var sendBtn = document.getElementById('sendBtn');
+                    var welcomeSendBtn = document.getElementById('welcomeSendBtn');
+                    if (sendBtn) {
+                        sendBtn.disabled = false;
+                        sendBtn.style.opacity = '1';
+                        sendBtn.style.cursor = 'pointer';
+                    }
+                    if (welcomeSendBtn) {
+                        welcomeSendBtn.disabled = false;
+                        welcomeSendBtn.style.opacity = '1';
+                        welcomeSendBtn.style.cursor = 'pointer';
+                    }
                 }
                 
                 // Scroll to top smoothly - allow user to scroll if they want
@@ -1584,6 +1639,7 @@
             
             // Store interval for cleanup
             div._typeInterval = typeInterval;
+            window.currentTypeInterval = typeInterval;
         } else {
             // For user messages or old assistant messages, display instantly
             textEl.innerHTML = processedText;
@@ -1605,8 +1661,8 @@
         // Prepend message (newest at top) like Claude/GPT
         chatMessages.insertBefore(div, chatMessages.firstChild);
         
-        // Scroll to top to see new message - always scroll for new messages
-        window.scrollChatToTop();
+        // Don't scroll - newest message is already at top with column-reverse
+        // The message will naturally appear at the top
         
         if (role === 'assistant' && conversationId) {
             var feedbackBtns = div.querySelectorAll('.feedback-btn');
