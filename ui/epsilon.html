@@ -1593,6 +1593,21 @@
                     welcomeSendBtn.style.opacity = '1';
                     welcomeSendBtn.style.cursor = 'pointer';
                 }
+                
+                // Re-enable send buttons when stopped
+                window.isAIResponding = false;
+                var sendBtn = document.getElementById('sendBtn');
+                var welcomeSendBtn = document.getElementById('welcomeSendBtn');
+                if (sendBtn) {
+                    sendBtn.disabled = false;
+                    sendBtn.style.opacity = '1';
+                    sendBtn.style.cursor = 'pointer';
+                }
+                if (welcomeSendBtn) {
+                    welcomeSendBtn.disabled = false;
+                    welcomeSendBtn.style.opacity = '1';
+                    welcomeSendBtn.style.cursor = 'pointer';
+                }
             };
             textEl.appendChild(stopBtn);
             
