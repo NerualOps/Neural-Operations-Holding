@@ -52,7 +52,6 @@ except ImportError:
 
 HF_MODEL_ID_INTERNAL = os.getenv('EPSILON_MODEL_ID', HF_MODEL_ID)
 MODEL_ID = os.getenv('EPSILON_DISPLAY_MODEL_ID', DISPLAY_MODEL_ID)
-# Use /workspace for model storage (usually has more space than /root)
 MODEL_DIR = Path(os.getenv('EPSILON_MODEL_DIR', '/workspace/models/epsilon-20b'))
 
 
@@ -60,7 +59,6 @@ def load_model():
     """Load Epsilon AI model using transformers - optimized for GPU"""
     global model, tokenizer, model_metadata
     
-    # Use file lock to prevent concurrent downloads from multiple workers
     lock_dir = Path(__file__).parent / '.cursor'
     lock_dir.mkdir(exist_ok=True)
     lock_path = str(lock_dir / "hf_download.lock")
@@ -89,7 +87,6 @@ def load_model():
             
             print(f"[INFERENCE SERVICE] GPU memory - Total: {total:.2f} GB, Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Free: {free:.2f} GB", flush=True)
             
-            # If GPU is mostly full, something else is using it
             if reserved > total * 0.9:
                 print(f"[INFERENCE SERVICE] WARNING: GPU memory is {reserved:.2f} GB / {total:.2f} GB reserved. Clearing...", flush=True)
                 torch.cuda.empty_cache()
@@ -97,7 +94,6 @@ def load_model():
                 gc.collect()
                 torch.cuda.empty_cache()
         
-        # Clear Hugging Face cache in home directory (but keep MODEL_DIR cache for faster re-downloads)
         hub_dir = Path.home() / ".cache" / "huggingface"
         if hub_dir.exists():
             print(f"[INFERENCE SERVICE] Clearing Hugging Face cache in home directory to free disk space...", flush=True)
@@ -108,7 +104,6 @@ def load_model():
             except Exception as e:
                 print(f"[INFERENCE SERVICE] Warning: Could not clear cache: {e}", flush=True)
         
-        # Also remove .cache folder from MODEL_DIR if it exists (created by snapshot_download)
         model_cache_dir = MODEL_DIR / ".cache"
         if model_cache_dir.exists():
             print(f"[INFERENCE SERVICE] Removing .cache folder from model directory...", flush=True)
@@ -214,7 +209,6 @@ def load_model():
         print(f"[INFERENCE SERVICE] Model loaded successfully!", flush=True)
         print(f"[INFERENCE SERVICE] Model parameters: {sum(p.numel() for p in model.parameters()):,}", flush=True)
         
-        # Log tokenizer special tokens for Harmony format debugging
         print(f"[INFERENCE SERVICE] EOS token: {tokenizer.eos_token} (ID: {tokenizer.eos_token_id})", flush=True)
         if hasattr(tokenizer, 'additional_special_tokens') and tokenizer.additional_special_tokens:
             print(f"[INFERENCE SERVICE] Additional special tokens: {tokenizer.additional_special_tokens}", flush=True)
@@ -225,8 +219,6 @@ def load_model():
         import traceback
         print(f"[INFERENCE SERVICE] ERROR: Failed to load model: {e}", flush=True)
         print(f"[INFERENCE SERVICE] Traceback: {traceback.format_exc()}", flush=True)
-        # Don't raise - allow service to start even if model loading fails
-        # The /generate endpoint will return 503 if model is not loaded
         model = None
         tokenizer = None
         model_metadata = None
@@ -312,53 +304,43 @@ def clean_markdown_text(text: str) -> str:
         line = lines[i]
         trimmed = line.strip()
         
-        # Detect markdown tables
         if '|' in trimmed and trimmed.count('|') >= 2:
-            # Check if it's not just a separator line
             if trimmed.replace('|', '').replace('-', '').replace(':', '').replace(' ', '').strip():
                 table_rows = []
                 is_separator_line = False
                 
-                # Collect all table rows
                 while i < len(lines):
                     current_line = lines[i].strip()
                     if not current_line or '|' not in current_line or current_line.count('|') < 2:
                         break
                     
-                    # Skip separator lines like |---|---|
                     if re.match(r'^[\|\s\-:]+$', current_line):
                         is_separator_line = True
                         i += 1
                         continue
                     
-                    # Parse table cells
                     cells = [c.strip() for c in current_line.split('|')]
                     if cells and cells[0] == '':
                         cells.pop(0)
                     if cells and cells[-1] == '':
                         cells.pop()
                     
-                    # Filter out empty cells and separator-only cells
                     cells = [c for c in cells if c and not re.match(r'^[\s\-:]+$', c)]
                     
                     if cells:
                         table_rows.append(cells)
                     i += 1
                 
-                # Convert table to clean text format
                 if table_rows:
-                    result.append('')  # Add spacing before table
+                    result.append('')
                     for row in table_rows:
                         if len(row) == 2:
-                            # Two columns: format as "Key: Value"
                             result.append(f"{row[0]}: {row[1]}")
                         elif len(row) > 2:
-                            # Multiple columns: format as "Item1 • Item2 • Item3"
                             result.append(" • ".join(row))
                         else:
-                            # Single column
                             result.append(row[0])
-                    result.append('')  # Add spacing after table
+                    result.append('')
                     continue
         
         result.append(line)
@@ -366,36 +348,29 @@ def clean_markdown_text(text: str) -> str:
     
     text = '\n'.join(result)
     
-    # Remove markdown formatting
-    text = re.sub(r'\*\*(.*?)\*\*', r'\1', text)  # Bold
-    text = re.sub(r'\*(?!\*)([^\*\n]+?)(?!\*)\*', r'\1', text)  # Italic (but not bold)
-    text = re.sub(r'`([^`]+)`', r'\1', text)  # Inline code
-    text = re.sub(r'```[\s\S]*?```', '', text)  # Code blocks
-    text = re.sub(r'#{1,6}\s+', '', text)  # Headers
-    text = re.sub(r'\[([^\]]+)\]\([^\)]+\)', r'\1', text)  # Links
-    text = re.sub(r'---{2,}', '—', text)  # Horizontal rules
-    text = re.sub(r'^\*\s+', '• ', text, flags=re.MULTILINE)  # Bullet points
-    text = re.sub(r'^\d+[\.\)]\s+', '', text, flags=re.MULTILINE)  # Numbered lists
+    text = re.sub(r'\*\*(.*?)\*\*', r'\1', text)
+    text = re.sub(r'\*(?!\*)([^\*\n]+?)(?!\*)\*', r'\1', text)
+    text = re.sub(r'`([^`]+)`', r'\1', text)
+    text = re.sub(r'```[\s\S]*?```', '', text)
+    text = re.sub(r'#{1,6}\s+', '', text)
+    text = re.sub(r'\[([^\]]+)\]\([^\)]+\)', r'\1', text)
+    text = re.sub(r'---{2,}', '—', text)
+    text = re.sub(r'^\*\s+', '• ', text, flags=re.MULTILINE)
+    text = re.sub(r'^\d+[\.\)]\s+', '', text, flags=re.MULTILINE)
     
-    # Remove emoji and special characters
     text = re.sub(r'[📑🛠︎🎯⏰🚀]', '', text)
     text = re.sub(r'[1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣]', '', text)
     
-    # Clean up markdown artifacts
     text = re.sub(r'\*{2,}', '', text)
     text = re.sub(r'`{2,}', '', text)
     text = re.sub(r'#{3,}', '', text)
     text = re.sub(r'\|{2,}', '|', text)
     
-    # Remove HTML-like tags
     text = re.sub(r'<[^>]+>', '', text)
     
-    # Clean up whitespace
-    text = re.sub(r'[ \t]+', ' ', text)  # Collapse spaces
-    text = re.sub(r'\n{3,}', '\n\n', text)  # Max 2 newlines
-    text = re.sub(r' \n', '\n', text)  # Remove trailing spaces
-    
-    # Remove separator-only lines
+    text = re.sub(r'[ \t]+', ' ', text)
+    text = re.sub(r'\n{3,}', '\n\n', text)
+    text = re.sub(r' \n', '\n', text)
     text = re.sub(r'^[\s\-|:]+$', '', text, flags=re.MULTILINE)
     
     return text.strip()
@@ -412,26 +387,19 @@ def parse_harmony_response(text: str, tokenizer: Any) -> Optional[str]:
     
     text_lower = text.lower()
     
-    # FIRST: Try to extract ONLY the final channel - this is the ONLY valid output
     if '<|channel|>' in text_lower:
-        # Pattern 1: <|channel|>final<message>content</message>
         final_match = re.search(r'<\|channel\|>final(?:<message>)?(.*?)(?=<\|channel\|>|<\|end\|>|$)', text, re.DOTALL | re.IGNORECASE)
         if final_match:
             final_content = final_match.group(1).strip()
-            # Remove any message tags
             final_content = final_content.replace('<message>', '').replace('</message>', '')
             final_content = re.sub(r'<message>', '', final_content, flags=re.IGNORECASE)
             final_content = re.sub(r'</message>', '', final_content, flags=re.IGNORECASE)
-            # Remove end markers
             if '<|end|>' in final_content:
                 final_content = final_content[:final_content.find('<|end|>')].strip()
-            # Remove any remaining analysis/commentary markers that might have leaked
             final_content = re.sub(r'<\|channel\|>analysis.*?<\|channel\|>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
             final_content = re.sub(r'<\|channel\|>commentary.*?<\|channel\|>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
-            # Remove analysis prefixes
             final_content = re.sub(r'^analysis\s*:', '', final_content, flags=re.IGNORECASE)
             final_content = re.sub(r'^EPSILON AI analysis', '', final_content, flags=re.IGNORECASE)
-            # Remove assistantcommentary and function call patterns
             final_content = re.sub(r'assistantcommentary\s+to=.*?code\{.*?\}', '', final_content, flags=re.DOTALL | re.IGNORECASE)
             final_content = re.sub(r'to=functions\.run.*?code\{.*?\}', '', final_content, flags=re.DOTALL | re.IGNORECASE)
             final_content = final_content.strip()
@@ -439,14 +407,12 @@ def parse_harmony_response(text: str, tokenizer: Any) -> Optional[str]:
                 print(f"[INFERENCE SERVICE] Extracted final channel ({len(final_content)} chars)", flush=True)
                 return final_content
         
-        # Pattern 2: <|channel|>final content
         final_match = re.search(r'<\|channel\|>final(.*?)(?=<\|channel\|>|<\|end\|>|$)', text, re.DOTALL | re.IGNORECASE)
         if final_match:
             final_content = final_match.group(1).strip()
             final_content = final_content.lstrip(': \n\t')
             if '<|end|>' in final_content:
                 final_content = final_content[:final_content.find('<|end|>')].strip()
-            # Remove any analysis/commentary that might have leaked
             final_content = re.sub(r'<\|channel\|>analysis.*?<\|channel\|>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
             final_content = re.sub(r'<\|channel\|>commentary.*?<\|channel\|>', '', final_content, flags=re.DOTALL | re.IGNORECASE)
             final_content = re.sub(r'^analysis\s*:', '', final_content, flags=re.IGNORECASE)
@@ -457,24 +423,19 @@ def parse_harmony_response(text: str, tokenizer: Any) -> Optional[str]:
                 print(f"[INFERENCE SERVICE] Extracted final channel ({len(final_content)} chars)", flush=True)
                 return final_content
         
-        # If we found Harmony markers but no final channel, return None to use fallback
         print(f"[INFERENCE SERVICE] Harmony markers found but no final channel - returning None to use clean decode", flush=True)
         return None
     
-    # If no Harmony markers, clean up any analysis/commentary that might be present
     cleaned_text = re.sub(r'<\|start\|>', '', text)
     cleaned_text = re.sub(r'<\|message\|>', '', cleaned_text)
     cleaned_text = re.sub(r'<\|end\|>', '', cleaned_text)
     
-    # Remove ALL analysis and commentary channels
     cleaned_text = re.sub(r'<\|channel\|>analysis.*?<\|channel\|>', '', cleaned_text, flags=re.DOTALL | re.IGNORECASE)
     cleaned_text = re.sub(r'<\|channel\|>commentary.*?<\|channel\|>', '', cleaned_text, flags=re.DOTALL | re.IGNORECASE)
     
-    # Remove analysis prefixes at start
     cleaned_text = re.sub(r'^analysis\s*:', '', cleaned_text, flags=re.IGNORECASE)
     cleaned_text = re.sub(r'^EPSILON AI analysis', '', cleaned_text, flags=re.IGNORECASE)
     
-    # Remove assistantcommentary and function call patterns
     cleaned_text = re.sub(r'assistantcommentary\s+to=.*?code\{.*?\}', '', cleaned_text, flags=re.DOTALL | re.IGNORECASE)
     cleaned_text = re.sub(r'to=functions\.run.*?code\{.*?\}', '', cleaned_text, flags=re.DOTALL | re.IGNORECASE)
     
@@ -562,7 +523,7 @@ CRITICAL OUTPUT FORMAT RULES - YOU MUST FOLLOW THESE EXACTLY:
 
 REMEMBER: The user will ONLY see your <|channel|>final response. Put everything else in <|channel|>analysis."""
             
-            messages = [
+        messages = [
                 {"role": "system", "content": safety_guidelines}
             ]
             
@@ -785,11 +746,9 @@ REMEMBER: The user will ONLY see your <|channel|>final response. Put everything 
         generated_text = re.sub(r'<\|return\|>', '', generated_text)
         generated_text = re.sub(r'<\|call\|>', '', generated_text)
         
-        # Remove Harmony channel markers - let parse_harmony_response extract final channel
         generated_text = re.sub(r'<\|channel\|>analysis.*?<\|channel\|>', '', generated_text, flags=re.DOTALL | re.IGNORECASE)
         generated_text = re.sub(r'<\|channel\|>commentary.*?<\|channel\|>', '', generated_text, flags=re.DOTALL | re.IGNORECASE)
         
-        # Only remove basic analysis prefix if it appears at start
         if re.search(r'^analysis', generated_text, re.IGNORECASE):
             generated_text = re.sub(r'^analysis.*?(?=assistantfinal|final|Epsilon AI|I\'m Epsilon|Hello|Hi|Hey|Sure|Here|What|I|The)', '', generated_text, flags=re.DOTALL | re.IGNORECASE)
         

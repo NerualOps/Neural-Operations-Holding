@@ -958,18 +958,15 @@
                 </div>
 
     <script>
-    // IMMEDIATE auth check - runs synchronously before page fully loads to prevent flash
     (function() {
         var userStr = localStorage.getItem('epsilon_user');
         var topRightAuth = document.getElementById('topRightAuth');
         var topRightProfile = document.querySelector('.top-right-profile');
         
-        // If user exists in localStorage, hide auth buttons immediately
         if (userStr) {
             try {
                 var user = JSON.parse(userStr);
                 if (user && user.id && user.email) {
-                    // User is logged in - hide auth buttons immediately, show profile
                     if (topRightAuth) {
                         topRightAuth.style.display = 'none';
                         topRightAuth.style.visibility = 'hidden';
@@ -978,14 +975,11 @@
                     if (topRightProfile) {
                         topRightProfile.style.display = 'flex';
                     }
-                    return; // Exit early - profile bubble will be styled by initProfileBubble
+                    return;
                 }
             } catch (e) {
-                // Invalid user data - show auth buttons
             }
         }
-        
-        // No user or invalid - show auth buttons
         if (topRightAuth) {
             topRightAuth.style.display = 'flex';
             topRightAuth.style.visibility = 'visible';
@@ -1002,7 +996,6 @@
         var topRightProfile = document.querySelector('.top-right-profile');
         var topRightAuth = document.getElementById('topRightAuth');
         
-        // If no user, hide profile bubble and show auth buttons
         if (!userStr) {
             if (topRightProfile) {
                 topRightProfile.style.display = 'none';
@@ -1021,7 +1014,6 @@
         try {
             user = JSON.parse(userStr);
             if (!user || !user.id || !user.email) {
-                // Invalid user data
                 if (topRightProfile) topRightProfile.style.display = 'none';
                 if (topRightAuth) {
                     topRightAuth.style.display = 'flex';
@@ -1031,7 +1023,6 @@
                 return;
             }
         } catch (error) {
-            // Invalid JSON
             if (topRightProfile) topRightProfile.style.display = 'none';
             if (topRightAuth) {
                 topRightAuth.style.display = 'flex';
@@ -1043,8 +1034,6 @@
         
         var profileData = null;
         
-        // Refresh user role and avatar from server (non-blocking, uses cached data if slow)
-        // Use Promise.race to prevent slow API from blocking UI
         var profilePromise = fetch('/api/profile/me', {
             method: 'GET',
             credentials: 'include'
@@ -1055,7 +1044,6 @@
             return null;
         }).catch(() => null);
         
-        // Timeout after 300ms - if API is slow, use cached data
         var timeoutPromise = new Promise(resolve => setTimeout(() => resolve(null), 300));
         
         try {
@@ -1094,7 +1082,6 @@
             avatarUrl = user.avatar || user.avatar_url;
         }
         
-        // Show profile bubble and hide auth buttons
         if (topRightProfile) {
             topRightProfile.style.display = 'flex';
             topRightProfile.style.visibility = 'visible';
@@ -1165,7 +1152,6 @@
     
     window.currentSessionId = window.currentSessionId || `session_${Date.now()}`;
     
-    // Global CSRF token function
     window.getCsrfToken = async function() {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
@@ -1193,7 +1179,6 @@
         return '';
     };
     
-    // Get file extension from language
     window.getFileExtension = function(language) {
         var extMap = {
             'javascript': 'js', 'js': 'js', 'jsx': 'jsx',
@@ -1226,11 +1211,9 @@
         return extMap[lang] || 'txt';
     };
     
-    // Process message text to detect and format code blocks
     window.processMessageText = function(text) {
         if (!text) return '';
         
-        // Detect code blocks (```code``` or ```language\ncode\n```)
         var codeBlockRegex = /```(\w+)?\n?([\s\S]*?)```/g;
         var processed = text;
         var codeBlocks = [];
@@ -1246,7 +1229,6 @@
             index++;
         }
         
-        // Replace placeholders with formatted code blocks
         codeBlocks.forEach(function(block) {
             var ext = window.getFileExtension(block.language);
             var codeBlockHtml = '<div class="code-block">' +
@@ -1259,7 +1241,6 @@
             processed = processed.replace(block.placeholder, codeBlockHtml);
         });
         
-        // Escape HTML for non-code parts (simple approach)
         var parts = processed.split(/(___CODE_BLOCK_\d+___|<div class="code-block">)/);
         var escaped = '';
         for (var i = 0; i < parts.length; i++) {
@@ -1273,7 +1254,6 @@
         return escaped;
     };
     
-    // Process code blocks in an element (for dynamic content)
     window.processCodeBlocks = function(element) {
         if (!element) return;
         var codeBlocks = element.querySelectorAll('.code-block');
@@ -1314,12 +1294,10 @@
         });
     };
     
-    // Track if AI is responding
     window.isAIResponding = false;
     window.currentTypeInterval = null;
     
     window.sendMessage = async function() {
-        // Prevent spam - disable send button while AI is responding
         if (window.isAIResponding) {
             return;
         }
@@ -1330,7 +1308,6 @@
         
         if (!input) return;
         
-        // Disable send buttons
         window.isAIResponding = true;
         var sendBtn = document.getElementById('sendBtn');
         var welcomeSendBtn = document.getElementById('welcomeSendBtn');
@@ -1363,20 +1340,17 @@
         window.addMessage('user', input);
         window.messageStartTime = Date.now();
         
-        // Store first word for chat naming
         var firstWord = input.trim().split(/\s+/)[0] || 'Chat';
         window.currentChatFirstWord = firstWord;
         
-        // Show thinking indicator while waiting for response
         var thinkingMessageId = 'thinking-' + Date.now();
-        var thinkingDiv = window.addMessage('assistant', '', null, false, true); // true = isThinking
-        if (thinkingDiv && thinkingDiv.nodeType === 1) { // Check if it's a DOM element
+        var thinkingDiv = window.addMessage('assistant', '', null, false, true);
+        if (thinkingDiv && thinkingDiv.nodeType === 1) {
             thinkingDiv.id = thinkingMessageId;
             var thinkingText = thinkingDiv.querySelector('.message-text');
             if (thinkingText) {
                 thinkingText.innerHTML = '<div class="loading-indicator"><div class="loading-spinner"></div><span>Epsilon AI is thinking...</span></div>';
             }
-            // Thinking indicator is already at top with column-reverse, no need to scroll
         }
         
         try {
@@ -1488,11 +1462,8 @@
     window.conversationIds = window.conversationIds || {};
 
     window.scrollChatToTop = function(force) {
-        // Don't scroll - with column-reverse, newest messages are already at top
-        // Just ensure the container is positioned correctly
         var chatContainer = document.querySelector('.chat-container');
         if (!chatContainer) return;
-        // Only scroll if user explicitly wants to (force = true), otherwise let natural flow work
         if (force) {
             requestAnimationFrame(function() {
                 chatContainer.scrollTop = 0;
@@ -1546,24 +1517,19 @@
         div.appendChild(roleEl);
         div.appendChild(textEl);
 
-        // Process text for code blocks
         var processedText = window.processMessageText(String(text || ''));
         
-        // Handle thinking indicator (shows while waiting for API response)
         if (role === 'assistant' && isThinking) {
             textEl.innerHTML = '<div class="loading-indicator"><div class="loading-spinner"></div><span>Epsilon AI is thinking...</span></div>';
         } else if (role === 'assistant' && !skipTypewriter) {
-            // Add loading indicator for typewriter effect
             var loadingEl = document.createElement('div');
             loadingEl.className = 'loading-indicator';
             loadingEl.innerHTML = '<div class="loading-spinner"></div><span>Epsilon AI is thinking...</span>';
             textEl.appendChild(loadingEl);
             
-            // Store loading element and interval for stop functionality
             var typeInterval = null;
             var stopBtn = null;
             
-            // Create stop button
             stopBtn = document.createElement('button');
             stopBtn.className = 'stop-button';
             stopBtn.innerHTML = '<div class="stop-icon"></div><span>Stop</span>';
@@ -1579,7 +1545,6 @@
                 textEl.innerHTML = processedText;
                 window.processCodeBlocks(textEl);
                 
-                // Re-enable send buttons when stopped
                 window.isAIResponding = false;
                 var sendBtn = document.getElementById('sendBtn');
                 var welcomeSendBtn = document.getElementById('welcomeSendBtn');
@@ -1611,7 +1576,6 @@
             };
             textEl.appendChild(stopBtn);
             
-            // Start typing effect
             var fullText = processedText;
             var i = 0;
             var chunkSize = 2;
@@ -1626,7 +1590,6 @@
                     stopBtn.style.display = 'inline-flex';
                 }
                 
-                // Use innerHTML for code blocks, but process them
                 var tempDiv = document.createElement('div');
                 tempDiv.textContent = partialText;
                 var processedPartial = window.processMessageText(tempDiv.textContent);
@@ -1640,7 +1603,6 @@
                     if (loadingEl) loadingEl.remove();
                     if (stopBtn) stopBtn.remove();
                     
-                    // Re-enable send buttons when typing is complete
                     window.isAIResponding = false;
                     var sendBtn = document.getElementById('sendBtn');
                     var welcomeSendBtn = document.getElementById('welcomeSendBtn');
@@ -1656,10 +1618,8 @@
                     }
                 }
                 
-                // Scroll to top smoothly - allow user to scroll if they want
                 var chatContainer = document.querySelector('.chat-container');
                 if (chatContainer) {
-                    // Only auto-scroll if user hasn't manually scrolled away
                     var isNearTop = chatContainer.scrollTop < 50;
                     if (isNearTop) {
                         chatContainer.scrollTop = 0;
@@ -1667,11 +1627,9 @@
                 }
             }, speedMs);
             
-            // Store interval for cleanup
             div._typeInterval = typeInterval;
             window.currentTypeInterval = typeInterval;
         } else {
-            // For user messages or old assistant messages, display instantly
             textEl.innerHTML = processedText;
             window.processCodeBlocks(textEl);
         }
@@ -1688,11 +1646,7 @@
                 '<span class="feedback-thanks">Thank you for your feedback!</span>';
             div.appendChild(feedbackWrap);
         }
-        // Prepend message (newest at top) like Claude/GPT
         chatMessages.insertBefore(div, chatMessages.firstChild);
-        
-        // Don't scroll - newest message is already at top with column-reverse
-        // The message will naturally appear at the top
         
         if (role === 'assistant' && conversationId) {
             var feedbackBtns = div.querySelectorAll('.feedback-btn');

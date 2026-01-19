@@ -1,7 +1,5 @@
 // Main Express server with Epsilon AI system integration
 // © 2025 Neural Ops – a division of Neural Operation's & Holding's LLC. All rights reserved.
-
-// Log immediately using process.stdout.write to bypass any buffering
 process.stdout.write('========================================\n');
 process.stdout.write('[SERVER] NeuralOps Server Starting\n');
 process.stdout.write('[SERVER] Node.js: ' + process.version + '\n');
@@ -14,7 +12,6 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 
-// Load environment variables early so downstream modules see them
 if (process.env.NODE_ENV !== 'production') {
   const dotenvPath = path.join(process.cwd(), '.env');
   try {
@@ -29,7 +26,6 @@ const _silentLog = () => {};
 const _silentInfo = () => {};
 const _silentDebug = () => {};
 
-// Only log critical startup info and errors/warnings
 if (!process.env.SUPABASE_URL) {
   console.warn('[EPSILON-SERVER] SUPABASE_URL is not set');
 }
@@ -42,7 +38,6 @@ const { serveObfuscatedFile } = require('./production-obfuscation');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-// Structured Logger for Server (EpsilonLog equivalent)
 const EpsilonLog = (() => {
   const sinks = [];
   const addSink = fn => sinks.push(fn);
@@ -57,7 +52,6 @@ const EpsilonLog = (() => {
       traceId: ctx.traceId || ctx.requestId || require('crypto').randomUUID(),
       ...ctx
     };
-    // Only log errors and warnings - silent for info/debug/log
     if (level === 'error') {
       console.error('[EPSILON-SERVER]', code, msg, ctx);
     } else if (level === 'warn') {
@@ -75,7 +69,6 @@ const EpsilonLog = (() => {
   };
 })();
 
-// Global guard for server module
 if (global.__EPSILON_SERVER_INITED__) { 
   EpsilonLog.warn('SERVER_DUP', 'Server module already initialized');
   module.exports = {}; 
@@ -85,18 +78,13 @@ global.__EPSILON_SERVER_INITED__ = true;
 
 const { createClient } = require('@supabase/supabase-js');
 const jwt = require('jsonwebtoken');
-// Removed lambda-multipart-parser - not used, and has security vulnerabilities
-// Using multer for file uploads instead
 const pdfParse = require('pdf-parse');
 const multer = require('multer');
-// fs already imported above (line 14)
 const uuid = require('uuid');
 const helmet = require('helmet');
-// Compression only needed in production - require conditionally with safe fallback
 let compression = null;
 if (isProduction) {
   try {
-    // Use function wrapper to safely require compression
     const loadCompression = () => {
       try {
         return require('compression');
