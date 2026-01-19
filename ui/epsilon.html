@@ -1466,6 +1466,21 @@
             if (thinkingMsg) thinkingMsg.remove();
             var errorMessage = error.message || 'Failed to generate response. The AI model may not be trained yet or the service is unavailable.';
             window.addMessage('assistant', 'Error: ' + errorMessage);
+            
+            // Re-enable send buttons on error (no typewriter, so enable immediately)
+            window.isAIResponding = false;
+            var sendBtn = document.getElementById('sendBtn');
+            var welcomeSendBtn = document.getElementById('welcomeSendBtn');
+            if (sendBtn) {
+                sendBtn.disabled = false;
+                sendBtn.style.opacity = '1';
+                sendBtn.style.cursor = 'pointer';
+            }
+            if (welcomeSendBtn) {
+                welcomeSendBtn.disabled = false;
+                welcomeSendBtn.style.opacity = '1';
+                welcomeSendBtn.style.cursor = 'pointer';
+            }
         }
     };
     
