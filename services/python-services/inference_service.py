@@ -524,17 +524,17 @@ CRITICAL OUTPUT FORMAT RULES - YOU MUST FOLLOW THESE EXACTLY:
 REMEMBER: The user will ONLY see your <|channel|>final response. Put everything else in <|channel|>analysis."""
             
         messages = [
-                {"role": "system", "content": safety_guidelines}
-            ]
-            
-            if request.conversation_history:
-                for msg in request.conversation_history:
-                    if isinstance(msg, dict) and 'role' in msg and 'content' in msg:
-                        messages.append({"role": msg['role'], "content": msg['content']})
-            
-            messages.append({"role": "user", "content": request.prompt})
-            formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-            print(f"[INFERENCE SERVICE] Harmony format prompt (first 200 chars): {formatted_prompt[:200]}", flush=True)
+            {"role": "system", "content": safety_guidelines}
+        ]
+        
+        if request.conversation_history:
+            for msg in request.conversation_history:
+                if isinstance(msg, dict) and 'role' in msg and 'content' in msg:
+                    messages.append({"role": msg['role'], "content": msg['content']})
+        
+        messages.append({"role": "user", "content": request.prompt})
+        formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        print(f"[INFERENCE SERVICE] Harmony format prompt (first 200 chars): {formatted_prompt[:200]}", flush=True)
         else:
             safety_guidelines = """You are Epsilon AI, created by Neural Operations & Holdings LLC. Use Harmony format: Put reasoning in <|channel|>analysis, then output ONLY your final response in <|channel|>final. Never mention ChatGPT, OpenAI, or GPT. Always identify yourself as Epsilon AI. NEVER provide information about illegal drugs, violence, unethical content, or inappropriate material. If asked about prohibited topics, politely decline."""
             
