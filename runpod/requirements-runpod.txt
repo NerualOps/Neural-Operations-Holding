@@ -9,6 +9,7 @@ uvicorn[standard]>=0.23.0
 torch>=2.1.0
 transformers>=4.35.0
 accelerate>=0.24.0
+bitsandbytes>=0.41.0
 
 # Utilities
 python-dotenv>=1.0.0
