@@ -75,24 +75,27 @@ def load_model():
             print(f"[INFERENCE SERVICE] WARNING: Low disk space ({free_gb:.2f} GB). Model requires ~40GB.", flush=True)
         
         if torch.cuda.is_available():
-            torch.cuda.empty_cache()
-            torch.cuda.synchronize()
+            num_gpus = torch.cuda.device_count()
+            print(f"[INFERENCE SERVICE] Detected {num_gpus} GPU(s)", flush=True)
+            
+            for gpu_id in range(num_gpus):
+                torch.cuda.set_device(gpu_id)
+                torch.cuda.empty_cache()
+                torch.cuda.synchronize()
+            
             gc.collect()
-            torch.cuda.empty_cache()
             
-            allocated = torch.cuda.memory_allocated(0) / (1024**3)
-            reserved = torch.cuda.memory_reserved(0) / (1024**3)
-            total = torch.cuda.get_device_properties(0).total_memory / (1024**3)
-            free = total - reserved
-            
-            print(f"[INFERENCE SERVICE] GPU memory - Total: {total:.2f} GB, Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Free: {free:.2f} GB", flush=True)
-            
-            if reserved > total * 0.9:
-                print(f"[INFERENCE SERVICE] WARNING: GPU memory is {reserved:.2f} GB / {total:.2f} GB reserved. Clearing...", flush=True)
+            for gpu_id in range(num_gpus):
+                torch.cuda.set_device(gpu_id)
                 torch.cuda.empty_cache()
-                torch.cuda.ipc_collect()
-                gc.collect()
-                torch.cuda.empty_cache()
+                allocated = torch.cuda.memory_allocated(gpu_id) / (1024**3)
+                reserved = torch.cuda.memory_reserved(gpu_id) / (1024**3)
+                total = torch.cuda.get_device_properties(gpu_id).total_memory / (1024**3)
+                free = total - reserved
+                print(f"[INFERENCE SERVICE] GPU {gpu_id} memory - Total: {total:.2f} GB, Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Free: {free:.2f} GB", flush=True)
+            
+            total_memory = sum(torch.cuda.get_device_properties(i).total_memory for i in range(num_gpus)) / (1024**3)
+            print(f"[INFERENCE SERVICE] Total GPU memory across {num_gpus} GPU(s): {total_memory:.2f} GB", flush=True)
         
         hub_dir = Path.home() / ".cache" / "huggingface"
         if hub_dir.exists():
