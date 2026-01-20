@@ -295,6 +295,14 @@ def clean_markdown_text(text: str) -> str:
     """
     if not text:
         return ""
+
+    code_blocks: List[str] = []
+
+    def _stash_code_block(m: re.Match) -> str:
+        code_blocks.append(m.group(0))
+        return f"__CODE_BLOCK_{len(code_blocks) - 1}__"
+
+    text = re.sub(r"```[\s\S]*?```", _stash_code_block, text)
     
     lines = text.split('\n')
     result = []
@@ -351,7 +359,6 @@ def clean_markdown_text(text: str) -> str:
     text = re.sub(r'\*\*(.*?)\*\*', r'\1', text)
     text = re.sub(r'\*(?!\*)([^\*\n]+?)(?!\*)\*', r'\1', text)
     text = re.sub(r'`([^`]+)`', r'\1', text)
-    text = re.sub(r'```[\s\S]*?```', '', text)
     text = re.sub(r'#{1,6}\s+', '', text)
     text = re.sub(r'\[([^\]]+)\]\([^\)]+\)', r'\1', text)
     text = re.sub(r'---{2,}', '—', text)
@@ -372,6 +379,9 @@ def clean_markdown_text(text: str) -> str:
     text = re.sub(r'\n{3,}', '\n\n', text)
     text = re.sub(r' \n', '\n', text)
     text = re.sub(r'^[\s\-|:]+$', '', text, flags=re.MULTILINE)
+
+    for idx, block in enumerate(code_blocks):
+        text = text.replace(f"__CODE_BLOCK_{idx}__", block)
     
     return text.strip()
 
