@@ -193,14 +193,23 @@ def load_model():
             total_free = sum((torch.cuda.get_device_properties(i).total_memory / (1024**3)) - (torch.cuda.memory_reserved(i) / (1024**3)) for i in range(num_gpus))
             print(f"[INFERENCE SERVICE] Total available GPU memory: {total_memory:.2f} GB, Free: {total_free:.2f} GB", flush=True)
         
+        quantization_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_use_double_quant=True,
+            bnb_4bit_quant_type="nf4"
+        )
+        
         max_memory = None
         if torch.cuda.is_available() and torch.cuda.device_count() > 1:
             max_memory = {i: "48GB" for i in range(torch.cuda.device_count())}
-            print(f"[INFERENCE SERVICE] Configuring model for {torch.cuda.device_count()} GPUs with max_memory per GPU: 48GB", flush=True)
+            print(f"[INFERENCE SERVICE] Configuring model for {torch.cuda.device_count()} GPUs with 4-bit quantization", flush=True)
+        else:
+            print(f"[INFERENCE SERVICE] Using 4-bit quantization to fit model in GPU memory", flush=True)
         
         model = AutoModelForCausalLM.from_pretrained(
             local_path,
-            dtype=torch.float16,
+            quantization_config=quantization_config,
             device_map="auto",
             max_memory=max_memory,
             trust_remote_code=True,
