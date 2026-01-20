@@ -52,7 +52,7 @@ except ImportError:
 
 HF_MODEL_ID_INTERNAL = os.getenv('EPSILON_MODEL_ID', HF_MODEL_ID)
 MODEL_ID = os.getenv('EPSILON_DISPLAY_MODEL_ID', DISPLAY_MODEL_ID)
-MODEL_DIR = Path(os.getenv('EPSILON_MODEL_DIR', '/workspace/models/epsilon-20b'))
+MODEL_DIR = Path(os.getenv('EPSILON_MODEL_DIR', '/workspace/models/epsilon-120b'))
 
 
 def load_model():
@@ -190,10 +190,16 @@ def load_model():
                 free = total - (torch.cuda.memory_reserved(0) / (1024**3))
                 print(f"[INFERENCE SERVICE] After cleanup - Free: {free:.2f} GB", flush=True)
         
+        max_memory = None
+        if torch.cuda.is_available() and torch.cuda.device_count() > 1:
+            max_memory = {i: "48GB" for i in range(torch.cuda.device_count())}
+            print(f"[INFERENCE SERVICE] Configuring model for {torch.cuda.device_count()} GPUs with max_memory per GPU: 48GB", flush=True)
+        
         model = AutoModelForCausalLM.from_pretrained(
             local_path,
             dtype=torch.float16,
             device_map="auto",
+            max_memory=max_memory,
             trust_remote_code=True,
             low_cpu_mem_usage=True,
             local_files_only=True,
