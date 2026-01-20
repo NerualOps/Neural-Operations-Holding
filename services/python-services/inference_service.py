@@ -169,26 +169,29 @@ def load_model():
             model = None
         
         if torch.cuda.is_available():
-            gc.collect()
-            torch.cuda.empty_cache()
-            torch.cuda.synchronize()
-            torch.cuda.ipc_collect()
-            torch.cuda.empty_cache()
+            num_gpus = torch.cuda.device_count()
+            print(f"[INFERENCE SERVICE] Preparing {num_gpus} GPU(s) for model loading", flush=True)
             
-            allocated = torch.cuda.memory_allocated(0) / (1024**3)
-            reserved = torch.cuda.memory_reserved(0) / (1024**3)
-            total = torch.cuda.get_device_properties(0).total_memory / (1024**3)
-            free = total - reserved
-            print(f"[INFERENCE SERVICE] GPU memory before load - Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Free: {free:.2f} GB, Total: {total:.2f} GB", flush=True)
-            
-            if free < 1.0:
-                print(f"[INFERENCE SERVICE] Warning: Low free memory ({free:.2f} GB), attempting aggressive cleanup...", flush=True)
-                gc.collect()
+            for gpu_id in range(num_gpus):
+                torch.cuda.set_device(gpu_id)
                 torch.cuda.empty_cache()
+                torch.cuda.synchronize()
                 torch.cuda.ipc_collect()
                 torch.cuda.empty_cache()
-                free = total - (torch.cuda.memory_reserved(0) / (1024**3))
-                print(f"[INFERENCE SERVICE] After cleanup - Free: {free:.2f} GB", flush=True)
+            
+            gc.collect()
+            
+            for gpu_id in range(num_gpus):
+                torch.cuda.set_device(gpu_id)
+                allocated = torch.cuda.memory_allocated(gpu_id) / (1024**3)
+                reserved = torch.cuda.memory_reserved(gpu_id) / (1024**3)
+                total = torch.cuda.get_device_properties(gpu_id).total_memory / (1024**3)
+                free = total - reserved
+                print(f"[INFERENCE SERVICE] GPU {gpu_id} memory before load - Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Free: {free:.2f} GB, Total: {total:.2f} GB", flush=True)
+            
+            total_memory = sum(torch.cuda.get_device_properties(i).total_memory for i in range(num_gpus)) / (1024**3)
+            total_free = sum((torch.cuda.get_device_properties(i).total_memory / (1024**3)) - (torch.cuda.memory_reserved(i) / (1024**3)) for i in range(num_gpus))
+            print(f"[INFERENCE SERVICE] Total available GPU memory: {total_memory:.2f} GB, Free: {total_free:.2f} GB", flush=True)
         
         max_memory = None
         if torch.cuda.is_available() and torch.cuda.device_count() > 1:
