@@ -205,8 +205,7 @@ def load_model():
             max_memory=max_memory,
             trust_remote_code=True,
             low_cpu_mem_usage=True,
-            local_files_only=True,
-            max_memory={0: "42GB"}
+            local_files_only=True
         )
         
         model_metadata = {
