@@ -67,16 +67,25 @@ echo "[5b/7] Installing web framework with exact versions..."
 pip install --no-cache-dir --force-reinstall "uvicorn[standard]==0.32.0" "fastapi==0.115.0" "click>=8.1.0,<9.0.0"
 echo "✓ Web framework installed"
 
-# 6) Install exact versions from requirements
+# 5c) Install transformers from GitHub (CRITICAL: supports gpt_oss architecture)
 echo ""
-echo "[6/7] Installing exact package versions..."
+echo "[5c/7] Installing transformers from GitHub (supports gpt_oss)..."
+pip uninstall -y transformers 2>/dev/null || true
+pip install --no-cache-dir -U git+https://github.com/huggingface/transformers.git
+pip install --no-cache-dir -U accelerate huggingface_hub safetensors
+echo "✓ Transformers installed from GitHub"
+
+# 6) Install exact versions from requirements (skip transformers - already installed)
+echo ""
+echo "[6/7] Installing remaining package versions..."
 cd /workspace
 if [ -f "runpod/requirements-runpod.txt" ]; then
-    pip install --no-cache-dir -r runpod/requirements-runpod.txt
+    # Install requirements but skip transformers line (already installed from GitHub)
+    grep -v "^git+https://github.com/huggingface/transformers.git" runpod/requirements-runpod.txt | grep -v "^#.*transformers" | pip install --no-cache-dir -r /dev/stdin || true
 else
     # Fallback: install from GitHub
     wget -q https://raw.githubusercontent.com/NerualOps/Neural-Operations-Holding/main/runpod/requirements-runpod.txt -O /tmp/requirements.txt
-    pip install --no-cache-dir -r /tmp/requirements.txt
+    grep -v "^git+https://github.com/huggingface/transformers.git" /tmp/requirements.txt | grep -v "^#.*transformers" | pip install --no-cache-dir -r /dev/stdin || true
 fi
 
 # Install optional packages (non-critical)
