@@ -517,32 +517,49 @@ def load_model():
                 )
                 print(f"[INFERENCE SERVICE] Successfully loaded model using strategy: {strategy_name}", flush=True)
                 
-                # Check if model is actually quantized (MXFP4) or fell back to bf16
+                # HARD CHECK: Verify model is loaded as MXFP4, NOT bf16 fallback
+                # If it fell back to bf16, it's ~240GB and will OOM - fail immediately
                 if hasattr(model, 'config') and hasattr(model.config, 'quantization_config'):
                     qc = model.config.quantization_config
                     if qc is not None:
+                        # Check quantization method
+                        qc_dict = qc.to_dict() if hasattr(qc, "to_dict") else (qc if isinstance(qc, dict) else {})
+                        quant_method = qc_dict.get("quant_method") if isinstance(qc_dict, dict) else None
                         qc_type = type(qc).__name__ if hasattr(qc, '__class__') else str(type(qc))
-                        print(f"[INFERENCE SERVICE] Model quantization config: {qc_type}", flush=True)
+                        
+                        print(f"[INFERENCE SERVICE] Model quantization config: {qc_type}, method: {quant_method}", flush=True)
+                        
+                        # CRITICAL: Must be MXFP4, not bf16 fallback
+                        if quant_method != "mxfp4" and "mxfp4" not in str(qc_type).lower() and "Mxfp4" not in qc_type:
+                            raise RuntimeError(
+                                f"CRITICAL: Model is NOT loaded as MXFP4 4-bit! quantization_config={qc_dict}, type={qc_type}. "
+                                f"This means Triton failed and model fell back to bf16 (~240GB, will OOM). "
+                                f"Fix Triton installation before proceeding."
+                            )
+                        print(f"[INFERENCE SERVICE] ✓ Model confirmed as MXFP4 4-bit quantization", flush=True)
                     else:
-                        print(f"[INFERENCE SERVICE] WARNING: Model config shows no quantization_config - may have fallen back to bf16!", flush=True)
+                        raise RuntimeError(
+                            "CRITICAL: Model has no quantization_config - likely fell back to bf16 (~240GB, will OOM). "
+                            "Triton is not working. Fix Triton installation before proceeding."
+                        )
                 else:
-                    # Check first parameter dtype to see if it's quantized
+                    # Check first parameter dtype - if bf16/fp16, it's not quantized
                     try:
                         first_param = next(iter(model.parameters()))
                         dtype = first_param.dtype
                         print(f"[INFERENCE SERVICE] First parameter dtype: {dtype}", flush=True)
                         if dtype == torch.bfloat16 or dtype == torch.float16:
-                            print(f"[INFERENCE SERVICE] WARNING: Model appears to be in {dtype} (not quantized). This may cause OOM!", flush=True)
-                            if not _triton_available:
-                                print(f"[INFERENCE SERVICE] CRITICAL: Triton is missing or incompatible - MXFP4 quantization was disabled, model loaded as bf16!", flush=True)
-                                print(f"[INFERENCE SERVICE] This 120B model in bf16 cannot fit on 2×A40 GPUs.", flush=True)
-                                if not triton_available:
-                                    print(f"[INFERENCE SERVICE] Install Triton: pip install 'triton==3.4.0' (match your PyTorch version)", flush=True)
-                                else:
-                                    print(f"[INFERENCE SERVICE] Fix Triton version: pip uninstall -y triton && pip install 'triton==3.4.0'", flush=True)
-                                print(f"[INFERENCE SERVICE] After fixing Triton, restart the service to load the model with quantization enabled.", flush=True)
-                    except Exception:
-                        pass
+                            raise RuntimeError(
+                                f"CRITICAL: Model loaded as {dtype} (NOT quantized)! This 120B model requires ~240GB in bf16 "
+                                f"and will OOM on 2×A40 GPUs. MXFP4 quantization failed - Triton is not working. "
+                                f"Fix Triton installation before proceeding."
+                            )
+                    except RuntimeError:
+                        raise
+                    except Exception as e:
+                        print(f"[INFERENCE SERVICE] Could not verify quantization via dtype check: {e}", flush=True)
+                        # If we can't verify, assume it's OK but warn
+                        print(f"[INFERENCE SERVICE] WARNING: Could not fully verify quantization - proceeding with caution", flush=True)
                 
                 break
             except Exception as e:

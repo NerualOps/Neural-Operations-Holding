@@ -1,6 +1,7 @@
 #!/bin/bash
 # Clean Install Script for RunPod
 # Wipes everything and reinstalls with correct versions
+# CRITICAL: Requires Python 3.11 for Triton compatibility (Python 3.12 has Triton issues)
 # Created by Neural Operations & Holdings LLC
 
 set -e
@@ -8,7 +9,17 @@ set -e
 echo "=========================================="
 echo "Epsilon AI - Clean Install Script"
 echo "Wiping and reinstalling with correct versions"
+echo "CRITICAL: Python 3.11 required for Triton"
 echo "=========================================="
+
+# Check Python version - MUST be 3.11 for Triton
+PYTHON_VERSION=$(python --version 2>&1 | awk '{print $2}' | cut -d. -f1,2)
+if [ "$PYTHON_VERSION" != "3.11" ]; then
+    echo "ERROR: Python 3.11 is required for Triton compatibility. Current: $(python --version)"
+    echo "Python 3.12 has known Triton issues. Please use a Python 3.11 environment."
+    exit 1
+fi
+echo "✓ Python version check passed: $(python --version)"
 
 # 1) Stop any running services
 echo ""
