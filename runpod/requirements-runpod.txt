@@ -5,6 +5,7 @@
 # Web framework
 fastapi==0.115.0
 uvicorn[standard]==0.32.0
+click>=8.1.0,<9.0.0  # Required by uvicorn, ensure compatibility
 
 # ML/AI libraries - CRITICAL: PyTorch 2.8.0+cu128 requires triton==3.4.0 EXACTLY
 # Install PyTorch from PyTorch index (comes with CUDA)

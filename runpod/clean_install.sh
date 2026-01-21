@@ -50,6 +50,12 @@ echo "[5/7] Installing PyTorch 2.8.0 with CUDA 12.8..."
 pip install --no-cache-dir torch==2.8.0 --index-url https://download.pytorch.org/whl/cu128
 echo "✓ PyTorch installed"
 
+# 5b) Install uvicorn/fastapi FIRST with exact versions to avoid conflicts
+echo ""
+echo "[5b/7] Installing web framework with exact versions..."
+pip install --no-cache-dir --force-reinstall "uvicorn[standard]==0.32.0" "fastapi==0.115.0" "click>=8.1.0,<9.0.0"
+echo "✓ Web framework installed"
+
 # 6) Install exact versions from requirements
 echo ""
 echo "[6/7] Installing exact package versions..."
