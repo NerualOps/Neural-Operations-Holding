@@ -235,13 +235,19 @@ def load_model():
                     print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
             else:
                 print(f"[INFERENCE SERVICE] Downloading model snapshot to local directory (this may take 10-15 minutes)...", flush=True)
-                local_path = snapshot_download(
-                    repo_id=HF_MODEL_ID_INTERNAL,
-                    local_dir=str(MODEL_DIR),
-                    local_dir_use_symlinks=False,
-                    max_workers=1,
-                    ignore_patterns=[".cache/**"],
-                )
+                # Use tqdm for visible progress
+                from tqdm import tqdm
+                import warnings
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    local_path = snapshot_download(
+                        repo_id=HF_MODEL_ID_INTERNAL,
+                        local_dir=str(MODEL_DIR),
+                        max_workers=1,
+                        ignore_patterns=[".cache/**"],
+                        resume_download=True,
+                        tqdm_class=tqdm,  # Force tqdm progress bar
+                    )
                 print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
         
         print(f"[INFERENCE SERVICE] Loading tokenizer from local path: {local_path}", flush=True)
