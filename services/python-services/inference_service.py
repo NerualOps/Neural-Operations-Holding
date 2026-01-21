@@ -315,6 +315,15 @@ def load_model():
         else:
             print(f"[INFERENCE SERVICE] Will load WITHOUT quantization_config (model may be pre-quantized or unquantized)", flush=True)
         
+        # Clear GPU cache before loading to maximize available memory
+        if torch.cuda.is_available():
+            for gpu_id in range(torch.cuda.device_count()):
+                torch.cuda.set_device(gpu_id)
+                torch.cuda.empty_cache()
+                torch.cuda.ipc_collect()
+            gc.collect()
+            print(f"[INFERENCE SERVICE] Cleared GPU cache before model load", flush=True)
+        
         print(f"[INFERENCE SERVICE] Loading model with kwargs: {list(load_kwargs.keys())}", flush=True)
         try:
             model = AutoModelForCausalLM.from_pretrained(
@@ -323,19 +332,57 @@ def load_model():
             )
         except RuntimeError as e:
             if "out of memory" in str(e).lower() or "cuda out of memory" in str(e).lower():
-                print(f"[INFERENCE SERVICE] OOM error with current config. Trying with CPU offloading enabled...", flush=True)
-                # Retry with more aggressive CPU offloading
+                print(f"[INFERENCE SERVICE] OOM error with current config. Trying with reduced memory limits...", flush=True)
+                # Clear cache again
+                if torch.cuda.is_available():
+                    for gpu_id in range(torch.cuda.device_count()):
+                        torch.cuda.set_device(gpu_id)
+                        torch.cuda.empty_cache()
+                        torch.cuda.ipc_collect()
+                    gc.collect()
+                
+                # Retry with more aggressive memory limits
                 load_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
+                Path(load_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
                 if max_memory:
-                    # Reduce GPU memory limits even more
+                    # Reduce GPU memory limits even more (safe parsing)
+                    reduced_memory = {}
                     for gpu_id in max_memory:
-                        current = int(max_memory[gpu_id].replace("GB", ""))
-                        max_memory[gpu_id] = f"{max(1, current - 4)}GB"
-                    load_kwargs["max_memory"] = max_memory
-                model = AutoModelForCausalLM.from_pretrained(
-                    local_path,
-                    **load_kwargs
-                )
+                        mem_str = str(max_memory[gpu_id])
+                        if isinstance(max_memory[gpu_id], int):
+                            current = max_memory[gpu_id]
+                        else:
+                            # Handle string like "40GB" or "40"
+                            mem_clean = mem_str.replace("GB", "").replace("GiB", "").strip()
+                            current = int(mem_clean) if mem_clean.isdigit() else 40
+                        # Reduce by 8GB more (very aggressive)
+                        reduced_memory[gpu_id] = f"{max(1, current - 8)}GB"
+                    load_kwargs["max_memory"] = reduced_memory
+                    print(f"[INFERENCE SERVICE] Reduced memory limits to: {reduced_memory}", flush=True)
+                try:
+                    model = AutoModelForCausalLM.from_pretrained(
+                        local_path,
+                        **load_kwargs
+                    )
+                except RuntimeError as e2:
+                    if "out of memory" in str(e2).lower() or "cuda out of memory" in str(e2).lower():
+                        print(f"[INFERENCE SERVICE] Still OOM with reduced limits. Trying without max_memory constraint (let transformers auto-balance)...", flush=True)
+                        # Last resort: remove max_memory and let transformers handle it
+                        if "max_memory" in load_kwargs:
+                            del load_kwargs["max_memory"]
+                        # Clear cache one more time
+                        if torch.cuda.is_available():
+                            for gpu_id in range(torch.cuda.device_count()):
+                                torch.cuda.set_device(gpu_id)
+                                torch.cuda.empty_cache()
+                                torch.cuda.ipc_collect()
+                            gc.collect()
+                        model = AutoModelForCausalLM.from_pretrained(
+                            local_path,
+                            **load_kwargs
+                        )
+                    else:
+                        raise
             else:
                 raise
         
