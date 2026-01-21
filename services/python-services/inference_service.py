@@ -15,7 +15,7 @@ import torch
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, AutoConfig
 from filelock import FileLock
 from huggingface_hub import snapshot_download
 
@@ -221,28 +221,53 @@ def load_model():
             total_free = sum((torch.cuda.get_device_properties(i).total_memory / (1024**3)) - (torch.cuda.memory_reserved(i) / (1024**3)) for i in range(num_gpus))
             print(f"[INFERENCE SERVICE] Total available GPU memory: {total_memory:.2f} GB, Free: {total_free:.2f} GB", flush=True)
         
-        quantization_config = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_compute_dtype=torch.float16,
-            bnb_4bit_use_double_quant=True,
-            bnb_4bit_quant_type="nf4"
-        )
+        # Check if model is already quantized - if so, don't pass quantization_config
+        try:
+            model_config = AutoConfig.from_pretrained(local_path, trust_remote_code=True, local_files_only=True)
+            is_already_quantized = hasattr(model_config, 'quantization_config') and model_config.quantization_config is not None
+            if is_already_quantized:
+                quant_type = type(model_config.quantization_config).__name__ if hasattr(model_config, 'quantization_config') else "unknown"
+                print(f"[INFERENCE SERVICE] Model is already quantized with {quant_type}, loading without additional quantization", flush=True)
+                quantization_config = None
+            else:
+                quantization_config = BitsAndBytesConfig(
+                    load_in_4bit=True,
+                    bnb_4bit_compute_dtype=torch.float16,
+                    bnb_4bit_use_double_quant=True,
+                    bnb_4bit_quant_type="nf4"
+                )
+                print(f"[INFERENCE SERVICE] Applying 4-bit quantization (BitsAndBytes)", flush=True)
+        except Exception as e:
+            print(f"[INFERENCE SERVICE] Could not check model config, using default quantization: {e}", flush=True)
+            quantization_config = BitsAndBytesConfig(
+                load_in_4bit=True,
+                bnb_4bit_compute_dtype=torch.float16,
+                bnb_4bit_use_double_quant=True,
+                bnb_4bit_quant_type="nf4"
+            )
         
         max_memory = None
         if torch.cuda.is_available() and torch.cuda.device_count() > 1:
             max_memory = {i: "48GB" for i in range(torch.cuda.device_count())}
-            print(f"[INFERENCE SERVICE] Configuring model for {torch.cuda.device_count()} GPUs with 4-bit quantization", flush=True)
+            print(f"[INFERENCE SERVICE] Configuring model for {torch.cuda.device_count()} GPUs", flush=True)
         else:
-            print(f"[INFERENCE SERVICE] Using 4-bit quantization to fit model in GPU memory", flush=True)
+            print(f"[INFERENCE SERVICE] Loading model on single GPU", flush=True)
+        
+        # Build kwargs - only include quantization_config if not already quantized
+        load_kwargs = {
+            "device_map": "auto",
+            "trust_remote_code": True,
+            "low_cpu_mem_usage": True,
+            "local_files_only": True
+        }
+        if max_memory:
+            load_kwargs["max_memory"] = max_memory
+        if quantization_config is not None:
+            load_kwargs["quantization_config"] = quantization_config
         
         model = AutoModelForCausalLM.from_pretrained(
             local_path,
-            quantization_config=quantization_config,
-            device_map="auto",
-            max_memory=max_memory,
-            trust_remote_code=True,
-            low_cpu_mem_usage=True,
-            local_files_only=True
+            **load_kwargs
         )
         
         model_metadata = {
