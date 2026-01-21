@@ -276,24 +276,25 @@ def load_model():
             # Can't use 8-bit if model is already quantized, but log the option
             print("[INFERENCE SERVICE] EPSILON_USE_8BIT requested but model is pre-quantized - using memory limits instead", flush=True)
         
-        # Calculate safe max_memory per GPU (leave ~4GB headroom for system/overhead)
+        # Calculate safe max_memory per GPU (leave ~8GB headroom for system/overhead and dequantization)
+        # 120B models need extra headroom during loading/dequantization
         max_memory = None
         if torch.cuda.is_available() and torch.cuda.device_count() > 1:
-            # Get actual GPU memory and set conservative limits
+            # Get actual GPU memory and set very conservative limits
             gpu_memories = {}
             for i in range(torch.cuda.device_count()):
                 total_gb = torch.cuda.get_device_properties(i).total_memory / (1024**3)
-                # Reserve 4GB for system/overhead, use rest for model
-                safe_gb = max(1, int(total_gb - 4))
+                # Reserve 8GB for system/overhead/dequantization (very conservative for 120B model)
+                safe_gb = max(1, int(total_gb - 8))
                 gpu_memories[i] = f"{safe_gb}GB"
             max_memory = gpu_memories
-            print(f"[INFERENCE SERVICE] Configuring model for {torch.cuda.device_count()} GPUs with memory limits: {max_memory}", flush=True)
+            print(f"[INFERENCE SERVICE] Configuring model for {torch.cuda.device_count()} GPUs with conservative memory limits: {max_memory}", flush=True)
         else:
             if torch.cuda.is_available():
                 total_gb = torch.cuda.get_device_properties(0).total_memory / (1024**3)
-                safe_gb = max(1, int(total_gb - 4))
+                safe_gb = max(1, int(total_gb - 8))
                 max_memory = {0: f"{safe_gb}GB"}
-                print(f"[INFERENCE SERVICE] Loading model on single GPU with memory limit: {max_memory}", flush=True)
+                print(f"[INFERENCE SERVICE] Loading model on single GPU with conservative memory limit: {max_memory}", flush=True)
             else:
                 print(f"[INFERENCE SERVICE] Loading model on CPU", flush=True)
         
@@ -325,66 +326,93 @@ def load_model():
             print(f"[INFERENCE SERVICE] Cleared GPU cache before model load", flush=True)
         
         print(f"[INFERENCE SERVICE] Loading model with kwargs: {list(load_kwargs.keys())}", flush=True)
-        try:
-            model = AutoModelForCausalLM.from_pretrained(
-                local_path,
-                **load_kwargs
-            )
-        except RuntimeError as e:
-            if "out of memory" in str(e).lower() or "cuda out of memory" in str(e).lower():
-                print(f"[INFERENCE SERVICE] OOM error with current config. Trying with reduced memory limits...", flush=True)
-                # Clear cache again
-                if torch.cuda.is_available():
-                    for gpu_id in range(torch.cuda.device_count()):
-                        torch.cuda.set_device(gpu_id)
-                        torch.cuda.empty_cache()
-                        torch.cuda.ipc_collect()
-                    gc.collect()
+        
+        # Try multiple loading strategies
+        model = None
+        load_strategies = [
+            ("Initial load with memory limits", load_kwargs.copy()),
+        ]
+        
+        # Strategy 2: Reduced memory limits
+        if max_memory:
+            reduced_kwargs = load_kwargs.copy()
+            reduced_memory = {}
+            for gpu_id in max_memory:
+                mem_val = max_memory[gpu_id]
+                # Safe parsing - handle both int and string
+                if isinstance(mem_val, (int, float)):
+                    current = int(mem_val)
+                else:
+                    mem_str = str(mem_val)
+                    mem_clean = mem_str.replace("GB", "").replace("GiB", "").replace("MB", "").strip()
+                    current = int(float(mem_clean)) if mem_clean.replace(".", "").isdigit() else 40
+                # Reduce by 10GB (very aggressive)
+                reduced_memory[gpu_id] = f"{max(1, current - 10)}GB"
+            reduced_kwargs["max_memory"] = reduced_memory
+            reduced_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
+            Path(reduced_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
+            load_strategies.append(("Reduced memory limits", reduced_kwargs))
+        
+        # Strategy 3: No max_memory, let transformers auto-balance
+        no_limit_kwargs = load_kwargs.copy()
+        if "max_memory" in no_limit_kwargs:
+            del no_limit_kwargs["max_memory"]
+        no_limit_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
+        Path(no_limit_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
+        load_strategies.append(("No memory limits (auto-balance)", no_limit_kwargs))
+        
+        # Strategy 4: Sequential device_map (load layer by layer)
+        sequential_kwargs = load_kwargs.copy()
+        if "max_memory" in sequential_kwargs:
+            del sequential_kwargs["max_memory"]
+        sequential_kwargs["device_map"] = "sequential"
+        sequential_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
+        Path(sequential_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
+        load_strategies.append(("Sequential device_map", sequential_kwargs))
+        
+        # Try each strategy
+        for strategy_name, strategy_kwargs in load_strategies:
+            if model is not None:
+                break
                 
-                # Retry with more aggressive memory limits
-                load_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
-                Path(load_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
-                if max_memory:
-                    # Reduce GPU memory limits even more (safe parsing)
-                    reduced_memory = {}
-                    for gpu_id in max_memory:
-                        mem_str = str(max_memory[gpu_id])
-                        if isinstance(max_memory[gpu_id], int):
-                            current = max_memory[gpu_id]
-                        else:
-                            # Handle string like "40GB" or "40"
-                            mem_clean = mem_str.replace("GB", "").replace("GiB", "").strip()
-                            current = int(mem_clean) if mem_clean.isdigit() else 40
-                        # Reduce by 8GB more (very aggressive)
-                        reduced_memory[gpu_id] = f"{max(1, current - 8)}GB"
-                    load_kwargs["max_memory"] = reduced_memory
-                    print(f"[INFERENCE SERVICE] Reduced memory limits to: {reduced_memory}", flush=True)
-                try:
-                    model = AutoModelForCausalLM.from_pretrained(
-                        local_path,
-                        **load_kwargs
-                    )
-                except RuntimeError as e2:
-                    if "out of memory" in str(e2).lower() or "cuda out of memory" in str(e2).lower():
-                        print(f"[INFERENCE SERVICE] Still OOM with reduced limits. Trying without max_memory constraint (let transformers auto-balance)...", flush=True)
-                        # Last resort: remove max_memory and let transformers handle it
-                        if "max_memory" in load_kwargs:
-                            del load_kwargs["max_memory"]
-                        # Clear cache one more time
-                        if torch.cuda.is_available():
-                            for gpu_id in range(torch.cuda.device_count()):
-                                torch.cuda.set_device(gpu_id)
-                                torch.cuda.empty_cache()
-                                torch.cuda.ipc_collect()
-                            gc.collect()
-                        model = AutoModelForCausalLM.from_pretrained(
-                            local_path,
-                            **load_kwargs
-                        )
-                    else:
-                        raise
-            else:
-                raise
+            print(f"[INFERENCE SERVICE] Trying strategy: {strategy_name}", flush=True)
+            
+            # Clear GPU cache before each attempt
+            if torch.cuda.is_available():
+                for gpu_id in range(torch.cuda.device_count()):
+                    torch.cuda.set_device(gpu_id)
+                    torch.cuda.empty_cache()
+                    torch.cuda.ipc_collect()
+                gc.collect()
+            
+            try:
+                model = AutoModelForCausalLM.from_pretrained(
+                    local_path,
+                    **strategy_kwargs
+                )
+                print(f"[INFERENCE SERVICE] Successfully loaded model using strategy: {strategy_name}", flush=True)
+                break
+            except Exception as e:
+                error_msg = str(e)
+                error_type = type(e).__name__
+                print(f"[INFERENCE SERVICE] Strategy '{strategy_name}' failed: {error_type}: {error_msg[:200]}", flush=True)
+                
+                # If it's an AttributeError in transformers (like the int.replace bug), try next strategy
+                if "AttributeError" in error_type or "'int' object has no attribute" in error_msg:
+                    print(f"[INFERENCE SERVICE] This appears to be a transformers library bug, trying next strategy...", flush=True)
+                    continue
+                
+                # If it's OOM, try next strategy
+                if "out of memory" in error_msg.lower() or "cuda out of memory" in error_msg.lower():
+                    print(f"[INFERENCE SERVICE] Out of memory, trying next strategy...", flush=True)
+                    continue
+                
+                # For other errors, if this is the last strategy, raise it
+                if strategy_name == load_strategies[-1][0]:
+                    raise
+        
+        if model is None:
+            raise RuntimeError("Failed to load model with all available strategies. Model may be too large for available VRAM.")
         
         model_metadata = {
             "model_id": MODEL_ID,
