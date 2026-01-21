@@ -70,9 +70,11 @@ echo "✓ Packages installed"
 # 7) Verify critical versions
 echo ""
 echo "[7/7] Verifying versions..."
-python -c "import torch; print(f'PyTorch: {torch.__version__}')"
+python -c "import torch; print(f'PyTorch: {torch.__version__}')" || (echo "ERROR: PyTorch not installed!" && exit 1)
 python -c "import triton; print(f'Triton: {triton.__version__}')" || (echo "ERROR: Triton not installed!" && exit 1)
-python -c "import transformers; print(f'Transformers: {transformers.__version__}')"
+python -c "import transformers; print(f'Transformers: {transformers.__version__}')" || (echo "ERROR: Transformers not installed!" && exit 1)
+python -c "import uvicorn; print(f'Uvicorn: {uvicorn.__version__}')" || (echo "ERROR: Uvicorn not installed!" && exit 1)
+python -c "import fastapi; print(f'FastAPI: {fastapi.__version__}')" || (echo "ERROR: FastAPI not installed!" && exit 1)
 python -c "import torch; assert '2.8.0' in torch.__version__, f'PyTorch version mismatch: {torch.__version__}'"
 python -c "import triton; assert triton.__version__ == '3.4.0', f'Triton version mismatch: {triton.__version__} (required: 3.4.0)'"
 echo "✓ Version verification passed"
