@@ -4,8 +4,14 @@ Uses the Epsilon AI model with Harmony response format
 Created by Neural Operations & Holdings LLC
 """
 import os
+import sys
+
+# Force unbuffered output for real-time logs
+sys.stdout.reconfigure(line_buffering=True) if hasattr(sys.stdout, 'reconfigure') else None
+sys.stderr.reconfigure(line_buffering=True) if hasattr(sys.stderr, 'reconfigure') else None
 
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True'
+os.environ['PYTHONUNBUFFERED'] = '1'  # Ensure unbuffered output
 
 from pathlib import Path
 from typing import Optional, List, Any
@@ -219,7 +225,6 @@ def load_model():
                     local_path = snapshot_download(
                         repo_id=HF_MODEL_ID_INTERNAL,
                         local_dir=str(MODEL_DIR),
-                        local_dir_use_symlinks=False,
                         max_workers=1,
                         ignore_patterns=[".cache/**"],
                     )
@@ -642,6 +647,8 @@ class GenerateRequest(BaseModel):
 
 
 class GenerateResponse(BaseModel):
+    model_config = {'protected_namespaces': ()}  # Allow "model_" prefix
+    
     text: str
     model_id: Optional[str] = None
     tokens: dict
