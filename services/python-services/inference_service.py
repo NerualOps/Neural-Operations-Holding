@@ -221,30 +221,37 @@ def load_model():
             total_free = sum((torch.cuda.get_device_properties(i).total_memory / (1024**3)) - (torch.cuda.memory_reserved(i) / (1024**3)) for i in range(num_gpus))
             print(f"[INFERENCE SERVICE] Total available GPU memory: {total_memory:.2f} GB, Free: {total_free:.2f} GB", flush=True)
         
-        # Check if model is already quantized - if so, don't pass quantization_config
+        # Quantization handling:
+        # Some repos are already quantized (e.g. Mxfp4). Passing a different quantization_config
+        # (e.g. BitsAndBytesConfig) will hard-fail with a config mismatch.
+        #
+        # Default behavior: do NOT force BitsAndBytes. Only enable it if explicitly requested.
+        force_bnb_4bit = os.getenv("EPSILON_FORCE_BNB_4BIT", "").strip() in {"1", "true", "True", "yes", "YES"}
+        quantization_config = None
+
         try:
             model_config = AutoConfig.from_pretrained(local_path, trust_remote_code=True, local_files_only=True)
-            is_already_quantized = hasattr(model_config, 'quantization_config') and model_config.quantization_config is not None
-            if is_already_quantized:
-                quant_type = type(model_config.quantization_config).__name__ if hasattr(model_config, 'quantization_config') else "unknown"
-                print(f"[INFERENCE SERVICE] Model is already quantized with {quant_type}, loading without additional quantization", flush=True)
-                quantization_config = None
-            else:
-                quantization_config = BitsAndBytesConfig(
-                    load_in_4bit=True,
-                    bnb_4bit_compute_dtype=torch.float16,
-                    bnb_4bit_use_double_quant=True,
-                    bnb_4bit_quant_type="nf4"
+            cfg_dict = model_config.to_dict() if hasattr(model_config, "to_dict") else {}
+            qc = getattr(model_config, "quantization_config", None) or cfg_dict.get("quantization_config")
+            if qc is not None:
+                qc_type = type(qc).__name__
+                print(
+                    f"[INFERENCE SERVICE] Model is already quantized ({qc_type}); loading without overriding quantization",
+                    flush=True,
                 )
-                print(f"[INFERENCE SERVICE] Applying 4-bit quantization (BitsAndBytes)", flush=True)
+                force_bnb_4bit = False
         except Exception as e:
-            print(f"[INFERENCE SERVICE] Could not check model config, using default quantization: {e}", flush=True)
+            # If config can't be read, stay conservative: don't force quantization.
+            print(f"[INFERENCE SERVICE] Could not inspect model quantization config: {e}", flush=True)
+
+        if force_bnb_4bit:
             quantization_config = BitsAndBytesConfig(
                 load_in_4bit=True,
                 bnb_4bit_compute_dtype=torch.float16,
                 bnb_4bit_use_double_quant=True,
-                bnb_4bit_quant_type="nf4"
+                bnb_4bit_quant_type="nf4",
             )
+            print("[INFERENCE SERVICE] EPSILON_FORCE_BNB_4BIT enabled; applying BitsAndBytes 4-bit quantization", flush=True)
         
         max_memory = None
         if torch.cuda.is_available() and torch.cuda.device_count() > 1:
