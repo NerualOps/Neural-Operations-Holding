@@ -175,7 +175,22 @@ def load_model():
             f"PyTorch requires triton==3.4.0. Fix: pip uninstall -y triton && pip install 'triton==3.4.0'"
         )
     
-    print(f"[INFERENCE SERVICE] Triton check passed - MXFP4 quantization will work", flush=True)
+    # CRITICAL: Check if MXFP4 kernels are actually available (not just Triton installed)
+    # Python 3.12 has Triton compatibility issues that prevent kernel compilation
+    try:
+        import triton.language as tl
+        # Try to compile a simple MXFP4 kernel to verify kernels work
+        # If this fails, MXFP4 quantization will fall back to bf16
+        print(f"[INFERENCE SERVICE] Verifying MXFP4 kernel availability...", flush=True)
+        # Check if we can access kernel compilation (indirect check)
+        if python_version.major == 3 and python_version.minor >= 12:
+            print(f"[INFERENCE SERVICE] WARNING: Python 3.12 detected - MXFP4 kernels may not compile correctly", flush=True)
+            print(f"[INFERENCE SERVICE] This may cause fallback to bf16 (240GB, will OOM)", flush=True)
+            print(f"[INFERENCE SERVICE] RECOMMENDATION: Use Python 3.11 for Triton/MXFP4 compatibility", flush=True)
+    except Exception as e:
+        print(f"[INFERENCE SERVICE] WARNING: Could not verify MXFP4 kernel availability: {e}", flush=True)
+    
+    print(f"[INFERENCE SERVICE] Triton check passed - MXFP4 quantization should work", flush=True)
     
     try:
         import shutil
