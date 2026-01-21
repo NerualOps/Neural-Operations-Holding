@@ -18,10 +18,11 @@ pkill -9 -f "uvicorn inference_service" 2>/dev/null || true
 sleep 2
 echo "✓ Services stopped"
 
-# 2) Clean Python packages (keep system Python)
+# 2) Clean Python packages (keep system Python and essential packages)
 echo ""
 echo "[2/7] Cleaning Python packages..."
-pip freeze | grep -v "^#" | xargs pip uninstall -y 2>/dev/null || true
+# Don't uninstall everything - keep pip, setuptools, wheel
+pip freeze | grep -v "^#" | grep -v "^pip=" | grep -v "^setuptools=" | grep -v "^wheel=" | xargs pip uninstall -y 2>/dev/null || true
 echo "✓ Packages uninstalled"
 
 # 3) Clean model cache and downloads
@@ -60,6 +61,10 @@ else
     wget -q https://raw.githubusercontent.com/NerualOps/Neural-Operations-Holding/main/runpod/requirements-runpod.txt -O /tmp/requirements.txt
     pip install --no-cache-dir -r /tmp/requirements.txt
 fi
+
+# Verify critical packages are installed
+python -c "import uvicorn" || pip install --no-cache-dir "uvicorn[standard]==0.32.0"
+python -c "import fastapi" || pip install --no-cache-dir "fastapi==0.115.0"
 echo "✓ Packages installed"
 
 # 7) Verify critical versions
