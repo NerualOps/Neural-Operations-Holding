@@ -162,31 +162,19 @@ def load_model():
                 print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
         
         print(f"[INFERENCE SERVICE] Loading tokenizer from local path: {local_path}", flush=True)
-        # Check if tokenizer files exist, if not download them
-        tokenizer_files = ['tokenizer.json', 'tokenizer_config.json', 'vocab.json', 'merges.txt', 'special_tokens_map.json']
-        has_tokenizer_files = any((Path(local_path) / f).exists() for f in tokenizer_files)
-        
-        if not has_tokenizer_files:
-            print(f"[INFERENCE SERVICE] Tokenizer files missing locally, downloading from HuggingFace...", flush=True)
+        # Try to load tokenizer - if ANY error occurs, download fresh from HuggingFace
+        # This handles missing files, corrupted files, or any initialization errors
+        try:
             tokenizer = AutoTokenizer.from_pretrained(
-                HF_MODEL_ID_INTERNAL,
+                local_path,
                 trust_remote_code=True,
-                cache_dir=str(MODEL_DIR),
-                local_dir_use_symlinks=False
+                local_files_only=True
             )
-            # Save tokenizer to local path for next time
-            tokenizer.save_pretrained(local_path)
-            print(f"[INFERENCE SERVICE] Tokenizer downloaded and saved to {local_path}", flush=True)
-        else:
-            # Try local first, but if it fails (corrupted/incomplete), download fresh
+            print(f"[INFERENCE SERVICE] Tokenizer loaded successfully from local path", flush=True)
+        except Exception as e:
+            # ANY exception means we need to download fresh - corrupted, missing, or incompatible files
+            print(f"[INFERENCE SERVICE] Tokenizer load failed ({type(e).__name__}: {str(e)[:200]}), downloading fresh from HuggingFace...", flush=True)
             try:
-                tokenizer = AutoTokenizer.from_pretrained(
-                    local_path,
-                    trust_remote_code=True,
-                    local_files_only=True
-                )
-            except (OSError, ValueError, AttributeError, TypeError) as e:
-                print(f"[INFERENCE SERVICE] Tokenizer load failed ({type(e).__name__}: {e}), downloading fresh from HuggingFace...", flush=True)
                 tokenizer = AutoTokenizer.from_pretrained(
                     HF_MODEL_ID_INTERNAL,
                     trust_remote_code=True,
@@ -196,6 +184,9 @@ def load_model():
                 # Save tokenizer to local path for next time
                 tokenizer.save_pretrained(local_path)
                 print(f"[INFERENCE SERVICE] Tokenizer downloaded and saved to {local_path}", flush=True)
+            except Exception as download_error:
+                print(f"[INFERENCE SERVICE] CRITICAL: Failed to download tokenizer: {download_error}", flush=True)
+                raise
         
         print(f"[INFERENCE SERVICE] Loading model on GPU from local path: {local_path}", flush=True)
         
