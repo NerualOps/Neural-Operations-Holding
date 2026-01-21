@@ -499,12 +499,19 @@ def load_model():
         # CONFIG_MAPPING should already be patched above when we read config.json
         # Build kwargs - use balanced_low_0 for better GPU distribution
         # trust_remote_code=True is CRITICAL for custom architectures
+        # Pass config explicitly to bypass CONFIG_MAPPING lookup
         load_kwargs = {
             "device_map": "balanced_low_0",  # Better GPU distribution than "auto"
             "trust_remote_code": True,  # CRITICAL: This allows loading custom architectures
             "low_cpu_mem_usage": True,
             "local_files_only": True
         }
+        
+        # CRITICAL: Pass config explicitly to bypass internal AutoConfig.from_pretrained() call
+        # This prevents the CONFIG_MAPPING KeyError for unknown architectures
+        if model_config_obj is not None:
+            load_kwargs["config"] = model_config_obj
+            print(f"[INFERENCE SERVICE] Passing explicit config to from_pretrained() to bypass CONFIG_MAPPING lookup", flush=True)
         
         if max_memory:
             load_kwargs["max_memory"] = max_memory
@@ -594,16 +601,7 @@ def load_model():
                 gc.collect()
             
             try:
-                # Verify CONFIG_MAPPING is still patched before loading
-                if model_type:
-                    try:
-                        from transformers.models.auto.configuration_auto import CONFIG_MAPPING
-                        if model_type not in CONFIG_MAPPING:
-                            print(f"[INFERENCE SERVICE] WARNING: '{model_type}' missing from CONFIG_MAPPING, re-patching...", flush=True)
-                            patch_config_mapping_for_model_type(model_type)
-                    except Exception as e:
-                        print(f"[INFERENCE SERVICE] Could not verify CONFIG_MAPPING before load: {e}", flush=True)
-                
+                # Config is already loaded and passed in strategy_kwargs, so we can load directly
                 model = AutoModelForCausalLM.from_pretrained(
                     local_path,
                     **strategy_kwargs
