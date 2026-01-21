@@ -266,8 +266,6 @@ def load_model():
                     print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
             else:
                 print(f"[INFERENCE SERVICE] Downloading model snapshot to local directory (this may take 10-15 minutes)...", flush=True)
-                # Use tqdm for visible progress
-                from tqdm import tqdm
                 import warnings
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore")
@@ -276,8 +274,7 @@ def load_model():
                         local_dir=str(MODEL_DIR),
                         max_workers=1,
                         ignore_patterns=[".cache/**"],
-                        resume_download=True,
-                        tqdm_class=tqdm,  # Force tqdm progress bar
+                        resume_download=True
                     )
                 print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
         
