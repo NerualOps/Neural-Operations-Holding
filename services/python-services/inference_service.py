@@ -107,14 +107,22 @@ def load_model():
             except Exception as e:
                 print(f"[INFERENCE SERVICE] Warning: Could not clear cache: {e}", flush=True)
         
-        model_cache_dir = MODEL_DIR / ".cache"
-        if model_cache_dir.exists():
-            print(f"[INFERENCE SERVICE] Removing .cache folder from model directory...", flush=True)
-            try:
-                shutil.rmtree(model_cache_dir)
-                print(f"[INFERENCE SERVICE] Removed .cache folder from {MODEL_DIR}", flush=True)
-            except Exception as e:
-                print(f"[INFERENCE SERVICE] Warning: Could not remove model cache: {e}", flush=True)
+        # NOTE:
+        # Deleting the model directory cache can race with HF downloads/extracts and emit
+        # noisy "Directory not empty" warnings (e.g. subdir "metal"). Make this opt-in.
+        if os.getenv("EPSILON_CLEAR_MODEL_CACHE", "").strip() in {"1", "true", "True", "yes", "YES"}:
+            model_cache_dir = MODEL_DIR / ".cache"
+            if model_cache_dir.exists():
+                print(
+                    f"[INFERENCE SERVICE] EPSILON_CLEAR_MODEL_CACHE enabled; removing {model_cache_dir} ...",
+                    flush=True,
+                )
+                try:
+                    shutil.rmtree(model_cache_dir, ignore_errors=True)
+                    print(f"[INFERENCE SERVICE] Removed {model_cache_dir}", flush=True)
+                except Exception as e:
+                    # ignore_errors=True should prevent most failures, but keep it non-fatal regardless.
+                    print(f"[INFERENCE SERVICE] Warning: Could not remove model cache: {e}", flush=True)
         
         with FileLock(lock_path, timeout=60 * 60):
             Path(MODEL_DIR).mkdir(parents=True, exist_ok=True)
