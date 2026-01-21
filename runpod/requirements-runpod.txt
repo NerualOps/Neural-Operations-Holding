@@ -27,7 +27,7 @@ pydantic==2.9.2
 protobuf==5.28.3
 filelock==3.16.1
 # huggingface_hub installed with transformers
-tqdm>=4.66.0  # Required for download progress bars
+tqdm>=4.66.0,<5.0.0  # Required for download progress bars - latest version supports 'name' parameter
 # hf-transfer is optional (only speeds up downloads) - install separately if needed
 # hf-transfer>=0.1.9
 
