@@ -233,16 +233,32 @@ def load_model():
             model_config = AutoConfig.from_pretrained(local_path, trust_remote_code=True, local_files_only=True)
             cfg_dict = model_config.to_dict() if hasattr(model_config, "to_dict") else {}
             qc = getattr(model_config, "quantization_config", None) or cfg_dict.get("quantization_config")
+            
+            # Also check config.json directly as fallback
+            if qc is None:
+                import json
+                config_json_path = Path(local_path) / "config.json"
+                if config_json_path.exists():
+                    with open(config_json_path, 'r') as f:
+                        config_data = json.load(f)
+                        qc = config_data.get("quantization_config")
+            
             if qc is not None:
-                qc_type = type(qc).__name__
+                qc_type = type(qc).__name__ if hasattr(qc, '__class__') else str(type(qc))
                 print(
                     f"[INFERENCE SERVICE] Model is already quantized ({qc_type}); loading without overriding quantization",
                     flush=True,
                 )
                 force_bnb_4bit = False
+                quantization_config = None
+            else:
+                print(f"[INFERENCE SERVICE] Model does not appear to be pre-quantized", flush=True)
         except Exception as e:
             # If config can't be read, stay conservative: don't force quantization.
             print(f"[INFERENCE SERVICE] Could not inspect model quantization config: {e}", flush=True)
+            print(f"[INFERENCE SERVICE] Defaulting to NO quantization (safe fallback)", flush=True)
+            force_bnb_4bit = False
+            quantization_config = None
 
         if force_bnb_4bit:
             quantization_config = BitsAndBytesConfig(
@@ -271,7 +287,11 @@ def load_model():
             load_kwargs["max_memory"] = max_memory
         if quantization_config is not None:
             load_kwargs["quantization_config"] = quantization_config
+            print(f"[INFERENCE SERVICE] Will load with quantization_config: {type(quantization_config).__name__}", flush=True)
+        else:
+            print(f"[INFERENCE SERVICE] Will load WITHOUT quantization_config (model may be pre-quantized or unquantized)", flush=True)
         
+        print(f"[INFERENCE SERVICE] Loading model with kwargs: {list(load_kwargs.keys())}", flush=True)
         model = AutoModelForCausalLM.from_pretrained(
             local_path,
             **load_kwargs
