@@ -25,8 +25,6 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from filelock import FileLock
 from huggingface_hub import snapshot_download
 
-# CRITICAL: Patch CONFIG_MAPPING early to support custom architectures (e.g. gpt_oss)
-# This must happen before any AutoConfig.from_pretrained() calls
 try:
     from transformers.models.auto.configuration_auto import CONFIG_MAPPING
     from transformers.models.auto.modeling_auto import MODEL_FOR_CAUSAL_LM_MAPPING
@@ -394,14 +392,9 @@ def load_model():
         else:
             print(f"[INFERENCE SERVICE] WARNING: config.json not found at {config_json_path}", flush=True)
         
-        # Quantization handling:
-        # Some repos are already quantized (e.g. Mxfp4). Passing a different quantization_config
-        # (e.g. BitsAndBytesConfig) will hard-fail with a config mismatch.
-        #
-        # Default behavior: Use BitsAndBytes on Python 3.12+ (MXFP4 won't work), otherwise use MXFP4
         force_bnb_4bit = use_bitsandbytes or os.getenv("EPSILON_FORCE_BNB_4BIT", "").strip() in {"1", "true", "True", "yes", "YES"}
         if use_bitsandbytes:
-            print(f"[INFERENCE SERVICE] Forcing BitsAndBytes 4-bit quantization (Python 3.12+ requires it)", flush=True)
+            print(f"[INFERENCE SERVICE] Using BitsAndBytes 4-bit (Python 3.12+ compatibility)", flush=True)
         quantization_config = None
         model_is_pre_quantized = False
 
