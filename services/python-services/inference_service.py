@@ -164,18 +164,22 @@ def load_model():
     # Check PyTorch version
     print(f"[INFERENCE SERVICE] PyTorch version: {torch.__version__}, CUDA: {torch.version.cuda}", flush=True)
     
-    # HARD STOP: If Triton is not available or incompatible, FAIL IMMEDIATELY
-    # NO FALLBACK - bf16 would require ~240GB and exhaust system memory
-    if not triton_available:
-        raise RuntimeError(
-            "Triton is REQUIRED for MXFP4 quantization. Without it, the model will attempt to load as bf16 "
-            "which requires ~240GB and will exhaust system memory. Install: pip install 'triton==3.4.0'"
-        )
-    if not triton_compatible:
-        raise RuntimeError(
-            f"Triton version {triton_version} is incompatible with PyTorch {torch.__version__}. "
-            f"PyTorch requires triton==3.4.0. Fix: pip uninstall -y triton && pip install 'triton==3.4.0'"
-        )
+    # If Python 3.12+, use BitsAndBytes instead of MXFP4 (Triton kernels won't work)
+    if use_bitsandbytes:
+        print(f"[INFERENCE SERVICE] Using BitsAndBytes 4-bit quantization (Python 3.12+ compatibility)", flush=True)
+    else:
+        # HARD STOP: If Triton is not available or incompatible, FAIL IMMEDIATELY
+        # NO FALLBACK - bf16 would require ~240GB and exhaust system memory
+        if not triton_available:
+            raise RuntimeError(
+                "Triton is REQUIRED for MXFP4 quantization. Without it, the model will attempt to load as bf16 "
+                "which requires ~240GB and will exhaust system memory. Install: pip install 'triton==3.4.0'"
+            )
+        if not triton_compatible:
+            raise RuntimeError(
+                f"Triton version {triton_version} is incompatible with PyTorch {torch.__version__}. "
+                f"PyTorch requires triton==3.4.0. Fix: pip uninstall -y triton && pip install 'triton==3.4.0'"
+            )
     
     # CRITICAL: Check if MXFP4 kernels are actually available (not just Triton installed)
     # Python 3.12 has Triton compatibility issues that prevent kernel compilation
