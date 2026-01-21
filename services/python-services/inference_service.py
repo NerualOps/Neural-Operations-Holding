@@ -107,8 +107,10 @@ def load_model():
     import sys
     python_version = sys.version_info
     print(f"[INFERENCE SERVICE] Python version: {python_version.major}.{python_version.minor}.{python_version.micro}", flush=True)
+    use_bitsandbytes = False
     if python_version.major == 3 and python_version.minor >= 12:
-        print(f"[INFERENCE SERVICE] WARNING: Python 3.12+ may have Triton compatibility issues. Consider using Python 3.11 or 3.10.", flush=True)
+        print(f"[INFERENCE SERVICE] Python 3.12+ detected - MXFP4 kernels won't compile, using BitsAndBytes 4-bit instead", flush=True)
+        use_bitsandbytes = True
     
     # Check if Triton is available (required for MXFP4 quantization)
     triton_available = False
@@ -392,8 +394,10 @@ def load_model():
         # Some repos are already quantized (e.g. Mxfp4). Passing a different quantization_config
         # (e.g. BitsAndBytesConfig) will hard-fail with a config mismatch.
         #
-        # Default behavior: do NOT force BitsAndBytes. Only enable it if explicitly requested.
-        force_bnb_4bit = os.getenv("EPSILON_FORCE_BNB_4BIT", "").strip() in {"1", "true", "True", "yes", "YES"}
+        # Default behavior: Use BitsAndBytes on Python 3.12+ (MXFP4 won't work), otherwise use MXFP4
+        force_bnb_4bit = use_bitsandbytes or os.getenv("EPSILON_FORCE_BNB_4BIT", "").strip() in {"1", "true", "True", "yes", "YES"}
+        if use_bitsandbytes:
+            print(f"[INFERENCE SERVICE] Forcing BitsAndBytes 4-bit quantization (Python 3.12+ requires it)", flush=True)
         quantization_config = None
         model_is_pre_quantized = False
 
