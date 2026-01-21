@@ -269,12 +269,33 @@ def load_model():
             )
             print("[INFERENCE SERVICE] EPSILON_FORCE_BNB_4BIT enabled; applying BitsAndBytes 4-bit quantization", flush=True)
         
+        # If model is pre-quantized with Mxfp4Config but we're hitting OOM, 
+        # we can't override quantization, but we can use more aggressive memory management
+        use_8bit_fallback = os.getenv("EPSILON_USE_8BIT", "").strip() in {"1", "true", "True", "yes", "YES"}
+        if use_8bit_fallback and quantization_config is None:
+            # Can't use 8-bit if model is already quantized, but log the option
+            print("[INFERENCE SERVICE] EPSILON_USE_8BIT requested but model is pre-quantized - using memory limits instead", flush=True)
+        
+        # Calculate safe max_memory per GPU (leave ~4GB headroom for system/overhead)
         max_memory = None
         if torch.cuda.is_available() and torch.cuda.device_count() > 1:
-            max_memory = {i: "48GB" for i in range(torch.cuda.device_count())}
-            print(f"[INFERENCE SERVICE] Configuring model for {torch.cuda.device_count()} GPUs", flush=True)
+            # Get actual GPU memory and set conservative limits
+            gpu_memories = {}
+            for i in range(torch.cuda.device_count()):
+                total_gb = torch.cuda.get_device_properties(i).total_memory / (1024**3)
+                # Reserve 4GB for system/overhead, use rest for model
+                safe_gb = max(1, int(total_gb - 4))
+                gpu_memories[i] = f"{safe_gb}GB"
+            max_memory = gpu_memories
+            print(f"[INFERENCE SERVICE] Configuring model for {torch.cuda.device_count()} GPUs with memory limits: {max_memory}", flush=True)
         else:
-            print(f"[INFERENCE SERVICE] Loading model on single GPU", flush=True)
+            if torch.cuda.is_available():
+                total_gb = torch.cuda.get_device_properties(0).total_memory / (1024**3)
+                safe_gb = max(1, int(total_gb - 4))
+                max_memory = {0: f"{safe_gb}GB"}
+                print(f"[INFERENCE SERVICE] Loading model on single GPU with memory limit: {max_memory}", flush=True)
+            else:
+                print(f"[INFERENCE SERVICE] Loading model on CPU", flush=True)
         
         # Build kwargs - only include quantization_config if not already quantized
         load_kwargs = {
@@ -285,6 +306,9 @@ def load_model():
         }
         if max_memory:
             load_kwargs["max_memory"] = max_memory
+            # Enable CPU offloading for very large models (120B+)
+            load_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
+            Path(load_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
         if quantization_config is not None:
             load_kwargs["quantization_config"] = quantization_config
             print(f"[INFERENCE SERVICE] Will load with quantization_config: {type(quantization_config).__name__}", flush=True)
@@ -292,10 +316,28 @@ def load_model():
             print(f"[INFERENCE SERVICE] Will load WITHOUT quantization_config (model may be pre-quantized or unquantized)", flush=True)
         
         print(f"[INFERENCE SERVICE] Loading model with kwargs: {list(load_kwargs.keys())}", flush=True)
-        model = AutoModelForCausalLM.from_pretrained(
-            local_path,
-            **load_kwargs
-        )
+        try:
+            model = AutoModelForCausalLM.from_pretrained(
+                local_path,
+                **load_kwargs
+            )
+        except RuntimeError as e:
+            if "out of memory" in str(e).lower() or "cuda out of memory" in str(e).lower():
+                print(f"[INFERENCE SERVICE] OOM error with current config. Trying with CPU offloading enabled...", flush=True)
+                # Retry with more aggressive CPU offloading
+                load_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
+                if max_memory:
+                    # Reduce GPU memory limits even more
+                    for gpu_id in max_memory:
+                        current = int(max_memory[gpu_id].replace("GB", ""))
+                        max_memory[gpu_id] = f"{max(1, current - 4)}GB"
+                    load_kwargs["max_memory"] = max_memory
+                model = AutoModelForCausalLM.from_pretrained(
+                    local_path,
+                    **load_kwargs
+                )
+            else:
+                raise
         
         model_metadata = {
             "model_id": MODEL_ID,
