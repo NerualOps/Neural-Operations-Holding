@@ -162,11 +162,24 @@ def load_model():
                 print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
         
         print(f"[INFERENCE SERVICE] Loading tokenizer from local path: {local_path}", flush=True)
-        tokenizer = AutoTokenizer.from_pretrained(
-            local_path,
-            trust_remote_code=True,
-            local_files_only=True
-        )
+        # Try local first, but if tokenizer files are missing, download them
+        try:
+            tokenizer = AutoTokenizer.from_pretrained(
+                local_path,
+                trust_remote_code=True,
+                local_files_only=True
+            )
+        except (OSError, ValueError) as e:
+            print(f"[INFERENCE SERVICE] Tokenizer files missing locally, downloading from HuggingFace...", flush=True)
+            tokenizer = AutoTokenizer.from_pretrained(
+                HF_MODEL_ID_INTERNAL,
+                trust_remote_code=True,
+                cache_dir=str(MODEL_DIR),
+                local_dir_use_symlinks=False
+            )
+            # Save tokenizer to local path for next time
+            tokenizer.save_pretrained(local_path)
+            print(f"[INFERENCE SERVICE] Tokenizer downloaded and saved to {local_path}", flush=True)
         
         print(f"[INFERENCE SERVICE] Loading model on GPU from local path: {local_path}", flush=True)
         
