@@ -454,6 +454,36 @@ def load_model():
         if max_memory:
             max_memory = normalize_max_memory(max_memory)
         
+        # Load config manually first to handle unknown architectures (e.g. gpt_oss)
+        # This prevents AutoModelForCausalLM.from_pretrained() from failing internally
+        model_config_obj = None
+        try:
+            model_config_obj = AutoConfig.from_pretrained(local_path, trust_remote_code=True, local_files_only=True)
+            print(f"[INFERENCE SERVICE] Loaded model config successfully", flush=True)
+        except (KeyError, ValueError) as e:
+            # Model architecture not recognized - load config as dict and create config object
+            print(f"[INFERENCE SERVICE] Model architecture not recognized by AutoConfig, loading config.json directly...", flush=True)
+            try:
+                import json
+                config_json_path = Path(local_path) / "config.json"
+                if config_json_path.exists():
+                    with open(config_json_path, 'r') as f:
+                        config_dict = json.load(f)
+                    # Create config object from dict - trust_remote_code should handle custom architectures
+                    try:
+                        model_config_obj = AutoConfig.from_dict(config_dict, trust_remote_code=True)
+                        print(f"[INFERENCE SERVICE] Created config object from config.json dict", flush=True)
+                    except Exception as e2:
+                        # If from_dict also fails, we'll pass the dict directly
+                        print(f"[INFERENCE SERVICE] Could not create config object from dict: {e2}", flush=True)
+                        print(f"[INFERENCE SERVICE] Will pass config dict directly to from_pretrained", flush=True)
+                        model_config_obj = config_dict
+                else:
+                    print(f"[INFERENCE SERVICE] WARNING: config.json not found, proceeding without explicit config", flush=True)
+            except Exception as e2:
+                print(f"[INFERENCE SERVICE] Could not load config.json: {e2}", flush=True)
+                print(f"[INFERENCE SERVICE] Will attempt to load model anyway with trust_remote_code=True", flush=True)
+        
         # Build kwargs - use balanced_low_0 for better GPU distribution
         load_kwargs = {
             "device_map": "balanced_low_0",  # Better GPU distribution than "auto"
@@ -461,6 +491,11 @@ def load_model():
             "low_cpu_mem_usage": True,
             "local_files_only": True
         }
+        # If we have a config (object or dict), pass it explicitly to avoid auto-detection
+        if model_config_obj is not None:
+            load_kwargs["config"] = model_config_obj
+            print(f"[INFERENCE SERVICE] Using pre-loaded config to avoid architecture detection issues", flush=True)
+        
         if max_memory:
             load_kwargs["max_memory"] = max_memory
             # Enable CPU offloading for very large models (120B+)
