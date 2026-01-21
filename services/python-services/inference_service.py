@@ -66,6 +66,37 @@ def load_model():
     print(f"[INFERENCE SERVICE] Loading Epsilon AI model: {MODEL_ID}", flush=True)
     print(f"[INFERENCE SERVICE] Internal model repository: {HF_MODEL_ID_INTERNAL}", flush=True)
     
+    # Check Python version (Triton has issues with Python 3.12+)
+    import sys
+    python_version = sys.version_info
+    print(f"[INFERENCE SERVICE] Python version: {python_version.major}.{python_version.minor}.{python_version.micro}", flush=True)
+    if python_version.major == 3 and python_version.minor >= 12:
+        print(f"[INFERENCE SERVICE] WARNING: Python 3.12+ may have Triton compatibility issues. Consider using Python 3.11 or 3.10.", flush=True)
+    
+    # Check if Triton is available (required for MXFP4 quantization)
+    triton_available = False
+    triton_version = None
+    try:
+        import triton
+        triton_available = True
+        triton_version = getattr(triton, '__version__', 'unknown')
+        print(f"[INFERENCE SERVICE] Triton is available: version {triton_version}", flush=True)
+        # Verify Triton version is sufficient
+        try:
+            version_parts = [int(x) for x in triton_version.split('.')[:2]]
+            if version_parts[0] < 3 or (version_parts[0] == 3 and version_parts[1] < 4):
+                print(f"[INFERENCE SERVICE] WARNING: Triton version {triton_version} may be too old. Recommended: >=3.4.0", flush=True)
+        except (ValueError, AttributeError):
+            pass
+    except ImportError:
+        print(f"[INFERENCE SERVICE] WARNING: Triton is NOT available. MXFP4-quantized models will fall back to bf16 (too large for GPU).", flush=True)
+        print(f"[INFERENCE SERVICE] To fix: pip install -U 'triton>=3.4.0'", flush=True)
+    except Exception as e:
+        print(f"[INFERENCE SERVICE] WARNING: Triton import failed: {e}. MXFP4 models may fall back to bf16.", flush=True)
+    
+    # Check PyTorch version
+    print(f"[INFERENCE SERVICE] PyTorch version: {torch.__version__}, CUDA: {torch.version.cuda}", flush=True)
+    
     try:
         import shutil
         disk_usage = shutil.disk_usage(MODEL_DIR if MODEL_DIR.exists() else Path(__file__).parent)
@@ -372,6 +403,8 @@ def load_model():
         
         # Try multiple loading strategies
         model = None
+        # Store triton_available for later checks (in nested scope)
+        _triton_available = triton_available
         load_strategies = [
             ("Initial load with memory limits", load_kwargs.copy()),
         ]
@@ -439,6 +472,30 @@ def load_model():
                     **strategy_kwargs
                 )
                 print(f"[INFERENCE SERVICE] Successfully loaded model using strategy: {strategy_name}", flush=True)
+                
+                # Check if model is actually quantized (MXFP4) or fell back to bf16
+                if hasattr(model, 'config') and hasattr(model.config, 'quantization_config'):
+                    qc = model.config.quantization_config
+                    if qc is not None:
+                        qc_type = type(qc).__name__ if hasattr(qc, '__class__') else str(type(qc))
+                        print(f"[INFERENCE SERVICE] Model quantization config: {qc_type}", flush=True)
+                    else:
+                        print(f"[INFERENCE SERVICE] WARNING: Model config shows no quantization_config - may have fallen back to bf16!", flush=True)
+                else:
+                    # Check first parameter dtype to see if it's quantized
+                    try:
+                        first_param = next(iter(model.parameters()))
+                        dtype = first_param.dtype
+                        print(f"[INFERENCE SERVICE] First parameter dtype: {dtype}", flush=True)
+                        if dtype == torch.bfloat16 or dtype == torch.float16:
+                            print(f"[INFERENCE SERVICE] WARNING: Model appears to be in {dtype} (not quantized). This may cause OOM!", flush=True)
+                            if not _triton_available:
+                                print(f"[INFERENCE SERVICE] CRITICAL: Triton is missing - MXFP4 quantization was disabled, model loaded as bf16!", flush=True)
+                                print(f"[INFERENCE SERVICE] This 120B model in bf16 cannot fit on 2×A40 GPUs. Install Triton: pip install -U 'triton>=3.4.0'", flush=True)
+                                print(f"[INFERENCE SERVICE] After installing Triton, restart the service to load the model with quantization enabled.", flush=True)
+                    except Exception:
+                        pass
+                
                 break
             except Exception as e:
                 error_msg = str(e)
