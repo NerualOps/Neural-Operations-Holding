@@ -341,30 +341,40 @@ def load_model():
             total_free = sum((torch.cuda.get_device_properties(i).total_memory / (1024**3)) - (torch.cuda.memory_reserved(i) / (1024**3)) for i in range(num_gpus))
             print(f"[INFERENCE SERVICE] Total available GPU memory: {total_memory:.2f} GB, Free: {total_free:.2f} GB", flush=True)
         
-        # FIRST: Check config.json to get model_type and patch CONFIG_MAPPING BEFORE any AutoConfig calls
+        # CRITICAL FIX: Load config.json directly and create config object manually
+        # This bypasses CONFIG_MAPPING lookup entirely, which fails for unknown architectures like 'gpt_oss'
         import json
         config_json_path = Path(local_path) / "config.json"
-        model_type = None
+        model_config_obj = None
         config_data = {}
+        model_type = None
+        
         if config_json_path.exists():
             with open(config_json_path, 'r') as f:
                 config_data = json.load(f)
                 model_type = config_data.get("model_type", None)
-                if model_type:
-                    print(f"[INFERENCE SERVICE] Detected model_type: '{model_type}' from config.json", flush=True)
-                    # Patch CONFIG_MAPPING early to prevent KeyError
-                    patch_config_mapping_for_model_type(model_type)
-                    # Double-check the patch worked
+                print(f"[INFERENCE SERVICE] Loaded config.json, model_type: '{model_type}'", flush=True)
+                
+                # Try to load config using AutoConfig with trust_remote_code (for custom architectures)
+                try:
+                    model_config_obj = AutoConfig.from_pretrained(local_path, trust_remote_code=True, local_files_only=True)
+                    print(f"[INFERENCE SERVICE] Successfully loaded config via AutoConfig", flush=True)
+                except (KeyError, ValueError) as e:
+                    # If AutoConfig fails due to unknown architecture, create config from dict
+                    print(f"[INFERENCE SERVICE] AutoConfig failed for '{model_type}': {e}", flush=True)
+                    print(f"[INFERENCE SERVICE] Creating PretrainedConfig from config.json dict...", flush=True)
                     try:
-                        from transformers.models.auto.configuration_auto import CONFIG_MAPPING
-                        if model_type in CONFIG_MAPPING:
-                            print(f"[INFERENCE SERVICE] ✓ CONFIG_MAPPING patch verified - '{model_type}' is registered", flush=True)
-                        else:
-                            print(f"[INFERENCE SERVICE] ✗ ERROR: CONFIG_MAPPING patch failed - '{model_type}' NOT in CONFIG_MAPPING", flush=True)
-                    except Exception as e:
-                        print(f"[INFERENCE SERVICE] Could not verify CONFIG_MAPPING patch: {e}", flush=True)
-                else:
-                    print(f"[INFERENCE SERVICE] WARNING: No model_type found in config.json", flush=True)
+                        from transformers import PretrainedConfig
+                        # Create a generic PretrainedConfig from the dict
+                        # trust_remote_code=True will load the actual custom config class when loading the model
+                        model_config_obj = PretrainedConfig.from_dict(config_data)
+                        print(f"[INFERENCE SERVICE] Created PretrainedConfig from dict", flush=True)
+                    except Exception as e2:
+                        print(f"[INFERENCE SERVICE] Could not create PretrainedConfig from dict: {e2}", flush=True)
+                        print(f"[INFERENCE SERVICE] Will pass config dict directly to from_pretrained", flush=True)
+                        model_config_obj = config_data
+        else:
+            print(f"[INFERENCE SERVICE] WARNING: config.json not found at {config_json_path}", flush=True)
         
         # Quantization handling:
         # Some repos are already quantized (e.g. Mxfp4). Passing a different quantization_config
@@ -375,45 +385,40 @@ def load_model():
         quantization_config = None
         model_is_pre_quantized = False
 
-        # Try to check quantization config - now that CONFIG_MAPPING is patched, AutoConfig should work
-        try:
-            model_config = AutoConfig.from_pretrained(local_path, trust_remote_code=True, local_files_only=True)
-            cfg_dict = model_config.to_dict() if hasattr(model_config, "to_dict") else {}
-            qc = getattr(model_config, "quantization_config", None) or cfg_dict.get("quantization_config")
-            
-            # Also check config.json directly as fallback
-            if qc is None and config_json_path.exists():
-                qc = config_data.get("quantization_config")
-            
+        # Check quantization config from loaded config object or config.json
+        if model_config_obj is not None:
+            try:
+                if hasattr(model_config_obj, 'quantization_config'):
+                    qc = model_config_obj.quantization_config
+                elif hasattr(model_config_obj, 'to_dict'):
+                    cfg_dict = model_config_obj.to_dict()
+                    qc = cfg_dict.get("quantization_config")
+                elif isinstance(model_config_obj, dict):
+                    qc = model_config_obj.get("quantization_config")
+                else:
+                    qc = None
+                
+                if qc is None and config_data:
+                    qc = config_data.get("quantization_config")
+                
+                if qc is not None:
+                    qc_type = type(qc).__name__ if hasattr(qc, '__class__') else str(type(qc))
+                    print(f"[INFERENCE SERVICE] Model is already quantized ({qc_type}); loading without overriding quantization", flush=True)
+                    force_bnb_4bit = False
+                    quantization_config = None
+                    model_is_pre_quantized = True
+                else:
+                    print(f"[INFERENCE SERVICE] Model does not appear to be pre-quantized", flush=True)
+            except Exception as e:
+                print(f"[INFERENCE SERVICE] Could not check quantization from config: {e}", flush=True)
+        elif config_data:
+            # Fallback: check config.json directly
+            qc = config_data.get("quantization_config")
             if qc is not None:
-                qc_type = type(qc).__name__ if hasattr(qc, '__class__') else str(type(qc))
-                print(
-                    f"[INFERENCE SERVICE] Model is already quantized ({qc_type}); loading without overriding quantization",
-                    flush=True,
-                )
+                print(f"[INFERENCE SERVICE] Found quantization_config in config.json: {qc}", flush=True)
+                model_is_pre_quantized = True
                 force_bnb_4bit = False
                 quantization_config = None
-                model_is_pre_quantized = True
-            else:
-                print(f"[INFERENCE SERVICE] Model does not appear to be pre-quantized", flush=True)
-        except Exception as e:
-            # If AutoConfig still fails, check config.json directly
-            print(f"[INFERENCE SERVICE] Could not load config via AutoConfig: {e}, checking config.json directly...", flush=True)
-            try:
-                if config_json_path.exists():
-                    qc = config_data.get("quantization_config")
-                    if qc is not None:
-                        print(f"[INFERENCE SERVICE] Found quantization_config in config.json: {qc}", flush=True)
-                        model_is_pre_quantized = True
-                        force_bnb_4bit = False
-                        quantization_config = None
-                    else:
-                        print(f"[INFERENCE SERVICE] No quantization_config in config.json - model may be unquantized", flush=True)
-                else:
-                    print(f"[INFERENCE SERVICE] config.json not found - will check after model loads", flush=True)
-            except Exception as e2:
-                print(f"[INFERENCE SERVICE] Could not read config.json: {e2}", flush=True)
-            print(f"[INFERENCE SERVICE] Will check quantization after model loads", flush=True)
 
         if force_bnb_4bit:
             quantization_config = BitsAndBytesConfig(
@@ -496,7 +501,6 @@ def load_model():
         if max_memory:
             max_memory = normalize_max_memory(max_memory)
         
-        # CONFIG_MAPPING should already be patched above when we read config.json
         # Build kwargs - use balanced_low_0 for better GPU distribution
         # trust_remote_code=True is CRITICAL for custom architectures
         # Pass config explicitly to bypass CONFIG_MAPPING lookup
@@ -506,6 +510,12 @@ def load_model():
             "low_cpu_mem_usage": True,
             "local_files_only": True
         }
+        
+        # CRITICAL: Pass config explicitly to bypass internal AutoConfig.from_pretrained() call
+        # This prevents the CONFIG_MAPPING KeyError for unknown architectures
+        if model_config_obj is not None:
+            load_kwargs["config"] = model_config_obj
+            print(f"[INFERENCE SERVICE] Passing explicit config to from_pretrained() to bypass CONFIG_MAPPING lookup", flush=True)
         
         # CRITICAL: Pass config explicitly to bypass internal AutoConfig.from_pretrained() call
         # This prevents the CONFIG_MAPPING KeyError for unknown architectures
