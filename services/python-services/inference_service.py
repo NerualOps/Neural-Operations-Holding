@@ -330,7 +330,8 @@ def load_model():
         except Exception as e:
             # If config can't be read, stay conservative: don't force quantization.
             print(f"[INFERENCE SERVICE] Could not inspect model quantization config: {e}", flush=True)
-            print(f"[INFERENCE SERVICE] Defaulting to NO quantization (safe fallback)", flush=True)
+            print(f"[INFERENCE SERVICE] ERROR: Could not inspect quantization config - this is required for MXFP4 models", flush=True)
+            raise RuntimeError("Failed to inspect model quantization config. Cannot proceed safely.")
             force_bnb_4bit = False
             quantization_config = None
 
