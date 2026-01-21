@@ -1,22 +1,25 @@
 # Epsilon AI Inference Service Requirements for RunPod
 # Created by Neural Operations & Holdings LLC
+# EXACT VERSIONS - NO FALLBACKS
 
 # Web framework
-fastapi>=0.100.0
-uvicorn[standard]>=0.23.0
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
 
-# ML/AI libraries
-torch>=2.1.0
-transformers>=4.35.0
-accelerate>=0.24.0
-bitsandbytes>=0.41.0
+# ML/AI libraries - CRITICAL: PyTorch 2.8.0+cu128 requires triton==3.4.0 EXACTLY
+# Install PyTorch from PyTorch index (comes with CUDA)
+# torch==2.8.0+cu128  # Install separately: pip install torch --index-url https://download.pytorch.org/whl/cu128
+triton==3.4.0  # MUST match PyTorch version - PyTorch 2.8.0 requires triton==3.4.0
+transformers==4.46.0
+accelerate==0.34.0
+bitsandbytes==0.44.0
 
 # Utilities
-python-dotenv>=1.0.0
-psutil>=5.9.0
-pydantic>=2.0.0
-protobuf>=4.21.0
-filelock>=3.12.0
-huggingface_hub>=0.20.0
-hf-transfer>=0.1.9
+python-dotenv==1.0.1
+psutil==6.1.0
+pydantic==2.9.2
+protobuf==5.28.3
+filelock==3.16.1
+huggingface_hub==0.26.0
+hf-transfer==0.2.2
 
