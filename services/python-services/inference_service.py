@@ -317,7 +317,9 @@ def load_model():
         # Default behavior: do NOT force BitsAndBytes. Only enable it if explicitly requested.
         force_bnb_4bit = os.getenv("EPSILON_FORCE_BNB_4BIT", "").strip() in {"1", "true", "True", "yes", "YES"}
         quantization_config = None
+        model_is_pre_quantized = False
 
+        # Try to check quantization config, but don't fail if model architecture is unknown
         try:
             model_config = AutoConfig.from_pretrained(local_path, trust_remote_code=True, local_files_only=True)
             cfg_dict = model_config.to_dict() if hasattr(model_config, "to_dict") else {}
@@ -340,13 +342,34 @@ def load_model():
                 )
                 force_bnb_4bit = False
                 quantization_config = None
+                model_is_pre_quantized = True
             else:
                 print(f"[INFERENCE SERVICE] Model does not appear to be pre-quantized", flush=True)
+        except (KeyError, ValueError) as e:
+            # Model architecture not recognized (e.g. 'gpt_oss') - check config.json directly
+            print(f"[INFERENCE SERVICE] Model architecture not recognized by transformers, checking config.json directly...", flush=True)
+            try:
+                import json
+                config_json_path = Path(local_path) / "config.json"
+                if config_json_path.exists():
+                    with open(config_json_path, 'r') as f:
+                        config_data = json.load(f)
+                        qc = config_data.get("quantization_config")
+                        if qc is not None:
+                            print(f"[INFERENCE SERVICE] Found quantization_config in config.json: {qc}", flush=True)
+                            model_is_pre_quantized = True
+                            force_bnb_4bit = False
+                            quantization_config = None
+                        else:
+                            print(f"[INFERENCE SERVICE] No quantization_config in config.json - model may be unquantized", flush=True)
+                else:
+                    print(f"[INFERENCE SERVICE] config.json not found - will check after model loads", flush=True)
+            except Exception as e2:
+                print(f"[INFERENCE SERVICE] Could not read config.json: {e2}", flush=True)
         except Exception as e:
-            # If config can't be read, stay conservative: don't force quantization.
+            # Other errors - log but don't fail, we'll check after model loads
             print(f"[INFERENCE SERVICE] Could not inspect model quantization config: {e}", flush=True)
-            print(f"[INFERENCE SERVICE] ERROR: Could not inspect quantization config - this is required for MXFP4 models", flush=True)
-            raise RuntimeError("Failed to inspect model quantization config. Cannot proceed safely.")
+            print(f"[INFERENCE SERVICE] Will check quantization after model loads", flush=True)
             force_bnb_4bit = False
             quantization_config = None
 
