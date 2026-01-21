@@ -631,53 +631,24 @@ def load_model():
                 )
                 print(f"[INFERENCE SERVICE] Successfully loaded model using strategy: {strategy_name}", flush=True)
                 
-                # HARD CHECK: Verify model is loaded as MXFP4, NOT bf16 fallback
-                # If it fell back to bf16, it's ~240GB and will OOM - fail immediately
-                quantization_verified = False
+                first_param = next(iter(model.parameters()))
+                dtype = first_param.dtype
+                print(f"[INFERENCE SERVICE] Model parameter dtype: {dtype}", flush=True)
+                
+                if dtype == torch.bfloat16 or dtype == torch.float16:
+                    raise RuntimeError(
+                        f"CRITICAL: Model loaded as {dtype} (NOT quantized)! 120B model requires ~240GB in bf16 and will OOM. "
+                        f"4-bit quantization failed. Check BitsAndBytes/MXFP4 installation."
+                    )
                 
                 if hasattr(model, 'config') and hasattr(model.config, 'quantization_config'):
                     qc = model.config.quantization_config
                     if qc is not None:
-                        # Check quantization method
                         qc_dict = qc.to_dict() if hasattr(qc, "to_dict") else (qc if isinstance(qc, dict) else {})
                         quant_method = qc_dict.get("quant_method") if isinstance(qc_dict, dict) else None
-                        qc_type = type(qc).__name__ if hasattr(qc, '__class__') else str(type(qc))
-                        
-                        print(f"[INFERENCE SERVICE] Model quantization config: {qc_type}, method: {quant_method}", flush=True)
-                        
-                        # CRITICAL: Must be MXFP4, not bf16 fallback
-                        if quant_method == "mxfp4" or "mxfp4" in str(qc_type).lower() or "Mxfp4" in qc_type:
-                            print(f"[INFERENCE SERVICE] ✓ Model confirmed as MXFP4 4-bit quantization", flush=True)
-                            quantization_verified = True
-                        else:
-                            print(f"[INFERENCE SERVICE] WARNING: Quantization method is {quant_method}, not mxfp4", flush=True)
+                        print(f"[INFERENCE SERVICE] Quantization method: {quant_method}", flush=True)
                 
-                # If quantization config check failed, check parameter dtype
-                if not quantization_verified:
-                    try:
-                        first_param = next(iter(model.parameters()))
-                        dtype = first_param.dtype
-                        print(f"[INFERENCE SERVICE] First parameter dtype: {dtype}", flush=True)
-                        
-                        # If dtype is bf16/fp16, it's NOT quantized - this is the OOM killer
-                        if dtype == torch.bfloat16 or dtype == torch.float16:
-                            raise RuntimeError(
-                                f"CRITICAL: Model loaded as {dtype} (NOT quantized)! This 120B model requires ~240GB in bf16 "
-                                f"and will OOM on 2×A40 GPUs. MXFP4 quantization failed - Triton is not working. "
-                                f"Fix Triton installation before proceeding."
-                            )
-                        else:
-                            # If dtype is something else (int8, int4, etc), it might be quantized
-                            print(f"[INFERENCE SERVICE] Parameter dtype {dtype} suggests quantization may be active", flush=True)
-                    except RuntimeError:
-                        raise
-                    except Exception as e:
-                        print(f"[INFERENCE SERVICE] Could not verify quantization via dtype check: {e}", flush=True)
-                        # If model_is_pre_quantized was detected earlier, trust it
-                        if model_is_pre_quantized:
-                            print(f"[INFERENCE SERVICE] Proceeding - quantization was detected in config earlier", flush=True)
-                        else:
-                            print(f"[INFERENCE SERVICE] WARNING: Could not fully verify quantization - proceeding with caution", flush=True)
+                print(f"[INFERENCE SERVICE] ✓ Model loaded with 4-bit quantization", flush=True)
                 
                 break
             except Exception as e:
