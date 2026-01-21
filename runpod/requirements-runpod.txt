@@ -11,9 +11,10 @@ click>=8.1.0,<9.0.0  # Required by uvicorn, ensure compatibility
 # Install PyTorch from PyTorch index (comes with CUDA)
 # torch==2.8.0+cu128  # Install separately: pip install torch --index-url https://download.pytorch.org/whl/cu128
 triton==3.4.0  # MUST match PyTorch version - PyTorch 2.8.0 requires triton==3.4.0
-# Use latest transformers from GitHub to support gpt_oss architecture
-# transformers==4.46.0  # Old version doesn't support gpt_oss
-git+https://github.com/huggingface/transformers.git
+# CRITICAL: Use latest transformers from GitHub to support gpt_oss architecture
+# transformers==4.46.0  # Old version doesn't support gpt_oss - causes KeyError
+# Install from GitHub: pip install -U git+https://github.com/huggingface/transformers.git
+# (Installed separately in clean_install.sh to ensure correct version)
 accelerate==0.34.0
 bitsandbytes==0.44.0
 
