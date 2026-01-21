@@ -21,5 +21,6 @@ pydantic==2.9.2
 protobuf==5.28.3
 filelock==3.16.1
 huggingface_hub==0.26.0
-hf-transfer==0.1.9
+# hf-transfer is optional (only speeds up downloads) - install separately if needed
+# hf-transfer>=0.1.9
 

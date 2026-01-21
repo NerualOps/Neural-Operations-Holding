@@ -62,9 +62,13 @@ else
     pip install --no-cache-dir -r /tmp/requirements.txt
 fi
 
+# Install optional packages (non-critical)
+echo "Installing optional packages..."
+pip install --no-cache-dir "hf-transfer>=0.1.9" 2>/dev/null || echo "Warning: hf-transfer failed (optional, continuing...)"
+
 # Verify critical packages are installed
-python -c "import uvicorn" || pip install --no-cache-dir "uvicorn[standard]==0.32.0"
-python -c "import fastapi" || pip install --no-cache-dir "fastapi==0.115.0"
+python -c "import uvicorn" || (echo "ERROR: uvicorn not installed!" && pip install --no-cache-dir "uvicorn[standard]==0.32.0")
+python -c "import fastapi" || (echo "ERROR: fastapi not installed!" && pip install --no-cache-dir "fastapi==0.115.0")
 echo "✓ Packages installed"
 
 # 7) Verify critical versions
