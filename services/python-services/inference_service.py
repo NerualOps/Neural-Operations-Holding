@@ -46,6 +46,11 @@ try:
                 MODEL_FOR_CAUSAL_LM_MAPPING[model_type] = AutoModelForCausalLM
             _PATCHED_MODEL_TYPES.add(model_type)
             print(f"[INFERENCE SERVICE] Patched CONFIG_MAPPING and MODEL_MAPPING for '{model_type}'", flush=True)
+            # Verify the patch
+            if model_type in CONFIG_MAPPING:
+                print(f"[INFERENCE SERVICE] ✓ Verified: '{model_type}' is now in CONFIG_MAPPING", flush=True)
+            else:
+                print(f"[INFERENCE SERVICE] ✗ ERROR: Patch failed - '{model_type}' not in CONFIG_MAPPING", flush=True)
 except Exception as e:
     print(f"[INFERENCE SERVICE] WARNING: Could not import CONFIG_MAPPING for patching: {e}", flush=True)
     def patch_config_mapping_for_model_type(model_type: str):
@@ -340,13 +345,26 @@ def load_model():
         import json
         config_json_path = Path(local_path) / "config.json"
         model_type = None
+        config_data = {}
         if config_json_path.exists():
             with open(config_json_path, 'r') as f:
                 config_data = json.load(f)
                 model_type = config_data.get("model_type", None)
                 if model_type:
+                    print(f"[INFERENCE SERVICE] Detected model_type: '{model_type}' from config.json", flush=True)
                     # Patch CONFIG_MAPPING early to prevent KeyError
                     patch_config_mapping_for_model_type(model_type)
+                    # Double-check the patch worked
+                    try:
+                        from transformers.models.auto.configuration_auto import CONFIG_MAPPING
+                        if model_type in CONFIG_MAPPING:
+                            print(f"[INFERENCE SERVICE] ✓ CONFIG_MAPPING patch verified - '{model_type}' is registered", flush=True)
+                        else:
+                            print(f"[INFERENCE SERVICE] ✗ ERROR: CONFIG_MAPPING patch failed - '{model_type}' NOT in CONFIG_MAPPING", flush=True)
+                    except Exception as e:
+                        print(f"[INFERENCE SERVICE] Could not verify CONFIG_MAPPING patch: {e}", flush=True)
+                else:
+                    print(f"[INFERENCE SERVICE] WARNING: No model_type found in config.json", flush=True)
         
         # Quantization handling:
         # Some repos are already quantized (e.g. Mxfp4). Passing a different quantization_config
@@ -576,6 +594,16 @@ def load_model():
                 gc.collect()
             
             try:
+                # Verify CONFIG_MAPPING is still patched before loading
+                if model_type:
+                    try:
+                        from transformers.models.auto.configuration_auto import CONFIG_MAPPING
+                        if model_type not in CONFIG_MAPPING:
+                            print(f"[INFERENCE SERVICE] WARNING: '{model_type}' missing from CONFIG_MAPPING, re-patching...", flush=True)
+                            patch_config_mapping_for_model_type(model_type)
+                    except Exception as e:
+                        print(f"[INFERENCE SERVICE] Could not verify CONFIG_MAPPING before load: {e}", flush=True)
+                
                 model = AutoModelForCausalLM.from_pretrained(
                     local_path,
                     **strategy_kwargs
