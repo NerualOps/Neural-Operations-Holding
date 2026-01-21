@@ -276,31 +276,74 @@ def load_model():
             # Can't use 8-bit if model is already quantized, but log the option
             print("[INFERENCE SERVICE] EPSILON_USE_8BIT requested but model is pre-quantized - using memory limits instead", flush=True)
         
-        # Calculate safe max_memory per GPU (leave ~8GB headroom for system/overhead and dequantization)
-        # 120B models need extra headroom during loading/dequantization
+        # Normalize max_memory to use "GiB" consistently (transformers/accelerate expects this)
+        # This prevents 'int' object has no attribute 'replace' errors
+        def normalize_max_memory(mm):
+            """Convert max_memory dict to use GiB strings consistently"""
+            if not mm:
+                return None
+            out = {}
+            for k, v in mm.items():
+                if isinstance(v, (int, float)):
+                    out[k] = f"{int(v)}GiB"
+                else:
+                    s = str(v).strip()
+                    # Normalize GB/MB to GiB, extract number if needed
+                    if "GiB" in s or "GB" in s or "MB" in s or "MiB" in s:
+                        # Extract number and convert to GiB
+                        num_str = s.replace("GiB", "").replace("GB", "").replace("MB", "").replace("MiB", "").strip()
+                        try:
+                            num = float(num_str)
+                            # Convert MB to GiB if needed
+                            if "MB" in s or "MiB" in s:
+                                num = num / 1024
+                            out[k] = f"{int(num)}GiB"
+                        except (ValueError, TypeError):
+                            out[k] = s if "GiB" in s else f"{s}GiB"
+                    else:
+                        # Assume it's already a number, add GiB
+                        try:
+                            num = float(s)
+                            out[k] = f"{int(num)}GiB"
+                        except (ValueError, TypeError):
+                            out[k] = f"{s}GiB"
+            return out
+        
+        # Calculate safe max_memory per GPU (leave 14GB headroom for system/overhead/dequantization)
+        # 120B models with MXFP4 need significant headroom for transient buffers during loading
         max_memory = None
         if torch.cuda.is_available() and torch.cuda.device_count() > 1:
             # Get actual GPU memory and set very conservative limits
             gpu_memories = {}
             for i in range(torch.cuda.device_count()):
                 total_gb = torch.cuda.get_device_properties(i).total_memory / (1024**3)
-                # Reserve 8GB for system/overhead/dequantization (very conservative for 120B model)
-                safe_gb = max(1, int(total_gb - 8))
-                gpu_memories[i] = f"{safe_gb}GB"
+                # Reserve 14GB for system/overhead/dequantization/MXFP4 staging buffers
+                safe_gb = max(1, int(total_gb - 14))
+                gpu_memories[i] = f"{safe_gb}GiB"
+            # Always include CPU for offloading
+            gpu_memories["cpu"] = "200GiB"
             max_memory = gpu_memories
             print(f"[INFERENCE SERVICE] Configuring model for {torch.cuda.device_count()} GPUs with conservative memory limits: {max_memory}", flush=True)
         else:
             if torch.cuda.is_available():
                 total_gb = torch.cuda.get_device_properties(0).total_memory / (1024**3)
-                safe_gb = max(1, int(total_gb - 8))
-                max_memory = {0: f"{safe_gb}GB"}
+                safe_gb = max(1, int(total_gb - 14))
+                max_memory = {0: f"{safe_gb}GiB", "cpu": "200GiB"}
                 print(f"[INFERENCE SERVICE] Loading model on single GPU with conservative memory limit: {max_memory}", flush=True)
             else:
+                max_memory = {"cpu": "200GiB"}
                 print(f"[INFERENCE SERVICE] Loading model on CPU", flush=True)
         
-        # Build kwargs - only include quantization_config if not already quantized
+        # Set PyTorch CUDA allocator config for better memory management
+        os.environ.setdefault('PYTORCH_CUDA_ALLOC_CONF', 'expandable_segments:True,max_split_size_mb:64,garbage_collection_threshold:0.8')
+        
+        # Normalize max_memory to GiB strings (prevents int.replace errors)
+        if max_memory:
+            max_memory = normalize_max_memory(max_memory)
+        
+        # Build kwargs - use balanced_low_0 for better GPU distribution
         load_kwargs = {
-            "device_map": "auto",
+            "device_map": "balanced_low_0",  # Better GPU distribution than "auto"
             "trust_remote_code": True,
             "low_cpu_mem_usage": True,
             "local_files_only": True
@@ -333,21 +376,25 @@ def load_model():
             ("Initial load with memory limits", load_kwargs.copy()),
         ]
         
-        # Strategy 2: Reduced memory limits
+        # Strategy 2: Reduced memory limits (normalized to GiB)
         if max_memory:
             reduced_kwargs = load_kwargs.copy()
             reduced_memory = {}
-            for gpu_id in max_memory:
-                mem_val = max_memory[gpu_id]
-                # Safe parsing - handle both int and string
-                if isinstance(mem_val, (int, float)):
-                    current = int(mem_val)
+            for k, v in max_memory.items():
+                if k == "cpu":
+                    reduced_memory["cpu"] = "200GiB"  # Keep CPU limit
+                    continue
+                # Safe parsing - handle both int and string, normalize to GiB
+                if isinstance(v, (int, float)):
+                    current = int(v)
                 else:
-                    mem_str = str(mem_val)
-                    mem_clean = mem_str.replace("GB", "").replace("GiB", "").replace("MB", "").strip()
-                    current = int(float(mem_clean)) if mem_clean.replace(".", "").isdigit() else 40
-                # Reduce by 10GB (very aggressive)
-                reduced_memory[gpu_id] = f"{max(1, current - 10)}GB"
+                    mem_str = str(v).strip()
+                    # Extract number from "30GiB" or "30GB" etc
+                    mem_clean = mem_str.replace("GiB", "").replace("GB", "").replace("MB", "").replace("MiB", "").strip()
+                    current = int(float(mem_clean)) if mem_clean.replace(".", "").isdigit() else 30
+                # Reduce by 10GiB (very aggressive)
+                reduced_memory[k] = f"{max(1, current - 10)}GiB"
+            reduced_memory = normalize_max_memory(reduced_memory)
             reduced_kwargs["max_memory"] = reduced_memory
             reduced_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
             Path(reduced_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
@@ -361,10 +408,11 @@ def load_model():
         Path(no_limit_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
         load_strategies.append(("No memory limits (auto-balance)", no_limit_kwargs))
         
-        # Strategy 4: Sequential device_map (load layer by layer)
+        # Strategy 4: Sequential device_map (load layer by layer) with CPU offload
         sequential_kwargs = load_kwargs.copy()
         if "max_memory" in sequential_kwargs:
-            del sequential_kwargs["max_memory"]
+            # Keep max_memory but use sequential loading
+            sequential_kwargs["max_memory"] = normalize_max_memory(sequential_kwargs["max_memory"])
         sequential_kwargs["device_map"] = "sequential"
         sequential_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
         Path(sequential_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
