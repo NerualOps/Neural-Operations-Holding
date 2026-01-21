@@ -1250,4 +1250,7 @@ async def reload_model():
 if __name__ == "__main__":
     import uvicorn
     port = int(os.getenv('PORT', 8005))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    # Use programmatic API instead of CLI to avoid click issues
+    config = uvicorn.Config(app, host="0.0.0.0", port=port, log_level="info")
+    server = uvicorn.Server(config)
+    server.run()
