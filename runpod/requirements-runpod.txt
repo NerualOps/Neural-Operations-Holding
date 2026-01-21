@@ -15,7 +15,9 @@ triton==3.4.0  # MUST match PyTorch version - PyTorch 2.8.0 requires triton==3.4
 # transformers==4.46.0  # Old version doesn't support gpt_oss - causes KeyError
 # Install from GitHub: pip install -U git+https://github.com/huggingface/transformers.git
 # (Installed separately in clean_install.sh to ensure correct version)
-accelerate==0.34.0
+# accelerate, huggingface_hub, safetensors installed with transformers from GitHub (latest versions)
+# accelerate==0.34.0  # Installed with transformers
+# huggingface_hub==0.26.0  # Installed with transformers - needs >=0.27.0 for latest transformers
 bitsandbytes==0.44.0
 
 # Utilities
@@ -24,7 +26,7 @@ psutil==6.1.0
 pydantic==2.9.2
 protobuf==5.28.3
 filelock==3.16.1
-huggingface_hub==0.26.0
+# huggingface_hub installed with transformers
 tqdm>=4.66.0  # Required for download progress bars
 # hf-transfer is optional (only speeds up downloads) - install separately if needed
 # hf-transfer>=0.1.9

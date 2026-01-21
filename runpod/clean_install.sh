@@ -70,9 +70,9 @@ echo "✓ Web framework installed"
 # 5c) Install transformers from GitHub (CRITICAL: supports gpt_oss architecture)
 echo ""
 echo "[5c/7] Installing transformers from GitHub (supports gpt_oss)..."
-pip uninstall -y transformers 2>/dev/null || true
+pip uninstall -y transformers huggingface_hub accelerate safetensors 2>/dev/null || true
 pip install --no-cache-dir -U git+https://github.com/huggingface/transformers.git
-pip install --no-cache-dir -U accelerate huggingface_hub safetensors
+pip install --no-cache-dir -U "huggingface_hub>=0.27.0" "accelerate>=0.35.0" "safetensors>=0.4.0"
 echo "✓ Transformers installed from GitHub"
 
 # 6) Install exact versions from requirements (skip transformers - already installed)
