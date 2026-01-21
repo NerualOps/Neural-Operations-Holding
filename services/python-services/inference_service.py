@@ -222,12 +222,16 @@ def load_model():
                         print(f"[INFERENCE SERVICE] Cleared incomplete model directory", flush=True)
                     except Exception as e:
                         print(f"[INFERENCE SERVICE] Warning: Could not clear model directory: {e}", flush=True)
-                    local_path = snapshot_download(
-                        repo_id=HF_MODEL_ID_INTERNAL,
-                        local_dir=str(MODEL_DIR),
-                        max_workers=1,
-                        ignore_patterns=[".cache/**"],
-                    )
+                    import warnings
+                    with warnings.catch_warnings():
+                        warnings.simplefilter("ignore")
+                        local_path = snapshot_download(
+                            repo_id=HF_MODEL_ID_INTERNAL,
+                            local_dir=str(MODEL_DIR),
+                            max_workers=1,
+                            ignore_patterns=[".cache/**"],
+                            resume_download=True,
+                        )
                     print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
             else:
                 print(f"[INFERENCE SERVICE] Downloading model snapshot to local directory (this may take 10-15 minutes)...", flush=True)
