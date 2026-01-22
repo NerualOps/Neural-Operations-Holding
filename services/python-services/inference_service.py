@@ -5,6 +5,7 @@ Created by Neural Operations & Holdings LLC
 """
 import os
 import sys
+import warnings
 
 # Force unbuffered output for real-time logs
 sys.stdout.reconfigure(line_buffering=True) if hasattr(sys.stdout, 'reconfigure') else None
@@ -14,6 +15,23 @@ os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True'
 os.environ['PYTHONUNBUFFERED'] = '1'  # Ensure unbuffered output
 # Set CUDA launch blocking for better error reporting (can be removed in production if needed)
 os.environ.setdefault('CUDA_LAUNCH_BLOCKING', '0')
+
+# CRITICAL: Catch bf16 fallback warnings and convert to errors
+def bf16_fallback_warning_handler(message, category, filename, lineno, file=None, line=None):
+    """Convert bf16 fallback warnings to RuntimeError"""
+    msg_str = str(message)
+    if "default to dequantizing" in msg_str.lower() and "bf16" in msg_str.lower():
+        print(f"[INFERENCE SERVICE] CRITICAL: Caught bf16 fallback warning: {msg_str}", flush=True)
+        raise RuntimeError(
+            f"CRITICAL: Model attempted to fall back to bf16! This will cause OOM. "
+            f"Original warning: {msg_str}"
+        )
+    # For other warnings, use default handler
+    return warnings._showwarning_orig(message, category, filename, lineno, file, line)
+
+# Install custom warning handler
+warnings._showwarning_orig = warnings.showwarning
+warnings.showwarning = bf16_fallback_warning_handler
 
 from pathlib import Path
 from typing import Optional, List, Any
@@ -391,15 +409,13 @@ def load_model():
                     qc_dict = qc.to_dict() if hasattr(qc, "to_dict") else (qc if isinstance(qc, dict) else {})
                     quant_method = qc_dict.get("quant_method") if isinstance(qc_dict, dict) else None
                     
-                    # Only trust pre-quantization if it's explicitly MXFP4 or BitsAndBytes 4-bit
+                    # CRITICAL: Never trust MXFP4 pre-quantization - kernels often fail, causing bf16 fallback
+                    # Always force BitsAndBytes 4-bit to ensure it actually works
                     if quant_method == "mxfp4" or "mxfp4" in str(qc_type).lower() or "Mxfp4" in qc_type:
-                        if use_bitsandbytes:
-                            print(f"[INFERENCE SERVICE] MXFP4 model detected on Python 3.12+ - will override with BitsAndBytes 4-bit", flush=True)
-                            force_bnb_4bit = True
-                            verified_4bit_pre_quantized = False
-                        else:
-                            print(f"[INFERENCE SERVICE] Model claims MXFP4 quantization - will verify after load", flush=True)
-                            verified_4bit_pre_quantized = True
+                        print(f"[INFERENCE SERVICE] Model claims MXFP4 quantization, but MXFP4 kernels are unreliable", flush=True)
+                        print(f"[INFERENCE SERVICE] FORCING BitsAndBytes 4-bit quantization to prevent bf16 fallback", flush=True)
+                        force_bnb_4bit = True
+                        verified_4bit_pre_quantized = False
                     elif quant_method == "bitsandbytes" or "bitsandbytes" in str(qc_type).lower() or "bnb" in str(qc_type).lower():
                         print(f"[INFERENCE SERVICE] Model claims BitsAndBytes quantization - will verify after load", flush=True)
                         verified_4bit_pre_quantized = True
@@ -419,12 +435,10 @@ def load_model():
                 qc_type = str(type(qc)) if not isinstance(qc, dict) else str(qc)
                 quant_method = qc.get("quant_method") if isinstance(qc, dict) else None
                 if quant_method == "mxfp4" or "mxfp4" in qc_type.lower():
-                    if use_bitsandbytes:
-                        print(f"[INFERENCE SERVICE] MXFP4 model detected on Python 3.12+ - will override with BitsAndBytes 4-bit", flush=True)
-                        force_bnb_4bit = True
-                    else:
-                        print(f"[INFERENCE SERVICE] Model claims MXFP4 quantization - will verify after load", flush=True)
-                        verified_4bit_pre_quantized = True
+                    print(f"[INFERENCE SERVICE] Model claims MXFP4 quantization, but MXFP4 kernels are unreliable", flush=True)
+                    print(f"[INFERENCE SERVICE] FORCING BitsAndBytes 4-bit quantization to prevent bf16 fallback", flush=True)
+                    force_bnb_4bit = True
+                    verified_4bit_pre_quantized = False
                 elif quant_method == "bitsandbytes" or "bitsandbytes" in qc_type.lower():
                     print(f"[INFERENCE SERVICE] Model claims BitsAndBytes quantization - will verify after load", flush=True)
                     verified_4bit_pre_quantized = True
@@ -456,7 +470,11 @@ def load_model():
                     "This would load as bf16 (~240GB, will OOM)."
                 )
         else:
-            print("[INFERENCE SERVICE] Model claims to be pre-quantized - will verify after load (will fail if not 4-bit)", flush=True)
+            # Even if model claims to be pre-quantized, we should still apply BitsAndBytes to be safe
+            # MXFP4 kernels often fail silently and fall back to bf16
+            print("[INFERENCE SERVICE] WARNING: Model claims to be pre-quantized but we're not applying quantization_config", flush=True)
+            print("[INFERENCE SERVICE] This is risky - MXFP4 kernels may fail and fall back to bf16", flush=True)
+            print("[INFERENCE SERVICE] Will verify dtype after load and fail if bf16/fp16", flush=True)
         
         # If model is pre-quantized with Mxfp4Config but we're hitting OOM, 
         # we can't override quantization, but we can use more aggressive memory management
