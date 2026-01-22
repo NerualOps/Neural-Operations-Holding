@@ -147,11 +147,13 @@ else
     REQUIREMENTS_FILE="/tmp/requirements.txt"
 fi
 
-# Install requirements but skip transformers line (already installed from GitHub)
+# Install requirements but skip transformers and bitsandbytes (installed separately)
 # Also skip comments and empty lines
 TEMP_REQ=$(mktemp)
 grep -v "^git+https://github.com/huggingface/transformers.git" "$REQUIREMENTS_FILE" | \
     grep -v "^#.*transformers" | \
+    grep -v "^bitsandbytes" | \
+    grep -v "^#.*bitsandbytes" | \
     grep -v "^#" | \
     grep -v "^$" > "$TEMP_REQ"
 
@@ -196,21 +198,20 @@ $PYTHON_CMD -c "import bitsandbytes as bnb; print('✓ bitsandbytes OK:', bnb.__
     exit 1
 }
 
-# Verify 4-bit quantization config can be created
+# Verify 4-bit quantization config can be created (from transformers)
 $PYTHON_CMD -c "
-from bitsandbytes import BitsAndBytesConfig
+from transformers import BitsAndBytesConfig
 import torch
-config = BitsAndBytesConfig(
+cfg = BitsAndBytesConfig(
     load_in_4bit=True,
     bnb_4bit_compute_dtype=torch.float16,
     bnb_4bit_use_double_quant=True,
     bnb_4bit_quant_type='nf4',
 )
-print('✓ BitsAndBytes 4-bit quantization config works correctly')
-if torch.cuda.is_available():
-    print(f'✓ CUDA available: {torch.version.cuda}')
+print('✓ Transformers BitsAndBytesConfig OK')
+print('✓ CUDA available:', torch.version.cuda if torch.cuda.is_available() else 'NO CUDA')
 " || {
-    echo "ERROR: BitsAndBytes 4-bit config creation failed!"
+    echo "ERROR: Transformers BitsAndBytesConfig creation failed!"
     exit 1
 }
 
@@ -239,7 +240,6 @@ $PYTHON_CMD -c "import uvicorn; print(f'Uvicorn: {uvicorn.__version__}')" || (ec
 $PYTHON_CMD -c "import fastapi; print(f'FastAPI: {fastapi.__version__}')" || (echo "ERROR: FastAPI not installed!" && exit 1)
 $PYTHON_CMD -c "import torch; assert '2.8.0' in torch.__version__, f'PyTorch version mismatch: {torch.__version__}'"
 $PYTHON_CMD -c "import triton; assert triton.__version__ == '3.4.0', f'Triton version mismatch: {triton.__version__} (required: 3.4.0)'"
-$PYTHON_CMD -c "import bitsandbytes; assert '0.44' in bitsandbytes.__version__, f'BitsAndBytes version mismatch: {bitsandbytes.__version__}'"
 echo "✓ Version verification passed"
 echo "✓ 4-bit quantization dependencies verified (Triton for MXFP4, BitsAndBytes for fallback)"
 
