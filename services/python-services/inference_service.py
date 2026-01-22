@@ -640,6 +640,11 @@ def load_model():
                 print(f"[INFERENCE SERVICE] ✓ Model loaded with 4-bit quantization", flush=True)
                 
                 break
+            except RuntimeError as e:
+                error_msg = str(e)
+                if "CRITICAL: Model loaded as" in error_msg and ("bfloat16" in error_msg or "float16" in error_msg):
+                    print(f"[INFERENCE SERVICE] FATAL: {error_msg}", flush=True)
+                    raise
             except Exception as e:
                 error_msg = str(e)
                 error_type = type(e).__name__
