@@ -493,9 +493,11 @@ def load_model():
             # Enable CPU offloading for very large models (120B+)
             load_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
             Path(load_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
-        # ALWAYS pass quantization_config - never skip it
+        # CRITICAL: ALWAYS pass both load_in_4bit=True AND quantization_config
+        # load_in_4bit=True forces the BnB quantized load path even with trust_remote_code=True
+        load_kwargs["load_in_4bit"] = True
         load_kwargs["quantization_config"] = quantization_config
-        print(f"[INFERENCE SERVICE] Will load with quantization_config: {type(quantization_config).__name__}", flush=True)
+        print(f"[INFERENCE SERVICE] Will load with load_in_4bit=True and quantization_config: {type(quantization_config).__name__}", flush=True)
         
         # Clear GPU cache before loading to maximize available memory
         if torch.cuda.is_available():
@@ -589,14 +591,22 @@ def load_model():
                 )
                 print(f"[INFERENCE SERVICE] Successfully loaded model using strategy: {strategy_name}", flush=True)
                 
-                # CRITICAL: Verify model is actually loaded in 4-bit
-                is_4bit = getattr(model, "is_loaded_in_4bit", False)
-                assert is_4bit, f"CRITICAL: Model is NOT loaded in 4-bit! is_loaded_in_4bit={is_4bit}. 120B model requires ~240GB in bf16/fp16 and will OOM. 4-bit quantization failed. Check BitsAndBytes installation."
+                # CRITICAL: Verify actual BitsAndBytes 4-bit Linear modules exist
+                # This is the only reliable check - is_loaded_in_4bit can be False even with quantization_config
+                # and dtype checks are misleading (norms/embeddings can be fp16 even when Linear layers are 4-bit)
+                import bitsandbytes as bnb
+                linear4bit_count = sum(1 for m in model.modules() if isinstance(m, bnb.nn.Linear4bit))
+                assert linear4bit_count > 0, (
+                    f"CRITICAL: BitsAndBytes 4-bit did not attach! Linear4bit count={linear4bit_count}. "
+                    f"Model will fallback to bf16 and OOM. Check BitsAndBytes installation and trust_remote_code compatibility."
+                )
                 
+                is_4bit = getattr(model, "is_loaded_in_4bit", False)
                 first_param = next(iter(model.parameters()))
                 dtype = first_param.dtype
                 print(f"[INFERENCE SERVICE] Model parameter dtype: {dtype}", flush=True)
-                print(f"[INFERENCE SERVICE] Model is_loaded_in_4bit: {is_4bit} ✓", flush=True)
+                print(f"[INFERENCE SERVICE] Model is_loaded_in_4bit: {is_4bit}", flush=True)
+                print(f"[INFERENCE SERVICE] ✓ Verified BitsAndBytes 4-bit modules: Linear4bit count={linear4bit_count}", flush=True)
                 
                 if hasattr(model, 'config') and hasattr(model.config, 'quantization_config'):
                     qc = model.config.quantization_config
@@ -605,7 +615,7 @@ def load_model():
                         quant_method = qc_dict.get("quant_method") if isinstance(qc_dict, dict) else None
                         print(f"[INFERENCE SERVICE] Quantization method: {quant_method}", flush=True)
                 
-                print(f"[INFERENCE SERVICE] ✓ Model loaded with 4-bit quantization (verified)", flush=True)
+                print(f"[INFERENCE SERVICE] ✓ Model loaded with 4-bit quantization (verified with Linear4bit modules)", flush=True)
                 
                 break
             except RuntimeError as e:
