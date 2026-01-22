@@ -71,7 +71,10 @@ echo "✓ Web framework installed"
 echo ""
 echo "[5c/7] Installing transformers from GitHub (supports gpt_oss)..."
 pip uninstall -y transformers huggingface_hub accelerate safetensors 2>/dev/null || true
-pip install --no-cache-dir -U git+https://github.com/huggingface/transformers.git
+# Retry logic for network issues
+for i in {1..3}; do
+    pip install --no-cache-dir -U git+https://github.com/huggingface/transformers.git && break || sleep 5
+done
 pip install --no-cache-dir -U "huggingface_hub>=0.27.0" "accelerate>=0.35.0" "safetensors>=0.4.0"
 echo "✓ Transformers installed from GitHub"
 
@@ -80,25 +83,46 @@ echo ""
 echo "[6/7] Installing remaining package versions..."
 cd /workspace
 if [ -f "runpod/requirements-runpod.txt" ]; then
-    # Install requirements but skip transformers line (already installed from GitHub)
-    grep -v "^git+https://github.com/huggingface/transformers.git" runpod/requirements-runpod.txt | grep -v "^#.*transformers" | pip install --no-cache-dir -r /dev/stdin || true
+    REQUIREMENTS_FILE="runpod/requirements-runpod.txt"
 else
-    # Fallback: install from GitHub
+    # Fallback: download from GitHub
+    echo "Downloading requirements from GitHub..."
     wget -q https://raw.githubusercontent.com/NerualOps/Neural-Operations-Holding/main/runpod/requirements-runpod.txt -O /tmp/requirements.txt
-    grep -v "^git+https://github.com/huggingface/transformers.git" /tmp/requirements.txt | grep -v "^#.*transformers" | pip install --no-cache-dir -r /dev/stdin || true
+    REQUIREMENTS_FILE="/tmp/requirements.txt"
 fi
+
+# Install requirements but skip transformers line (already installed from GitHub)
+# Also skip comments and empty lines
+grep -v "^git+https://github.com/huggingface/transformers.git" "$REQUIREMENTS_FILE" | \
+    grep -v "^#.*transformers" | \
+    grep -v "^#" | \
+    grep -v "^$" | \
+    while read -r line; do
+        if [ -n "$line" ]; then
+            echo "Installing: $line"
+            pip install --no-cache-dir "$line" || echo "Warning: Failed to install $line (may be optional)"
+        fi
+    done
 
 # CRITICAL: Install BitsAndBytes for 4-bit quantization (required for Python 3.12+ and fallback)
 echo "Installing BitsAndBytes for 4-bit quantization..."
-pip install --no-cache-dir "bitsandbytes==0.44.0" || (echo "ERROR: BitsAndBytes installation failed!" && exit 1)
+for i in {1..3}; do
+    pip install --no-cache-dir "bitsandbytes==0.44.0" && break || (echo "Retry $i/3..." && sleep 5)
+done
+python -c "import bitsandbytes" || (echo "ERROR: BitsAndBytes installation failed!" && exit 1)
 
 # Install optional packages (non-critical)
 echo "Installing optional packages..."
 pip install --no-cache-dir "hf-transfer>=0.1.9" 2>/dev/null || echo "Warning: hf-transfer failed (optional, continuing...)"
 
 # Verify critical packages are installed
+echo "Verifying critical packages..."
 python -c "import uvicorn" || (echo "ERROR: uvicorn not installed!" && pip install --no-cache-dir "uvicorn[standard]==0.32.0")
 python -c "import fastapi" || (echo "ERROR: fastapi not installed!" && pip install --no-cache-dir "fastapi==0.115.0")
+python -c "import pydantic" || (echo "ERROR: pydantic not installed!" && pip install --no-cache-dir "pydantic==2.9.2")
+python -c "import filelock" || (echo "ERROR: filelock not installed!" && pip install --no-cache-dir "filelock==3.16.1")
+python -c "import psutil" || (echo "ERROR: psutil not installed!" && pip install --no-cache-dir "psutil==6.1.0")
+python -c "import tqdm" || (echo "ERROR: tqdm not installed!" && pip install --no-cache-dir "tqdm>=4.66.0,<5.0.0")
 echo "✓ Packages installed"
 
 # 7) Verify critical versions and 4-bit dependencies
