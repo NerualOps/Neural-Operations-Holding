@@ -241,16 +241,31 @@ else:
 
 # Test import and verify 4-bit quantization config can be created
 # Note: CUDA binary warning is OK - BitsAndBytes will still work for 4-bit quantization
-$PYTHON_CMD -c "
+echo "Verifying BitsAndBytes installation..."
+$PYTHON_CMD << 'PYTHON_VERIFY'
 import sys
 import os
-# Suppress CUDA binary warnings for now
+import warnings
+
+# Suppress all warnings during import
+warnings.filterwarnings('ignore')
 os.environ['BITSANDBYTES_NOWELCOME'] = '1'
 
 try:
-    import bitsandbytes
-    from bitsandbytes import BitsAndBytesConfig
-    import torch
+    # Redirect stderr to capture CUDA binary warnings
+    import io
+    from contextlib import redirect_stderr
+    
+    stderr_capture = io.StringIO()
+    with redirect_stderr(stderr_capture):
+        import bitsandbytes
+        from bitsandbytes import BitsAndBytesConfig
+        import torch
+    
+    # Check stderr for CUDA binary warning (non-fatal)
+    stderr_output = stderr_capture.getvalue()
+    if 'CUDA binary' in stderr_output or 'compiled without GPU support' in stderr_output:
+        print('WARNING: BitsAndBytes CUDA binary not found (this is OK for 4-bit quantization)')
     
     # Test that we can create a 4-bit config (this is what we actually use)
     config = BitsAndBytesConfig(
@@ -260,35 +275,51 @@ try:
         bnb_4bit_quant_type='nf4',
     )
     print(f'✓ BitsAndBytes version: {bitsandbytes.__version__}')
-    print('✓ BitsAndBytes 4-bit quantization config works correctly')
+    print('✓ BitsAndBytes 4-bit quantization config created successfully')
     
-    # Check if CUDA is available (even if binary warning appears)
+    # Check if CUDA is available
     if torch.cuda.is_available():
         print(f'✓ CUDA is available: {torch.version.cuda}')
-        print('✓ BitsAndBytes will use CUDA for 4-bit quantization')
+        print('✓ 4-bit quantization will use CUDA')
     else:
-        print('WARNING: CUDA not available, but BitsAndBytes config still works')
+        print('WARNING: CUDA not available, but 4-bit quantization config is valid')
     
+    print('✓ BitsAndBytes is ready for 4-bit quantization')
     sys.exit(0)
+    
 except ImportError as e:
     error_msg = str(e)
     if 'triton.ops' in error_msg:
-        print('ERROR: BitsAndBytes import still failing after patch')
+        print('ERROR: BitsAndBytes import failing due to triton.ops - patch may have failed')
         sys.exit(1)
     else:
         print(f'ERROR: BitsAndBytes import failed: {e}')
         sys.exit(1)
 except Exception as e:
     error_msg = str(e)
-    # CUDA binary warning is not a fatal error - 4-bit quantization will still work
-    if 'CUDA binary' in error_msg or 'compiled without GPU support' in error_msg:
-        print('WARNING: BitsAndBytes CUDA binary not found, but 4-bit quantization config works')
-        print('This is OK - the model will still load with 4-bit quantization')
+    # Any other error - try to continue anyway
+    print(f'WARNING: BitsAndBytes verification error: {e}')
+    print('Attempting to verify config creation anyway...')
+    try:
+        from bitsandbytes import BitsAndBytesConfig
+        import torch
+        config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_use_double_quant=True,
+            bnb_4bit_quant_type='nf4',
+        )
+        print('✓ BitsAndBytesConfig can be created - 4-bit quantization will work')
         sys.exit(0)
-    else:
-        print(f'ERROR: BitsAndBytes test failed: {e}')
+    except:
+        print('ERROR: Cannot create BitsAndBytesConfig')
         sys.exit(1)
-" || (echo "WARNING: BitsAndBytes verification had issues, but 4-bit quantization should still work" && echo "Continuing installation...")
+PYTHON_VERIFY
+
+if [ $? -ne 0 ]; then
+    echo "ERROR: BitsAndBytes verification failed!"
+    exit 1
+fi
 
 # Install optional packages (non-critical)
 echo "Installing optional packages..."
