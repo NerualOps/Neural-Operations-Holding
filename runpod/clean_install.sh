@@ -169,11 +169,12 @@ if [ "$BITSANDBYTES_INSTALLED" = false ]; then
     echo "ERROR: Failed to install BitsAndBytes after 3 attempts!"
     exit 1
 fi
-# Patch BitsAndBytes to handle missing triton.ops (basic 4-bit quantization doesn't need it)
+# Patch BitsAndBytes to handle missing triton.ops
+# NOTE: triton.ops is only used for performance optimization, NOT for core 4-bit quantization
+# Core 4-bit quantization uses CUDA kernels (libbitsandbytes_cuda128.so) which work independently
 echo "Patching BitsAndBytes to handle triton.ops import error..."
 $PYTHON_CMD -c "
 import sys
-import os
 from pathlib import Path
 
 # Find bitsandbytes installation
@@ -186,35 +187,66 @@ except:
 triton_file = Path(site_packages) / 'bitsandbytes' / 'nn' / 'triton_based_modules.py'
 if triton_file.exists():
     content = triton_file.read_text()
-    # Make triton.ops import optional
-    if 'from triton.ops.matmul_perf_model import' in content and 'try:' not in content.split('from triton.ops.matmul_perf_model import')[0][-50:]:
-        new_content = content.replace(
-            'from triton.ops.matmul_perf_model import early_config_prune, estimate_matmul_time',
-            'try:\n    from triton.ops.matmul_perf_model import early_config_prune, estimate_matmul_time\nexcept ImportError:\n    early_config_prune = None\n    estimate_matmul_time = None'
-        )
-        triton_file.write_text(new_content)
-        print('✓ Patched BitsAndBytes triton.ops import')
+    # Make triton.ops import optional - this is only for performance tuning, not core functionality
+    if 'from triton.ops.matmul_perf_model import' in content:
+        # Check if already patched
+        if 'try:' in content and 'from triton.ops.matmul_perf_model import' in content.split('try:')[1] if 'try:' in content else '':
+            print('✓ BitsAndBytes already patched')
+        else:
+            # Patch the import to be optional
+            lines = content.split('\n')
+            new_lines = []
+            patched = False
+            for i, line in enumerate(lines):
+                if 'from triton.ops.matmul_perf_model import' in line and not patched:
+                    new_lines.append('try:')
+                    new_lines.append('    ' + line)
+                    new_lines.append('except ImportError:')
+                    new_lines.append('    # triton.ops is optional - only used for performance optimization')
+                    new_lines.append('    # Core 4-bit quantization works without it')
+                    new_lines.append('    early_config_prune = None')
+                    new_lines.append('    estimate_matmul_time = None')
+                    patched = True
+                else:
+                    new_lines.append(line)
+            if patched:
+                triton_file.write_text('\n'.join(new_lines))
+                print('✓ Patched BitsAndBytes triton.ops import (4-bit quantization will still work)')
+            else:
+                print('✓ Could not find import line to patch')
     else:
-        print('✓ BitsAndBytes already patched or doesn\'t need patching')
+        print('✓ BitsAndBytes doesn\'t need patching')
 else:
     print('WARNING: Could not find BitsAndBytes triton_based_modules.py to patch')
 " || echo "Warning: Could not patch BitsAndBytes (may still work)"
 
-# Test import
+# Test import and verify 4-bit quantization config can be created
 $PYTHON_CMD -c "
 import sys
 try:
     import bitsandbytes
+    from bitsandbytes import BitsAndBytesConfig
+    # Test that we can create a 4-bit config (this is what we actually use)
+    config = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_compute_dtype=None,
+        bnb_4bit_use_double_quant=True,
+        bnb_4bit_quant_type='nf4',
+    )
     print(f'✓ BitsAndBytes version: {bitsandbytes.__version__}')
+    print('✓ BitsAndBytes 4-bit quantization config works correctly')
     sys.exit(0)
-except Exception as e:
+except ImportError as e:
     error_msg = str(e)
     if 'triton.ops' in error_msg:
-        print('WARNING: BitsAndBytes has triton.ops import issue, but basic 4-bit quantization should still work')
-        sys.exit(0)
+        print('ERROR: BitsAndBytes import still failing after patch')
+        sys.exit(1)
     else:
         print(f'ERROR: BitsAndBytes import failed: {e}')
         sys.exit(1)
+except Exception as e:
+    print(f'ERROR: BitsAndBytes test failed: {e}')
+    sys.exit(1)
 " || (echo "ERROR: BitsAndBytes installation verification failed!" && exit 1)
 
 # Install optional packages (non-critical)
