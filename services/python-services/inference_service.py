@@ -383,98 +383,16 @@ def load_model():
         else:
             print(f"[INFERENCE SERVICE] WARNING: config.json not found at {config_json_path}", flush=True)
         
-        force_bnb_4bit = use_bitsandbytes or os.getenv("EPSILON_FORCE_BNB_4BIT", "").strip() in {"1", "true", "True", "yes", "YES"}
-        quantization_config = None
-        model_is_pre_quantized = False
-        verified_4bit_pre_quantized = False
-
-        # Check quantization config from loaded config object or config.json
-        if model_config_obj is not None:
-            try:
-                if hasattr(model_config_obj, 'quantization_config'):
-                    qc = model_config_obj.quantization_config
-                elif hasattr(model_config_obj, 'to_dict'):
-                    cfg_dict = model_config_obj.to_dict()
-                    qc = cfg_dict.get("quantization_config")
-                elif isinstance(model_config_obj, dict):
-                    qc = model_config_obj.get("quantization_config")
-                else:
-                    qc = None
-                
-                if qc is None and config_data:
-                    qc = config_data.get("quantization_config")
-                
-                if qc is not None:
-                    qc_type = type(qc).__name__ if hasattr(qc, '__class__') else str(type(qc))
-                    qc_dict = qc.to_dict() if hasattr(qc, "to_dict") else (qc if isinstance(qc, dict) else {})
-                    quant_method = qc_dict.get("quant_method") if isinstance(qc_dict, dict) else None
-                    
-                    # CRITICAL: Never trust MXFP4 pre-quantization - kernels often fail, causing bf16 fallback
-                    # Always force BitsAndBytes 4-bit to ensure it actually works
-                    if quant_method == "mxfp4" or "mxfp4" in str(qc_type).lower() or "Mxfp4" in qc_type:
-                        print(f"[INFERENCE SERVICE] Model claims MXFP4 quantization, but MXFP4 kernels are unreliable", flush=True)
-                        print(f"[INFERENCE SERVICE] FORCING BitsAndBytes 4-bit quantization to prevent bf16 fallback", flush=True)
-                        force_bnb_4bit = True
-                        verified_4bit_pre_quantized = False
-                    elif quant_method == "bitsandbytes" or "bitsandbytes" in str(qc_type).lower() or "bnb" in str(qc_type).lower():
-                        print(f"[INFERENCE SERVICE] Model claims BitsAndBytes quantization - will verify after load", flush=True)
-                        verified_4bit_pre_quantized = True
-                    else:
-                        print(f"[INFERENCE SERVICE] Model has quantization config ({qc_type}) but method unknown - will apply 4-bit", flush=True)
-                        force_bnb_4bit = True
-                        verified_4bit_pre_quantized = False
-                else:
-                    print(f"[INFERENCE SERVICE] Model does not appear to be pre-quantized - will apply 4-bit", flush=True)
-                    force_bnb_4bit = True
-            except Exception as e:
-                print(f"[INFERENCE SERVICE] Could not check quantization from config: {e} - will apply 4-bit", flush=True)
-                force_bnb_4bit = True
-        elif config_data:
-            qc = config_data.get("quantization_config")
-            if qc is not None:
-                qc_type = str(type(qc)) if not isinstance(qc, dict) else str(qc)
-                quant_method = qc.get("quant_method") if isinstance(qc, dict) else None
-                if quant_method == "mxfp4" or "mxfp4" in qc_type.lower():
-                    print(f"[INFERENCE SERVICE] Model claims MXFP4 quantization, but MXFP4 kernels are unreliable", flush=True)
-                    print(f"[INFERENCE SERVICE] FORCING BitsAndBytes 4-bit quantization to prevent bf16 fallback", flush=True)
-                    force_bnb_4bit = True
-                    verified_4bit_pre_quantized = False
-                elif quant_method == "bitsandbytes" or "bitsandbytes" in qc_type.lower():
-                    print(f"[INFERENCE SERVICE] Model claims BitsAndBytes quantization - will verify after load", flush=True)
-                    verified_4bit_pre_quantized = True
-                else:
-                    print(f"[INFERENCE SERVICE] Model has quantization config but method unknown - will apply 4-bit", flush=True)
-                    force_bnb_4bit = True
-            else:
-                print(f"[INFERENCE SERVICE] No quantization config found - will apply 4-bit", flush=True)
-                force_bnb_4bit = True
-        else:
-            print(f"[INFERENCE SERVICE] No config data available - will apply 4-bit", flush=True)
-            force_bnb_4bit = True
-
-        # CRITICAL: Always apply 4-bit quantization unless model is verified pre-quantized
-        # Never allow None quantization_config - that would load as bf16
-        if not verified_4bit_pre_quantized:
-            if force_bnb_4bit:
-                quantization_config = BitsAndBytesConfig(
-                    load_in_4bit=True,
-                    bnb_4bit_compute_dtype=torch.float16,
-                    bnb_4bit_use_double_quant=True,
-                    bnb_4bit_quant_type="nf4",
-                )
-                print("[INFERENCE SERVICE] Applying BitsAndBytes 4-bit quantization", flush=True)
-            else:
-                raise RuntimeError(
-                    "CRITICAL: Cannot load model without 4-bit quantization. "
-                    "Model is not verified as pre-quantized and MXFP4 is not available. "
-                    "This would load as bf16 (~240GB, will OOM)."
-                )
-        else:
-            # Even if model claims to be pre-quantized, we should still apply BitsAndBytes to be safe
-            # MXFP4 kernels often fail silently and fall back to bf16
-            print("[INFERENCE SERVICE] WARNING: Model claims to be pre-quantized but we're not applying quantization_config", flush=True)
-            print("[INFERENCE SERVICE] This is risky - MXFP4 kernels may fail and fall back to bf16", flush=True)
-            print("[INFERENCE SERVICE] Will verify dtype after load and fail if bf16/fp16", flush=True)
+        # CRITICAL: ALWAYS apply BitsAndBytes 4-bit quantization
+        # Never trust pre-quantization claims - always force quantization to prevent bf16 fallback
+        print("[INFERENCE SERVICE] ALWAYS applying BitsAndBytes 4-bit quantization (never trust pre-quantization)", flush=True)
+        quantization_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_use_double_quant=True,
+            bnb_4bit_quant_type="nf4",
+        )
+        print("[INFERENCE SERVICE] BitsAndBytes 4-bit quantization config created", flush=True)
         
         # If model is pre-quantized with Mxfp4Config but we're hitting OOM, 
         # we can't override quantization, but we can use more aggressive memory management
@@ -575,17 +493,9 @@ def load_model():
             # Enable CPU offloading for very large models (120B+)
             load_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
             Path(load_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
-        if quantization_config is not None:
-            load_kwargs["quantization_config"] = quantization_config
-            print(f"[INFERENCE SERVICE] Will load with quantization_config: {type(quantization_config).__name__}", flush=True)
-        else:
-            if verified_4bit_pre_quantized:
-                print(f"[INFERENCE SERVICE] Will load WITHOUT quantization_config (model claims to be pre-quantized - will verify after load)", flush=True)
-            else:
-                raise RuntimeError(
-                    "CRITICAL: quantization_config is None but model is not verified as pre-quantized. "
-                    "This would load as bf16 (~240GB, will OOM). This should never happen."
-                )
+        # ALWAYS pass quantization_config - never skip it
+        load_kwargs["quantization_config"] = quantization_config
+        print(f"[INFERENCE SERVICE] Will load with quantization_config: {type(quantization_config).__name__}", flush=True)
         
         # Clear GPU cache before loading to maximize available memory
         if torch.cuda.is_available():
