@@ -12,6 +12,8 @@ sys.stderr.reconfigure(line_buffering=True) if hasattr(sys.stderr, 'reconfigure'
 
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True'
 os.environ['PYTHONUNBUFFERED'] = '1'  # Ensure unbuffered output
+# Set CUDA launch blocking for better error reporting (can be removed in production if needed)
+os.environ.setdefault('CUDA_LAUNCH_BLOCKING', '0')
 
 from pathlib import Path
 from typing import Optional, List, Any
@@ -193,41 +195,24 @@ def load_model():
         if free_gb < 50:
             print(f"[INFERENCE SERVICE] WARNING: Low disk space ({free_gb:.2f} GB). Model requires ~40GB.", flush=True)
         
+        # Check CUDA availability without accessing devices (avoids initialization issues)
         if torch.cuda.is_available():
-            num_gpus = torch.cuda.device_count()
-            print(f"[INFERENCE SERVICE] Detected {num_gpus} GPU(s)", flush=True)
-            
-            # Safely check GPU memory without forcing device changes
-            for gpu_id in range(num_gpus):
-                try:
-                    with torch.cuda.device(gpu_id):
-                        torch.cuda.empty_cache()
-                        torch.cuda.synchronize()
-                except Exception as e:
-                    print(f"[INFERENCE SERVICE] WARNING: Could not access GPU {gpu_id}: {e}", flush=True)
-                    continue
-            
-            gc.collect()
-            
-            # Report GPU memory status
-            for gpu_id in range(num_gpus):
-                try:
-                    with torch.cuda.device(gpu_id):
-                        torch.cuda.empty_cache()
-                        allocated = torch.cuda.memory_allocated(gpu_id) / (1024**3)
-                        reserved = torch.cuda.memory_reserved(gpu_id) / (1024**3)
-                        total = torch.cuda.get_device_properties(gpu_id).total_memory / (1024**3)
-                        free = total - reserved
-                        print(f"[INFERENCE SERVICE] GPU {gpu_id} memory - Total: {total:.2f} GB, Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Free: {free:.2f} GB", flush=True)
-                except Exception as e:
-                    print(f"[INFERENCE SERVICE] WARNING: Could not query GPU {gpu_id} memory: {e}", flush=True)
-                    continue
-            
             try:
-                total_memory = sum(torch.cuda.get_device_properties(i).total_memory for i in range(num_gpus)) / (1024**3)
-                print(f"[INFERENCE SERVICE] Total GPU memory across {num_gpus} GPU(s): {total_memory:.2f} GB", flush=True)
+                num_gpus = torch.cuda.device_count()
+                print(f"[INFERENCE SERVICE] Detected {num_gpus} GPU(s)", flush=True)
+                
+                # Just report device names without accessing them
+                for gpu_id in range(num_gpus):
+                    try:
+                        props = torch.cuda.get_device_properties(gpu_id)
+                        total_gb = props.total_memory / (1024**3)
+                        print(f"[INFERENCE SERVICE] GPU {gpu_id}: {props.name}, {total_gb:.2f} GB total memory", flush=True)
+                    except Exception as e:
+                        print(f"[INFERENCE SERVICE] WARNING: Could not query GPU {gpu_id} properties: {e}", flush=True)
+                        continue
             except Exception as e:
-                print(f"[INFERENCE SERVICE] WARNING: Could not calculate total GPU memory: {e}", flush=True)
+                print(f"[INFERENCE SERVICE] WARNING: Could not query CUDA devices: {e}", flush=True)
+                print(f"[INFERENCE SERVICE] Will attempt to load model anyway - device_map='auto' will handle placement", flush=True)
         
         hub_dir = Path.home() / ".cache" / "huggingface"
         if hub_dir.exists():
