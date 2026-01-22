@@ -18,7 +18,8 @@ triton==3.4.0  # MUST match PyTorch version - PyTorch 2.8.0 requires triton==3.4
 # accelerate, huggingface_hub, safetensors installed with transformers from GitHub (latest versions)
 # accelerate==0.34.0  # Installed with transformers
 # huggingface_hub==0.26.0  # Installed with transformers - needs >=0.27.0 for latest transformers
-bitsandbytes==0.44.0
+# bitsandbytes installed separately - use latest version compatible with Triton 3.4.0
+# bitsandbytes==0.44.0  # Old version has triton.ops incompatibility
 
 # Utilities
 python-dotenv==1.0.1

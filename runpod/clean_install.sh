@@ -160,23 +160,16 @@ $PIP_CMD install --no-cache-dir -r "$TEMP_REQ" || {
 }
 rm -f "$TEMP_REQ"
 
-# CRITICAL: Install BitsAndBytes for 4-bit quantization (required for Python 3.12+ and fallback)
-# Install with CUDA support - need to ensure CUDA is available
-echo "Installing BitsAndBytes for 4-bit quantization with CUDA support..."
-# Check CUDA version
-CUDA_VERSION=$(nvcc --version 2>/dev/null | grep "release" | sed 's/.*release \([0-9]\+\.[0-9]\+\).*/\1/') || CUDA_VERSION="12.8"
-echo "Detected CUDA version: ${CUDA_VERSION}"
+# CRITICAL: Install BitsAndBytes for 4-bit quantization
+# Upgrade to latest version that's compatible with Triton 3.4.0 (removes triton.ops dependency)
+echo "Installing BitsAndBytes for 4-bit quantization (latest version compatible with Triton 3.4.0)..."
+# Remove broken version first
+$PIP_CMD uninstall -y bitsandbytes 2>/dev/null || true
 
-# Install BitsAndBytes - try with CUDA environment variable set
-export CUDA_HOME=/usr/local/cuda 2>/dev/null || true
-export PATH=/usr/local/cuda/bin:$PATH 2>/dev/null || true
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH 2>/dev/null || true
-
+# Install latest BitsAndBytes that works with Triton 3.4.0
 BITSANDBYTES_INSTALLED=false
 for i in {1..3}; do
-    # Uninstall first to ensure clean install
-    $PIP_CMD uninstall -y bitsandbytes 2>/dev/null || true
-    if $PIP_CMD install --no-cache-dir "bitsandbytes==0.44.0"; then
+    if $PIP_CMD install --no-cache-dir -U bitsandbytes; then
         BITSANDBYTES_INSTALLED=true
         break
     else
@@ -188,174 +181,31 @@ if [ "$BITSANDBYTES_INSTALLED" = false ]; then
     echo "ERROR: Failed to install BitsAndBytes after 3 attempts!"
     exit 1
 fi
-# Patch BitsAndBytes to handle missing triton.ops
-# NOTE: triton.ops is only used for performance optimization, NOT for core 4-bit quantization
-# Core 4-bit quantization uses CUDA kernels (libbitsandbytes_cuda128.so) which work independently
-echo "Patching BitsAndBytes to handle triton.ops import error..."
-$PYTHON_CMD << 'PATCH_SCRIPT'
-import sys
-from pathlib import Path
-import re
 
-# Find bitsandbytes installation
-try:
-    import site
-    site_packages = site.getsitepackages()[0] if site.getsitepackages() else '/usr/local/lib/python3.11/dist-packages'
-except:
-    site_packages = '/usr/local/lib/python3.11/dist-packages'
-
-triton_file = Path(site_packages) / 'bitsandbytes' / 'nn' / 'triton_based_modules.py'
-if not triton_file.exists():
-    print('ERROR: Could not find BitsAndBytes triton_based_modules.py to patch')
-    sys.exit(1)
-
-content = triton_file.read_text()
-
-# Check if already patched
-if 'try:' in content and 'from triton.ops.matmul_perf_model import' in content:
-    # Check if the try is right before the import
-    lines = content.split('\n')
-    for i, line in enumerate(lines):
-        if 'from triton.ops.matmul_perf_model import' in line:
-            # Check if previous line is 'try:'
-            if i > 0 and lines[i-1].strip() == 'try:':
-                print('✓ BitsAndBytes already patched')
-                sys.exit(0)
-            break
-
-# Find and patch the import line
-if 'from triton.ops.matmul_perf_model import' in content:
-    # Use regex to find the exact import line and replace it
-    pattern = r'^(\s*)from triton\.ops\.matmul_perf_model import (early_config_prune, estimate_matmul_time)'
-    
-    def replace_import(match):
-        indent = match.group(1)
-        imports = match.group(2)
-        return f'{indent}try:\n{indent}    from triton.ops.matmul_perf_model import {imports}\n{indent}except ImportError:\n{indent}    # triton.ops is optional - only used for performance optimization\n{indent}    # Core 4-bit quantization works without it\n{indent}    early_config_prune = None\n{indent}    estimate_matmul_time = None'
-    
-    new_content = re.sub(pattern, replace_import, content, flags=re.MULTILINE)
-    
-    if new_content != content:
-        triton_file.write_text(new_content)
-        print('✓ Patched BitsAndBytes triton.ops import (4-bit quantization will still work)')
-        sys.exit(0)
-    else:
-        print('WARNING: Could not find import line to patch with regex, trying line-by-line...')
-        # Fallback: line-by-line replacement
-        lines = content.split('\n')
-        new_lines = []
-        patched = False
-        for i, line in enumerate(lines):
-            if 'from triton.ops.matmul_perf_model import' in line and not patched:
-                indent = len(line) - len(line.lstrip())
-                indent_str = ' ' * indent
-                new_lines.append(indent_str + 'try:')
-                new_lines.append(indent_str + '    ' + line.lstrip())
-                new_lines.append(indent_str + 'except ImportError:')
-                new_lines.append(indent_str + '    # triton.ops is optional - only used for performance optimization')
-                new_lines.append(indent_str + '    # Core 4-bit quantization works without it')
-                new_lines.append(indent_str + '    early_config_prune = None')
-                new_lines.append(indent_str + '    estimate_matmul_time = None')
-                patched = True
-            else:
-                new_lines.append(line)
-        if patched:
-            triton_file.write_text('\n'.join(new_lines))
-            print('✓ Patched BitsAndBytes triton.ops import (line-by-line method)')
-            sys.exit(0)
-        else:
-            print('ERROR: Could not find import line to patch')
-            sys.exit(1)
-else:
-    print('WARNING: triton.ops import line not found in file - may not need patching')
-    sys.exit(0)
-PATCH_SCRIPT
-
-if [ $? -ne 0 ]; then
-    echo "WARNING: BitsAndBytes patch had issues, but continuing..."
-fi
-
-# Test import and verify 4-bit quantization config can be created
-# Note: CUDA binary warning is OK - BitsAndBytes will still work for 4-bit quantization
+# Verify BitsAndBytes installation (must succeed)
 echo "Verifying BitsAndBytes installation..."
-$PYTHON_CMD << 'PYTHON_VERIFY'
-import sys
-import os
-import warnings
-
-# Suppress all warnings during import
-warnings.filterwarnings('ignore')
-os.environ['BITSANDBYTES_NOWELCOME'] = '1'
-
-try:
-    # Redirect stderr to capture CUDA binary warnings
-    import io
-    from contextlib import redirect_stderr
-    
-    stderr_capture = io.StringIO()
-    with redirect_stderr(stderr_capture):
-        import bitsandbytes
-        from bitsandbytes import BitsAndBytesConfig
-        import torch
-    
-    # Check stderr for CUDA binary warning (non-fatal)
-    stderr_output = stderr_capture.getvalue()
-    if 'CUDA binary' in stderr_output or 'compiled without GPU support' in stderr_output:
-        print('WARNING: BitsAndBytes CUDA binary not found (this is OK for 4-bit quantization)')
-    
-    # Test that we can create a 4-bit config (this is what we actually use)
-    config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_compute_dtype=torch.float16,
-        bnb_4bit_use_double_quant=True,
-        bnb_4bit_quant_type='nf4',
-    )
-    print(f'✓ BitsAndBytes version: {bitsandbytes.__version__}')
-    print('✓ BitsAndBytes 4-bit quantization config created successfully')
-    
-    # Check if CUDA is available
-    if torch.cuda.is_available():
-        print(f'✓ CUDA is available: {torch.version.cuda}')
-        print('✓ 4-bit quantization will use CUDA')
-    else:
-        print('WARNING: CUDA not available, but 4-bit quantization config is valid')
-    
-    print('✓ BitsAndBytes is ready for 4-bit quantization')
-    sys.exit(0)
-    
-except ImportError as e:
-    error_msg = str(e)
-    if 'triton.ops' in error_msg:
-        print('ERROR: BitsAndBytes import failing due to triton.ops - patch may have failed')
-        sys.exit(1)
-    else:
-        print(f'ERROR: BitsAndBytes import failed: {e}')
-        sys.exit(1)
-except Exception as e:
-    error_msg = str(e)
-    # Any other error - try to continue anyway
-    print(f'WARNING: BitsAndBytes verification error: {e}')
-    print('Attempting to verify config creation anyway...')
-    try:
-        from bitsandbytes import BitsAndBytesConfig
-        import torch
-        config = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_compute_dtype=torch.float16,
-            bnb_4bit_use_double_quant=True,
-            bnb_4bit_quant_type='nf4',
-        )
-        print('✓ BitsAndBytesConfig can be created - 4-bit quantization will work')
-        sys.exit(0)
-    except:
-        print('ERROR: Cannot create BitsAndBytesConfig')
-        sys.exit(1)
-PYTHON_VERIFY
-
-if [ $? -ne 0 ]; then
-    echo "ERROR: BitsAndBytes verification failed!"
+$PYTHON_CMD -c "import bitsandbytes as bnb; print('✓ bitsandbytes OK:', bnb.__version__)" || {
+    echo "ERROR: BitsAndBytes import failed!"
     exit 1
-fi
+}
+
+# Verify 4-bit quantization config can be created
+$PYTHON_CMD -c "
+from bitsandbytes import BitsAndBytesConfig
+import torch
+config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_compute_dtype=torch.float16,
+    bnb_4bit_use_double_quant=True,
+    bnb_4bit_quant_type='nf4',
+)
+print('✓ BitsAndBytes 4-bit quantization config works correctly')
+if torch.cuda.is_available():
+    print(f'✓ CUDA available: {torch.version.cuda}')
+" || {
+    echo "ERROR: BitsAndBytes 4-bit config creation failed!"
+    exit 1
+}
 
 # Install optional packages (non-critical)
 echo "Installing optional packages..."
