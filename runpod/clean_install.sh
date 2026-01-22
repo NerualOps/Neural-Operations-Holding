@@ -93,16 +93,23 @@ fi
 
 # Install requirements but skip transformers line (already installed from GitHub)
 # Also skip comments and empty lines
+TEMP_REQ=$(mktemp)
 grep -v "^git+https://github.com/huggingface/transformers.git" "$REQUIREMENTS_FILE" | \
     grep -v "^#.*transformers" | \
     grep -v "^#" | \
-    grep -v "^$" | \
+    grep -v "^$" > "$TEMP_REQ"
+
+# Install all requirements at once (more reliable than one-by-one)
+pip install --no-cache-dir -r "$TEMP_REQ" || {
+    echo "Warning: Some packages failed, trying individual installs..."
     while read -r line; do
         if [ -n "$line" ]; then
             echo "Installing: $line"
-            pip install --no-cache-dir "$line" || echo "Warning: Failed to install $line (may be optional)"
+            pip install --no-cache-dir "$line" || echo "Warning: Failed to install $line"
         fi
-    done
+    done < "$TEMP_REQ"
+}
+rm -f "$TEMP_REQ"
 
 # CRITICAL: Install BitsAndBytes for 4-bit quantization (required for Python 3.12+ and fallback)
 echo "Installing BitsAndBytes for 4-bit quantization..."
