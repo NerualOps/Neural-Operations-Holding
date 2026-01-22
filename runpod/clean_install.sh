@@ -88,6 +88,10 @@ else
     grep -v "^git+https://github.com/huggingface/transformers.git" /tmp/requirements.txt | grep -v "^#.*transformers" | pip install --no-cache-dir -r /dev/stdin || true
 fi
 
+# CRITICAL: Install BitsAndBytes for 4-bit quantization (required for Python 3.12+ and fallback)
+echo "Installing BitsAndBytes for 4-bit quantization..."
+pip install --no-cache-dir "bitsandbytes==0.44.0" || (echo "ERROR: BitsAndBytes installation failed!" && exit 1)
+
 # Install optional packages (non-critical)
 echo "Installing optional packages..."
 pip install --no-cache-dir "hf-transfer>=0.1.9" 2>/dev/null || echo "Warning: hf-transfer failed (optional, continuing...)"
@@ -97,17 +101,20 @@ python -c "import uvicorn" || (echo "ERROR: uvicorn not installed!" && pip insta
 python -c "import fastapi" || (echo "ERROR: fastapi not installed!" && pip install --no-cache-dir "fastapi==0.115.0")
 echo "✓ Packages installed"
 
-# 7) Verify critical versions
+# 7) Verify critical versions and 4-bit dependencies
 echo ""
-echo "[7/7] Verifying versions..."
+echo "[7/7] Verifying versions and 4-bit dependencies..."
 python -c "import torch; print(f'PyTorch: {torch.__version__}')" || (echo "ERROR: PyTorch not installed!" && exit 1)
 python -c "import triton; print(f'Triton: {triton.__version__}')" || (echo "ERROR: Triton not installed!" && exit 1)
 python -c "import transformers; print(f'Transformers: {transformers.__version__}')" || (echo "ERROR: Transformers not installed!" && exit 1)
+python -c "import bitsandbytes; print(f'BitsAndBytes: {bitsandbytes.__version__}')" || (echo "ERROR: BitsAndBytes not installed!" && exit 1)
 python -c "import uvicorn; print(f'Uvicorn: {uvicorn.__version__}')" || (echo "ERROR: Uvicorn not installed!" && exit 1)
 python -c "import fastapi; print(f'FastAPI: {fastapi.__version__}')" || (echo "ERROR: FastAPI not installed!" && exit 1)
 python -c "import torch; assert '2.8.0' in torch.__version__, f'PyTorch version mismatch: {torch.__version__}'"
 python -c "import triton; assert triton.__version__ == '3.4.0', f'Triton version mismatch: {triton.__version__} (required: 3.4.0)'"
+python -c "import bitsandbytes; assert '0.44' in bitsandbytes.__version__, f'BitsAndBytes version mismatch: {bitsandbytes.__version__}'"
 echo "✓ Version verification passed"
+echo "✓ 4-bit quantization dependencies verified (Triton for MXFP4, BitsAndBytes for fallback)"
 
 echo ""
 echo "=========================================="

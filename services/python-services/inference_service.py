@@ -162,12 +162,17 @@ def load_model():
     # Check PyTorch version
     print(f"[INFERENCE SERVICE] PyTorch version: {torch.__version__}, CUDA: {torch.version.cuda}", flush=True)
     
-    # If Python 3.12+, use BitsAndBytes instead of MXFP4 (Triton kernels won't work)
     if use_bitsandbytes:
-        print(f"[INFERENCE SERVICE] Using BitsAndBytes 4-bit quantization (Python 3.12+ compatibility)", flush=True)
+        try:
+            import bitsandbytes
+            print(f"[INFERENCE SERVICE] Using BitsAndBytes 4-bit quantization (Python 3.12+ compatibility)", flush=True)
+            print(f"[INFERENCE SERVICE] BitsAndBytes version: {bitsandbytes.__version__}", flush=True)
+        except ImportError:
+            raise RuntimeError(
+                "BitsAndBytes is REQUIRED for 4-bit quantization on Python 3.12+. "
+                "Install: pip install 'bitsandbytes==0.44.0'"
+            )
     else:
-        # HARD STOP: If Triton is not available or incompatible, FAIL IMMEDIATELY
-        # NO FALLBACK - bf16 would require ~240GB and exhaust system memory
         if not triton_available:
             raise RuntimeError(
                 "Triton is REQUIRED for MXFP4 quantization. Without it, the model will attempt to load as bf16 "
@@ -178,23 +183,7 @@ def load_model():
                 f"Triton version {triton_version} is incompatible with PyTorch {torch.__version__}. "
                 f"PyTorch requires triton==3.4.0. Fix: pip uninstall -y triton && pip install 'triton==3.4.0'"
             )
-    
-    # CRITICAL: Check if MXFP4 kernels are actually available (not just Triton installed)
-    # Python 3.12 has Triton compatibility issues that prevent kernel compilation
-    try:
-        import triton.language as tl
-        # Try to compile a simple MXFP4 kernel to verify kernels work
-        # If this fails, MXFP4 quantization will fall back to bf16
-        print(f"[INFERENCE SERVICE] Verifying MXFP4 kernel availability...", flush=True)
-        # Check if we can access kernel compilation (indirect check)
-        if python_version.major == 3 and python_version.minor >= 12:
-            print(f"[INFERENCE SERVICE] WARNING: Python 3.12 detected - MXFP4 kernels may not compile correctly", flush=True)
-            print(f"[INFERENCE SERVICE] This may cause fallback to bf16 (240GB, will OOM)", flush=True)
-            print(f"[INFERENCE SERVICE] RECOMMENDATION: Use Python 3.11 for Triton/MXFP4 compatibility", flush=True)
-    except Exception as e:
-        print(f"[INFERENCE SERVICE] WARNING: Could not verify MXFP4 kernel availability: {e}", flush=True)
-    
-    print(f"[INFERENCE SERVICE] Triton check passed - MXFP4 quantization should work", flush=True)
+        print(f"[INFERENCE SERVICE] Triton check passed - MXFP4 quantization available", flush=True)
     
     try:
         import shutil
