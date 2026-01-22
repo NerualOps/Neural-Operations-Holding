@@ -197,24 +197,37 @@ def load_model():
             num_gpus = torch.cuda.device_count()
             print(f"[INFERENCE SERVICE] Detected {num_gpus} GPU(s)", flush=True)
             
+            # Safely check GPU memory without forcing device changes
             for gpu_id in range(num_gpus):
-                torch.cuda.set_device(gpu_id)
-                torch.cuda.empty_cache()
-                torch.cuda.synchronize()
+                try:
+                    with torch.cuda.device(gpu_id):
+                        torch.cuda.empty_cache()
+                        torch.cuda.synchronize()
+                except Exception as e:
+                    print(f"[INFERENCE SERVICE] WARNING: Could not access GPU {gpu_id}: {e}", flush=True)
+                    continue
             
             gc.collect()
             
+            # Report GPU memory status
             for gpu_id in range(num_gpus):
-                torch.cuda.set_device(gpu_id)
-                torch.cuda.empty_cache()
-                allocated = torch.cuda.memory_allocated(gpu_id) / (1024**3)
-                reserved = torch.cuda.memory_reserved(gpu_id) / (1024**3)
-                total = torch.cuda.get_device_properties(gpu_id).total_memory / (1024**3)
-                free = total - reserved
-                print(f"[INFERENCE SERVICE] GPU {gpu_id} memory - Total: {total:.2f} GB, Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Free: {free:.2f} GB", flush=True)
+                try:
+                    with torch.cuda.device(gpu_id):
+                        torch.cuda.empty_cache()
+                        allocated = torch.cuda.memory_allocated(gpu_id) / (1024**3)
+                        reserved = torch.cuda.memory_reserved(gpu_id) / (1024**3)
+                        total = torch.cuda.get_device_properties(gpu_id).total_memory / (1024**3)
+                        free = total - reserved
+                        print(f"[INFERENCE SERVICE] GPU {gpu_id} memory - Total: {total:.2f} GB, Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Free: {free:.2f} GB", flush=True)
+                except Exception as e:
+                    print(f"[INFERENCE SERVICE] WARNING: Could not query GPU {gpu_id} memory: {e}", flush=True)
+                    continue
             
-            total_memory = sum(torch.cuda.get_device_properties(i).total_memory for i in range(num_gpus)) / (1024**3)
-            print(f"[INFERENCE SERVICE] Total GPU memory across {num_gpus} GPU(s): {total_memory:.2f} GB", flush=True)
+            try:
+                total_memory = sum(torch.cuda.get_device_properties(i).total_memory for i in range(num_gpus)) / (1024**3)
+                print(f"[INFERENCE SERVICE] Total GPU memory across {num_gpus} GPU(s): {total_memory:.2f} GB", flush=True)
+            except Exception as e:
+                print(f"[INFERENCE SERVICE] WARNING: Could not calculate total GPU memory: {e}", flush=True)
         
         hub_dir = Path.home() / ".cache" / "huggingface"
         if hub_dir.exists():
@@ -325,26 +338,39 @@ def load_model():
             num_gpus = torch.cuda.device_count()
             print(f"[INFERENCE SERVICE] Preparing {num_gpus} GPU(s) for model loading", flush=True)
             
+            # Safely clear GPU cache without forcing device changes
             for gpu_id in range(num_gpus):
-                torch.cuda.set_device(gpu_id)
-                torch.cuda.empty_cache()
-                torch.cuda.synchronize()
-                torch.cuda.ipc_collect()
-                torch.cuda.empty_cache()
+                try:
+                    with torch.cuda.device(gpu_id):
+                        torch.cuda.empty_cache()
+                        torch.cuda.synchronize()
+                        torch.cuda.ipc_collect()
+                        torch.cuda.empty_cache()
+                except Exception as e:
+                    print(f"[INFERENCE SERVICE] WARNING: Could not clear GPU {gpu_id} cache: {e}", flush=True)
+                    continue
             
             gc.collect()
             
+            # Report GPU memory status
             for gpu_id in range(num_gpus):
-                torch.cuda.set_device(gpu_id)
-                allocated = torch.cuda.memory_allocated(gpu_id) / (1024**3)
-                reserved = torch.cuda.memory_reserved(gpu_id) / (1024**3)
-                total = torch.cuda.get_device_properties(gpu_id).total_memory / (1024**3)
-                free = total - reserved
-                print(f"[INFERENCE SERVICE] GPU {gpu_id} memory before load - Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Free: {free:.2f} GB, Total: {total:.2f} GB", flush=True)
+                try:
+                    with torch.cuda.device(gpu_id):
+                        allocated = torch.cuda.memory_allocated(gpu_id) / (1024**3)
+                        reserved = torch.cuda.memory_reserved(gpu_id) / (1024**3)
+                        total = torch.cuda.get_device_properties(gpu_id).total_memory / (1024**3)
+                        free = total - reserved
+                        print(f"[INFERENCE SERVICE] GPU {gpu_id} memory before load - Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Free: {free:.2f} GB, Total: {total:.2f} GB", flush=True)
+                except Exception as e:
+                    print(f"[INFERENCE SERVICE] WARNING: Could not query GPU {gpu_id} memory: {e}", flush=True)
+                    continue
             
-            total_memory = sum(torch.cuda.get_device_properties(i).total_memory for i in range(num_gpus)) / (1024**3)
-            total_free = sum((torch.cuda.get_device_properties(i).total_memory / (1024**3)) - (torch.cuda.memory_reserved(i) / (1024**3)) for i in range(num_gpus))
-            print(f"[INFERENCE SERVICE] Total available GPU memory: {total_memory:.2f} GB, Free: {total_free:.2f} GB", flush=True)
+            try:
+                total_memory = sum(torch.cuda.get_device_properties(i).total_memory for i in range(num_gpus)) / (1024**3)
+                total_free = sum((torch.cuda.get_device_properties(i).total_memory / (1024**3)) - (torch.cuda.memory_reserved(i) / (1024**3)) for i in range(num_gpus))
+                print(f"[INFERENCE SERVICE] Total available GPU memory: {total_memory:.2f} GB, Free: {total_free:.2f} GB", flush=True)
+            except Exception as e:
+                print(f"[INFERENCE SERVICE] WARNING: Could not calculate total GPU memory: {e}", flush=True)
         
         # CRITICAL FIX: Load config.json directly and create config object manually
         # This bypasses CONFIG_MAPPING lookup entirely, which fails for unknown architectures like 'gpt_oss'
@@ -588,9 +614,13 @@ def load_model():
         # Clear GPU cache before loading to maximize available memory
         if torch.cuda.is_available():
             for gpu_id in range(torch.cuda.device_count()):
-                torch.cuda.set_device(gpu_id)
-                torch.cuda.empty_cache()
-                torch.cuda.ipc_collect()
+                try:
+                    with torch.cuda.device(gpu_id):
+                        torch.cuda.empty_cache()
+                        torch.cuda.ipc_collect()
+                except Exception as e:
+                    print(f"[INFERENCE SERVICE] WARNING: Could not clear GPU {gpu_id} cache: {e}", flush=True)
+                    continue
             gc.collect()
             print(f"[INFERENCE SERVICE] Cleared GPU cache before model load", flush=True)
         
@@ -656,9 +686,13 @@ def load_model():
             # Clear GPU cache before each attempt
             if torch.cuda.is_available():
                 for gpu_id in range(torch.cuda.device_count()):
-                    torch.cuda.set_device(gpu_id)
-                    torch.cuda.empty_cache()
-                    torch.cuda.ipc_collect()
+                    try:
+                        with torch.cuda.device(gpu_id):
+                            torch.cuda.empty_cache()
+                            torch.cuda.ipc_collect()
+                    except Exception as e:
+                        print(f"[INFERENCE SERVICE] WARNING: Could not clear GPU {gpu_id} cache: {e}", flush=True)
+                        continue
                 gc.collect()
             
             try:
