@@ -169,23 +169,52 @@ if [ "$BITSANDBYTES_INSTALLED" = false ]; then
     echo "ERROR: Failed to install BitsAndBytes after 3 attempts!"
     exit 1
 fi
-# Test import - ignore triton.ops errors as basic 4-bit quantization doesn't require it
+# Patch BitsAndBytes to handle missing triton.ops (basic 4-bit quantization doesn't need it)
+echo "Patching BitsAndBytes to handle triton.ops import error..."
+$PYTHON_CMD -c "
+import sys
+import os
+from pathlib import Path
+
+# Find bitsandbytes installation
+try:
+    import site
+    site_packages = site.getsitepackages()[0] if site.getsitepackages() else '/usr/local/lib/python3.11/dist-packages'
+except:
+    site_packages = '/usr/local/lib/python3.11/dist-packages'
+
+triton_file = Path(site_packages) / 'bitsandbytes' / 'nn' / 'triton_based_modules.py'
+if triton_file.exists():
+    content = triton_file.read_text()
+    # Make triton.ops import optional
+    if 'from triton.ops.matmul_perf_model import' in content and 'try:' not in content.split('from triton.ops.matmul_perf_model import')[0][-50:]:
+        new_content = content.replace(
+            'from triton.ops.matmul_perf_model import early_config_prune, estimate_matmul_time',
+            'try:\n    from triton.ops.matmul_perf_model import early_config_prune, estimate_matmul_time\nexcept ImportError:\n    early_config_prune = None\n    estimate_matmul_time = None'
+        )
+        triton_file.write_text(new_content)
+        print('✓ Patched BitsAndBytes triton.ops import')
+    else:
+        print('✓ BitsAndBytes already patched or doesn\'t need patching')
+else:
+    print('WARNING: Could not find BitsAndBytes triton_based_modules.py to patch')
+" || echo "Warning: Could not patch BitsAndBytes (may still work)"
+
+# Test import
 $PYTHON_CMD -c "
 import sys
 try:
     import bitsandbytes
-    print(f'BitsAndBytes version: {bitsandbytes.__version__}')
+    print(f'✓ BitsAndBytes version: {bitsandbytes.__version__}')
     sys.exit(0)
-except ModuleNotFoundError as e:
-    if 'triton.ops' in str(e):
-        print('WARNING: BitsAndBytes installed but triton.ops not available (this is OK for basic 4-bit quantization)')
+except Exception as e:
+    error_msg = str(e)
+    if 'triton.ops' in error_msg:
+        print('WARNING: BitsAndBytes has triton.ops import issue, but basic 4-bit quantization should still work')
         sys.exit(0)
     else:
         print(f'ERROR: BitsAndBytes import failed: {e}')
         sys.exit(1)
-except Exception as e:
-    print(f'ERROR: BitsAndBytes import failed: {e}')
-    sys.exit(1)
 " || (echo "ERROR: BitsAndBytes installation verification failed!" && exit 1)
 
 # Install optional packages (non-critical)
