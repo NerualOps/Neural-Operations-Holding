@@ -319,43 +319,16 @@ def load_model():
             del model
             model = None
         
+        # Don't access CUDA devices here - let model loading with device_map='auto' handle it
+        # Accessing devices before model load can cause "device busy" errors
         if torch.cuda.is_available():
-            num_gpus = torch.cuda.device_count()
-            print(f"[INFERENCE SERVICE] Preparing {num_gpus} GPU(s) for model loading", flush=True)
-            
-            # Safely clear GPU cache without forcing device changes
-            for gpu_id in range(num_gpus):
-                try:
-                    with torch.cuda.device(gpu_id):
-                        torch.cuda.empty_cache()
-                        torch.cuda.synchronize()
-                        torch.cuda.ipc_collect()
-                        torch.cuda.empty_cache()
-                except Exception as e:
-                    print(f"[INFERENCE SERVICE] WARNING: Could not clear GPU {gpu_id} cache: {e}", flush=True)
-                    continue
-            
-            gc.collect()
-            
-            # Report GPU memory status
-            for gpu_id in range(num_gpus):
-                try:
-                    with torch.cuda.device(gpu_id):
-                        allocated = torch.cuda.memory_allocated(gpu_id) / (1024**3)
-                        reserved = torch.cuda.memory_reserved(gpu_id) / (1024**3)
-                        total = torch.cuda.get_device_properties(gpu_id).total_memory / (1024**3)
-                        free = total - reserved
-                        print(f"[INFERENCE SERVICE] GPU {gpu_id} memory before load - Allocated: {allocated:.2f} GB, Reserved: {reserved:.2f} GB, Free: {free:.2f} GB, Total: {total:.2f} GB", flush=True)
-                except Exception as e:
-                    print(f"[INFERENCE SERVICE] WARNING: Could not query GPU {gpu_id} memory: {e}", flush=True)
-                    continue
-            
             try:
-                total_memory = sum(torch.cuda.get_device_properties(i).total_memory for i in range(num_gpus)) / (1024**3)
-                total_free = sum((torch.cuda.get_device_properties(i).total_memory / (1024**3)) - (torch.cuda.memory_reserved(i) / (1024**3)) for i in range(num_gpus))
-                print(f"[INFERENCE SERVICE] Total available GPU memory: {total_memory:.2f} GB, Free: {total_free:.2f} GB", flush=True)
+                num_gpus = torch.cuda.device_count()
+                print(f"[INFERENCE SERVICE] Preparing {num_gpus} GPU(s) for model loading", flush=True)
+                print(f"[INFERENCE SERVICE] Using device_map='auto' - model will be placed automatically", flush=True)
             except Exception as e:
-                print(f"[INFERENCE SERVICE] WARNING: Could not calculate total GPU memory: {e}", flush=True)
+                print(f"[INFERENCE SERVICE] WARNING: Could not query CUDA device count: {e}", flush=True)
+                print(f"[INFERENCE SERVICE] Will attempt to load model anyway", flush=True)
         
         # CRITICAL FIX: Load config.json directly and create config object manually
         # This bypasses CONFIG_MAPPING lookup entirely, which fails for unknown architectures like 'gpt_oss'
