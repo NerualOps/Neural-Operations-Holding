@@ -121,89 +121,78 @@ def load_model():
     print(f"[INFERENCE SERVICE] Loading Epsilon AI model: {MODEL_ID}", flush=True)
     print(f"[INFERENCE SERVICE] Internal model repository: {HF_MODEL_ID_INTERNAL}", flush=True)
     
-    # Check Python version (Triton has issues with Python 3.12+)
+    # CRITICAL: Always use BitsAndBytes 4-bit quantization (never MXFP4/bf16)
+    # Force BnB 4-bit always regardless of Python version
+    use_bitsandbytes = True
+    
     import sys
     python_version = sys.version_info
     print(f"[INFERENCE SERVICE] Python version: {python_version.major}.{python_version.minor}.{python_version.micro}", flush=True)
-    use_bitsandbytes = False
-    if python_version.major == 3 and python_version.minor >= 12:
-        print(f"[INFERENCE SERVICE] Python 3.12+ detected - MXFP4 kernels won't compile, using BitsAndBytes 4-bit instead", flush=True)
-        use_bitsandbytes = True
+    print(f"[INFERENCE SERVICE] ALWAYS using BitsAndBytes 4-bit quantization (never MXFP4/bf16)", flush=True)
     
-    # Check if Triton is available (required for MXFP4 quantization)
+    # Only check Triton if we're NOT using BitsAndBytes (we are, so skip Triton checks)
     triton_available = False
     triton_version = None
     triton_compatible = True
-    try:
-        import triton
-        triton_available = True
-        triton_version = getattr(triton, '__version__', 'unknown')
-        print(f"[INFERENCE SERVICE] Triton is available: version {triton_version}", flush=True)
-        
-        # Check if Triton version matches PyTorch requirements
-        torch_version = torch.__version__
-        # PyTorch 2.8.0+cu128 requires triton==3.4.0 (exact match)
-        if "2.8.0" in torch_version or ("2.8" in torch_version and "+cu" in torch_version):
-            if triton_version != "3.4.0":
-                triton_compatible = False
-                print(f"[INFERENCE SERVICE] CRITICAL ERROR: Version mismatch! PyTorch {torch_version} requires triton==3.4.0, but you have triton {triton_version}", flush=True)
-                print(f"[INFERENCE SERVICE] This will cause MXFP4 quantization to fail and model will load as bf16 (too large for GPU/system memory)", flush=True)
-                print(f"[INFERENCE SERVICE] FIX REQUIRED: pip uninstall -y triton && pip install 'triton==3.4.0'", flush=True)
-                print(f"[INFERENCE SERVICE] ABORTING model load to prevent bf16 fallback and system memory exhaustion.", flush=True)
-                raise RuntimeError(
-                    f"Triton version mismatch: PyTorch {torch_version} requires triton==3.4.0, but triton {triton_version} is installed. "
-                    f"Fix with: pip uninstall -y triton && pip install 'triton==3.4.0'"
-                )
-        else:
-            # For other PyTorch versions, check if Triton is >= 3.4.0
-            try:
-                version_parts = [int(x) for x in triton_version.split('.')[:2]]
-                if version_parts[0] < 3 or (version_parts[0] == 3 and version_parts[1] < 4):
-                    print(f"[INFERENCE SERVICE] WARNING: Triton version {triton_version} may be too old. Recommended: >=3.4.0", flush=True)
-            except (ValueError, AttributeError):
-                pass
-    except ImportError:
-        print(f"[INFERENCE SERVICE] CRITICAL ERROR: Triton is NOT available.", flush=True)
-        print(f"[INFERENCE SERVICE] Without Triton, MXFP4 quantization will fail and model will attempt to load as bf16.", flush=True)
-        print(f"[INFERENCE SERVICE] A 120B model in bf16 requires ~240GB and will exhaust system memory.", flush=True)
-        print(f"[INFERENCE SERVICE] ABORTING to prevent system memory exhaustion.", flush=True)
-        raise RuntimeError(
-            "Triton is required for MXFP4 quantization. Without it, the model will fall back to bf16 "
-            "which will exhaust system memory. Install Triton: pip install 'triton==3.4.0'"
-        )
-    except Exception as e:
-        print(f"[INFERENCE SERVICE] CRITICAL ERROR: Triton import failed: {e}", flush=True)
-        print(f"[INFERENCE SERVICE] ABORTING to prevent bf16 fallback and system memory exhaustion.", flush=True)
-        raise RuntimeError(
-            f"Triton import failed: {e}. Triton is required for MXFP4 quantization. "
-            "Fix Triton installation before proceeding."
-        )
+    if not use_bitsandbytes:
+        # Triton checks (MXFP4 path) - only executed if not using BitsAndBytes
+        try:
+            import triton
+            triton_available = True
+            triton_version = getattr(triton, '__version__', 'unknown')
+            print(f"[INFERENCE SERVICE] Triton is available: version {triton_version}", flush=True)
+            
+            # Check if Triton version matches PyTorch requirements
+            torch_version = torch.__version__
+            # PyTorch 2.8.0+cu128 requires triton==3.4.0 (exact match)
+            if "2.8.0" in torch_version or ("2.8" in torch_version and "+cu" in torch_version):
+                if triton_version != "3.4.0":
+                    triton_compatible = False
+                    print(f"[INFERENCE SERVICE] CRITICAL ERROR: Version mismatch! PyTorch {torch_version} requires triton==3.4.0, but you have triton {triton_version}", flush=True)
+                    print(f"[INFERENCE SERVICE] This will cause MXFP4 quantization to fail and model will load as bf16 (too large for GPU/system memory)", flush=True)
+                    print(f"[INFERENCE SERVICE] FIX REQUIRED: pip uninstall -y triton && pip install 'triton==3.4.0'", flush=True)
+                    print(f"[INFERENCE SERVICE] ABORTING model load to prevent bf16 fallback and system memory exhaustion.", flush=True)
+                    raise RuntimeError(
+                        f"Triton version mismatch: PyTorch {torch_version} requires triton==3.4.0, but triton {triton_version} is installed. "
+                        f"Fix with: pip uninstall -y triton && pip install 'triton==3.4.0'"
+                    )
+            else:
+                # For other PyTorch versions, check if Triton is >= 3.4.0
+                try:
+                    version_parts = [int(x) for x in triton_version.split('.')[:2]]
+                    if version_parts[0] < 3 or (version_parts[0] == 3 and version_parts[1] < 4):
+                        print(f"[INFERENCE SERVICE] WARNING: Triton version {triton_version} may be too old. Recommended: >=3.4.0", flush=True)
+                except (ValueError, AttributeError):
+                    pass
+        except ImportError:
+            print(f"[INFERENCE SERVICE] CRITICAL ERROR: Triton is NOT available.", flush=True)
+            print(f"[INFERENCE SERVICE] Without Triton, MXFP4 quantization will fail and model will attempt to load as bf16.", flush=True)
+            print(f"[INFERENCE SERVICE] A 120B model in bf16 requires ~240GB and will exhaust system memory.", flush=True)
+            print(f"[INFERENCE SERVICE] ABORTING to prevent system memory exhaustion.", flush=True)
+            raise RuntimeError(
+                "Triton is required for MXFP4 quantization. Without it, the model will fall back to bf16 "
+                "which will exhaust system memory. Install Triton: pip install 'triton==3.4.0'"
+            )
+        except Exception as e:
+            print(f"[INFERENCE SERVICE] CRITICAL ERROR: Triton import failed: {e}", flush=True)
+            print(f"[INFERENCE SERVICE] ABORTING to prevent bf16 fallback and system memory exhaustion.", flush=True)
+            raise RuntimeError(
+                f"Triton import failed: {e}. Triton is required for MXFP4 quantization. "
+                "Fix Triton installation before proceeding."
+            )
     
     # Check PyTorch version
     print(f"[INFERENCE SERVICE] PyTorch version: {torch.__version__}, CUDA: {torch.version.cuda}", flush=True)
     
-    if use_bitsandbytes:
-        try:
-            import bitsandbytes
-            print(f"[INFERENCE SERVICE] Using BitsAndBytes 4-bit quantization (Python 3.12+ compatibility)", flush=True)
-            print(f"[INFERENCE SERVICE] BitsAndBytes version: {bitsandbytes.__version__}", flush=True)
-        except ImportError:
-            raise RuntimeError(
-                "BitsAndBytes is REQUIRED for 4-bit quantization on Python 3.12+. "
-                "Install: pip install 'bitsandbytes==0.44.0'"
-            )
-    else:
-        if not triton_available:
-            raise RuntimeError(
-                "Triton is REQUIRED for MXFP4 quantization. Without it, the model will attempt to load as bf16 "
-                "which requires ~240GB and will exhaust system memory. Install: pip install 'triton==3.4.0'"
-            )
-        if not triton_compatible:
-            raise RuntimeError(
-                f"Triton version {triton_version} is incompatible with PyTorch {torch.__version__}. "
-                f"PyTorch requires triton==3.4.0. Fix: pip uninstall -y triton && pip install 'triton==3.4.0'"
-            )
-        print(f"[INFERENCE SERVICE] Triton check passed - MXFP4 quantization available", flush=True)
+    # Always verify BitsAndBytes is available (we're always using it)
+    try:
+        import bitsandbytes
+        print(f"[INFERENCE SERVICE] BitsAndBytes version: {bitsandbytes.__version__}", flush=True)
+    except ImportError:
+        raise RuntimeError(
+            "BitsAndBytes is REQUIRED for 4-bit quantization. "
+            "Install: pip install -U bitsandbytes"
+        )
     
     try:
         import shutil
