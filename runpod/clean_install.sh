@@ -12,14 +12,25 @@ echo "Wiping and reinstalling with correct versions"
 echo "CRITICAL: Python 3.11 required for Triton"
 echo "=========================================="
 
-# Check Python version - MUST be 3.11 for Triton
-PYTHON_VERSION=$(python --version 2>&1 | awk '{print $2}' | cut -d. -f1,2)
+# Check for Python 3.11 - use python3.11 if available, otherwise check python
+if command -v python3.11 &> /dev/null; then
+    PYTHON_CMD=python3.11
+    PIP_CMD=pip3.11
+elif python3.11 --version &> /dev/null; then
+    PYTHON_CMD=python3.11
+    PIP_CMD=pip3.11
+else
+    PYTHON_CMD=python
+    PIP_CMD=pip
+fi
+
+PYTHON_VERSION=$($PYTHON_CMD --version 2>&1 | awk '{print $2}' | cut -d. -f1,2)
 if [ "$PYTHON_VERSION" != "3.11" ]; then
-    echo "ERROR: Python 3.11 is required for Triton compatibility. Current: $(python --version)"
+    echo "ERROR: Python 3.11 is required for Triton compatibility. Current: $($PYTHON_CMD --version)"
     echo "Python 3.12 has known Triton issues. Please use a Python 3.11 environment."
     exit 1
 fi
-echo "✓ Python version check passed: $(python --version)"
+echo "✓ Python version check passed: $($PYTHON_CMD --version) (using $PYTHON_CMD)"
 
 # 1) Stop any running services
 echo ""
@@ -33,7 +44,7 @@ echo "✓ Services stopped"
 echo ""
 echo "[2/7] Cleaning Python packages..."
 # Don't uninstall everything - keep pip, setuptools, wheel
-pip freeze | grep -v "^#" | grep -v "^pip=" | grep -v "^setuptools=" | grep -v "^wheel=" | xargs pip uninstall -y 2>/dev/null || true
+$PIP_CMD freeze | grep -v "^#" | grep -v "^pip=" | grep -v "^setuptools=" | grep -v "^wheel=" | xargs $PIP_CMD uninstall -y 2>/dev/null || true
 echo "✓ Packages uninstalled"
 
 # 3) Clean model cache and downloads
@@ -58,23 +69,23 @@ echo "✓ App directory cleaned"
 # 5) Install PyTorch with CUDA (from PyTorch index)
 echo ""
 echo "[5/7] Installing PyTorch 2.8.0 with CUDA 12.8..."
-pip install --no-cache-dir torch==2.8.0 --index-url https://download.pytorch.org/whl/cu128
+$PIP_CMD install --no-cache-dir torch==2.8.0 --index-url https://download.pytorch.org/whl/cu128
 echo "✓ PyTorch installed"
 
 # 5b) Install uvicorn/fastapi FIRST with exact versions to avoid conflicts
 echo ""
 echo "[5b/7] Installing web framework with exact versions..."
-pip install --no-cache-dir --force-reinstall "uvicorn[standard]==0.32.0" "fastapi==0.115.0" "click>=8.1.0,<9.0.0"
+$PIP_CMD install --no-cache-dir --force-reinstall "uvicorn[standard]==0.32.0" "fastapi==0.115.0" "click>=8.1.0,<9.0.0"
 echo "✓ Web framework installed"
 
 # 5c) Install transformers from GitHub (CRITICAL: supports gpt_oss architecture)
 echo ""
 echo "[5c/7] Installing transformers from GitHub (supports gpt_oss)..."
-pip uninstall -y transformers huggingface_hub accelerate safetensors 2>/dev/null || true
+$PIP_CMD uninstall -y transformers huggingface_hub accelerate safetensors 2>/dev/null || true
 # Retry logic for network issues
 TRANSFORMERS_INSTALLED=false
 for i in {1..3}; do
-    if pip install --no-cache-dir -U git+https://github.com/huggingface/transformers.git; then
+    if $PIP_CMD install --no-cache-dir -U git+https://github.com/huggingface/transformers.git; then
         TRANSFORMERS_INSTALLED=true
         break
     else
@@ -86,7 +97,7 @@ if [ "$TRANSFORMERS_INSTALLED" = false ]; then
     echo "ERROR: Failed to install transformers from GitHub after 3 attempts!"
     exit 1
 fi
-pip install --no-cache-dir -U "huggingface_hub>=0.27.0" "accelerate>=0.35.0" "safetensors>=0.4.0"
+$PIP_CMD install --no-cache-dir -U "huggingface_hub>=0.27.0" "accelerate>=0.35.0" "safetensors>=0.4.0"
 echo "✓ Transformers installed from GitHub"
 
 # 6) Install exact versions from requirements (skip transformers - already installed)
@@ -111,12 +122,12 @@ grep -v "^git+https://github.com/huggingface/transformers.git" "$REQUIREMENTS_FI
     grep -v "^$" > "$TEMP_REQ"
 
 # Install all requirements at once (more reliable than one-by-one)
-pip install --no-cache-dir -r "$TEMP_REQ" || {
+$PIP_CMD install --no-cache-dir -r "$TEMP_REQ" || {
     echo "Warning: Some packages failed, trying individual installs..."
     while read -r line; do
         if [ -n "$line" ]; then
             echo "Installing: $line"
-            pip install --no-cache-dir "$line" || echo "Warning: Failed to install $line"
+            $PIP_CMD install --no-cache-dir "$line" || echo "Warning: Failed to install $line"
         fi
     done < "$TEMP_REQ"
 }
@@ -126,7 +137,7 @@ rm -f "$TEMP_REQ"
 echo "Installing BitsAndBytes for 4-bit quantization..."
 BITSANDBYTES_INSTALLED=false
 for i in {1..3}; do
-    if pip install --no-cache-dir "bitsandbytes==0.44.0"; then
+    if $PIP_CMD install --no-cache-dir "bitsandbytes==0.44.0"; then
         BITSANDBYTES_INSTALLED=true
         break
     else
@@ -138,34 +149,34 @@ if [ "$BITSANDBYTES_INSTALLED" = false ]; then
     echo "ERROR: Failed to install BitsAndBytes after 3 attempts!"
     exit 1
 fi
-python -c "import bitsandbytes" || (echo "ERROR: BitsAndBytes installation failed!" && exit 1)
+$PYTHON_CMD -c "import bitsandbytes" || (echo "ERROR: BitsAndBytes installation failed!" && exit 1)
 
 # Install optional packages (non-critical)
 echo "Installing optional packages..."
-pip install --no-cache-dir "hf-transfer>=0.1.9" 2>/dev/null || echo "Warning: hf-transfer failed (optional, continuing...)"
+$PIP_CMD install --no-cache-dir "hf-transfer>=0.1.9" 2>/dev/null || echo "Warning: hf-transfer failed (optional, continuing...)"
 
 # Verify critical packages are installed
 echo "Verifying critical packages..."
-python -c "import uvicorn" || (echo "ERROR: uvicorn not installed!" && pip install --no-cache-dir "uvicorn[standard]==0.32.0")
-python -c "import fastapi" || (echo "ERROR: fastapi not installed!" && pip install --no-cache-dir "fastapi==0.115.0")
-python -c "import pydantic" || (echo "ERROR: pydantic not installed!" && pip install --no-cache-dir "pydantic==2.9.2")
-python -c "import filelock" || (echo "ERROR: filelock not installed!" && pip install --no-cache-dir "filelock==3.16.1")
-python -c "import psutil" || (echo "ERROR: psutil not installed!" && pip install --no-cache-dir "psutil==6.1.0")
-python -c "import tqdm" || (echo "ERROR: tqdm not installed!" && pip install --no-cache-dir "tqdm>=4.66.0,<5.0.0")
+$PYTHON_CMD -c "import uvicorn" || (echo "ERROR: uvicorn not installed!" && $PIP_CMD install --no-cache-dir "uvicorn[standard]==0.32.0")
+$PYTHON_CMD -c "import fastapi" || (echo "ERROR: fastapi not installed!" && $PIP_CMD install --no-cache-dir "fastapi==0.115.0")
+$PYTHON_CMD -c "import pydantic" || (echo "ERROR: pydantic not installed!" && $PIP_CMD install --no-cache-dir "pydantic==2.9.2")
+$PYTHON_CMD -c "import filelock" || (echo "ERROR: filelock not installed!" && $PIP_CMD install --no-cache-dir "filelock==3.16.1")
+$PYTHON_CMD -c "import psutil" || (echo "ERROR: psutil not installed!" && $PIP_CMD install --no-cache-dir "psutil==6.1.0")
+$PYTHON_CMD -c "import tqdm" || (echo "ERROR: tqdm not installed!" && $PIP_CMD install --no-cache-dir "tqdm>=4.66.0,<5.0.0")
 echo "✓ Packages installed"
 
 # 7) Verify critical versions and 4-bit dependencies
 echo ""
 echo "[7/7] Verifying versions and 4-bit dependencies..."
-python -c "import torch; print(f'PyTorch: {torch.__version__}')" || (echo "ERROR: PyTorch not installed!" && exit 1)
-python -c "import triton; print(f'Triton: {triton.__version__}')" || (echo "ERROR: Triton not installed!" && exit 1)
-python -c "import transformers; print(f'Transformers: {transformers.__version__}')" || (echo "ERROR: Transformers not installed!" && exit 1)
-python -c "import bitsandbytes; print(f'BitsAndBytes: {bitsandbytes.__version__}')" || (echo "ERROR: BitsAndBytes not installed!" && exit 1)
-python -c "import uvicorn; print(f'Uvicorn: {uvicorn.__version__}')" || (echo "ERROR: Uvicorn not installed!" && exit 1)
-python -c "import fastapi; print(f'FastAPI: {fastapi.__version__}')" || (echo "ERROR: FastAPI not installed!" && exit 1)
-python -c "import torch; assert '2.8.0' in torch.__version__, f'PyTorch version mismatch: {torch.__version__}'"
-python -c "import triton; assert triton.__version__ == '3.4.0', f'Triton version mismatch: {triton.__version__} (required: 3.4.0)'"
-python -c "import bitsandbytes; assert '0.44' in bitsandbytes.__version__, f'BitsAndBytes version mismatch: {bitsandbytes.__version__}'"
+$PYTHON_CMD -c "import torch; print(f'PyTorch: {torch.__version__}')" || (echo "ERROR: PyTorch not installed!" && exit 1)
+$PYTHON_CMD -c "import triton; print(f'Triton: {triton.__version__}')" || (echo "ERROR: Triton not installed!" && exit 1)
+$PYTHON_CMD -c "import transformers; print(f'Transformers: {transformers.__version__}')" || (echo "ERROR: Transformers not installed!" && exit 1)
+$PYTHON_CMD -c "import bitsandbytes; print(f'BitsAndBytes: {bitsandbytes.__version__}')" || (echo "ERROR: BitsAndBytes not installed!" && exit 1)
+$PYTHON_CMD -c "import uvicorn; print(f'Uvicorn: {uvicorn.__version__}')" || (echo "ERROR: Uvicorn not installed!" && exit 1)
+$PYTHON_CMD -c "import fastapi; print(f'FastAPI: {fastapi.__version__}')" || (echo "ERROR: FastAPI not installed!" && exit 1)
+$PYTHON_CMD -c "import torch; assert '2.8.0' in torch.__version__, f'PyTorch version mismatch: {torch.__version__}'"
+$PYTHON_CMD -c "import triton; assert triton.__version__ == '3.4.0', f'Triton version mismatch: {triton.__version__} (required: 3.4.0)'"
+$PYTHON_CMD -c "import bitsandbytes; assert '0.44' in bitsandbytes.__version__, f'BitsAndBytes version mismatch: {bitsandbytes.__version__}'"
 echo "✓ Version verification passed"
 echo "✓ 4-bit quantization dependencies verified (Triton for MXFP4, BitsAndBytes for fallback)"
 
@@ -183,7 +194,7 @@ echo "2. Download model_config.py:"
 echo "   wget https://raw.githubusercontent.com/NerualOps/Neural-Operations-Holding/main/services/python-services/model_config.py -O model_config.py"
 echo ""
 echo "3. Start service:"
-echo "   nohup python -m uvicorn inference_service:app --host 0.0.0.0 --port 8005 > inference.log 2>&1 &"
+echo "   nohup $PYTHON_CMD -m uvicorn inference_service:app --host 0.0.0.0 --port 8005 > inference.log 2>&1 &"
 echo "   tail -f inference.log"
 echo ""
 
