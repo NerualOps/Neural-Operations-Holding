@@ -1188,30 +1188,12 @@ REMEMBER: The user will ONLY see your <|channel|>final response. Put everything 
                 print(f"[INFERENCE SERVICE] Generated text still empty, using cleaned raw text", flush=True)
         except RuntimeError as e:
             if "dtype" in str(e).lower() or "scalar type" in str(e).lower():
-                print(f"[INFERENCE SERVICE] Dtype mismatch detected, attempting to convert model to float16...", flush=True)
-                if hasattr(model, 'to'):
-                    try:
-                        model = model.to(torch.float16)
-                        retry_device = device
-                        if retry_device is None:
-                            if hasattr(model, 'hf_device_map') and model.hf_device_map:
-                                cuda_devices = []
-                                for layer_name, d in model.hf_device_map.items():
-                                    if isinstance(d, (str, torch.device)):
-                                        device_str = str(d) if isinstance(d, torch.device) else d
-                                        if device_str.startswith("cuda"):
-                                            device_obj = torch.device(device_str)
-                                            if device_obj not in cuda_devices:
-                                                cuda_devices.append(device_obj)
-                                if cuda_devices:
-                                    retry_device = cuda_devices[0]
-                                else:
-                                    retry_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-                            else:
-                                retry_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-                        
-                        retry_input_ids = input_ids.to(retry_device)
-                        retry_attention_mask = attention_mask.to(retry_device)
+                print(f"[INFERENCE SERVICE] ERROR: Dtype mismatch detected. Model must be 4-bit quantized, not bf16/fp16.", flush=True)
+                print(f"[INFERENCE SERVICE] This error indicates the model is not properly quantized. Cannot proceed.", flush=True)
+                raise HTTPException(
+                    status_code=500,
+                    detail=f"Model dtype error: Model must be 4-bit quantized. Current dtype mismatch indicates quantization failed. Error: {str(e)}"
+                )
                         
                         retry_gen_kwargs = {
                             "input_ids": retry_input_ids,
