@@ -72,9 +72,20 @@ echo ""
 echo "[5c/7] Installing transformers from GitHub (supports gpt_oss)..."
 pip uninstall -y transformers huggingface_hub accelerate safetensors 2>/dev/null || true
 # Retry logic for network issues
+TRANSFORMERS_INSTALLED=false
 for i in {1..3}; do
-    pip install --no-cache-dir -U git+https://github.com/huggingface/transformers.git && break || sleep 5
+    if pip install --no-cache-dir -U git+https://github.com/huggingface/transformers.git; then
+        TRANSFORMERS_INSTALLED=true
+        break
+    else
+        echo "Transformers install attempt $i/3 failed, retrying in 5 seconds..."
+        sleep 5
+    fi
 done
+if [ "$TRANSFORMERS_INSTALLED" = false ]; then
+    echo "ERROR: Failed to install transformers from GitHub after 3 attempts!"
+    exit 1
+fi
 pip install --no-cache-dir -U "huggingface_hub>=0.27.0" "accelerate>=0.35.0" "safetensors>=0.4.0"
 echo "✓ Transformers installed from GitHub"
 
@@ -113,9 +124,20 @@ rm -f "$TEMP_REQ"
 
 # CRITICAL: Install BitsAndBytes for 4-bit quantization (required for Python 3.12+ and fallback)
 echo "Installing BitsAndBytes for 4-bit quantization..."
+BITSANDBYTES_INSTALLED=false
 for i in {1..3}; do
-    pip install --no-cache-dir "bitsandbytes==0.44.0" && break || (echo "Retry $i/3..." && sleep 5)
+    if pip install --no-cache-dir "bitsandbytes==0.44.0"; then
+        BITSANDBYTES_INSTALLED=true
+        break
+    else
+        echo "BitsAndBytes install attempt $i/3 failed, retrying in 5 seconds..."
+        sleep 5
+    fi
 done
+if [ "$BITSANDBYTES_INSTALLED" = false ]; then
+    echo "ERROR: Failed to install BitsAndBytes after 3 attempts!"
+    exit 1
+fi
 python -c "import bitsandbytes" || (echo "ERROR: BitsAndBytes installation failed!" && exit 1)
 
 # Install optional packages (non-critical)
