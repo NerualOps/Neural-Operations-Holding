@@ -12,16 +12,19 @@ echo "Wiping and reinstalling with correct versions"
 echo "CRITICAL: Python 3.11 required for Triton"
 echo "=========================================="
 
-# Check for Python 3.11 - use python3.11 if available, otherwise check python
-if command -v python3.11 &> /dev/null; then
+# Check for Python 3.11 - install if not available
+if command -v python3.11 &> /dev/null || python3.11 --version &> /dev/null; then
     PYTHON_CMD=python3.11
     PIP_CMD=pip3.11
-elif python3.11 --version &> /dev/null; then
-    PYTHON_CMD=python3.11
-    PIP_CMD=pip3.11
+    echo "✓ Python 3.11 found: $(python3.11 --version)"
 else
-    PYTHON_CMD=python
-    PIP_CMD=pip
+    echo "Python 3.11 not found. Installing Python 3.11..."
+    apt-get update -qq
+    apt-get install -y python3.11 python3.11-venv python3.11-dev python3-pip
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
+    PYTHON_CMD=python3.11
+    PIP_CMD=pip3.11
+    echo "✓ Python 3.11 installed: $(python3.11 --version)"
 fi
 
 PYTHON_VERSION=$($PYTHON_CMD --version 2>&1 | awk '{print $2}' | cut -d. -f1,2)
