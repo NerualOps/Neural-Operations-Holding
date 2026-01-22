@@ -71,14 +71,16 @@ echo "✓ Cache cleared"
 # 4) Clean app directory (keep only what we need)
 echo ""
 echo "[4/7] Cleaning app directory..."
-mkdir -p /workspace/app || {
+# Ensure /workspace exists first
+mkdir -p /workspace
+# Create /workspace/app
+mkdir -p /workspace/app
+# Verify it was created
+if [ ! -d "/workspace/app" ]; then
     echo "ERROR: Failed to create /workspace/app directory"
     exit 1
-}
-cd /workspace/app || {
-    echo "ERROR: Failed to change to /workspace/app directory"
-    exit 1
-}
+fi
+cd /workspace/app
 rm -f *.log *.pid 2>/dev/null || true
 rm -rf __pycache__ .pytest_cache 2>/dev/null || true
 echo "✓ App directory cleaned"
