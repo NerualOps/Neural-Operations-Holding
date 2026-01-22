@@ -192,9 +192,10 @@ fi
 # NOTE: triton.ops is only used for performance optimization, NOT for core 4-bit quantization
 # Core 4-bit quantization uses CUDA kernels (libbitsandbytes_cuda128.so) which work independently
 echo "Patching BitsAndBytes to handle triton.ops import error..."
-$PYTHON_CMD -c "
+$PYTHON_CMD << 'PATCH_SCRIPT'
 import sys
 from pathlib import Path
+import re
 
 # Find bitsandbytes installation
 try:
@@ -204,40 +205,75 @@ except:
     site_packages = '/usr/local/lib/python3.11/dist-packages'
 
 triton_file = Path(site_packages) / 'bitsandbytes' / 'nn' / 'triton_based_modules.py'
-if triton_file.exists():
-    content = triton_file.read_text()
-    # Make triton.ops import optional - this is only for performance tuning, not core functionality
-    if 'from triton.ops.matmul_perf_model import' in content:
-        # Check if already patched
-        if 'try:' in content and 'from triton.ops.matmul_perf_model import' in content.split('try:')[1] if 'try:' in content else '':
-            print('✓ BitsAndBytes already patched')
-        else:
-            # Patch the import to be optional
-            lines = content.split('\n')
-            new_lines = []
-            patched = False
-            for i, line in enumerate(lines):
-                if 'from triton.ops.matmul_perf_model import' in line and not patched:
-                    new_lines.append('try:')
-                    new_lines.append('    ' + line)
-                    new_lines.append('except ImportError:')
-                    new_lines.append('    # triton.ops is optional - only used for performance optimization')
-                    new_lines.append('    # Core 4-bit quantization works without it')
-                    new_lines.append('    early_config_prune = None')
-                    new_lines.append('    estimate_matmul_time = None')
-                    patched = True
-                else:
-                    new_lines.append(line)
-            if patched:
-                triton_file.write_text('\n'.join(new_lines))
-                print('✓ Patched BitsAndBytes triton.ops import (4-bit quantization will still work)')
-            else:
-                print('✓ Could not find import line to patch')
+if not triton_file.exists():
+    print('ERROR: Could not find BitsAndBytes triton_based_modules.py to patch')
+    sys.exit(1)
+
+content = triton_file.read_text()
+
+# Check if already patched
+if 'try:' in content and 'from triton.ops.matmul_perf_model import' in content:
+    # Check if the try is right before the import
+    lines = content.split('\n')
+    for i, line in enumerate(lines):
+        if 'from triton.ops.matmul_perf_model import' in line:
+            # Check if previous line is 'try:'
+            if i > 0 and lines[i-1].strip() == 'try:':
+                print('✓ BitsAndBytes already patched')
+                sys.exit(0)
+            break
+
+# Find and patch the import line
+if 'from triton.ops.matmul_perf_model import' in content:
+    # Use regex to find the exact import line and replace it
+    pattern = r'^(\s*)from triton\.ops\.matmul_perf_model import (early_config_prune, estimate_matmul_time)'
+    
+    def replace_import(match):
+        indent = match.group(1)
+        imports = match.group(2)
+        return f'{indent}try:\n{indent}    from triton.ops.matmul_perf_model import {imports}\n{indent}except ImportError:\n{indent}    # triton.ops is optional - only used for performance optimization\n{indent}    # Core 4-bit quantization works without it\n{indent}    early_config_prune = None\n{indent}    estimate_matmul_time = None'
+    
+    new_content = re.sub(pattern, replace_import, content, flags=re.MULTILINE)
+    
+    if new_content != content:
+        triton_file.write_text(new_content)
+        print('✓ Patched BitsAndBytes triton.ops import (4-bit quantization will still work)')
+        sys.exit(0)
     else:
-        print('✓ BitsAndBytes doesn\'t need patching')
+        print('WARNING: Could not find import line to patch with regex, trying line-by-line...')
+        # Fallback: line-by-line replacement
+        lines = content.split('\n')
+        new_lines = []
+        patched = False
+        for i, line in enumerate(lines):
+            if 'from triton.ops.matmul_perf_model import' in line and not patched:
+                indent = len(line) - len(line.lstrip())
+                indent_str = ' ' * indent
+                new_lines.append(indent_str + 'try:')
+                new_lines.append(indent_str + '    ' + line.lstrip())
+                new_lines.append(indent_str + 'except ImportError:')
+                new_lines.append(indent_str + '    # triton.ops is optional - only used for performance optimization')
+                new_lines.append(indent_str + '    # Core 4-bit quantization works without it')
+                new_lines.append(indent_str + '    early_config_prune = None')
+                new_lines.append(indent_str + '    estimate_matmul_time = None')
+                patched = True
+            else:
+                new_lines.append(line)
+        if patched:
+            triton_file.write_text('\n'.join(new_lines))
+            print('✓ Patched BitsAndBytes triton.ops import (line-by-line method)')
+            sys.exit(0)
+        else:
+            print('ERROR: Could not find import line to patch')
+            sys.exit(1)
 else:
-    print('WARNING: Could not find BitsAndBytes triton_based_modules.py to patch')
-" || echo "Warning: Could not patch BitsAndBytes (may still work)"
+    print('WARNING: triton.ops import line not found in file - may not need patching')
+    sys.exit(0)
+PATCH_SCRIPT
+
+if [ $? -ne 0 ]; then
+    echo "WARNING: BitsAndBytes patch had issues, but continuing..."
+fi
 
 # Test import and verify 4-bit quantization config can be created
 # Note: CUDA binary warning is OK - BitsAndBytes will still work for 4-bit quantization
