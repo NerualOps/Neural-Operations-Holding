@@ -71,9 +71,10 @@ echo "✓ Cache cleared"
 # 4) Clean app directory (keep only what we need)
 echo ""
 echo "[4/7] Cleaning app directory..."
+mkdir -p /workspace/app
 cd /workspace/app
-rm -f *.log *.pid
-rm -rf __pycache__ .pytest_cache
+rm -f *.log *.pid 2>/dev/null || true
+rm -rf __pycache__ .pytest_cache 2>/dev/null || true
 echo "✓ App directory cleaned"
 
 # 5) Install PyTorch with CUDA (from PyTorch index)
