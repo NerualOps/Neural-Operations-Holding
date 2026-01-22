@@ -589,15 +589,14 @@ def load_model():
                 )
                 print(f"[INFERENCE SERVICE] Successfully loaded model using strategy: {strategy_name}", flush=True)
                 
+                # CRITICAL: Verify model is actually loaded in 4-bit
+                is_4bit = getattr(model, "is_loaded_in_4bit", False)
+                assert is_4bit, f"CRITICAL: Model is NOT loaded in 4-bit! is_loaded_in_4bit={is_4bit}. 120B model requires ~240GB in bf16/fp16 and will OOM. 4-bit quantization failed. Check BitsAndBytes installation."
+                
                 first_param = next(iter(model.parameters()))
                 dtype = first_param.dtype
                 print(f"[INFERENCE SERVICE] Model parameter dtype: {dtype}", flush=True)
-                
-                if dtype == torch.bfloat16 or dtype == torch.float16:
-                    raise RuntimeError(
-                        f"CRITICAL: Model loaded as {dtype} (NOT quantized)! 120B model requires ~240GB in bf16 and will OOM. "
-                        f"4-bit quantization failed. Check BitsAndBytes/MXFP4 installation."
-                    )
+                print(f"[INFERENCE SERVICE] Model is_loaded_in_4bit: {is_4bit} ✓", flush=True)
                 
                 if hasattr(model, 'config') and hasattr(model.config, 'quantization_config'):
                     qc = model.config.quantization_config
@@ -606,7 +605,7 @@ def load_model():
                         quant_method = qc_dict.get("quant_method") if isinstance(qc_dict, dict) else None
                         print(f"[INFERENCE SERVICE] Quantization method: {quant_method}", flush=True)
                 
-                print(f"[INFERENCE SERVICE] ✓ Model loaded with 4-bit quantization", flush=True)
+                print(f"[INFERENCE SERVICE] ✓ Model loaded with 4-bit quantization (verified)", flush=True)
                 
                 break
             except RuntimeError as e:
