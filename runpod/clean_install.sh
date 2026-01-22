@@ -106,6 +106,11 @@ echo "[5/8] Installing PyTorch 2.8.0 with CUDA 12.8..."
 $PIP_CMD install --no-cache-dir torch==2.8.0 --index-url https://download.pytorch.org/whl/cu128
 echo "✓ PyTorch installed"
 
+# 5a) Pin Triton version explicitly to prevent version drift
+echo "Installing Triton 3.4.0 (required for PyTorch 2.8.0+cu128)..."
+$PIP_CMD install --no-cache-dir "triton==3.4.0"
+echo "✓ Triton 3.4.0 installed"
+
 # 5b) Install uvicorn/fastapi FIRST with exact versions to avoid conflicts
 echo ""
 echo "[5b/8] Installing web framework with exact versions..."
