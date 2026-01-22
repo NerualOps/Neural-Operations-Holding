@@ -5,6 +5,7 @@
 # Created by Neural Operations & Holdings LLC
 
 set -e
+set -x  # Debug mode - show commands as they execute
 
 echo "=========================================="
 echo "Epsilon AI - Clean Install Script"
@@ -17,9 +18,12 @@ CURRENT_PYTHON=$(python3 --version 2>&1 | awk '{print $2}' | cut -d. -f1,2)
 if [ "$CURRENT_PYTHON" != "3.11" ]; then
     echo "Current Python version: $(python3 --version)"
     echo "Uninstalling Python 3.12 and installing Python 3.11..."
-    apt-get update -qq
+    apt-get update -qq || apt-get update
     apt-get remove -y python3.12 python3.12-dev python3.12-venv python3.12-minimal 2>/dev/null || true
-    apt-get install -y python3.11 python3.11-venv python3.11-dev python3-pip
+    apt-get install -y python3.11 python3.11-venv python3.11-dev python3-pip || {
+        echo "ERROR: Failed to install Python 3.11"
+        exit 1
+    }
     update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
     update-alternatives --set python3 /usr/bin/python3.11
     echo "✓ Python 3.11 installed and set as default"
@@ -45,9 +49,12 @@ echo "✓ Python version check passed: $($PYTHON_CMD --version) (using $PYTHON_C
 # 0) Install tmux for persistent sessions
 echo ""
 echo "[0/8] Installing tmux..."
-apt-get update -qq
-apt-get install -y tmux 2>/dev/null || (echo "Warning: tmux installation failed, continuing..." && true)
-echo "✓ Tmux installed"
+apt-get update -qq || apt-get update
+apt-get install -y tmux || {
+    echo "WARNING: tmux installation failed, but continuing..."
+    echo "You can install tmux manually later with: apt-get install -y tmux"
+}
+echo "✓ Tmux installation attempted"
 
 # 1) Stop any running services
 echo ""
