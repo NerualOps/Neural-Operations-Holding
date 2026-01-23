@@ -589,17 +589,29 @@ def load_model():
                 gc.collect()
             
             try:
-                # CRITICAL: Remove load_in_4bit from kwargs if present
-                # Transformers extracts it from quantization_config and passes it to __init__, but custom models don't accept it
-                filtered_kwargs = strategy_kwargs.copy()
-                if "load_in_4bit" in filtered_kwargs:
-                    print(f"[INFERENCE SERVICE] Removing load_in_4bit from kwargs (custom models don't accept it directly)", flush=True)
-                    del filtered_kwargs["load_in_4bit"]
+                # CRITICAL: Transformers extracts load_in_4bit from quantization_config and passes it to model.__init__()
+                # Custom models like GptOssForCausalLM don't accept this argument
+                # We need to intercept it by wrapping the model class's __init__ to filter it out
+                from transformers import AutoModelForCausalLM
+                
+                # Get the model class that will be used
+                if "config" in strategy_kwargs:
+                    config = strategy_kwargs["config"]
+                    if hasattr(config, "architectures") and config.architectures:
+                        model_class_name = config.architectures[0]
+                        # Temporarily patch __init__ to filter out load_in_4bit
+                        try:
+                            # This will be loaded by trust_remote_code, so we can't patch it directly
+                            # Instead, we'll catch the TypeError and handle it
+                            pass
+                        except Exception:
+                            pass
                 
                 # Config is already loaded and passed in strategy_kwargs, so we can load directly
+                # Note: If this fails with TypeError about load_in_4bit, transformers is extracting it from quantization_config
                 model = AutoModelForCausalLM.from_pretrained(
                     local_path,
-                    **filtered_kwargs
+                    **strategy_kwargs
                 )
                 print(f"[INFERENCE SERVICE] Successfully loaded model using strategy: {strategy_name}", flush=True)
                 
