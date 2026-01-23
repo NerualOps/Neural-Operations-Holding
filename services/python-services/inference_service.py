@@ -121,20 +121,16 @@ def load_model():
     print(f"[INFERENCE SERVICE] Loading Epsilon AI model: {MODEL_ID}", flush=True)
     print(f"[INFERENCE SERVICE] Internal model repository: {HF_MODEL_ID_INTERNAL}", flush=True)
     
-    # CRITICAL: Always use BitsAndBytes 4-bit quantization (never MXFP4/bf16)
-    # Force BnB 4-bit always regardless of Python version
-    use_bitsandbytes = True
-    
     import sys
     python_version = sys.version_info
     print(f"[INFERENCE SERVICE] Python version: {python_version.major}.{python_version.minor}.{python_version.micro}", flush=True)
-    print(f"[INFERENCE SERVICE] ALWAYS using BitsAndBytes 4-bit quantization (never MXFP4/bf16)", flush=True)
+    print(f"[INFERENCE SERVICE] Model is pre-quantized with MXFP4 - loading as-is", flush=True)
     
-    # Only check Triton if we're NOT using BitsAndBytes (we are, so skip Triton checks)
+    # Check Triton for MXFP4 support
     triton_available = False
     triton_version = None
     triton_compatible = True
-    if not use_bitsandbytes:
+    try:
         # Triton checks (MXFP4 path) - only executed if not using BitsAndBytes
         try:
             import triton
@@ -183,16 +179,6 @@ def load_model():
     
     # Check PyTorch version
     print(f"[INFERENCE SERVICE] PyTorch version: {torch.__version__}, CUDA: {torch.version.cuda}", flush=True)
-    
-    # Always verify BitsAndBytes is available (we're always using it)
-    try:
-        import bitsandbytes
-        print(f"[INFERENCE SERVICE] BitsAndBytes version: {bitsandbytes.__version__}", flush=True)
-    except ImportError:
-        raise RuntimeError(
-            "BitsAndBytes is REQUIRED for 4-bit quantization. "
-            "Install: pip install -U bitsandbytes"
-        )
     
     try:
         import shutil
@@ -373,39 +359,12 @@ def load_model():
         else:
             print(f"[INFERENCE SERVICE] WARNING: config.json not found at {config_json_path}", flush=True)
         
-        # CRITICAL: Remove any existing quantization_config from model config
-        # The model may have Mxfp4Config, but we're forcing BitsAndBytes - remove the conflict
-        # Use delattr/del instead of setting to None to avoid AttributeError when transformers calls .get()
+        # DO NOT remove quantization_config from config - model is pre-quantized with MXFP4
+        # Removing it breaks the loader. Let the model load with its existing quantization_config.
         if model_config_obj is not None:
-            if hasattr(model_config_obj, 'quantization_config'):
-                print(f"[INFERENCE SERVICE] Removing existing quantization_config from model config (was: {type(model_config_obj.quantization_config).__name__})", flush=True)
-                delattr(model_config_obj, 'quantization_config')
-            elif isinstance(model_config_obj, dict):
-                if 'quantization_config' in model_config_obj:
-                    print(f"[INFERENCE SERVICE] Removing quantization_config from config dict", flush=True)
-                    del model_config_obj['quantization_config']
-        
-        if 'quantization_config' in config_data:
-            print(f"[INFERENCE SERVICE] Removing quantization_config from config_data dict", flush=True)
-            del config_data['quantization_config']
-        
-        # CRITICAL: ALWAYS apply BitsAndBytes 4-bit quantization
-        # Never trust pre-quantization claims - always force quantization to prevent bf16 fallback
-        print("[INFERENCE SERVICE] ALWAYS applying BitsAndBytes 4-bit quantization (never trust pre-quantization)", flush=True)
-        quantization_config = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_compute_dtype=torch.float16,
-            bnb_4bit_use_double_quant=True,
-            bnb_4bit_quant_type="nf4",
-        )
-        print("[INFERENCE SERVICE] BitsAndBytes 4-bit quantization config created", flush=True)
-        
-        # If model is pre-quantized with Mxfp4Config but we're hitting OOM, 
-        # we can't override quantization, but we can use more aggressive memory management
-        use_8bit_fallback = os.getenv("EPSILON_USE_8BIT", "").strip() in {"1", "true", "True", "yes", "YES"}
-        if use_8bit_fallback and quantization_config is None:
-            # Can't use 8-bit if model is already quantized, but log the option
-            print("[INFERENCE SERVICE] EPSILON_USE_8BIT requested but model is pre-quantized - using memory limits instead", flush=True)
+            if hasattr(model_config_obj, 'quantization_config') and model_config_obj.quantization_config is not None:
+                qc_type = type(model_config_obj.quantization_config).__name__
+                print(f"[INFERENCE SERVICE] Model has quantization_config: {qc_type} (will use as-is)", flush=True)
         
         # Normalize max_memory to use "GiB" consistently (transformers/accelerate expects this)
         # This prevents 'int' object has no attribute 'replace' errors
@@ -488,21 +447,14 @@ def load_model():
             load_kwargs["config"] = model_config_obj
             print(f"[INFERENCE SERVICE] Passing explicit config to from_pretrained() to bypass CONFIG_MAPPING lookup", flush=True)
         
-        # CRITICAL: Pass config explicitly to bypass internal AutoConfig.from_pretrained() call
-        # This prevents the CONFIG_MAPPING KeyError for unknown architectures
-        if model_config_obj is not None:
-            load_kwargs["config"] = model_config_obj
-            print(f"[INFERENCE SERVICE] Passing explicit config to from_pretrained() to bypass CONFIG_MAPPING lookup", flush=True)
-        
         if max_memory:
             load_kwargs["max_memory"] = max_memory
             # Enable CPU offloading for very large models (120B+)
             load_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
             Path(load_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
-        # CRITICAL: ALWAYS pass quantization_config (it already has load_in_4bit=True inside)
-        # Don't pass load_in_4bit as a separate arg - custom model classes like GptOssForCausalLM don't accept it
-        load_kwargs["quantization_config"] = quantization_config
-        print(f"[INFERENCE SERVICE] Will load with quantization_config: {type(quantization_config).__name__} (load_in_4bit=True is inside the config)", flush=True)
+        
+        # NO quantization_config - model is already pre-quantized with MXFP4
+        print(f"[INFERENCE SERVICE] Will load model as-is (pre-quantized with MXFP4)", flush=True)
         
         # Clear GPU cache before loading to maximize available memory
         if torch.cuda.is_available():
@@ -589,49 +541,14 @@ def load_model():
                 gc.collect()
             
             try:
-                # CRITICAL: Transformers extracts load_in_4bit from quantization_config and passes it to model.__init__()
-                # Custom models like GptOssForCausalLM don't accept this argument
-                # We need to intercept it by wrapping the model class's __init__ to filter it out
-                from transformers import AutoModelForCausalLM
-                
-                # Get the model class that will be used
-                if "config" in strategy_kwargs:
-                    config = strategy_kwargs["config"]
-                    if hasattr(config, "architectures") and config.architectures:
-                        model_class_name = config.architectures[0]
-                        # Temporarily patch __init__ to filter out load_in_4bit
-                        try:
-                            # This will be loaded by trust_remote_code, so we can't patch it directly
-                            # Instead, we'll catch the TypeError and handle it
-                            pass
-                        except Exception:
-                            pass
-                
-                # Config is already loaded and passed in strategy_kwargs, so we can load directly
-                # Note: If this fails with TypeError about load_in_4bit, transformers is extracting it from quantization_config
+                # Load model as-is (pre-quantized with MXFP4)
                 model = AutoModelForCausalLM.from_pretrained(
                     local_path,
                     **strategy_kwargs
                 )
                 print(f"[INFERENCE SERVICE] Successfully loaded model using strategy: {strategy_name}", flush=True)
                 
-                # CRITICAL: Verify actual BitsAndBytes 4-bit Linear modules exist
-                # This is the only reliable check - is_loaded_in_4bit can be False even with quantization_config
-                # and dtype checks are misleading (norms/embeddings can be fp16 even when Linear layers are 4-bit)
-                import bitsandbytes as bnb
-                linear4bit_count = sum(1 for m in model.modules() if isinstance(m, bnb.nn.Linear4bit))
-                assert linear4bit_count > 0, (
-                    f"CRITICAL: BitsAndBytes 4-bit did not attach! Linear4bit count={linear4bit_count}. "
-                    f"Model will fallback to bf16 and OOM. Check BitsAndBytes installation and trust_remote_code compatibility."
-                )
-                
-                is_4bit = getattr(model, "is_loaded_in_4bit", False)
-                first_param = next(iter(model.parameters()))
-                dtype = first_param.dtype
-                print(f"[INFERENCE SERVICE] Model parameter dtype: {dtype}", flush=True)
-                print(f"[INFERENCE SERVICE] Model is_loaded_in_4bit: {is_4bit}", flush=True)
-                print(f"[INFERENCE SERVICE] ✓ Verified BitsAndBytes 4-bit modules: Linear4bit count={linear4bit_count}", flush=True)
-                
+                # Check quantization status
                 if hasattr(model, 'config') and hasattr(model.config, 'quantization_config'):
                     qc = model.config.quantization_config
                     if qc is not None:
@@ -639,66 +556,12 @@ def load_model():
                         quant_method = qc_dict.get("quant_method") if isinstance(qc_dict, dict) else None
                         print(f"[INFERENCE SERVICE] Quantization method: {quant_method}", flush=True)
                 
-                print(f"[INFERENCE SERVICE] ✓ Model loaded with 4-bit quantization (verified with Linear4bit modules)", flush=True)
+                first_param = next(iter(model.parameters()))
+                dtype = first_param.dtype
+                print(f"[INFERENCE SERVICE] Model parameter dtype: {dtype}", flush=True)
+                print(f"[INFERENCE SERVICE] ✓ Model loaded successfully", flush=True)
                 
                 break
-            except TypeError as e:
-                error_msg = str(e)
-                # Check if it's the load_in_4bit error
-                if "load_in_4bit" in error_msg and "unexpected keyword argument" in error_msg:
-                    print(f"[INFERENCE SERVICE] TypeError: Custom model doesn't accept load_in_4bit argument", flush=True)
-                    print(f"[INFERENCE SERVICE] Transformers is extracting load_in_4bit from quantization_config", flush=True)
-                    print(f"[INFERENCE SERVICE] Trying workaround: loading without quantization_config, then applying quantization...", flush=True)
-                    
-                    # Workaround: Load without quantization_config, then quantize after
-                    try:
-                        # Remove quantization_config temporarily
-                        no_quant_kwargs = strategy_kwargs.copy()
-                        if "quantization_config" in no_quant_kwargs:
-                            del no_quant_kwargs["quantization_config"]
-                        
-                        # Load model without quantization
-                        model = AutoModelForCausalLM.from_pretrained(
-                            local_path,
-                            **no_quant_kwargs
-                        )
-                        
-                        # Now apply BitsAndBytes quantization manually
-                        print(f"[INFERENCE SERVICE] Model loaded, applying BitsAndBytes 4-bit quantization...", flush=True)
-                        from transformers.integrations import get_keys_to_not_convert, replace_with_bnb_linear
-                        
-                        # Get the quantization config
-                        q_config = strategy_kwargs.get("quantization_config")
-                        if q_config:
-                            # Apply quantization
-                            modules_to_not_convert = get_keys_to_not_convert(model)
-                            model = replace_with_bnb_linear(
-                                model,
-                                modules_to_not_convert=modules_to_not_convert,
-                                quantization_config=q_config
-                            )
-                            print(f"[INFERENCE SERVICE] Applied BitsAndBytes 4-bit quantization manually", flush=True)
-                            
-                            # Verify it worked
-                            import bitsandbytes as bnb
-                            linear4bit_count = sum(1 for m in model.modules() if isinstance(m, bnb.nn.Linear4bit))
-                            assert linear4bit_count > 0, (
-                                f"CRITICAL: Manual quantization failed! Linear4bit count={linear4bit_count}. "
-                                f"Model will fallback to bf16 and OOM."
-                            )
-                            print(f"[INFERENCE SERVICE] ✓ Verified BitsAndBytes 4-bit modules: Linear4bit count={linear4bit_count}", flush=True)
-                            break
-                        else:
-                            raise RuntimeError("quantization_config was removed but is needed for manual quantization")
-                    except Exception as manual_error:
-                        print(f"[INFERENCE SERVICE] Manual quantization failed: {manual_error}", flush=True)
-                        # If this is the last strategy, raise the original error
-                        if strategy_name == load_strategies[-1][0]:
-                            raise e  # Raise the original TypeError
-                        continue
-                else:
-                    # Not the load_in_4bit error, re-raise
-                    raise
             except RuntimeError as e:
                 error_msg = str(e)
                 if "CRITICAL: Model loaded as" in error_msg and ("bfloat16" in error_msg or "float16" in error_msg):
