@@ -540,26 +540,35 @@ def load_model():
                 reduced_memory[k] = f"{max(1, current - 10)}GiB"
             reduced_memory = normalize_max_memory(reduced_memory)
             reduced_kwargs["max_memory"] = reduced_memory
-            reduced_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
-            Path(reduced_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
+            # Only add offload_folder if CPU is in max_memory
+            if "cpu" in reduced_memory:
+                reduced_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
+                Path(reduced_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
             load_strategies.append(("Reduced memory limits", reduced_kwargs))
         
         # Strategy 3: No max_memory, let transformers auto-balance
         no_limit_kwargs = load_kwargs.copy()
         if "max_memory" in no_limit_kwargs:
             del no_limit_kwargs["max_memory"]
-        no_limit_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
-        Path(no_limit_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
+        # Only add offload_folder if CPU offload is explicitly enabled
+        if os.getenv("EPSILON_ENABLE_CPU_OFFLOAD", "").lower() in {"1", "true", "yes"}:
+            no_limit_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
+            Path(no_limit_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
         load_strategies.append(("No memory limits (auto-balance)", no_limit_kwargs))
         
-        # Strategy 4: Sequential device_map (load layer by layer) with CPU offload
+        # Strategy 4: Sequential device_map (load layer by layer) with optional CPU offload
         sequential_kwargs = load_kwargs.copy()
         if "max_memory" in sequential_kwargs:
             # Keep max_memory but use sequential loading
             sequential_kwargs["max_memory"] = normalize_max_memory(sequential_kwargs["max_memory"])
         sequential_kwargs["device_map"] = "sequential"
-        sequential_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
-        Path(sequential_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
+        # Only add offload_folder if CPU is in max_memory or explicitly enabled
+        if "max_memory" in sequential_kwargs and "cpu" in sequential_kwargs.get("max_memory", {}):
+            sequential_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
+            Path(sequential_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
+        elif os.getenv("EPSILON_ENABLE_CPU_OFFLOAD", "").lower() in {"1", "true", "yes"}:
+            sequential_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
+            Path(sequential_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
         load_strategies.append(("Sequential device_map", sequential_kwargs))
         
         # Try each strategy
