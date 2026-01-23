@@ -642,6 +642,63 @@ def load_model():
                 print(f"[INFERENCE SERVICE] ✓ Model loaded with 4-bit quantization (verified with Linear4bit modules)", flush=True)
                 
                 break
+            except TypeError as e:
+                error_msg = str(e)
+                # Check if it's the load_in_4bit error
+                if "load_in_4bit" in error_msg and "unexpected keyword argument" in error_msg:
+                    print(f"[INFERENCE SERVICE] TypeError: Custom model doesn't accept load_in_4bit argument", flush=True)
+                    print(f"[INFERENCE SERVICE] Transformers is extracting load_in_4bit from quantization_config", flush=True)
+                    print(f"[INFERENCE SERVICE] Trying workaround: loading without quantization_config, then applying quantization...", flush=True)
+                    
+                    # Workaround: Load without quantization_config, then quantize after
+                    try:
+                        # Remove quantization_config temporarily
+                        no_quant_kwargs = strategy_kwargs.copy()
+                        if "quantization_config" in no_quant_kwargs:
+                            del no_quant_kwargs["quantization_config"]
+                        
+                        # Load model without quantization
+                        model = AutoModelForCausalLM.from_pretrained(
+                            local_path,
+                            **no_quant_kwargs
+                        )
+                        
+                        # Now apply BitsAndBytes quantization manually
+                        print(f"[INFERENCE SERVICE] Model loaded, applying BitsAndBytes 4-bit quantization...", flush=True)
+                        from transformers.integrations import get_keys_to_not_convert, replace_with_bnb_linear
+                        
+                        # Get the quantization config
+                        q_config = strategy_kwargs.get("quantization_config")
+                        if q_config:
+                            # Apply quantization
+                            modules_to_not_convert = get_keys_to_not_convert(model)
+                            model = replace_with_bnb_linear(
+                                model,
+                                modules_to_not_convert=modules_to_not_convert,
+                                quantization_config=q_config
+                            )
+                            print(f"[INFERENCE SERVICE] Applied BitsAndBytes 4-bit quantization manually", flush=True)
+                            
+                            # Verify it worked
+                            import bitsandbytes as bnb
+                            linear4bit_count = sum(1 for m in model.modules() if isinstance(m, bnb.nn.Linear4bit))
+                            assert linear4bit_count > 0, (
+                                f"CRITICAL: Manual quantization failed! Linear4bit count={linear4bit_count}. "
+                                f"Model will fallback to bf16 and OOM."
+                            )
+                            print(f"[INFERENCE SERVICE] ✓ Verified BitsAndBytes 4-bit modules: Linear4bit count={linear4bit_count}", flush=True)
+                            break
+                        else:
+                            raise RuntimeError("quantization_config was removed but is needed for manual quantization")
+                    except Exception as manual_error:
+                        print(f"[INFERENCE SERVICE] Manual quantization failed: {manual_error}", flush=True)
+                        # If this is the last strategy, raise the original error
+                        if strategy_name == load_strategies[-1][0]:
+                            raise e  # Raise the original TypeError
+                        continue
+                else:
+                    # Not the load_in_4bit error, re-raise
+                    raise
             except RuntimeError as e:
                 error_msg = str(e)
                 if "CRITICAL: Model loaded as" in error_msg and ("bfloat16" in error_msg or "float16" in error_msg):
