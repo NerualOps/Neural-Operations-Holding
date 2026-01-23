@@ -375,10 +375,11 @@ def load_model():
         
         # CRITICAL: Remove any existing quantization_config from model config
         # The model may have Mxfp4Config, but we're forcing BitsAndBytes - remove the conflict
+        # Use delattr/del instead of setting to None to avoid AttributeError when transformers calls .get()
         if model_config_obj is not None:
             if hasattr(model_config_obj, 'quantization_config'):
                 print(f"[INFERENCE SERVICE] Removing existing quantization_config from model config (was: {type(model_config_obj.quantization_config).__name__})", flush=True)
-                model_config_obj.quantization_config = None
+                delattr(model_config_obj, 'quantization_config')
             elif isinstance(model_config_obj, dict):
                 if 'quantization_config' in model_config_obj:
                     print(f"[INFERENCE SERVICE] Removing quantization_config from config dict", flush=True)
