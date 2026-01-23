@@ -205,11 +205,11 @@ def load_model():
         # Check CUDA availability without accessing devices (avoids initialization issues)
         if torch.cuda.is_available():
             try:
-            num_gpus = torch.cuda.device_count()
-            print(f"[INFERENCE SERVICE] Detected {num_gpus} GPU(s)", flush=True)
-            
+                num_gpus = torch.cuda.device_count()
+                print(f"[INFERENCE SERVICE] Detected {num_gpus} GPU(s)", flush=True)
+                
                 # Just report device names without accessing them
-            for gpu_id in range(num_gpus):
+                for gpu_id in range(num_gpus):
                     try:
                         props = torch.cuda.get_device_properties(gpu_id)
                         total_gb = props.total_memory / (1024**3)
@@ -1128,7 +1128,7 @@ REMEMBER: The user will ONLY see your <|channel|>final response. Put everything 
                     status_code=500,
                     detail=f"Model dtype error: Model must be 4-bit quantized. Current dtype mismatch indicates quantization failed. Error: {str(e)}"
                 )
-                                else:
+            else:
                 print(f"[INFERENCE SERVICE] RuntimeError during generation: {str(e)}", flush=True)
                 raise HTTPException(
                     status_code=500,
