@@ -126,19 +126,61 @@ def load_model():
     print(f"[INFERENCE SERVICE] Python version: {python_version.major}.{python_version.minor}.{python_version.micro}", flush=True)
     print(f"[INFERENCE SERVICE] Model is pre-quantized with MXFP4 - loading as-is", flush=True)
     
-    # Check Triton for MXFP4 support (model is pre-quantized, so Triton is optional)
+    # CRITICAL: Verify Triton is available and correct version for MXFP4
+    # MXFP4 requires Triton kernels - without it, model will dequantize to bf16 and OOM
     triton_available = False
     triton_version = None
     triton_compatible = True
+    
     try:
         import triton
         triton_available = True
         triton_version = getattr(triton, '__version__', 'unknown')
         print(f"[INFERENCE SERVICE] Triton is available: version {triton_version}", flush=True)
+        
+        # Check if Triton version matches PyTorch requirements
+        torch_version = torch.__version__
+        # PyTorch 2.8.0+cu128 requires triton==3.4.0 (exact match)
+        if "2.8.0" in torch_version or ("2.8" in torch_version and "+cu" in torch_version):
+            if triton_version != "3.4.0":
+                triton_compatible = False
+                print(f"[INFERENCE SERVICE] CRITICAL ERROR: Version mismatch! PyTorch {torch_version} requires triton==3.4.0, but you have triton {triton_version}", flush=True)
+                print(f"[INFERENCE SERVICE] This will cause MXFP4 quantization to fail and model will load as bf16 (too large for GPU/system memory)", flush=True)
+                print(f"[INFERENCE SERVICE] FIX REQUIRED: pip uninstall -y triton && pip install 'triton==3.4.0'", flush=True)
+                print(f"[INFERENCE SERVICE] ABORTING model load to prevent bf16 fallback and system memory exhaustion.", flush=True)
+                raise RuntimeError(
+                    f"Triton version mismatch: PyTorch {torch_version} requires triton==3.4.0, but triton {triton_version} is installed. "
+                    f"Fix with: pip uninstall -y triton && pip install 'triton==3.4.0'"
+                )
+        else:
+            # For other PyTorch versions, check if Triton is >= 3.4.0
+            try:
+                version_parts = [int(x) for x in triton_version.split('.')[:2]]
+                if version_parts[0] < 3 or (version_parts[0] == 3 and version_parts[1] < 4):
+                    print(f"[INFERENCE SERVICE] WARNING: Triton version {triton_version} may be too old. Recommended: >=3.4.0", flush=True)
+            except (ValueError, AttributeError):
+                pass
+        
+        if triton_compatible:
+            print(f"[INFERENCE SERVICE] ✓ Triton version is compatible", flush=True)
     except ImportError:
-        print(f"[INFERENCE SERVICE] Triton is not available (optional for pre-quantized models)", flush=True)
+        print(f"[INFERENCE SERVICE] CRITICAL ERROR: Triton is NOT available.", flush=True)
+        print(f"[INFERENCE SERVICE] Without Triton, MXFP4 quantization will fail and model will attempt to load as bf16.", flush=True)
+        print(f"[INFERENCE SERVICE] A 120B model in bf16 requires ~240GB and will exhaust system memory.", flush=True)
+        print(f"[INFERENCE SERVICE] ABORTING to prevent system memory exhaustion.", flush=True)
+        raise RuntimeError(
+            "Triton is required for MXFP4 quantization. Without it, the model will fall back to bf16 "
+            "which will exhaust system memory. Install Triton: pip install 'triton==3.4.0'"
+        )
     except Exception as e:
-        print(f"[INFERENCE SERVICE] Triton check failed: {e} (optional for pre-quantized models)", flush=True)
+        if "Triton version mismatch" in str(e) or "Triton is required" in str(e):
+            raise  # Re-raise our own errors
+        print(f"[INFERENCE SERVICE] CRITICAL ERROR: Triton import failed: {e}", flush=True)
+        print(f"[INFERENCE SERVICE] ABORTING to prevent bf16 fallback and system memory exhaustion.", flush=True)
+        raise RuntimeError(
+            f"Triton import failed: {e}. Triton is required for MXFP4 quantization. "
+            "Fix Triton installation before proceeding."
+        )
     
     # Check PyTorch version
     print(f"[INFERENCE SERVICE] PyTorch version: {torch.__version__}, CUDA: {torch.version.cuda}", flush=True)
@@ -414,6 +456,12 @@ def load_model():
         
         # NO quantization_config - model is already pre-quantized with MXFP4
         print(f"[INFERENCE SERVICE] Will load model as-is (pre-quantized with MXFP4)", flush=True)
+        
+        # CRITICAL: Set environment variables to catch bf16 fallback early
+        # This makes transformers fail fast instead of silently dequantizing
+        os.environ["TRANSFORMERS_VERBOSITY"] = "info"
+        os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
+        print(f"[INFERENCE SERVICE] Set TRANSFORMERS_VERBOSITY=info to catch bf16 fallback warnings", flush=True)
         
         # Clear GPU cache before loading to maximize available memory
         if torch.cuda.is_available():
