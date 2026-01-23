@@ -213,15 +213,18 @@ def load_model():
                 print(f"[INFERENCE SERVICE] WARNING: Could not query CUDA devices: {e}", flush=True)
                 print(f"[INFERENCE SERVICE] Will attempt to load model anyway - device_map='auto' will handle placement", flush=True)
         
-        hub_dir = Path.home() / ".cache" / "huggingface"
-        if hub_dir.exists():
-            print(f"[INFERENCE SERVICE] Clearing Hugging Face cache in home directory to free disk space...", flush=True)
-            try:
-                cache_size = sum(f.stat().st_size for f in hub_dir.rglob('*') if f.is_file()) / (1024**3)
-                shutil.rmtree(hub_dir)
-                print(f"[INFERENCE SERVICE] Cleared {cache_size:.2f} GB of Hugging Face cache", flush=True)
-            except Exception as e:
-                print(f"[INFERENCE SERVICE] Warning: Could not clear cache: {e}", flush=True)
+        # Clear Hugging Face cache only if explicitly requested (opt-in)
+        # On H200, clearing cache every startup makes deployments slow and flaky
+        if os.getenv("EPSILON_CLEAR_HF_HOME", "").lower() in {"1", "true", "yes"}:
+            hub_dir = Path.home() / ".cache" / "huggingface"
+            if hub_dir.exists():
+                print(f"[INFERENCE SERVICE] EPSILON_CLEAR_HF_HOME enabled; clearing Hugging Face cache...", flush=True)
+                try:
+                    cache_size = sum(f.stat().st_size for f in hub_dir.rglob('*') if f.is_file()) / (1024**3)
+                    shutil.rmtree(hub_dir)
+                    print(f"[INFERENCE SERVICE] Cleared {cache_size:.2f} GB of Hugging Face cache", flush=True)
+                except Exception as e:
+                    print(f"[INFERENCE SERVICE] Warning: Could not clear cache: {e}", flush=True)
         
         # NOTE:
         # Deleting the model directory cache can race with HF downloads/extracts and emit
@@ -404,19 +407,43 @@ def load_model():
                             out[k] = f"{s}GiB"
             return out
         
-        # Calculate safe max_memory per GPU (leave 14GB headroom for system/overhead/dequantization)
-        # 120B models with MXFP4 need significant headroom for transient buffers during loading
+        # Calculate max_memory based on actual GPU memory (H200-aware)
+        # H200 has 141GB VRAM - don't hard-cap at 38GiB like A40
         max_memory = None
         if torch.cuda.is_available():
             num_gpus = torch.cuda.device_count()
+            
+            # Optional: Check for Hopper compute capability (H200 should be 9.0)
+            try:
+                props = torch.cuda.get_device_properties(0)
+                cc = (props.major, props.minor)
+                if cc[0] < 9:
+                    print(f"[INFERENCE SERVICE] WARNING: MXFP4 requires Hopper (cc>=9.0). Found compute capability {cc[0]}.{cc[1]}", flush=True)
+                else:
+                    print(f"[INFERENCE SERVICE] ✓ Detected Hopper GPU (compute capability {cc[0]}.{cc[1]})", flush=True)
+            except Exception as e:
+                print(f"[INFERENCE SERVICE] Could not check compute capability: {e}", flush=True)
+            
             if num_gpus >= 2:
-                # Use both GPUs with headroom (38GiB per GPU, 200GiB CPU)
-                max_memory = {0: "38GiB", 1: "38GiB", "cpu": "200GiB"}
+                # Multi-GPU: use actual VRAM with 10GB headroom per GPU
+                total0 = torch.cuda.get_device_properties(0).total_memory / (1024**3)
+                total1 = torch.cuda.get_device_properties(1).total_memory / (1024**3)
+                max_memory = {
+                    0: f"{int(total0 - 10)}GiB",
+                    1: f"{int(total1 - 10)}GiB",
+                }
+                # Only add CPU if explicitly requested via env var
+                if os.getenv("EPSILON_ENABLE_CPU_OFFLOAD", "").lower() in {"1", "true", "yes"}:
+                    max_memory["cpu"] = "200GiB"
                 print(f"[INFERENCE SERVICE] Loading model on 2 GPUs with memory limits: {max_memory}", flush=True)
             elif num_gpus == 1:
+                # Single GPU: use actual VRAM with 10GB headroom (H200: ~131GB usable)
                 total_gb = torch.cuda.get_device_properties(0).total_memory / (1024**3)
-                safe_gb = max(1, int(total_gb - 6))
-                max_memory = {0: f"{safe_gb}GiB", "cpu": "200GiB"}
+                safe_gb = int(total_gb - 10)
+                max_memory = {0: f"{safe_gb}GiB"}
+                # Only add CPU if explicitly requested via env var
+                if os.getenv("EPSILON_ENABLE_CPU_OFFLOAD", "").lower() in {"1", "true", "yes"}:
+                    max_memory["cpu"] = "200GiB"
                 print(f"[INFERENCE SERVICE] Loading model on single GPU with memory limit: {max_memory}", flush=True)
             else:
                 max_memory = {"cpu": "200GiB"}
@@ -432,15 +459,17 @@ def load_model():
         if max_memory:
             max_memory = normalize_max_memory(max_memory)
         
-        # Build kwargs - use balanced_low_0 for better GPU distribution
+        # Build kwargs - use auto for single GPU, balanced_low_0 for multi-GPU
         # trust_remote_code=True is CRITICAL for custom architectures
         # Pass config explicitly to bypass CONFIG_MAPPING lookup
+        device_map_strategy = "auto" if torch.cuda.is_available() and torch.cuda.device_count() == 1 else "balanced_low_0"
         load_kwargs = {
-            "device_map": "balanced_low_0",  # Better GPU distribution than "auto"
+            "device_map": device_map_strategy,
             "trust_remote_code": True,  # CRITICAL: This allows loading custom architectures
             "low_cpu_mem_usage": True,
             "local_files_only": True
         }
+        print(f"[INFERENCE SERVICE] Using device_map='{device_map_strategy}'", flush=True)
         
         # CRITICAL: Pass config explicitly to bypass internal AutoConfig.from_pretrained() call
         # This prevents the CONFIG_MAPPING KeyError for unknown architectures
@@ -450,9 +479,14 @@ def load_model():
         
         if max_memory:
             load_kwargs["max_memory"] = max_memory
-            # Enable CPU offloading for very large models (120B+)
-            load_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
-            Path(load_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
+            # Only enable CPU offloading if "cpu" is in max_memory
+            # On H200, if model fits in VRAM, CPU offload just slows things down
+            if "cpu" in max_memory:
+                load_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
+                Path(load_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
+                print(f"[INFERENCE SERVICE] CPU offloading enabled (cpu in max_memory)", flush=True)
+            else:
+                print(f"[INFERENCE SERVICE] CPU offloading disabled (model should fit in VRAM)", flush=True)
         
         # NO quantization_config - model is already pre-quantized with MXFP4
         print(f"[INFERENCE SERVICE] Will load model as-is (pre-quantized with MXFP4)", flush=True)
