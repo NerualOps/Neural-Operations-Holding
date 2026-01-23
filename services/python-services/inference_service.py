@@ -88,6 +88,7 @@ model = None
 tokenizer = None
 model_metadata = None
 
+# Try to import model_config, with fallback defaults
 try:
     from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
     try:
@@ -95,15 +96,24 @@ try:
     except ImportError:
         DISPLAY_MODEL_ID = MODEL_NAME
 except ImportError:
+    # If model_config.py is not found, try adding current directory to path
     import sys
     config_path = Path(__file__).parent
     if str(config_path) not in sys.path:
         sys.path.insert(0, str(config_path))
-from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
-try:
-    from model_config import DISPLAY_MODEL_ID
-except ImportError:
-    DISPLAY_MODEL_ID = MODEL_NAME
+    try:
+        from model_config import HF_MODEL_ID, MODEL_NAME, COMPANY_NAME
+        try:
+            from model_config import DISPLAY_MODEL_ID
+        except ImportError:
+            DISPLAY_MODEL_ID = MODEL_NAME
+    except ImportError:
+        # Final fallback: use defaults
+        print("[INFERENCE SERVICE] WARNING: model_config.py not found, using defaults", flush=True)
+        HF_MODEL_ID = os.getenv('EPSILON_MODEL_ID', "openai/gpt-oss-120b")
+        MODEL_NAME = os.getenv('EPSILON_MODEL_NAME', "Epsilon AI 120B")
+        DISPLAY_MODEL_ID = os.getenv('EPSILON_DISPLAY_MODEL_ID', "epsilon-ai/epsilon-120b")
+        COMPANY_NAME = os.getenv('EPSILON_COMPANY_NAME', "Neural Operations & Holdings LLC")
 
 HF_MODEL_ID_INTERNAL = os.getenv('EPSILON_MODEL_ID', HF_MODEL_ID)
 MODEL_ID = os.getenv('EPSILON_DISPLAY_MODEL_ID', DISPLAY_MODEL_ID)
