@@ -331,8 +331,8 @@ def load_model():
         # Accessing devices before model load can cause "device busy" errors
         if torch.cuda.is_available():
             try:
-            num_gpus = torch.cuda.device_count()
-            print(f"[INFERENCE SERVICE] Preparing {num_gpus} GPU(s) for model loading", flush=True)
+                num_gpus = torch.cuda.device_count()
+                print(f"[INFERENCE SERVICE] Preparing {num_gpus} GPU(s) for model loading", flush=True)
                 print(f"[INFERENCE SERVICE] Using device_map='auto' - model will be placed automatically", flush=True)
             except Exception as e:
                 print(f"[INFERENCE SERVICE] WARNING: Could not query CUDA device count: {e}", flush=True)
@@ -590,8 +590,8 @@ def load_model():
             
             try:
                 # Config is already loaded and passed in strategy_kwargs, so we can load directly
-        model = AutoModelForCausalLM.from_pretrained(
-            local_path,
+                model = AutoModelForCausalLM.from_pretrained(
+                    local_path,
                     **strategy_kwargs
                 )
                 print(f"[INFERENCE SERVICE] Successfully loaded model using strategy: {strategy_name}", flush=True)
