@@ -131,12 +131,10 @@ def load_model():
     triton_version = None
     triton_compatible = True
     try:
-        # Triton checks (MXFP4 path) - only executed if not using BitsAndBytes
-        try:
-            import triton
-            triton_available = True
-            triton_version = getattr(triton, '__version__', 'unknown')
-            print(f"[INFERENCE SERVICE] Triton is available: version {triton_version}", flush=True)
+        import triton
+        triton_available = True
+        triton_version = getattr(triton, '__version__', 'unknown')
+        print(f"[INFERENCE SERVICE] Triton is available: version {triton_version}", flush=True)
             
             # Check if Triton version matches PyTorch requirements
             torch_version = torch.__version__
@@ -402,27 +400,23 @@ def load_model():
         # Calculate safe max_memory per GPU (leave 14GB headroom for system/overhead/dequantization)
         # 120B models with MXFP4 need significant headroom for transient buffers during loading
         max_memory = None
-        if torch.cuda.is_available() and torch.cuda.device_count() > 1:
-            # Get actual GPU memory and set very conservative limits
-            gpu_memories = {}
-            for i in range(torch.cuda.device_count()):
-                total_gb = torch.cuda.get_device_properties(i).total_memory / (1024**3)
-                # Reserve 14GB for system/overhead/dequantization/MXFP4 staging buffers
-                safe_gb = max(1, int(total_gb - 14))
-                gpu_memories[i] = f"{safe_gb}GiB"
-            # Always include CPU for offloading
-            gpu_memories["cpu"] = "200GiB"
-            max_memory = gpu_memories
-            print(f"[INFERENCE SERVICE] Configuring model for {torch.cuda.device_count()} GPUs with conservative memory limits: {max_memory}", flush=True)
-        else:
-            if torch.cuda.is_available():
+        if torch.cuda.is_available():
+            num_gpus = torch.cuda.device_count()
+            if num_gpus >= 2:
+                # Use both GPUs with headroom (38GiB per GPU, 200GiB CPU)
+                max_memory = {0: "38GiB", 1: "38GiB", "cpu": "200GiB"}
+                print(f"[INFERENCE SERVICE] Loading model on 2 GPUs with memory limits: {max_memory}", flush=True)
+            elif num_gpus == 1:
                 total_gb = torch.cuda.get_device_properties(0).total_memory / (1024**3)
-                safe_gb = max(1, int(total_gb - 14))
+                safe_gb = max(1, int(total_gb - 6))
                 max_memory = {0: f"{safe_gb}GiB", "cpu": "200GiB"}
-                print(f"[INFERENCE SERVICE] Loading model on single GPU with conservative memory limit: {max_memory}", flush=True)
+                print(f"[INFERENCE SERVICE] Loading model on single GPU with memory limit: {max_memory}", flush=True)
             else:
                 max_memory = {"cpu": "200GiB"}
                 print(f"[INFERENCE SERVICE] Loading model on CPU", flush=True)
+        else:
+            max_memory = {"cpu": "200GiB"}
+            print(f"[INFERENCE SERVICE] Loading model on CPU", flush=True)
         
         # Set PyTorch CUDA allocator config for better memory management
         os.environ.setdefault('PYTORCH_CUDA_ALLOC_CONF', 'expandable_segments:True,max_split_size_mb:64,garbage_collection_threshold:0.8')
