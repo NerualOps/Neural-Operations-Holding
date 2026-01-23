@@ -236,18 +236,18 @@ def load_model():
         # Deleting the model directory cache can race with HF downloads/extracts and emit
         # noisy "Directory not empty" warnings (e.g. subdir "metal"). Make this opt-in.
         if os.getenv("EPSILON_CLEAR_MODEL_CACHE", "").strip() in {"1", "true", "True", "yes", "YES"}:
-        model_cache_dir = MODEL_DIR / ".cache"
-        if model_cache_dir.exists():
+            model_cache_dir = MODEL_DIR / ".cache"
+            if model_cache_dir.exists():
                 print(
                     f"[INFERENCE SERVICE] EPSILON_CLEAR_MODEL_CACHE enabled; removing {model_cache_dir} ...",
                     flush=True,
                 )
-            try:
+                try:
                     shutil.rmtree(model_cache_dir, ignore_errors=True)
                     print(f"[INFERENCE SERVICE] Removed {model_cache_dir}", flush=True)
-            except Exception as e:
+                except Exception as e:
                     # ignore_errors=True should prevent most failures, but keep it non-fatal regardless.
-                print(f"[INFERENCE SERVICE] Warning: Could not remove model cache: {e}", flush=True)
+                    print(f"[INFERENCE SERVICE] Warning: Could not remove model cache: {e}", flush=True)
         
         with FileLock(lock_path, timeout=60 * 60):
             Path(MODEL_DIR).mkdir(parents=True, exist_ok=True)
@@ -296,11 +296,11 @@ def load_model():
         # Try to load tokenizer - if ANY error occurs, download fresh from HuggingFace
         # This handles missing files, corrupted files, or any initialization errors
         try:
-        tokenizer = AutoTokenizer.from_pretrained(
-            local_path,
-            trust_remote_code=True,
-            local_files_only=True
-        )
+            tokenizer = AutoTokenizer.from_pretrained(
+                local_path,
+                trust_remote_code=True,
+                local_files_only=True
+            )
             print(f"[INFERENCE SERVICE] Tokenizer loaded successfully from local path", flush=True)
         except Exception as e:
             # ANY exception means we need to download fresh - corrupted, missing, or incompatible files
