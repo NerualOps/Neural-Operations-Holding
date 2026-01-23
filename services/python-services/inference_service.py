@@ -589,10 +589,17 @@ def load_model():
                 gc.collect()
             
             try:
+                # CRITICAL: Remove load_in_4bit from kwargs if present
+                # Transformers extracts it from quantization_config and passes it to __init__, but custom models don't accept it
+                filtered_kwargs = strategy_kwargs.copy()
+                if "load_in_4bit" in filtered_kwargs:
+                    print(f"[INFERENCE SERVICE] Removing load_in_4bit from kwargs (custom models don't accept it directly)", flush=True)
+                    del filtered_kwargs["load_in_4bit"]
+                
                 # Config is already loaded and passed in strategy_kwargs, so we can load directly
                 model = AutoModelForCausalLM.from_pretrained(
                     local_path,
-                    **strategy_kwargs
+                    **filtered_kwargs
                 )
                 print(f"[INFERENCE SERVICE] Successfully loaded model using strategy: {strategy_name}", flush=True)
                 
