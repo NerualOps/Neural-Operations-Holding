@@ -499,11 +499,10 @@ def load_model():
             # Enable CPU offloading for very large models (120B+)
             load_kwargs["offload_folder"] = str(MODEL_DIR / "offload")
             Path(load_kwargs["offload_folder"]).mkdir(parents=True, exist_ok=True)
-        # CRITICAL: ALWAYS pass both load_in_4bit=True AND quantization_config
-        # load_in_4bit=True forces the BnB quantized load path even with trust_remote_code=True
-        load_kwargs["load_in_4bit"] = True
+        # CRITICAL: ALWAYS pass quantization_config (it already has load_in_4bit=True inside)
+        # Don't pass load_in_4bit as a separate arg - custom model classes like GptOssForCausalLM don't accept it
         load_kwargs["quantization_config"] = quantization_config
-        print(f"[INFERENCE SERVICE] Will load with load_in_4bit=True and quantization_config: {type(quantization_config).__name__}", flush=True)
+        print(f"[INFERENCE SERVICE] Will load with quantization_config: {type(quantization_config).__name__} (load_in_4bit=True is inside the config)", flush=True)
         
         # Clear GPU cache before loading to maximize available memory
         if torch.cuda.is_available():
