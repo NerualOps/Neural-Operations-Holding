@@ -205,11 +205,11 @@ def load_model():
         # Check CUDA availability without accessing devices (avoids initialization issues)
         if torch.cuda.is_available():
             try:
-                num_gpus = torch.cuda.device_count()
-                print(f"[INFERENCE SERVICE] Detected {num_gpus} GPU(s)", flush=True)
-                
+            num_gpus = torch.cuda.device_count()
+            print(f"[INFERENCE SERVICE] Detected {num_gpus} GPU(s)", flush=True)
+            
                 # Just report device names without accessing them
-                for gpu_id in range(num_gpus):
+            for gpu_id in range(num_gpus):
                     try:
                         props = torch.cuda.get_device_properties(gpu_id)
                         total_gb = props.total_memory / (1024**3)
@@ -235,18 +235,18 @@ def load_model():
         # Deleting the model directory cache can race with HF downloads/extracts and emit
         # noisy "Directory not empty" warnings (e.g. subdir "metal"). Make this opt-in.
         if os.getenv("EPSILON_CLEAR_MODEL_CACHE", "").strip() in {"1", "true", "True", "yes", "YES"}:
-            model_cache_dir = MODEL_DIR / ".cache"
-            if model_cache_dir.exists():
+        model_cache_dir = MODEL_DIR / ".cache"
+        if model_cache_dir.exists():
                 print(
                     f"[INFERENCE SERVICE] EPSILON_CLEAR_MODEL_CACHE enabled; removing {model_cache_dir} ...",
                     flush=True,
                 )
-                try:
+            try:
                     shutil.rmtree(model_cache_dir, ignore_errors=True)
                     print(f"[INFERENCE SERVICE] Removed {model_cache_dir}", flush=True)
-                except Exception as e:
+            except Exception as e:
                     # ignore_errors=True should prevent most failures, but keep it non-fatal regardless.
-                    print(f"[INFERENCE SERVICE] Warning: Could not remove model cache: {e}", flush=True)
+                print(f"[INFERENCE SERVICE] Warning: Could not remove model cache: {e}", flush=True)
         
         with FileLock(lock_path, timeout=60 * 60):
             Path(MODEL_DIR).mkdir(parents=True, exist_ok=True)
@@ -269,37 +269,37 @@ def load_model():
                     import warnings
                     with warnings.catch_warnings():
                         warnings.simplefilter("ignore")
-                        local_path = snapshot_download(
-                            repo_id=HF_MODEL_ID_INTERNAL,
-                            local_dir=str(MODEL_DIR),
-                            max_workers=1,
-                            ignore_patterns=[".cache/**"],
+                    local_path = snapshot_download(
+                        repo_id=HF_MODEL_ID_INTERNAL,
+                        local_dir=str(MODEL_DIR),
+                        max_workers=1,
+                        ignore_patterns=[".cache/**"],
                             resume_download=True,
-                        )
+                    )
                     print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
             else:
                 print(f"[INFERENCE SERVICE] Downloading model snapshot to local directory (this may take 10-15 minutes)...", flush=True)
                 import warnings
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore")
-                    local_path = snapshot_download(
-                        repo_id=HF_MODEL_ID_INTERNAL,
-                        local_dir=str(MODEL_DIR),
-                        max_workers=1,
-                        ignore_patterns=[".cache/**"],
+                local_path = snapshot_download(
+                    repo_id=HF_MODEL_ID_INTERNAL,
+                    local_dir=str(MODEL_DIR),
+                    max_workers=1,
+                    ignore_patterns=[".cache/**"],
                         resume_download=True
-                    )
+                )
                 print(f"[INFERENCE SERVICE] Model snapshot downloaded to: {local_path}", flush=True)
         
         print(f"[INFERENCE SERVICE] Loading tokenizer from local path: {local_path}", flush=True)
         # Try to load tokenizer - if ANY error occurs, download fresh from HuggingFace
         # This handles missing files, corrupted files, or any initialization errors
         try:
-            tokenizer = AutoTokenizer.from_pretrained(
-                local_path,
-                trust_remote_code=True,
-                local_files_only=True
-            )
+        tokenizer = AutoTokenizer.from_pretrained(
+            local_path,
+            trust_remote_code=True,
+            local_files_only=True
+        )
             print(f"[INFERENCE SERVICE] Tokenizer loaded successfully from local path", flush=True)
         except Exception as e:
             # ANY exception means we need to download fresh - corrupted, missing, or incompatible files
@@ -330,8 +330,8 @@ def load_model():
         # Accessing devices before model load can cause "device busy" errors
         if torch.cuda.is_available():
             try:
-                num_gpus = torch.cuda.device_count()
-                print(f"[INFERENCE SERVICE] Preparing {num_gpus} GPU(s) for model loading", flush=True)
+            num_gpus = torch.cuda.device_count()
+            print(f"[INFERENCE SERVICE] Preparing {num_gpus} GPU(s) for model loading", flush=True)
                 print(f"[INFERENCE SERVICE] Using device_map='auto' - model will be placed automatically", flush=True)
             except Exception as e:
                 print(f"[INFERENCE SERVICE] WARNING: Could not query CUDA device count: {e}", flush=True)
@@ -371,6 +371,21 @@ def load_model():
                         model_config_obj = config_data
         else:
             print(f"[INFERENCE SERVICE] WARNING: config.json not found at {config_json_path}", flush=True)
+        
+        # CRITICAL: Remove any existing quantization_config from model config
+        # The model may have Mxfp4Config, but we're forcing BitsAndBytes - remove the conflict
+        if model_config_obj is not None:
+            if hasattr(model_config_obj, 'quantization_config'):
+                print(f"[INFERENCE SERVICE] Removing existing quantization_config from model config (was: {type(model_config_obj.quantization_config).__name__})", flush=True)
+                model_config_obj.quantization_config = None
+            elif isinstance(model_config_obj, dict):
+                if 'quantization_config' in model_config_obj:
+                    print(f"[INFERENCE SERVICE] Removing quantization_config from config dict", flush=True)
+                    del model_config_obj['quantization_config']
+        
+        if 'quantization_config' in config_data:
+            print(f"[INFERENCE SERVICE] Removing quantization_config from config_data dict", flush=True)
+            del config_data['quantization_config']
         
         # CRITICAL: ALWAYS apply BitsAndBytes 4-bit quantization
         # Never trust pre-quantization claims - always force quantization to prevent bf16 fallback
@@ -574,8 +589,8 @@ def load_model():
             
             try:
                 # Config is already loaded and passed in strategy_kwargs, so we can load directly
-                model = AutoModelForCausalLM.from_pretrained(
-                    local_path,
+        model = AutoModelForCausalLM.from_pretrained(
+            local_path,
                     **strategy_kwargs
                 )
                 print(f"[INFERENCE SERVICE] Successfully loaded model using strategy: {strategy_name}", flush=True)
@@ -1112,7 +1127,7 @@ REMEMBER: The user will ONLY see your <|channel|>final response. Put everything 
                     status_code=500,
                     detail=f"Model dtype error: Model must be 4-bit quantized. Current dtype mismatch indicates quantization failed. Error: {str(e)}"
                 )
-            else:
+                                else:
                 print(f"[INFERENCE SERVICE] RuntimeError during generation: {str(e)}", flush=True)
                 raise HTTPException(
                     status_code=500,
