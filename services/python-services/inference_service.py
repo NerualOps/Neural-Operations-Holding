@@ -126,7 +126,7 @@ def load_model():
     print(f"[INFERENCE SERVICE] Python version: {python_version.major}.{python_version.minor}.{python_version.micro}", flush=True)
     print(f"[INFERENCE SERVICE] Model is pre-quantized with MXFP4 - loading as-is", flush=True)
     
-    # Check Triton for MXFP4 support
+    # Check Triton for MXFP4 support (model is pre-quantized, so Triton is optional)
     triton_available = False
     triton_version = None
     triton_compatible = True
