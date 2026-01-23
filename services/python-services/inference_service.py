@@ -216,6 +216,7 @@ def load_model():
                         print(f"[INFERENCE SERVICE] GPU {gpu_id}: {props.name}, {total_gb:.2f} GB total memory", flush=True)
                     except Exception as e:
                         print(f"[INFERENCE SERVICE] WARNING: Could not query GPU {gpu_id} properties: {e}", flush=True)
+                        print(f"[INFERENCE SERVICE] This is OK - device_map='auto' will handle device placement during model load", flush=True)
                         continue
             except Exception as e:
                 print(f"[INFERENCE SERVICE] WARNING: Could not query CUDA devices: {e}", flush=True)
